@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Default</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Default</Filter>
+    </ClInclude>
+    <ClInclude Include="global.h">
+      <Filter>Engine\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>Engine\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CCore.h">
+      <Filter>Engine\02. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimeMgr.h">
+      <Filter>Engine\03. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CKeyMgr.h">
+      <Filter>Engine\03. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CPathMgr.h">
+      <Filter>Engine\03. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleMath.h">
+      <Filter>Engine\Module</Filter>
+    </ClInclude>
+    <ClInclude Include="Temp.h">
+      <Filter>Temp</Filter>
+    </ClInclude>
+    <ClInclude Include="CDevice.h">
+      <Filter>Engine\03. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="struct.h">
+      <Filter>Engine\01. Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Default</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Default</Filter>
+    </ClCompile>
+    <ClCompile Include="CCore.cpp">
+      <Filter>Engine\02. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CKeyMgr.cpp">
+      <Filter>Engine\03. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CPathMgr.cpp">
+      <Filter>Engine\03. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CTimeMgr.cpp">
+      <Filter>Engine\03. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Temp.cpp">
+      <Filter>Temp</Filter>
+    </ClCompile>
+    <ClCompile Include="CDevice.cpp">
+      <Filter>Engine\03. Manager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Default">
+      <UniqueIdentifier>{31bd3a9b-2ee1-4b6d-8329-928c5c3ccfc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{ec0a4f08-03db-469c-bc6d-3f040681451f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\01. Header">
+      <UniqueIdentifier>{b39706e8-5b4a-46b5-903b-766318a51e55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Core">
+      <UniqueIdentifier>{6a52e826-ace4-4d04-a579-ecdc34a2590a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Manager">
+      <UniqueIdentifier>{7cc4d22b-c86f-42d3-b7a1-778170f5814e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. GameObject">
+      <UniqueIdentifier>{3d1d8700-1602-48b9-a2a4-a10159f29c0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component">
+      <UniqueIdentifier>{8c8cfa51-d3e3-4355-be70-5324dfb87810}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Scene">
+      <UniqueIdentifier>{b278c640-f5ab-4dbe-a07b-dc3d7737dcf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Resource">
+      <UniqueIdentifier>{6e1b4142-4b64-42a2-9235-d106b20a19a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Module">
+      <UniqueIdentifier>{6c2edf20-0cbf-4f35-8483-1f6715732561}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Temp">
+      <UniqueIdentifier>{3b5bff13-b333-4051-8247-7b24ec613ea0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ShaderCode">
+      <UniqueIdentifier>{4d4cb459-54b3-4fe1-adf1-2141969ba2c1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SimpleMath.inl">
+      <Filter>Engine\Module</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="test.fx">
+      <Filter>Engine\ShaderCode</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>
