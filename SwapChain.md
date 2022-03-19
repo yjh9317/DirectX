@@ -42,8 +42,8 @@ Code
 	ComPtr<IDXGIAdapter> pDXGIAdaptor = nullptr;
 	ComPtr<IDXGIFactory> pDXGIFactory = nullptr;
 
-	//사용자 정의 타입은 만들어질때 자동으로 아이디값이 생성되는게 그 아이디를 찾아오는 QueryInterFace
-	//void포인터인 이유는 함수마다 타입이 다를 수 있어서
+	//사용자 정의 타입은 만들어질때 자동으로 아이디값이 생성되고 그 아이디를 찾아오는 QueryInterFace
+	//void포인터인 이유는 함수마다 타입이 다를 수 있기 때문
 
 	m_pDevice->QueryInterface(__uuidof(IDXGIDevice),(void**)pDXGIDevice.GetAddressOf());
 	pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void**)pDXGIAdaptor.GetAddressOf());
