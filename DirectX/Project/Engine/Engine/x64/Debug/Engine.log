@@ -1,8 +1,9 @@
-﻿  //
-  // FX Version: fx_5_0
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
+﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
-  Engine.vcxproj -> C:\Users\yjwoo\Downloads\39Engine_0316\External\Library\Engine\Engine_debug.lib
+  //
+  // FX Version: fx_5_0
+  Temp.cpp
+  Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
   .\Project\Engine\Engine\CCore.h
   .\Project\Engine\Engine\CDevice.h
   .\Project\Engine\Engine\CKeyMgr.h
@@ -14,3 +15,5 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   .\Project\Engine\Engine\struct.h
   .\Project\Engine\Engine\Temp.h
   10개 파일이 복사되었습니다.
+  .\Project\Engine\Engine\test.fx
+  1개 파일이 복사되었습니다.

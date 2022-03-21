@@ -2,18 +2,36 @@
 #include "Temp.h"
 
 #include "CDevice.h"
+#include "CPathMgr.h"
 
 // 정점(Vertex) -> 폴리곤을 구성하기위한 단위 ,폴리곤의 단위는 일반적으로 삼각형
 // ID3D11Buffer는 Ram에서 생성되고 Gpu의 메모리를 관리하는 관리자급 객체란 느낌
-ComPtr<ID3D11Buffer> g_pVB;
+ComPtr<ID3D11Buffer>			g_pVB;
+
+// InputLayout 생성(정점의 내부구조 저장)
+ComPtr<ID3D11InputLayout>		g_pInPutLayout; 
+
 
 // 쉐이더 : GPU가 실행 할 함수
+
+
+// 쉐이더 컴파일 실패시 ,실패 원인을 저장할 Blob(문자열 덩어리를 저장하는 객체)
+ComPtr<ID3DBlob>				g_pErrBlob;
+
 
 // 버텍스 쉐이더
 //	HLSL (High Level Shader Language)
 
+// g_pVSBlob에서 버텍스 쉐이더에 필요한 정보를 다 저장하고 그걸 바탕으로 g_pVS에 전달해서 버텍스 쉐이더를 생성
+// D12에서는 없어지고 g_pVSBlob로만 사용
+
+ComPtr<ID3DBlob>				g_pVSBlob;
+ComPtr<ID3D11VertexShader>		g_pVS;
 
 
+// 픽셀 쉐이더
+ComPtr<ID3DBlob>				g_pPSBlob;
+ComPtr<ID3D11PixelShader>		g_pPS;
 
 
 
@@ -37,15 +55,17 @@ ComPtr<ID3D11Buffer> g_pVB;
 // Rendering Pipleline 
 // 물체가 그려지는 과정 (	3차원 정보가 2차원으로 그려지는 과정)
 
-// IA(Input Assembler) --> 그려질 물체의 정보, 렌더링 관련 정보가 입력되는 단계
+// IA(Input Assembler) --> 그려질 물체의 정보(정점의 내부 구조), 렌더링 관련 정보가 입력되는 단계
 
-// VertexShader		--> 정점 하나당 실행되는 함수, 정점을 NDC(투영 좌표계)로 이동 시키는 역할
+// VertexShader		--> 정점 하나당 실행되는 함수, 정점을 NDC(투영 좌표계)로 이동 시키는 역할 
 
 // HullShader ,DomainShader (Tesselation) --> 정점을 파이프라인 도중에 대량 생성시킴. (Dx11)
 
 // GeometryShader --> 정점을 파이프라인 도중에 조금 생성시킴. (Dx10)
 
 // Rasterizer --> Culling (폴리곤을 이루는 정점의 접근 순서에 따른 Culling)
+//						   시계방향은 앞면, 반시계는 뒷면 ,디폴트 옵션에선 뒷면이면 화면에 출력되지 않는다.
+
 //				  폴리곤 내부 픽셀을 검출 (픽셀 쉐이더가 호출될 후보를 수색)
 
 
@@ -57,6 +77,8 @@ ComPtr<ID3D11Buffer> g_pVB;
 
 // Blend State Test
 // 혼합 공식에 따른 블렌딩 --> 렌더타겟에 출력
+
+
 
 
 
@@ -101,10 +123,95 @@ void TestInit()
 	
 	//시작주소로부터 크기는 위에 ByteWidth에서 미리 잡아놓았기 때문에 알려주지 않아도 알아서 잡아준다.
 
-
+	//점 3개를 버텍스 버퍼(gpu메모리쪽)에 넣고 g_pVB에서 관리
 	DEVICE->CreateBuffer(&tBufferDesc, &tSubDesc, g_pVB.GetAddressOf());
 	
+	// Vertex Shader 컴파일
+
+	UINT iFlag = 0;
+
+#ifdef  _DEBUG
+	iFlag = D3DCOMPILE_DEBUG;
+#endif
+
+
+	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
 	
+
+	
+	
+	//버텍스 쉐이더(HLSL) 컴파일
+
+	// 파일경로 , 매크로, 매크로,컴파일할 함수명 , 타겟 문자(어느시점에 쓰일건지), 버텍스 쉐이더 버전,플래그, 플래그 ,컴파일값을 저장할 객체 (Blob)주소,
+
+	HRESULT hr = D3DCompileFromFile(wstring(strContentPath+L"shader\\test.fx").c_str(), nullptr
+		,D3D_COMPILE_STANDARD_FILE_INCLUDE,"VS_Test","vs_5_0", iFlag,0,g_pVSBlob.GetAddressOf(), g_pErrBlob.GetAddressOf());
+
+		
+	if (FAILED(hr))
+	{
+		MessageBoxA(nullptr, (char*)g_pErrBlob->GetBufferPointer(),"Shader Compile Failed!!",MB_OK);
+		assert(nullptr);
+	}
+
+	//컴파일 된 코드로 VertexShader 객체 만들기
+	//Blob이 관리하고있는 메모리 버퍼의 시작 주소 ,길이 , nullptr ,목적지로 저장할 버텍스 쉐이더
+	DEVICE->CreateVertexShader(g_pVSBlob->GetBufferPointer(), g_pVSBlob->GetBufferSize(), nullptr,g_pVS.GetAddressOf());
+
+
+	//픽셀 쉐이더 컴파일
+
+
+	 hr = D3DCompileFromFile(wstring(strContentPath + L"shader\\test.fx").c_str(), nullptr
+		, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PS_Test", "ps_5_0", iFlag, 0, g_pPSBlob.GetAddressOf(), g_pErrBlob.GetAddressOf());
+
+
+ 
+	if (FAILED(hr))
+	{
+		MessageBoxA(nullptr, (char*)g_pErrBlob->GetBufferPointer(), "Shader Compile Failed!!", MB_OK);
+		assert(nullptr);
+	}
+
+	//컴파일 된 코드로 VertexShader 객체 만들기
+	//Blob이 관리하고있는 메모리 버퍼의 시작 주소 ,길이 , nullptr ,목적지로 저장할 픽셀 쉐이더
+	DEVICE->CreatePixelShader(g_pPSBlob->GetBufferPointer(), g_pPSBlob->GetBufferSize(), nullptr, g_pPS.GetAddressOf());
+
+
+	// 정점 입력 구조 (정점 멤버 갯수에 따라 나와야 되기 때문에 vector 사용)
+	vector<D3D11_INPUT_ELEMENT_DESC> arrDesc;
+	UINT iOffset = 0;
+
+	D3D11_INPUT_ELEMENT_DESC tInputDesc = {};
+	
+	tInputDesc.SemanticName = "POSITION";						// Semantic 이름
+	tInputDesc.SemanticIndex = 0;								// 중복 이름인 경우, 인덱스로 구분
+	tInputDesc.InputSlot = 0;									// 버텍스 버퍼의 슬롯위치
+	tInputDesc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;	// 정점마다 메모리를 사용할 수 있도록 선언
+	tInputDesc.InstanceDataStepRate = 0;						// 인스턴스마다 
+	tInputDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;			// DXGI_FORMAT의 형태로 R32G32B32(12byte)을 알려줌
+
+
+	tInputDesc.AlignedByteOffset = iOffset;						//다음 멤버 변수의 메모리의 시작위치를 알 수 있도록 오프셋 설정
+	iOffset += 12;			//12byte이므로 +12
+
+	arrDesc.push_back(tInputDesc);
+
+	
+	tInputDesc.SemanticName = "COLOR";
+	tInputDesc.SemanticIndex = 0;
+	tInputDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;			// DXGI_FORMAT의 형태로 R32G32B32A32(16byte)을 알려줌
+	tInputDesc.AlignedByteOffset = iOffset;
+	iOffset += 16;
+
+
+	arrDesc.push_back(tInputDesc);
+	// 인풋 레이아웃 생성
+	//입력 - 버퍼 데이터를 설명하는 입력 - 레이아웃 개체
+
+	//Desc 배열, 배열의 원소의 개수, 컴파일된 셰이더에 대한 포인터, 컴파일된 셰이더의 크기, 저장받을 주소(layout)
+	DEVICE->CreateInputLayout(arrDesc.data(), 2, g_pVSBlob->GetBufferPointer(), g_pVSBlob->GetBufferSize()
+		, g_pInPutLayout.GetAddressOf());
 }
 
 void TestUpdate()
@@ -116,8 +223,27 @@ void TestRender()
 {
 	CDevice::GetInst()->ClearTarget();
 
-	//render
+	// render (밑에서 순서는 상관없음, 밑 함수는 설정(예약)을 한거고 시작한게 아니다)
+	// 인풋 어셈블러가 시작될때에 대한 세팅값들이라 Draw가 호출되는 순간 밑에서 설정해둔 값들이 적용되면서 시작.
 	
+	// IA 전달
+	CONTEXT->IASetInputLayout(g_pInPutLayout.Get());
+
 	
+	UINT iStride = sizeof(VTX);
+	UINT iOffset = 0;
+	// 4번째 -> 정점끼리의 간격, 5번째-> 시작위치 오프셋
+	CONTEXT->IASetVertexBuffers(0,1, g_pVB.GetAddressOf(),&iStride,&iOffset); //버텍스 버퍼를 여러개로 받을 수도 있음
+
+	// 정점의 구조가 삼각형이라고 알려줌 (TRIANGLELIST)
+	CONTEXT->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	
+	CONTEXT->VSSetShader(g_pVS.Get(),0,0);		// 호출될 버텍스 쉐이더
+	CONTEXT->PSSetShader(g_pPS.Get(), 0, 0);	 //호출될 픽셀 쉐이더
+
+	//파이프 라인 시작
+	CONTEXT->Draw(3, 0);
+
+
 	CDevice::GetInst()->Present();
 }

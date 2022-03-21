@@ -36,7 +36,7 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 	// D3D11_SDK_VERSION -> 라이브러리 버전을 나타냄.
 	
 	// m_pDevice와 m_pDeviceContext는 ID3D11Device 포인터 변수를 스마트포인터(클래스)의 멤버로 만든 상태로
-	// 스마트 포인터의 GetAddressOf란 함수를 사용하여 멤버변수의 주소를 가져올 수 있다.
+	// 스마트 포인터의 GetAddressOf란 함수를 사용하여 인터페이스의 주소를 가져올 수 있다.
 
 	if (FAILED(hr))
 	{
@@ -46,6 +46,7 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 
 	UINT iQuality = 0;
 	m_pDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &iQuality);
+	//멀티샘플링 중에 사용할 수 있는 품질 수준의 수를 가져옵니다.
 
 	if (0 == iQuality)
 	{
@@ -151,6 +152,9 @@ int CDevice::CreateSwapchain()
 	pDXGIFactory->CreateSwapChain(m_pDevice.Get(),&desc,m_pSwapChain.GetAddressOf());
 	//원본 디바이스 .Get()은 최상위 부모타입,스왑체인 구조체 주소값,SwapChain의 주소
 	
+	IDXGISwapChain* p=m_pSwapChain.Get();
+	IDXGISwapChain** pp = m_pSwapChain.GetAddressOf();
+
 	if (nullptr == m_pSwapChain)
 	{
 		return E_FAIL;

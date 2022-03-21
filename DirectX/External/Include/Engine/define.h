@@ -14,7 +14,7 @@ public:\
 #define DT CTimeMgr::GetInst()->GetDT()
 
 #define DEVICE CDevice::GetInst()->GetDevice().Get()
-#define CONTEXT CDevice::GetInst()->GetDeviceContext.Get()
+#define CONTEXT CDevice::GetInst()->GetDeviceContext().Get()
 
 
 typedef Vector2 Vec2;
