@@ -15,7 +15,7 @@ Code
 	desc.BufferDesc.Height = (UINT)m_vRenderResolution.y;	  // 만들어진 버퍼의 세로
 	desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;  // 만들어진 픽셀의 Format (R:8bit, G:8bit , B:8bit, A:8bit 로 총 4byte)
   
-    RefreshRate는 모니터가 화면을 업데이트하는 주기로 분모/분자값으로 60이면 1초에 60번이다.
+    RefreshRate는 모니터가 화면을 업데이트하는 주기로 분자/분모값으로 60이면 1초에 60번이다.
   
 	desc.BufferDesc.RefreshRate.Denominator = 1;        	//  분모
 	desc.BufferDesc.RefreshRate.Numerator = 60;	        	//  분자
