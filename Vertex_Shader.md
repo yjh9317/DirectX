@@ -103,3 +103,19 @@ Vertex_Shader
 	DEVICE->CreateVertexShader(g_pVSBlob->GetBufferPointer(), g_pVSBlob->GetBufferSize(), nullptr,g_pVS.GetAddressOf());
 
 
+컴파일 함수
+==================
+
+	VTX_OUT VS_Test(VTX_IN _in)		//정점 하나당 호출될 함수
+	{
+	VTX_OUT output = (VTX_OUT)0.f;
+
+
+	output.vPosition = float4(_in.vPos,1.f);
+	output.vColor =_in.vColor;
+
+
+	return output;
+	}
+
+
