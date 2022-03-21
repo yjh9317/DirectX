@@ -32,3 +32,19 @@ Pixel_Shader
   	//컴파일 된 코드로 VertexShader 객체 만들기
   	//Blob이 관리하고있는 메모리 버퍼의 시작 주소 ,길이 , nullptr ,목적지로 저장할 픽셀 쉐이더
   	DEVICE->CreatePixelShader(g_pPSBlob->GetBufferPointer(), g_pPSBlob->GetBufferSize(), nullptr, g_pPS.GetAddressOf());
+      
+      
+
+함수
+========================
+픽셀마다 정보를 받아서 픽셀에 대한 정보를 저장하는? 함수
+      
+      float4 PS_Test(VTX_OUT _in) : SV_Target  // 픽셀마다 호출되는 함수
+      {
+	float4 vOutColor = (float4) 0.f;
+
+	vOutColor = _in.vColor;			// 픽셀마다 모든 정점에 대한 거리값을 계산해서 가까운 정점일수록 그 정점이  색의 비율을 높여준다. (선형보간)
+
+	return vOutColor;
+      }
+
