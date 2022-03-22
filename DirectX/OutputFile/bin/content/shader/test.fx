@@ -1,15 +1,22 @@
 #ifndef _TEST
 #define _TEST
 
-// Vertex Shader
+//상수버퍼 레지스터 , b0:슬롯넘버
+cbuffer POSITION : register(b0)
+{
+    float4 g_Pos; //전달할 값(이동량)
+	
+}
 
-	/*쉐이더는 버퍼의 주소를 받고 정점에 대한 단위(전체크기)를 모르기 때문에 받아야됨
-	여기서 정점의 세부정보를 모르기때문에 semantic을 사용
-	내가 지정한 시멘틱 정보로 맵핑되고있음
-	그렇기에 순서가 바뀌어도 상관이 없다.
+// t Register 크기가 큰
+// u Register 읽기 쓰기가 동시에 가능 컴퓨터셰이드 전용
 
-	Vertex Shader에서 정점의 구조체를 맵핑하지 않는 이유는
-	나중가면 정점이 크기가 커져서 특정 멤버만 받아오게 하기 위해 semantic을 사용함.*/
+// HLSL(High-Level Shader Language) 코드
+// HLSL은 DirectX에서 프로그래밍 가능한 셰이더와 함께 사용하는 C와 비슷한 고급 셰이더 언어다.
+
+// 예를 들어 HLSL을 사용하여 꼭짓점 셰이더또는 픽셀 셰이더를 작성하고 
+// Direct3D 애플리케이션의 렌더러 구현에서 해당 셰이더를 사용할 수 있다.
+// 인텔리센스가 작동되지 않는다면 위에서 확장-> 확장 모드를 켜서 HLSL를 검색하고 다운로드 받으면 된다.
 
 struct VTX_IN
 {
@@ -25,12 +32,13 @@ struct VTX_OUT
 };
 
 
-VTX_OUT VS_Test(VTX_IN _in)		//정점 하나당 호출될 함수 _in이 정점
+VTX_OUT VS_Test(VTX_IN _in)		//정점 하나당 호출될 함수
 {
 	VTX_OUT output = (VTX_OUT)0.f;
+	
+    float3 vFinalPos = _in.vPos + g_Pos.xyz; //버텍스 버퍼 + 상수버퍼의 이동량
 
-
-	output.vPosition = float4(_in.vPos,1.f);
+    output.vPosition = float4(vFinalPos, 1.f);
 	output.vColor =_in.vColor;
 
 
@@ -39,7 +47,7 @@ VTX_OUT VS_Test(VTX_IN _in)		//정점 하나당 호출될 함수 _in이 정점
 
 
 // Rasterizer
-// 정점이 만도는 도형 안에 들어오는 픽셀을 검출 (픽셀 쉐이더 후보)
+// 정점이 만도는 도형 안에 들어오는 픽셀을 검출
 // 해당 픽셀들 마다 픽셀 쉐이더 호출
 
 
@@ -66,6 +74,7 @@ float4 PS_Test(VTX_OUT _in) : SV_Target  // 픽셀마다 호출되는 함수
 
 #endif
 
+//프로젝트 속성
 //세이더 형식	효과f/x
 //세이더 모델	5.0
 //개체 파일 지우기

@@ -2,6 +2,14 @@
   
   //
   // FX Version: fx_5_0
+  //
+  // 1 local buffer(s)
+  //
+  cbuffer POSITION : register(b0)
+  {
+      float4  g_Pos;                      // Offset:    0, size:   16
+  }
+  
   Temp.cpp
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
   .\Project\Engine\Engine\CCore.h

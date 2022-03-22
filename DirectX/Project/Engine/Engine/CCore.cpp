@@ -49,6 +49,8 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 
 void CCore::progress()
 {
+	CTimeMgr::GetInst()->update();
+	CKeyMgr::GetInst()->update();
 	TestUpdate();
 
 	TestRender();

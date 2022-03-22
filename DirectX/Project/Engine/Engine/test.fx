@@ -1,6 +1,16 @@
 #ifndef _TEST
 #define _TEST
 
+//상수버퍼 레지스터 , b0:슬롯넘버
+cbuffer POSITION : register(b0)
+{
+    float4 g_Pos; //전달할 값(이동량)
+	
+}
+
+// t Register 크기가 큰
+// u Register 읽기 쓰기가 동시에 가능 컴퓨터셰이드 전용
+
 // HLSL(High-Level Shader Language) 코드
 // HLSL은 DirectX에서 프로그래밍 가능한 셰이더와 함께 사용하는 C와 비슷한 고급 셰이더 언어다.
 
@@ -25,9 +35,10 @@ struct VTX_OUT
 VTX_OUT VS_Test(VTX_IN _in)		//정점 하나당 호출될 함수
 {
 	VTX_OUT output = (VTX_OUT)0.f;
+	
+    float3 vFinalPos = _in.vPos + g_Pos.xyz; //버텍스 버퍼 + 상수버퍼의 이동량
 
-
-	output.vPosition = float4(_in.vPos,1.f);
+    output.vPosition = float4(vFinalPos, 1.f);
 	output.vColor =_in.vColor;
 
 

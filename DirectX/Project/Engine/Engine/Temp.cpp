@@ -4,9 +4,17 @@
 #include "CDevice.h"
 #include "CPathMgr.h"
 
-// 정점(Vertex) -> 폴리곤을 구성하기위한 단위 ,폴리곤의 단위는 일반적으로 삼각형
-// ID3D11Buffer는 Ram에서 생성되고 Gpu의 메모리를 관리하는 관리자급 객체란 느낌
-ComPtr<ID3D11Buffer>			g_pVB;
+#include "CTimeMgr.h"
+#include "CKeyMgr.h"
+
+//정점 정보
+Vertex	arrVtx[4] = {};
+Vec4	g_vPos;
+
+ComPtr<ID3D11Buffer>			g_pVB; // 정점 버퍼
+ComPtr<ID3D11Buffer>			g_pIB; // 인덱스 버퍼
+
+ComPtr<ID3D11Buffer>			g_pCB; // 상수 버퍼
 
 // InputLayout 생성(정점의 내부구조 저장)
 ComPtr<ID3D11InputLayout>		g_pInPutLayout; 
@@ -20,7 +28,6 @@ ComPtr<ID3DBlob>				g_pErrBlob;
 
 
 // 버텍스 쉐이더
-//	HLSL (High Level Shader Language)
 
 // g_pVSBlob에서 버텍스 쉐이더에 필요한 정보를 다 저장하고 그걸 바탕으로 g_pVS에 전달해서 버텍스 쉐이더를 생성
 // D12에서는 없어지고 g_pVSBlob로만 사용
@@ -85,30 +92,37 @@ ComPtr<ID3D11PixelShader>		g_pPS;
 
 void TestInit()
 {
-	Vertex arrVtx[3] = {};
+	
 
 	//NDC를 사용해서 좌표 표현
+	//인덱스 버퍼를 사용해서 네모를 표현
 
-	arrVtx[0].vPos = Vec3(0.f, 0.5f, 0.f);
-	arrVtx[0].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	arrVtx[0].vPos	= Vec3(-0.5f, 0.5f, 0.f);
+	arrVtx[0].vColor = Vec4(1.f, 0.2f, 0.2f, 1.f);
 
-	arrVtx[1].vPos = Vec3(0.5f, -0.5f, 0.f);
-	arrVtx[1].vColor= Vec4(1.f, 1.f, 1.f, 1.f);
+	arrVtx[1].vPos	= Vec3(0.5f, 0.5f, 0.f);
+	arrVtx[1].vColor= Vec4(0.2f, 1.f, 0.2f, 1.f);
 
-	arrVtx[2].vPos = Vec3(-0.5f, -0.5f, 0.f);
-	arrVtx[2].vColor= Vec4(1.f, 1.f, 1.f, 1.f);
+	arrVtx[2].vPos	= Vec3(0.5f, -0.5f, 0.f);
+	arrVtx[2].vColor= Vec4(0.2f, 0.2f, 1.f, 1.f);
+
+	arrVtx[3].vPos	= Vec3(-0.5f, -0.5f, 0.f);
+	arrVtx[3].vColor = Vec4(1.f, 0.2f, 0.2f, 1.f);
+
+
+
 
 
 	// 정점 데이터를 저장할 버텍스 버퍼를 생성한다.
 	D3D11_BUFFER_DESC tBufferDesc = {};
 
 	//생성시킬 버퍼의 사이즈
-	tBufferDesc.ByteWidth = sizeof(Vertex) * 3;
+	tBufferDesc.ByteWidth = sizeof(Vertex) * 6;
 
 
-	//버퍼 생성 이후에도 , 버퍼의 내용을 수정 할 수 있는 옵션
-	tBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;	
-	tBufferDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
+	// 정점 버퍼는 처음 생성 이후에 버퍼를 수정하지 않는다.
+	tBufferDesc.CPUAccessFlags = 0;	
+	tBufferDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
 
 	//	정점을 저장하는 목적의 버퍼임을 알림,미리 어떤 데이터를 저장할 지 설정해야 최적화가 가능.
 	tBufferDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;	
@@ -125,8 +139,44 @@ void TestInit()
 
 	//점 3개를 버텍스 버퍼(gpu메모리쪽)에 넣고 g_pVB에서 관리
 	DEVICE->CreateBuffer(&tBufferDesc, &tSubDesc, g_pVB.GetAddressOf());
+
+
+
+	//인덱스 버퍼
+
+	UINT arrIDx[6] = { 0,2,3,0,1,2 };
+	tBufferDesc = {};
+	tBufferDesc.ByteWidth = sizeof(UINT) * 6;
+
+
+	tBufferDesc.CPUAccessFlags = 0;
+	tBufferDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
+
+	tBufferDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
+	tBufferDesc.MiscFlags = 0;
+	tBufferDesc.StructureByteStride = 0;
+
 	
-	// Vertex Shader 컴파일
+	tSubDesc = {};
+	tSubDesc.pSysMem = arrIDx;
+
+	DEVICE->CreateBuffer(&tBufferDesc, &tSubDesc, g_pIB.GetAddressOf());
+
+
+	// 상수버퍼 반드시 16바이트 단위로 잡혀야된다
+
+	tBufferDesc = {};
+	tBufferDesc.ByteWidth = sizeof(Vec4);
+
+	tBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	tBufferDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
+
+	tBufferDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_CONSTANT_BUFFER;
+	tBufferDesc.MiscFlags = 0;
+	tBufferDesc.StructureByteStride = 0;
+
+	DEVICE->CreateBuffer(&tBufferDesc, &tSubDesc, g_pCB.GetAddressOf());
+
 
 	UINT iFlag = 0;
 
@@ -217,6 +267,58 @@ void TestInit()
 void TestUpdate()
 {
 
+
+
+
+	// System 메모리에 있는 데이터를 gpu메모리에 옮길 때 임시 메모리를 만들고 map함수로 맵핑을 시킨다음에
+	// Unmap을 이용해서 임시메모리를 gpu 메모리에 옮긴다.
+	
+	// 이런방식으로 위치를 옮길 수 있지만 키를 입력하지 않아도 덮어 씌우기도 하고
+	// 버텍스 버퍼자체를 수정하기 때문에 정점의 개수가 많아진다면
+	// 매프레임마다 모든 정점을 참조해야기도 하고 같은 정점을 참조하는 다른 물체의 형태도 바뀐다
+	
+	// 최초로 만들어진 버퍼는 모양(형태)를 유지하는 식이고 
+	// 그렇기에 버텍스 쉐이더에서 모두 호출할 때 모든 정점에 대해 같은 이동량을 준다면
+	// 원본 모양을 유지하면서 위치만 이동시킬 수 있음.
+
+	// 버텍스 버퍼 수정
+	// 버퍼가 수정가능한 값 cpuAccessFlag가 write이여야만 함.
+
+	if (KEY_PRESSED(KEY::LEFT))
+	{
+		//for (int i = 0; i < 4; ++i)
+		//{
+		//	arrVtx[i].vPos.x -= DT * 0.5f;
+		//}
+		g_vPos.x -= DT * 0.5f;
+	}
+
+	if (KEY_PRESSED(KEY::RIGHT))
+	{
+		//for (int i = 0; i < 4; ++i)
+		//{
+		//	arrVtx[i].vPos.x += DT * 0.5f;
+		//}
+		g_vPos.x += DT * 0.5f;
+	}
+
+	// 상수버퍼에는 추가적인 이동량이 들어가 있음
+	// 그 이동량만큼 VB에 더해줘서 래스터라이저에 옮기면됨
+
+	D3D11_MAPPED_SUBRESOURCE tSub = {};
+
+	CONTEXT->Map(g_pCB.Get(),0,D3D11_MAP_WRITE_DISCARD,0,&tSub);
+	memcpy(tSub.pData, &g_vPos, sizeof(Vec4));
+	CONTEXT->Unmap(g_pCB.Get(), 0);
+
+
+
+	//D3D11_MAPPED_SUBRESOURCE tSub = {};
+
+	//CONTEXT->Map(g_pVB.Get(),0,D3D11_MAP_WRITE_DISCARD,0,&tSub); //임시 메모리와 버텍스 버퍼를 맵핑
+	//memcpy(tSub.pData, arrVtx, sizeof(VTX) * 4);	//arrVtx값을 임시 메모리에 전이
+	//CONTEXT->Unmap(g_pVB.Get(), 0);
+
 }
 
 void TestRender()
@@ -225,6 +327,7 @@ void TestRender()
 
 	// render (밑에서 순서는 상관없음, 밑 함수는 설정(예약)을 한거고 시작한게 아니다)
 	// 인풋 어셈블러가 시작될때에 대한 세팅값들이라 Draw가 호출되는 순간 밑에서 설정해둔 값들이 적용되면서 시작.
+	
 	
 	// IA 전달
 	CONTEXT->IASetInputLayout(g_pInPutLayout.Get());
@@ -235,14 +338,18 @@ void TestRender()
 	// 4번째 -> 정점끼리의 간격, 5번째-> 시작위치 오프셋
 	CONTEXT->IASetVertexBuffers(0,1, g_pVB.GetAddressOf(),&iStride,&iOffset); //버텍스 버퍼를 여러개로 받을 수도 있음
 
+	//인덱스 버퍼 주소, 단위가 4byte UINT , 오프셋
+	CONTEXT->IASetIndexBuffer(g_pIB.Get(), DXGI_FORMAT_R32_UINT, 0);
 	// 정점의 구조가 삼각형이라고 알려줌 (TRIANGLELIST)
 	CONTEXT->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	CONTEXT->VSSetConstantBuffers(0, 1, g_pCB.GetAddressOf());//버텍스 셰이더 시점에 전달할 버퍼(상수버퍼)
 	
 	CONTEXT->VSSetShader(g_pVS.Get(),0,0);		// 호출될 버텍스 쉐이더
 	CONTEXT->PSSetShader(g_pPS.Get(), 0, 0);	 //호출될 픽셀 쉐이더
 
 	//파이프 라인 시작
-	CONTEXT->Draw(3, 0);
+	//CONTEXT->Draw(6, 0);  Draw는 버텍스 버퍼만 사용
+	CONTEXT->DrawIndexed(6, 0, 0);
 
 
 	CDevice::GetInst()->Present();

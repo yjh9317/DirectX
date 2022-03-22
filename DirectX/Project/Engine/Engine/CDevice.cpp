@@ -199,7 +199,7 @@ int CDevice::CreateView()
 	desc.ArraySize = 1;
 	
 	desc.CPUAccessFlags = 0; //cpu 접근
-	desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL; // 역할을 미리 정해줌,이걸로 View의 성공,실패여부 판단
+	desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL; // 역할을 미리 정해준다.(리소스마다 View가 다른데 이 값으로 구분)
 	desc.Usage=D3D11_USAGE::D3D11_USAGE_DEFAULT;
 
 	desc.MiscFlags = 0; //추가 옵션
