@@ -45,7 +45,17 @@ Constant Buffer를 이용한 이동
 // System 메모리에 있는 데이터를 gpu메모리에 옮길 때 임시 메모리를 만들고 map함수로 맵핑을 시킨다음에
 // Unmap을 이용해서 임시메모리를 gpu 메모리에 옮긴다.
 
-      Vec4	g_vPos; //물체의 이동량을 담을 Vec4(16byte)
+      	(HLSL)
+      	//상수버퍼 레지스터 , b0:슬롯넘버
+      	cbuffer POSITION : register(b0)
+      	{
+          float4 g_Pos; //전달할 값(이동량)	
+      	}
+	
+	
+
+      	Vec4	g_vPos; //물체의 이동량을 담을 Vec4(16byte)  
+      
     	if (KEY_PRESSED(KEY::LEFT))
     	{
     		g_vPos.x -= DT * 0.5f;     //delta Time * 0.5f
@@ -68,12 +78,6 @@ Constant Buffer를 이용한 이동
 상수버퍼생성Code
 ===============
       
-      (HLSL)
-      //상수버퍼 레지스터 , b0:슬롯넘버
-      cbuffer POSITION : register(b0)
-      {
-          float4 g_Pos; //전달할 값(이동량)	
-      }
       
 
       
