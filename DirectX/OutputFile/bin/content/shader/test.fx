@@ -1,26 +1,21 @@
 #ifndef _TEST
 #define _TEST
 
-//상수버퍼 레지스터 , b0:슬롯넘버
+//상수버퍼 레지스터 , b0:슬롯넘버(레지스터 번호)
+
+//레지스터 번호와 상수버퍼를 1:1로 매칭
+
 cbuffer POSITION : register(b0)
 {
     float4 g_Pos; //전달할 값(이동량)
 	
 }
 
-// t Register 크기가 큰
-// u Register 읽기 쓰기가 동시에 가능 컴퓨터셰이드 전용
 
-// HLSL(High-Level Shader Language) 코드
-// HLSL은 DirectX에서 프로그래밍 가능한 셰이더와 함께 사용하는 C와 비슷한 고급 셰이더 언어다.
-
-// 예를 들어 HLSL을 사용하여 꼭짓점 셰이더또는 픽셀 셰이더를 작성하고 
-// Direct3D 애플리케이션의 렌더러 구현에서 해당 셰이더를 사용할 수 있다.
-// 인텔리센스가 작동되지 않는다면 위에서 확장-> 확장 모드를 켜서 HLSL를 검색하고 다운로드 받으면 된다.
 
 struct VTX_IN
 {
-	float3 vPos : POSITION;	// semantic : 정점 안에서 어떤 구조로 정점이 세부적으로 분할되는지를 알려주는 추가정보
+	float3 vPos : POSITION;	// semantic
 	float4 vColor : COLOR;
 };
 
@@ -59,14 +54,6 @@ float4 PS_Test(VTX_OUT _in) : SV_Target  // 픽셀마다 호출되는 함수
 
 	return vOutColor;
 }
-
-
-// Pixel Shader
-
-
-
-
-
 
 
 

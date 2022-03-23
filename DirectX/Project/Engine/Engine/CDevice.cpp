@@ -53,12 +53,7 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 		MessageBox(nullptr, L"멀티셈플 레벨체크 실패", L"엔진 초기화 실패", MB_OK);
 		return E_FAIL;
 	}
-
-	// API에서는 깜박이 현상 제거할려고 더블버퍼링을 사용
-	// DirectX에서도 두개를 사용하는데 여기서 SwapChain의 역할이 그것이다.
 	
-	//SwapChain 생성 SwapChain이란 버퍼 두장을 가지고서 (프론트버퍼와 백버퍼) 프론트버퍼를 보고 있다가 백버퍼에 그림이 완성이되면
-	//SwapChain 함수중에 Present 함수를 사용하는 순간 프론트버퍼와 백버퍼가 서로 바뀌고 프론트버퍼로 바뀐 백버퍼를 보게된다.
 
 	if (FAILED(CreateSwapchain()))
 	{
@@ -105,27 +100,25 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 
 int CDevice::CreateSwapchain()
 {
-	DXGI_SWAP_CHAIN_DESC desc = {}; //SwapChain을 사용하기 위한 구조체
+	DXGI_SWAP_CHAIN_DESC desc = {}; 
 
-	// SwapChain옵션을 넣어줘야하는데 어떤 오브젝트를 만들더라도 비슷한 패턴이 반복된다.
-	// 그녀석을 만들때 옵션값이 워낙 많다보니까 Desc 값을 넣어줘야함.
 
 	desc.BufferCount = 1; // 1을 넣어주면 알아서 내부적으로 버퍼를 2장 만들어준다.(프론트,백)
-	desc.BufferDesc.Width= (UINT)m_vRenderResolution.x; //만들어진 버퍼의 가로
-	desc.BufferDesc.Height = (UINT)m_vRenderResolution.y;	//세로
+	desc.BufferDesc.Width= (UINT)m_vRenderResolution.x;
+	desc.BufferDesc.Height = (UINT)m_vRenderResolution.y;
 	desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;// 만들어진 픽셀의 Format (픽셀이 몇바이트인지 ,어떤구성인지)픽셀당 4바이트
 	desc.BufferDesc.RefreshRate.Denominator = 1;	// 스왑체인 구조체안에 구조체가 또있음			분모
 	desc.BufferDesc.RefreshRate.Numerator = 60;		// 이렇게해서 프레임을 60Hz를 잡아줌.			분자
-	desc.BufferDesc.Scaling = DXGI_MODE_SCALING::DXGI_MODE_SCALING_UNSPECIFIED; //디폴트 옵션
+	desc.BufferDesc.Scaling = DXGI_MODE_SCALING::DXGI_MODE_SCALING_UNSPECIFIED;
 	desc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER::DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED; //픽셀 쉐이더의 픽셀 순서(디폴트)
 
 	desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; // 렌더 타겟 용도
-	desc.Flags = 0; //옵션없이 디폴트
+	desc.Flags = 0; 
 	desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // 스왑체인인데 백버퍼에 그림을 그리다가 Present함수 호출시켜서 그려놓은 장면을 Front로 바꾸는데
 	//그때부터는 원래 Front가 Back, Back->Front가 되서 화면에 송출,이제 백버퍼가 된 애는 송출하던 장면을 가지고 있는데 그 장면을 보존할것인데
-	//DXGI_SWAP_EFFECT_DISCARD는 보존하지 않고 그 위에 덮어씌운다. 나중에 멀티랜더로 해결할수있음
-	desc.SampleDesc.Count = 1; //디폴트
-	desc.SampleDesc.Quality = 0; //디폴트
+	//DXGI_SWAP_EFFECT_DISCARD는 보존하지 않고 그 위에 덮어씌운다.
+	desc.SampleDesc.Count = 1; 
+	desc.SampleDesc.Quality = 0;
 		
 	desc.OutputWindow= m_hWnd; //출력하려는 목적지 윈도우
 	desc.Windowed = true;// 창모드거나 전체화면

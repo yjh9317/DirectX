@@ -17,7 +17,7 @@ CCore::CCore()
 
 CCore::~CCore()
 {
-
+	TestRelease();
 }
 
 int CCore::init(HWND _hWnd, POINT _ptResolution)
@@ -29,14 +29,13 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 	m_hWnd = _hWnd;
 	m_ptResolution = _ptResolution;
 
-
 	// Manager ÃÊ±âÈ­
 	if (FAILED(CDevice::GetInst()->init(m_hWnd, Vec2((float)m_ptResolution.x, (float)m_ptResolution.y))))
 	{
 		return E_FAIL;
 	}
 
-	CPathMgr::GetInst()->init();	
+	CPathMgr::GetInst()->init();
 	CKeyMgr::GetInst()->init();
 	CTimeMgr::GetInst()->init();
 
@@ -51,6 +50,7 @@ void CCore::progress()
 {
 	CTimeMgr::GetInst()->update();
 	CKeyMgr::GetInst()->update();
+
 	TestUpdate();
 
 	TestRender();

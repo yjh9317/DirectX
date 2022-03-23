@@ -31,11 +31,29 @@
     <ClInclude Include="Temp.h">
       <Filter>Temp</Filter>
     </ClInclude>
-    <ClInclude Include="CDevice.h">
-      <Filter>Engine\03. Manager</Filter>
-    </ClInclude>
     <ClInclude Include="struct.h">
       <Filter>Engine\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CEntity.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="CRes.h">
+      <Filter>Engine\07. Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="CMesh.h">
+      <Filter>Engine\07. Resource\03. Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="CShader.h">
+      <Filter>Engine\07. Resource\06. Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="CGraphicsShader.h">
+      <Filter>Engine\07. Resource\06. Shader\GraphicsShader</Filter>
+    </ClInclude>
+    <ClInclude Include="CConstBuffer.h">
+      <Filter>Engine\03. Manager\01. Device\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="CDevice.h">
+      <Filter>Engine\03. Manager\01. Device</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -60,8 +78,26 @@
     <ClCompile Include="Temp.cpp">
       <Filter>Temp</Filter>
     </ClCompile>
+    <ClCompile Include="CEntity.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="CRes.cpp">
+      <Filter>Engine\07. Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="CMesh.cpp">
+      <Filter>Engine\07. Resource\03. Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="CShader.cpp">
+      <Filter>Engine\07. Resource\06. Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="CGraphicsShader.cpp">
+      <Filter>Engine\07. Resource\06. Shader\GraphicsShader</Filter>
+    </ClCompile>
+    <ClCompile Include="CConstBuffer.cpp">
+      <Filter>Engine\03. Manager\01. Device\ConstantBuffer</Filter>
+    </ClCompile>
     <ClCompile Include="CDevice.cpp">
-      <Filter>Engine\03. Manager</Filter>
+      <Filter>Engine\03. Manager\01. Device</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +136,36 @@
     </Filter>
     <Filter Include="Engine\ShaderCode">
       <UniqueIdentifier>{4d4cb459-54b3-4fe1-adf1-2141969ba2c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Resource\01. Material">
+      <UniqueIdentifier>{25ecc4e0-7f5a-43c6-95b9-9f9511811083}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Resource\04. Texture">
+      <UniqueIdentifier>{017cc3ec-c5db-4af4-8ff4-83e103d185b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Resource\03. Mesh">
+      <UniqueIdentifier>{336cae43-bbcd-4a15-bf59-eb3e8ac505c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Resource\02. MeshData">
+      <UniqueIdentifier>{c42f8cd6-73dd-4b45-8284-eece5dbe0bfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Resource\05. Sound">
+      <UniqueIdentifier>{d7b9faa0-eca8-40fd-b106-bd81b8e2df2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Resource\06. Shader">
+      <UniqueIdentifier>{5b9ce1f4-6e9b-43d0-8c94-0998501022c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Resource\06. Shader\GraphicsShader">
+      <UniqueIdentifier>{4ec4e62e-c1f9-4045-92af-8fe72cb366f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Resource\06. Shader\ComputeShader">
+      <UniqueIdentifier>{db3a6442-f27c-4d32-8089-63517795a942}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Manager\01. Device">
+      <UniqueIdentifier>{646ecdee-36a9-4e13-9644-a4b71a698b21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Manager\01. Device\ConstantBuffer">
+      <UniqueIdentifier>{e95a4666-cb04-4481-afdd-f8053bf3f5b4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
