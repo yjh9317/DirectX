@@ -7,6 +7,9 @@ private:
     wstring m_strKey;
     wstring m_strRelativePath;
 
+    UINT    m_iRefCount;    //리소스가 참조되는 개수
+
+
 public:
     void SetKey(const wstring& _strKey) { m_strKey = _strKey; }
     void SetRelativePath(const wstring& _strRelativePath) { m_strRelativePath = _strRelativePath; }
@@ -20,9 +23,13 @@ public:
     virtual int Load(const wstring& _strFilePath) = 0;
     
 
+private:
+    void AddRef() { ++m_iRefCount; }
+    void SubRef() { --m_iRefCount; }
+
 public:
     CRes();
-    ~CRes();
+    virtual ~CRes();
 
     friend class CResMgr;
 };

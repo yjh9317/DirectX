@@ -49,7 +49,7 @@ int CGraphicsShader::CreateVertexShader(const wstring& _strRelativePath, const s
 		return E_FAIL;
 	}
 
-	if (FAILED(DEVICE->CreateInputLayout(g_vecLayout.data(), g_vecLayout.size()
+	if (FAILED(DEVICE->CreateInputLayout(g_vecLayout.data(), (UINT)g_vecLayout.size()
 		, m_VSBlob->GetBufferPointer(), m_VSBlob->GetBufferSize()
 		, m_InputLayout.GetAddressOf())))
 	{

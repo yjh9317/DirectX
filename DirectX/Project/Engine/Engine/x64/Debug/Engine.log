@@ -5,29 +5,37 @@
   //
   // 1 local buffer(s)
   //
-  cbuffer POSITION : register(b0)
+  cbuffer TRANSFORM : register(b0)
   {
       float4  g_Pos;                      // Offset:    0, size:   16
   }
   
-  CMesh.cpp
+  CComponent.cpp
+  Temp.cpp
+  코드를 생성하고 있습니다...
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
+  .\Project\Engine\Engine\CComponent.h
   .\Project\Engine\Engine\CConstBuffer.h
   .\Project\Engine\Engine\CCore.h
   .\Project\Engine\Engine\CDevice.h
   .\Project\Engine\Engine\CEntity.h
+  .\Project\Engine\Engine\CGameObject.h
   .\Project\Engine\Engine\CGraphicsShader.h
   .\Project\Engine\Engine\CKeyMgr.h
   .\Project\Engine\Engine\CMesh.h
+  .\Project\Engine\Engine\CMeshRender.h
   .\Project\Engine\Engine\CPathMgr.h
   .\Project\Engine\Engine\CRes.h
+  .\Project\Engine\Engine\CResMgr.h
   .\Project\Engine\Engine\CShader.h
   .\Project\Engine\Engine\CTimeMgr.h
+  .\Project\Engine\Engine\CTransform.h
   .\Project\Engine\Engine\define.h
+  .\Project\Engine\Engine\func.h
   .\Project\Engine\Engine\global.h
   .\Project\Engine\Engine\SimpleMath.h
   .\Project\Engine\Engine\struct.h
   .\Project\Engine\Engine\Temp.h
-  16개 파일이 복사되었습니다.
+  22개 파일이 복사되었습니다.
   .\Project\Engine\Engine\test.fx
   1개 파일이 복사되었습니다.

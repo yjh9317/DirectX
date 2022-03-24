@@ -5,6 +5,7 @@
 #include "CTimeMgr.h"
 #include "CPathMgr.h"
 #include "CKeyMgr.h"
+#include "CResMgr.h"
 
 #include "Temp.h"
 
@@ -38,7 +39,7 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 	CPathMgr::GetInst()->init();
 	CKeyMgr::GetInst()->init();
 	CTimeMgr::GetInst()->init();
-
+	CResMgr::GetInst()->init();
 
 	TestInit();
 

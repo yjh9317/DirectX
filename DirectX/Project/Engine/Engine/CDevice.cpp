@@ -1,16 +1,20 @@
 #include "pch.h"
 #include "CDevice.h"
 
+#include "CConstBuffer.h"
+
 CDevice::CDevice()
 	:m_hWnd(nullptr)
 	,m_tSwapChainDesc{}
 	,m_tViewPort{}
+	,m_arrCB{}
 {
 
 }
 
 CDevice::~CDevice()
 {	
+	Safe_Del_Arr(m_arrCB);
 }
 
 int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
@@ -91,6 +95,11 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 
 	
 	m_pDeviceContext->RSSetViewports(1, &m_tViewPort);
+
+	if (FAILED(CreateConstBuffer()))
+	{
+		return E_FAIL;
+	}
 
 	return S_OK;
 }
@@ -219,10 +228,19 @@ int CDevice::CreateView()
 	return S_OK;
 }
 
+int CDevice::CreateConstBuffer()
+{
+
+	m_arrCB[(UINT)CB_TYPE::TRANSFORM] = new CConstBuffer(CB_TYPE::TRANSFORM);
+	m_arrCB[(UINT)CB_TYPE::TRANSFORM]->Create(sizeof(Vec4));
+
+	return 0;
+}
+
 
 void CDevice::ClearTarget()
 {
-	m_pDeviceContext->ClearRenderTargetView(m_RTV.Get(),Vec4(0.f,0.f,0.f,1.f));
+	m_pDeviceContext->ClearRenderTargetView(m_RTV.Get(),Vec4(0.65f,0.65f,0.65f,1.f));
 	// RGB의 0~255값을 0.f ~ 1.f로 보간해서 변경해서 넣어줌 위에 Vec4는 0,0,0,255.
 
 	m_pDeviceContext->ClearDepthStencilView(m_DSV.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);

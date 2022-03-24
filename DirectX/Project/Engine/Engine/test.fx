@@ -5,7 +5,7 @@
 
 //레지스터 번호와 상수버퍼를 1:1로 매칭
 
-cbuffer POSITION : register(b0)
+cbuffer TRANSFORM : register(b0)
 {
     float4 g_Pos; //전달할 값(이동량)
 	

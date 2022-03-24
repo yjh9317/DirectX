@@ -68,8 +68,8 @@ int CMesh::Create(void* _pVtxSys, UINT _iVtxCount, void* _pIdxSys, UINT _iIdxCou
 
 
 	//시스템메모리의 지역변수를 받아오면 그 함수가 끝날 때 주소가 날라가므로 내부적으로 복사해서 관리
-	m_pVtxSys = new VTX[m_iVtxCount];
-	memcpy(m_pVtxSys, _pVtxSys, sizeof(VTX) * m_iVtxCount);
+	m_pVtxSys = new Vtx[m_iVtxCount];
+	memcpy(m_pVtxSys, _pVtxSys, sizeof(Vtx) * m_iVtxCount);
 
 	m_pIdxSys = new UINT[m_iIdxCount];
 	memcpy(m_pIdxSys, _pIdxSys, sizeof(UINT) * m_iIdxCount);
@@ -88,7 +88,7 @@ void CMesh::UpdateData()
 {
 	
 
-	UINT iStride = sizeof(VTX);
+	UINT iStride = sizeof(Vtx);
 	UINT iOffset = 0;
 
 	//버퍼를 gpu 메모리에 전달 

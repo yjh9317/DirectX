@@ -1,5 +1,7 @@
 #pragma once
 
+class CConstBuffer;
+
 class CDevice
 {
 	SINGLE(CDevice);
@@ -21,6 +23,8 @@ private:
 	D3D11_VIEWPORT					m_tViewPort;
 	DXGI_SWAP_CHAIN_DESC			m_tSwapChainDesc;
 
+	CConstBuffer*					m_arrCB[(UINT)CB_TYPE::END];
+
 public:
 	int init(HWND _hWnd, Vec2 _vRenderResolution);
 
@@ -31,8 +35,12 @@ public:
 	ComPtr<ID3D11DeviceContext> GetDeviceContext() { return m_pDeviceContext; }
 
 
+	CConstBuffer* GetCB(CB_TYPE _eType) { return m_arrCB[(UINT)_eType]; }
+
 private:
 	int CreateSwapchain();
 	int CreateView();
+	int CreateConstBuffer();
+
 };
 
