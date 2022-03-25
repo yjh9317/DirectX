@@ -6,8 +6,8 @@
 #include "CPathMgr.h"
 #include "CKeyMgr.h"
 #include "CResMgr.h"
+#include "CSceneMgr.h"
 
-#include "Temp.h"
 
 CCore::CCore()
 	: m_hWnd(nullptr)
@@ -18,7 +18,7 @@ CCore::CCore()
 
 CCore::~CCore()
 {
-	TestRelease();
+
 }
 
 int CCore::init(HWND _hWnd, POINT _ptResolution)
@@ -40,8 +40,9 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 	CKeyMgr::GetInst()->init();
 	CTimeMgr::GetInst()->init();
 	CResMgr::GetInst()->init();
+	CSceneMgr::GetInst()->init();
+	
 
-	TestInit();
 
 
 	return S_OK;
@@ -52,7 +53,11 @@ void CCore::progress()
 	CTimeMgr::GetInst()->update();
 	CKeyMgr::GetInst()->update();
 
-	TestUpdate();
 
-	TestRender();
+	//Scene Update
+	CSceneMgr::GetInst()->progress();
+
+	//Scene Render
+	CSceneMgr::GetInst()->render();
+
 }

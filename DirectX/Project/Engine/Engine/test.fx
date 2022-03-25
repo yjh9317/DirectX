@@ -1,67 +1,67 @@
 #ifndef _TEST
 #define _TEST
 
-//상수버퍼 레지스터 , b0:슬롯넘버(레지스터 번호)
-
-//레지스터 번호와 상수버퍼를 1:1로 매칭
-
 cbuffer TRANSFORM : register(b0)
 {
-    float4 g_Pos; //전달할 값(이동량)
-	
+    float4 g_Pos;
 }
 
+// Texture2D g_tex_0 : register(t0);
+// StructuredBuffer<float4> g_buffer : register(t1);
+// sampler g_sam : register(s0);
+// RWStructuredBuffer<float4> g_rwbuffer : register(u0);
 
 
+
+
+// Vertex Shader
 struct VTX_IN
 {
-	float3 vPos : POSITION;	// semantic
-	float4 vColor : COLOR;
+    float3 vPos : POSITION; // semantic    
+    float4 vColor : COLOR;
 };
-
 
 struct VTX_OUT
 {
-	float4 vPosition : SV_Position;
-	float4 vColor : COLOR;
+    float4 vPosition : SV_Position;
+    float4 vColor : COLOR;
 };
 
-
-VTX_OUT VS_Test(VTX_IN _in)		//정점 하나당 호출될 함수
+VTX_OUT VS_Test(VTX_IN _in)
 {
-	VTX_OUT output = (VTX_OUT)0.f;
-	
-    float3 vFinalPos = _in.vPos + g_Pos.xyz; //버텍스 버퍼 + 상수버퍼의 이동량
-
+    VTX_OUT output = (VTX_OUT) 0.f;
+    
+    float3 vFinalPos = _in.vPos + g_Pos.xyz;
+    
     output.vPosition = float4(vFinalPos, 1.f);
-	output.vColor =_in.vColor;
-
-
-	return output;
+    output.vColor = _in.vColor;
+    
+    return output;
 }
 
 
 // Rasterizer
-// 정점이 만도는 도형 안에 들어오는 픽셀을 검출
+// 정점이 만드는 도형(Topology) 안에 들어오는 픽셀을 검출 (픽셀 쉐이더 후보)
 // 해당 픽셀들 마다 픽셀 쉐이더 호출
 
 
-float4 PS_Test(VTX_OUT _in) : SV_Target  // 픽셀마다 호출되는 함수
+float4 PS_Test(VTX_OUT _in) : SV_Target
 {
-	float4 vOutColor = (float4) 0.f;
-
-	vOutColor = _in.vColor;				 // 픽셀마다 모든 정점에 대한 거리값을 계산해서 가까운 정점일수록 그 정점에 대한 색의 비율을 높여준다. (선형보간)
-
-	return vOutColor;
+    float4 vOutColor = (float4) 0.f;
+    
+    vOutColor = _in.vColor;
+    
+    return vOutColor;
 }
+
+
+
+
+
+
 
 
 
 
 
 #endif
-
-//프로젝트 속성
-//세이더 형식	효과f/x
-//세이더 모델	5.0
-//개체 파일 지우기

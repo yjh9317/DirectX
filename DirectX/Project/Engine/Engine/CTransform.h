@@ -19,7 +19,7 @@ public:
     const Vec3& GetScale() { return m_vRelativeScale; }
     const Vec3& GetRotation() { return m_vRelativeRot; }
 
-    virtual void UpdateData() override;
+    virtual void UpdateData() override; //필요한 데이터를 gpu메모리로 이동
 
     virtual void finalupdate() override;
 

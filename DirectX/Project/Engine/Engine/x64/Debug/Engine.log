@@ -10,8 +10,8 @@
       float4  g_Pos;                      // Offset:    0, size:   16
   }
   
-  CComponent.cpp
-  Temp.cpp
+  CCore.cpp
+  CSceneMgr.cpp
   코드를 생성하고 있습니다...
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
   .\Project\Engine\Engine\CComponent.h
@@ -22,11 +22,16 @@
   .\Project\Engine\Engine\CGameObject.h
   .\Project\Engine\Engine\CGraphicsShader.h
   .\Project\Engine\Engine\CKeyMgr.h
+  .\Project\Engine\Engine\CLayer.h
   .\Project\Engine\Engine\CMesh.h
   .\Project\Engine\Engine\CMeshRender.h
   .\Project\Engine\Engine\CPathMgr.h
+  .\Project\Engine\Engine\CPlayerScript.h
   .\Project\Engine\Engine\CRes.h
   .\Project\Engine\Engine\CResMgr.h
+  .\Project\Engine\Engine\CScene.h
+  .\Project\Engine\Engine\CSceneMgr.h
+  .\Project\Engine\Engine\CScript.h
   .\Project\Engine\Engine\CShader.h
   .\Project\Engine\Engine\CTimeMgr.h
   .\Project\Engine\Engine\CTransform.h
@@ -35,7 +40,6 @@
   .\Project\Engine\Engine\global.h
   .\Project\Engine\Engine\SimpleMath.h
   .\Project\Engine\Engine\struct.h
-  .\Project\Engine\Engine\Temp.h
-  22개 파일이 복사되었습니다.
+  26개 파일이 복사되었습니다.
   .\Project\Engine\Engine\test.fx
   1개 파일이 복사되었습니다.

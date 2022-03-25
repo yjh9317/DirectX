@@ -1,9 +1,14 @@
 #pragma once
 #include "CEntity.h"
 
-class CGameObject;
+#include "CGameObject.h"
 
-class CComponent :
+#define GET_OTHER_COMPONENT(Type) C##Type* Type() { return GetOwner()->Type(); }
+
+class CTransform;
+class CMeshRender;
+
+class CComponent :  
     public CEntity
 {
 private:
@@ -11,6 +16,7 @@ private:
     CGameObject*            m_pOwner;
 
 public:
+    virtual void start() {}
     virtual void update() {}
     virtual void lateupdate() {}
     virtual void finalupdate() = 0; //최종 업데이트이므로 순수가상함수
@@ -18,6 +24,15 @@ public:
 
 public:
     COMPONENT_TYPE GetType() { return m_eComType; }
+    CGameObject* GetOwner() { return m_pOwner; }
+
+    
+
+    GET_OTHER_COMPONENT(Transform) // 컴포넌트끼리 서로 상호작용을 하므로 CComponent(부모클래스)에서 작성
+    GET_OTHER_COMPONENT(MeshRender)   
+
+
+
 
 
 public:

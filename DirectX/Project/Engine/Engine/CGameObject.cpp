@@ -1,8 +1,13 @@
 #include "pch.h"
 #include "CGameObject.h"
 
+
+
 #include "CComponent.h"
+#include "CTransform.h"
 #include "CMeshRender.h"
+
+
 
 CGameObject::CGameObject()
 	:m_arrCom{}
@@ -14,8 +19,22 @@ CGameObject::~CGameObject()
 	Safe_Del_Arr(m_arrCom);
 }
 
+void CGameObject::start()
+{
+	// 게임이 시작되는 순간에 최초로 호출되는 함수
+	// 게임 중간에 추가되는 오브젝트들은 생성되서 합류하는 시점에서 start를 호출된다
+	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
+	{
+		if (nullptr != m_arrCom[i])
+			m_arrCom[i]->start();
+	}
+
+}
+
 void CGameObject::update()
 {
+
+
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrCom[i])

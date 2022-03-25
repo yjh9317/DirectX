@@ -21,6 +21,8 @@ public:\
 #define DEVICE CDevice::GetInst()->GetDevice().Get()
 #define CONTEXT CDevice::GetInst()->GetDeviceContext().Get()
 
+#define MAX_LAYER 32
+
 #define SAFE_DELETE(p) if(nullptr != p) delete p; p = nullptr;
 
 typedef Vector2 Vec2;
@@ -70,7 +72,7 @@ enum class COMPONENT_TYPE
 	DECAL,				// 데칼 오브젝트
 
 	// Update
-	SCRIPT,				// 로직
+	SCRIPT,				// 로직, 엔진쪽에서 구현하지 않고 개발자가 구현해야할 컴포넌트
 
 
 	END,
