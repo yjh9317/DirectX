@@ -14,7 +14,8 @@ vector<D3D11_INPUT_ELEMENT_DESC> CGraphicsShader::g_vecLayout;		// 인풋 레이아웃
 
 
 CGraphicsShader::CGraphicsShader()
-	: m_eTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
+	:m_eRSType(RS_TYPE::CULL_BACK)
+	, m_eTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 	// 기본 생성자가 없기에 처음에 Topology를 정해줘야 함.
 {
 }
@@ -96,6 +97,8 @@ void CGraphicsShader::UpdateData()
 	CONTEXT->DSSetShader(m_DS.Get(), 0, 0);
 	CONTEXT->GSSetShader(m_GS.Get(), 0, 0);
 	CONTEXT->PSSetShader(m_PS.Get(), 0, 0);
+
+	CONTEXT->RSSetState(CDevice::GetInst()->GetRS(m_eRSType).Get());//래스터라이저 스테이트 설정
 }
 
 

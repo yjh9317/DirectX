@@ -7,6 +7,7 @@ CDevice::CDevice()
 	:m_hWnd(nullptr)
 	,m_tSwapChainDesc{}
 	,m_tViewPort{}
+	,m_arrRS{}
 	,m_arrCB{}
 {
 
@@ -96,6 +97,15 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 	
 	m_pDeviceContext->RSSetViewports(1, &m_tViewPort);
 
+
+	//래스터라이저 스테이트 생성
+	if (FAILED(CreateRasterizerState()))
+	{
+		return E_FAIL;
+	}
+
+
+	// 상수버퍼 생성
 	if (FAILED(CreateConstBuffer()))
 	{
 		return E_FAIL;
@@ -228,20 +238,57 @@ int CDevice::CreateView()
 	return S_OK;
 }
 
+int CDevice::CreateRasterizerState()
+{
+	D3D11_RASTERIZER_DESC desc = {}; //래스터라이저 정보 구조체
+	HRESULT hr = S_OK;
+	// Default State
+	// 반시계(뒷면) 제외, 시계방향(앞면) 통과
+	m_arrRS[(UINT)RS_TYPE::CULL_BACK] = nullptr;		// Default 이므로 desc를 넣지 않아도 됨.
+
+	// 반시계(뒷면) 통과, 시계방향(앞면) 제외
+	desc.CullMode = D3D11_CULL_FRONT;
+	desc.FillMode = D3D11_FILL_SOLID; //안을 채울지 안채울지 정해주는 속성
+
+	hr =DEVICE->CreateRasterizerState(&desc, m_arrRS[(UINT)RS_TYPE::CULL_FRONT].GetAddressOf());
+	
+	if (FAILED(hr))
+		return E_FAIL;
+	
+
+	// 양면 모두 그리기, 주로 단면 형태의 메쉬를 앞 뒤에서 볼 때
+	desc.CullMode = D3D11_CULL_NONE;
+	desc.FillMode = D3D11_FILL_SOLID;
+	hr = DEVICE->CreateRasterizerState(&desc, m_arrRS[(UINT)RS_TYPE::CULL_NONE].GetAddressOf());
+
+	if (FAILED(hr))
+		return E_FAIL;
+
+	// 양면 모두 그리기(CULL_NONE), 뼈대 픽셀만 렌더링(안쪽을 채우지 않는다)
+	desc.CullMode = D3D11_CULL_NONE;
+	desc.FillMode = D3D11_FILL_WIREFRAME;
+	hr = DEVICE->CreateRasterizerState(&desc, m_arrRS[(UINT)RS_TYPE::WIRE_FRAME].GetAddressOf());
+
+	if (FAILED(hr))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 int CDevice::CreateConstBuffer()
 {
 
 	m_arrCB[(UINT)CB_TYPE::TRANSFORM] = new CConstBuffer(CB_TYPE::TRANSFORM);
-	m_arrCB[(UINT)CB_TYPE::TRANSFORM]->Create(sizeof(Vec4));
+	m_arrCB[(UINT)CB_TYPE::TRANSFORM]->Create(sizeof(Matrix));
 
-	return 0;
+	return S_OK;
 }
 
 
 void CDevice::ClearTarget()
 {
 	m_pDeviceContext->ClearRenderTargetView(m_RTV.Get(),Vec4(0.65f,0.65f,0.65f,1.f));
-	// RGB의 0~255값을 0.f ~ 1.f로 보간해서 변경해서 넣어줌 위에 Vec4는 0,0,0,255.
+	// RGB의 0~255값을 0.f ~ 1.f로 보간해서 변경해서 넣어줌
 
 	m_pDeviceContext->ClearDepthStencilView(m_DSV.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 }

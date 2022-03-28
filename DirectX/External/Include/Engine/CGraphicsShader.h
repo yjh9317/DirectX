@@ -1,6 +1,9 @@
 #pragma once
 #include "CShader.h"
-class CGraphicsShader : //모든 셰이더가 동작하는 과정을 클래스에서 묶어서 사용
+
+
+
+class CGraphicsShader : //모든 셰이더가 동작하는 과정을 클래스에서 묶어서 사용 ,D12에서는 파이프라인 스테이트 오브젝트
     public CShader
 {
 private:
@@ -23,8 +26,9 @@ private:
     ComPtr<ID3D11GeometryShader>    m_GS;           //지오메트리
     ComPtr<ID3D11PixelShader>       m_PS;           //픽셀
 
-    ComPtr<ID3D11InputLayout>       m_InputLayout;  //정점의 내부 구조
 
+    RS_TYPE                         m_eRSType;      //래스터라이저 타입
+    ComPtr<ID3D11InputLayout>       m_InputLayout;  //정점의 내부 구조
     D3D11_PRIMITIVE_TOPOLOGY        m_eTopology;    //정점으로 만들 도형
 
 public:
@@ -34,6 +38,7 @@ public:
     //void CreateGeometryShader();
     int CreatePixelShader(const wstring& _strRelativePath, const string& _strFunc);
 
+    void SetRSType(RS_TYPE _eType) { m_eRSType = _eType; }
     void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _eTopology) { m_eTopology = _eTopology; }
     D3D11_PRIMITIVE_TOPOLOGY GetTopology() { return m_eTopology; }
 

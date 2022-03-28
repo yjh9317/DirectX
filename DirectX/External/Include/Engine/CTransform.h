@@ -8,7 +8,7 @@ private:
     Vec3        m_vRelativeScale;
     Vec3        m_vRelativeRot;
 
-
+    Matrix      m_matWorld;         //위치변환 정보 행렬, 행렬로 위치,크기,회전값을 정한다.
 
 public:
     void SetPos(const Vec3& _vPos) { m_vRelativePos = _vPos; }

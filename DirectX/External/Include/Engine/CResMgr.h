@@ -43,6 +43,9 @@ inline RES_TYPE CResMgr::GetResType()
 {
 	const type_info& info = typeid(type);	//타입의 정보를 알아 낼 수 있다
 
+	//	typeid는  자료형이나 변수 또는 식을 입력받아 const type_info& 형식의 객체를 반환해 주는 연산자
+
+
 	if (info.hash_code() == typeid(CMesh).hash_code())	//타입의 해쉬코드 비교
 		return RES_TYPE::MESH;
 	else if (info.hash_code() == typeid(CGraphicsShader).hash_code())

@@ -7,12 +7,10 @@
   //
   cbuffer TRANSFORM : register(b0)
   {
-      float4  g_Pos;                      // Offset:    0, size:   16
+      float4x4 g_matWorld;                // Offset:    0, size:   64
   }
   
-  CCore.cpp
-  CSceneMgr.cpp
-  코드를 생성하고 있습니다...
+  CTransform.cpp
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
   .\Project\Engine\Engine\CComponent.h
   .\Project\Engine\Engine\CConstBuffer.h

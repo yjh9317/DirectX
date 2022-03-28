@@ -71,6 +71,7 @@ void CResMgr::CreateEngineShader()
 	pShader = new CGraphicsShader;
 	pShader->CreateVertexShader(L"shader\\test.fx", "VS_Test");
 	pShader->CreatePixelShader(L"shader\\test.fx", "PS_Test");
+	
 	AddRes<CGraphicsShader>(L"TestShader", pShader);
 
 

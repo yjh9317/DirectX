@@ -24,7 +24,7 @@ void CMeshRender::finalupdate()
 
 void CMeshRender::render()
 {
-	if (nullptr == m_pMesh || nullptr == m_pShader)	//메쉬,렌더러가 없으면 종료(있어야 그릴 수 있으니까)
+	if (nullptr == m_pMesh || nullptr == m_pShader)	//메쉬,셰이더가 없으면 종료(있어야 그릴 수 있으니까)
 		return;
 
 	Transform()->UpdateData();

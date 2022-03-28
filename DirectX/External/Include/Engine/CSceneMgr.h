@@ -2,7 +2,7 @@
 
 class CScene;
 
-class CSceneMgr
+class CSceneMgr			//씬(스테이지)를 관리하는 매니저
 {
 	SINGLE(CSceneMgr)
 private:
