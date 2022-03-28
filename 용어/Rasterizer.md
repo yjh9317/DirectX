@@ -14,7 +14,7 @@ Rasterizer
 Culling
 ===============
 Mesh를 만들때 정점들은 Topology(삼각형)으로 이루어져 Mesh를 만드는데 이 삼각형의 정점 인덱스가 시점에 따라 시계방향,반시계방향으로 그려진다.   
-![ㅁㅇㄹ](https://user-images.githubusercontent.com/66587512/160391551-6b13b764-c026-4c90-825e-1eb6afda9b15.png)
+![ㅁㅇㄹ](https://user-images.githubusercontent.com/66587512/160392780-bac8dc31-3567-493c-8c72-e9720450677c.png)
 
 desc.CullMode = D3D11_CULL_BACK;  --> 인덱싱이 시계방향이어야만 화면에 그려지게 되고  
 desc.CullMode = D3D11_CULL_FRONT; --> 인덱싱이 반시계방향이어야만 화면에 그려지게 된다.  
