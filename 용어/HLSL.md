@@ -11,7 +11,8 @@ Code
     
     cbuffer TRANSFORM : register(b0)
     {
-        // 행 우선으로 읽기
+        // row_major :행 우선으로 읽기
+        
         row_major matrix g_matWorld;     //matrix or float4x4 (64바이트) 4x4형태 행렬
     }
     
