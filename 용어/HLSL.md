@@ -6,62 +6,73 @@ Semantic은 데이터의 출처와 역할에 대해 의미를 부여하기 위�
   
 Code
 ==============
-
-     #ifndef _TEST
-     #define _TEST
-     
-     // HLSL(High-Level Shader Language) 코드
-     // HLSL은 DirectX에서 프로그래밍 가능한 셰이더와 함께 사용하는 C와 비슷한 고급 셰이더 언어다.
-     
-     // 예를 들어 HLSL을 사용하여 꼭짓점 셰이더또는 픽셀 셰이더를 작성하고 
-     // Direct3D 애플리케이션의 렌더러 구현에서 해당 셰이더를 사용할 수 있다.
-     // 인텔리센스가 작동되지 않는다면 위에서 확장-> 확장 모드를 켜서 HLSL를 검색하고 다운로드 받으면 된다.
-     
-     struct VTX_IN
-     {
-     	float3 vPos : POSITION;	// semantic : 정점 안에서 어떤 구조로 정점이 세부적으로 분할되는지를 알려주는 추가정보
-     	float4 vColor : COLOR;
-     };
-     
-     
-     struct VTX_OUT
-     {
-     	float4 vPosition : SV_Position;
-     	float4 vColor : COLOR;
-     };
-     
-     
-     VTX_OUT VS_Test(VTX_IN _in)		//정점 하나당 호출될 함수
-     {
-     	VTX_OUT output = (VTX_OUT)0.f;
-     
-     
-     	output.vPosition = float4(_in.vPos,1.f);
-     	output.vColor =_in.vColor;
-     
-     
-     	return output;
-     }
-     
-     
-     // Rasterizer
-     // 정점이 만도는 도형 안에 들어오는 픽셀을 검출
-     // 해당 픽셀들 마다 픽셀 쉐이더 호출
-     
-     
-     float4 PS_Test(VTX_OUT _in) : SV_Target  // 픽셀마다 호출되는 함수
-     {
-     	float4 vOutColor = (float4) 0.f;
-     
-     	vOutColor = _in.vColor;				 // 픽셀마다 모든 정점에 대한 거리값을 계산해서 가까운 정점일수록 그 정점에 대한 색의 비율을 높여준다. (선형보간)
-     
-     	return vOutColor;
-     }
-     
-     
-     // Pixel Shader
-     
-     #endif
+   #ifndef _TEST
+   #define _TEST
+   
+   cbuffer TRANSFORM : register(b0)
+   {
+       // 행 우선으로 읽기
+       row_major matrix g_matWorld;     //matrix or float4x4 (64바이트) 4x4형태 행렬
+   }
+   
+   // gpu는 기본적으로 행렬을 가져올때 열 우선으로 메모리를 열거하기 때문에
+   // row_major로 행 우선으로 바꿔준다.
+   
+   
+   // Texture2D g_tex_0 : register(t0);
+   // StructuredBuffer<float4> g_buffer : register(t1);
+   // sampler g_sam : register(s0);
+   // RWStructuredBuffer<float4> g_rwbuffer : register(u0);
+   
+   
+   
+   
+   // Vertex Shader
+   struct VTX_IN
+   {
+       float3 vPos : POSITION; // semantic    
+       float4 vColor : COLOR;
+   };
+   
+   struct VTX_OUT
+   {
+       float4 vPosition : SV_Position;
+       float4 vColor : COLOR;
+   };
+   
+   VTX_OUT VS_Test(VTX_IN _in)
+   {
+       VTX_OUT output = (VTX_OUT) 0.f;
+       
+       float4 vFinalPos = mul(float4(_in.vPos, 1.f), g_matWorld);   // 4*4 행렬과 위치를 곱해서 최종위치
+       
+       // 정점(float3)를 4*4행렬 로 맞춰주기위해 float4로 바꿔주면서 마지막 값은 행렬곱해서 위치값을 저장해주기 위해 1.f로 세팅
+      
+       
+       output.vPosition = vFinalPos;
+       output.vColor = _in.vColor;
+       
+       return output;
+   }
+   
+   
+   // Rasterizer
+   // 정점이 만드는 도형(Topology) 안에 들어오는 픽셀을 검출 (픽셀 쉐이더 후보)
+   // 해당 픽셀들 마다 픽셀 쉐이더 호출
+   
+   float4 PS_Test(VTX_OUT _in) : SV_Target
+   {
+       float4 vOutColor = (float4) 0.f;
+       
+       vOutColor = _in.vColor;
+       
+       return vOutColor;
+   }
+   
+   
+   
+   
+   #endif
      
      //프로젝트 속성
      //세이더 형식	효과f/x
