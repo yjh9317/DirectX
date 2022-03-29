@@ -21,18 +21,18 @@ Transform은 GameObject가 가지고있는 Component중 하나로 오브젝트�
 코드
 ==========================================
 
-CTransform::CTransform()
-	:CComponent(COMPONENT_TYPE::TRANSFORM)
-	,m_vRelativeScale(Vec3(0.5f,0.5f,0.5f))	//행렬곱할 때 0이면 크기가 0이 고정이 되므로 전부 1로 설정
-{
-}
-
-CTransform::~CTransform()
-{
-}
-
-void CTransform::finalupdate()
-{
+	CTransform::CTransform()
+		:CComponent(COMPONENT_TYPE::TRANSFORM)
+		,m_vRelativeScale(Vec3(0.5f,0.5f,0.5f))	//행렬곱할 때 0이면 크기가 0이 고정이 되므로 전부 1로 설정
+	{
+	}
+	
+	CTransform::~CTransform()
+	{
+	}
+	
+	void CTransform::finalupdate()
+	{
 	//렌더링하기 직전에 전달할 행렬을 finalupdate에서 생성 ,렌더링하기 직전에 전달
 
 	//DirectX 행렬 함수
@@ -85,28 +85,28 @@ void CTransform::finalupdate()
 	// ( cosα   sinα   0  )
 	// ( -sinα  cosα   0  )
 	// (  0      0     1  )
-}
+	}
+	
+	
+	
+	void CTransform::UpdateData()
+	{
+		// 좌표정보가 렌더링되기 직전에 b0레지스터에 보내짐
+		CConstBuffer* pBuffer= CDevice::GetInst()->GetCB(CB_TYPE::TRANSFORM);	// Transform 컴포넌트의 상수버퍼를 가져오고
+		pBuffer->SetData(&m_matWorld, sizeof(Matrix));							// 특정 레지스터에 보낸다
+		pBuffer->UpdateData();
+	
+	}
 
-
-
-void CTransform::UpdateData()
-{
-	// 좌표정보가 렌더링되기 직전에 b0레지스터에 보내짐
-	CConstBuffer* pBuffer= CDevice::GetInst()->GetCB(CB_TYPE::TRANSFORM);	// Transform 컴포넌트의 상수버퍼를 가져오고
-	pBuffer->SetData(&m_matWorld, sizeof(Matrix));							// 특정 레지스터에 보낸다
-	pBuffer->UpdateData();
-
-}
-
-     
-     void CTransform::UpdateData()
-     {
-     	// 좌표정보가 렌더링되기 직전에 b0레지스터에 보내짐
-     	CConstBuffer* pBuffer= CDevice::GetInst()->GetCB(CB_TYPE::TRANSFORM);	// Transform 컴포넌트의 상수버퍼를 가져오고
-     	pBuffer->SetData(&m_matWorld, sizeof(Matrix));							// 특정 레지스터에 보낸다
-     	pBuffer->UpdateData();
-     
-     }
+    	 
+    	 void CTransform::UpdateData()
+    	 {
+    	 	// 좌표정보가 렌더링되기 직전에 b0레지스터에 보내짐
+    	 	CConstBuffer* pBuffer= CDevice::GetInst()->GetCB(CB_TYPE::TRANSFORM);	// Transform 컴포넌트의 상수버퍼를 가져오고
+    	 	pBuffer->SetData(&m_matWorld, sizeof(Matrix));							// 특정 레지스터에 보낸다
+    	 	pBuffer->UpdateData();
+    	 
+    	 }
 
 헤더
 ===========
