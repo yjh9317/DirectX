@@ -36,8 +36,8 @@ Transform은 GameObject가 가지고있는 Component중 하나로 오브젝트�
 	//렌더링하기 직전에 전달할 행렬을 finalupdate에서 생성 ,렌더링하기 직전에 전달
 
 	//DirectX 행렬 함수
-	Matrix matScale = XMMatrixScaling(m_vRelativeScale.x, m_vRelativeScale.y, m_vRelativeScale.z); 
-	Matrix matTranslation = XMMatrixTranslation(m_vRelativePos.x, m_vRelativePos.y, m_vRelativePos.z);
+	Matrix matScale = XMMatrixScaling(m_vRelativeScale.x, m_vRelativeScale.y, m_vRelativeScale.z); //1행1열,2행2열,3행3열에 크기
+	Matrix matTranslation = XMMatrixTranslation(m_vRelativePos.x, m_vRelativePos.y, m_vRelativePos.z); 4행1,2,3열에 위치
 	Matrix matRotX = XMMatrixRotationX(m_vRelativeRot.x);
 	Matrix matRotY = XMMatrixRotationY(m_vRelativeRot.y);
 	Matrix matRotZ = XMMatrixRotationZ(m_vRelativeRot.z);
