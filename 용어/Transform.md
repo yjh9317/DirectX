@@ -99,15 +99,15 @@ Transform은 GameObject가 가지고있는 Component중 하나로 오브젝트�
 	}
 
     	 
-    	 void CTransform::UpdateData()
-    	 {
-    	 	// 좌표정보가 렌더링되기 직전에 b0레지스터에 보내짐
-    	 	CConstBuffer* pBuffer= CDevice::GetInst()->GetCB(CB_TYPE::TRANSFORM);	// Transform 컴포넌트의 상수버퍼를 가져오고
-    	 	pBuffer->SetData(&m_matWorld, sizeof(Matrix));							// 특정 레지스터에 보낸다
-    	 	pBuffer->UpdateData();
-    	 
-    	 }
-
+    void CTransform::UpdateData()
+    {
+    	// 좌표정보가 렌더링되기 직전에 b0레지스터에 보내짐
+    	CConstBuffer* pBuffer= CDevice::GetInst()->GetCB(CB_TYPE::TRANSFORM);	// Transform 컴포넌트의 상수버퍼를 가져오고
+    	pBuffer->SetData(&m_matWorld, sizeof(Matrix));							// 특정 레지스터에 보낸다
+    	pBuffer->UpdateData();
+    
+    }
+	
 헤더
 ===========
         #pragma once
