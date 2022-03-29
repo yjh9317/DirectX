@@ -12,8 +12,10 @@
 #include "CTransform.h"
 #include "CMeshRender.h"
 #include "CPlayerScript.h"
+#include "CCameraMoveScript.h"
 
 #include "CDevice.h"
+#include "CCamera.h"
 
 CSceneMgr::CSceneMgr()
 	: m_pCurScene(nullptr)
@@ -34,13 +36,21 @@ void CSceneMgr::init()
 	m_pCurScene->SetLayerName(1, L"Player");
 	m_pCurScene->SetLayerName(2, L"Monster");
 
+	// Camera Object 추가
+	CGameObject* pCamObj = new CGameObject;
+	pCamObj->AddComponent(new CTransform);
+	pCamObj->AddComponent(new CCamera);
+	pCamObj->AddComponent(new CCameraMoveScript);
+
+	m_pCurScene->AddObject(pCamObj, L"Default");
+
 	// Scene 에 GameObject 추가
 	CGameObject* pObject = new CGameObject;
 
 	pObject->SetName(L"Player");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
-	pObject->AddComponent(new CPlayerScript);		//플레이어를 나타내는 스크립트
+	pObject->AddComponent(new CPlayerScript);
 
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pObject->MeshRender()->SetShader(CResMgr::GetInst()->FindRes<CGraphicsShader>(L"TestShader"));

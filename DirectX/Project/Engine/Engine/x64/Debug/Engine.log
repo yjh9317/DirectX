@@ -10,8 +10,10 @@
       float4x4 g_matWorld;                // Offset:    0, size:   64
   }
   
-  CTransform.cpp
+  CCameraMoveScript.cpp
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
+  .\Project\Engine\Engine\CCamera.h
+  .\Project\Engine\Engine\CCameraMoveScript.h
   .\Project\Engine\Engine\CComponent.h
   .\Project\Engine\Engine\CConstBuffer.h
   .\Project\Engine\Engine\CCore.h
@@ -36,8 +38,9 @@
   .\Project\Engine\Engine\define.h
   .\Project\Engine\Engine\func.h
   .\Project\Engine\Engine\global.h
+  .\Project\Engine\Engine\resource.h
   .\Project\Engine\Engine\SimpleMath.h
   .\Project\Engine\Engine\struct.h
-  26개 파일이 복사되었습니다.
+  29개 파일이 복사되었습니다.
   .\Project\Engine\Engine\test.fx
   1개 파일이 복사되었습니다.

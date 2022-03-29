@@ -65,13 +65,13 @@
       <Filter>Engine\05. Component\01. Transform</Filter>
     </ClInclude>
     <ClInclude Include="CMeshRender.h">
-      <Filter>Engine\05. Component\07. MeshRender</Filter>
+      <Filter>Engine\05. Component\08. MeshRender</Filter>
     </ClInclude>
     <ClInclude Include="CComponent.h">
       <Filter>Engine\05. Component</Filter>
     </ClInclude>
     <ClInclude Include="CScript.h">
-      <Filter>Engine\05. Component\12.Script</Filter>
+      <Filter>Engine\05. Component\13. Script</Filter>
     </ClInclude>
     <ClInclude Include="CPlayerScript.h">
       <Filter>Engine\Scripts\PlayerScript</Filter>
@@ -84,6 +84,12 @@
     </ClInclude>
     <ClInclude Include="CScene.h">
       <Filter>Engine\06. Scene\01.Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CCamera.h">
+      <Filter>Engine\05. Component\02. Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraMoveScript.h">
+      <Filter>Engine\Scripts\CameraMoveScript</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -142,10 +148,10 @@
       <Filter>Engine\05. Component</Filter>
     </ClCompile>
     <ClCompile Include="CMeshRender.cpp">
-      <Filter>Engine\05. Component\07. MeshRender</Filter>
+      <Filter>Engine\05. Component\08. MeshRender</Filter>
     </ClCompile>
     <ClCompile Include="CScript.cpp">
-      <Filter>Engine\05. Component\12.Script</Filter>
+      <Filter>Engine\05. Component\13. Script</Filter>
     </ClCompile>
     <ClCompile Include="CPlayerScript.cpp">
       <Filter>Engine\Scripts\PlayerScript</Filter>
@@ -158,6 +164,12 @@
     </ClCompile>
     <ClCompile Include="CScene.cpp">
       <Filter>Engine\06. Scene\01.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CCamera.cpp">
+      <Filter>Engine\05. Component\02. Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraMoveScript.cpp">
+      <Filter>Engine\Scripts\CameraMoveScript</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -242,39 +254,6 @@
     <Filter Include="Engine\05. Component\01. Transform">
       <UniqueIdentifier>{f6a14c24-6747-4048-b915-f3ce37358b5b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\05. Component\02. Collider2D">
-      <UniqueIdentifier>{a7d51da1-ef1c-46e3-ab6c-9ae83f1d5b41}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\05. Component\03. Collider3D">
-      <UniqueIdentifier>{ba1e0b9b-9789-41ee-a598-4711c58e2661}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\05. Component\04. Animator2D">
-      <UniqueIdentifier>{e24bd671-f0c4-4fbb-844e-7fd962f81092}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\05. Component\05. Animator3D">
-      <UniqueIdentifier>{0e60b10a-7836-4e88-9e8a-5e4390b7bd86}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\05. Component\06. BoundingBox">
-      <UniqueIdentifier>{284ff44f-60b1-4d3d-968b-842566f2d590}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\05. Component\07. MeshRender">
-      <UniqueIdentifier>{469120db-5726-457f-87d4-5d319fd89ab3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\05. Component\08. TileMap">
-      <UniqueIdentifier>{894a0959-c823-4fa9-b7be-3028e6f0b743}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\05. Component\09. ParticleSystem">
-      <UniqueIdentifier>{a4d9dc3d-d0d2-4b62-a3bf-d9a5cbc43065}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\05. Component\12.Script">
-      <UniqueIdentifier>{9326288f-cfde-4b16-8c13-85c69f058ab5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\05. Component\11. LandScape">
-      <UniqueIdentifier>{e023f04b-4e66-49fa-a6b3-a5fb70fb7401}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\05. Component\10. Decal">
-      <UniqueIdentifier>{bcdbaacc-5832-4dc9-95e1-52b9b5ed12aa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Scripts">
       <UniqueIdentifier>{c16b0346-81d0-431a-9516-3bf8fddc2e27}</UniqueIdentifier>
     </Filter>
@@ -295,6 +274,45 @@
     </Filter>
     <Filter Include="Engine\06. Scene\02. Layer">
       <UniqueIdentifier>{82587d02-3bcf-4708-8c72-8c9bd9253b92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component\02. Camera">
+      <UniqueIdentifier>{bd8ea3ce-6a69-4b37-9f39-1c1ddfdced13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component\03. Collider2D">
+      <UniqueIdentifier>{a7d51da1-ef1c-46e3-ab6c-9ae83f1d5b41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component\04. Collider3D">
+      <UniqueIdentifier>{ba1e0b9b-9789-41ee-a598-4711c58e2661}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component\05. Animator2D">
+      <UniqueIdentifier>{e24bd671-f0c4-4fbb-844e-7fd962f81092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component\06. Animator3D">
+      <UniqueIdentifier>{0e60b10a-7836-4e88-9e8a-5e4390b7bd86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component\07. BoundingBox">
+      <UniqueIdentifier>{284ff44f-60b1-4d3d-968b-842566f2d590}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component\08. MeshRender">
+      <UniqueIdentifier>{469120db-5726-457f-87d4-5d319fd89ab3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component\09. TileMap">
+      <UniqueIdentifier>{894a0959-c823-4fa9-b7be-3028e6f0b743}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component\10. ParticleSystem">
+      <UniqueIdentifier>{a4d9dc3d-d0d2-4b62-a3bf-d9a5cbc43065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component\11. Decal">
+      <UniqueIdentifier>{bcdbaacc-5832-4dc9-95e1-52b9b5ed12aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component\12. LandScape">
+      <UniqueIdentifier>{e023f04b-4e66-49fa-a6b3-a5fb70fb7401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component\13. Script">
+      <UniqueIdentifier>{9326288f-cfde-4b16-8c13-85c69f058ab5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scripts\CameraMoveScript">
+      <UniqueIdentifier>{6af18667-800d-4ec7-b3ae-ffc61bfdb8d3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

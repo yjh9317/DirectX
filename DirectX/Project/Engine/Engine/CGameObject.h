@@ -6,7 +6,8 @@
 
 
 class CComponent;   //서로의 헤더에서 #include를 서로 참조하면 오류가 생긴다, 그래서 한쪽은 전방선언으로해야된다.
-
+class CTransform;
+class CMeshRender;
 
 class CGameObject : //오브젝트는 컴포넌트 기반으로 실행
     public CEntity

@@ -64,6 +64,8 @@ enum class COMPONENT_TYPE
 {
 	TRANSFORM,		// 위치 ,크기 , 회전 (Location)
 
+	CAMERA,			//	화면을 찍는 카메라 역할
+
 	COLLIDER2D,		// 2D 충돌체
 	COLLIDER3D,		// 3D 충돌체
 
