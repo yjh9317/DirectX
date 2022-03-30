@@ -7,14 +7,13 @@
 #include "CTransform.h"
 
 CCameraMoveScript::CCameraMoveScript()
-	:m_fCamSpeed(1.f)
+	: m_fCamSpeed(200.f)
 {
 }
 
 CCameraMoveScript::~CCameraMoveScript()
 {
 }
-
 
 void CCameraMoveScript::update()
 {

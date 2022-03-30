@@ -8,7 +8,6 @@
 #include "CResMgr.h"
 #include "CSceneMgr.h"
 
-
 CCore::CCore()
 	: m_hWnd(nullptr)
 	, m_ptResolution{}
@@ -41,8 +40,6 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 	CTimeMgr::GetInst()->init();
 	CResMgr::GetInst()->init();
 	CSceneMgr::GetInst()->init();
-	
-
 
 
 	return S_OK;
@@ -53,11 +50,9 @@ void CCore::progress()
 	CTimeMgr::GetInst()->update();
 	CKeyMgr::GetInst()->update();
 
-
-	//Scene Update
+	// Scene Update
 	CSceneMgr::GetInst()->progress();
 
-	//Scene Render
+	// Scene Render
 	CSceneMgr::GetInst()->render();
-
 }

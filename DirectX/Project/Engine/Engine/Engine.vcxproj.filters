@@ -91,6 +91,12 @@
     <ClInclude Include="CCameraMoveScript.h">
       <Filter>Engine\Scripts\CameraMoveScript</Filter>
     </ClInclude>
+    <ClInclude Include="extern.h">
+      <Filter>Engine\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CMaterial.h">
+      <Filter>Engine\07. Resource\01. Material</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -170,6 +176,12 @@
     </ClCompile>
     <ClCompile Include="CCameraMoveScript.cpp">
       <Filter>Engine\Scripts\CameraMoveScript</Filter>
+    </ClCompile>
+    <ClCompile Include="extern.cpp">
+      <Filter>Engine\01. Header</Filter>
+    </ClCompile>
+    <ClCompile Include="CMaterial.cpp">
+      <Filter>Engine\07. Resource\01. Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

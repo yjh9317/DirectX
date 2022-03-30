@@ -1,12 +1,13 @@
 #pragma once
 
+#include "CMaterial.h"
 #include "CMesh.h"
-// #include "CTexture.h"
+//#include "CTexture.h"
 #include "CGraphicsShader.h"
-// #include "CComputeShader.h"
-// #include "CSound.h"
-// #include "CMaterial.h"
-// #include "CMeshData.h"
+//#include "CComputeShader.h"
+//#include "CSound.h"
+
+//#include "CMeshData.h"
 
 
 class CResMgr
@@ -50,8 +51,8 @@ inline RES_TYPE CResMgr::GetResType()
 		return RES_TYPE::MESH;
 	else if (info.hash_code() == typeid(CGraphicsShader).hash_code())
 		return RES_TYPE::GRAPHICS_SHADER;
-	//else if (info.hash_code() == typeid(CMesh).hash_code())
-	//	return RES_TYPE::MESH;
+	else if (info.hash_code() == typeid(CMaterial).hash_code())
+		return RES_TYPE::MATERIAL;
 	//else if (info.hash_code() == typeid(CMesh).hash_code())
 	//	return RES_TYPE::MESH;
 	//else if (info.hash_code() == typeid(CMesh).hash_code())

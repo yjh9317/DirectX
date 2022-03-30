@@ -101,6 +101,11 @@ void CGraphicsShader::UpdateData()
 	CONTEXT->RSSetState(CDevice::GetInst()->GetRS(m_eRSType).Get());//래스터라이저 스테이트 설정
 }
 
+void CGraphicsShader::AddParamInfo(const wstring& _strDesc, SCALAR_PARAM _eParamType)
+{
+	m_vecParamInfo.push_back(tParamInfo{ _strDesc,_eParamType});
+}
+
 
 void CGraphicsShader::AddInputLayout(D3D11_INPUT_ELEMENT_DESC _desc)
 {

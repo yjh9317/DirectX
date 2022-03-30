@@ -279,7 +279,10 @@ int CDevice::CreateConstBuffer()
 {
 
 	m_arrCB[(UINT)CB_TYPE::TRANSFORM] = new CConstBuffer(CB_TYPE::TRANSFORM);
-	m_arrCB[(UINT)CB_TYPE::TRANSFORM]->Create(sizeof(Matrix));
+	m_arrCB[(UINT)CB_TYPE::TRANSFORM]->Create(sizeof(tTransform));
+
+	m_arrCB[(UINT)CB_TYPE::SCALAR_PARAM] = new CConstBuffer(CB_TYPE::SCALAR_PARAM);
+	m_arrCB[(UINT)CB_TYPE::SCALAR_PARAM]->Create(sizeof(tScalarParam));
 
 	return S_OK;
 }

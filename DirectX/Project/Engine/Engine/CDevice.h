@@ -23,19 +23,23 @@ private:
 	D3D11_VIEWPORT					m_tViewPort;
 	DXGI_SWAP_CHAIN_DESC			m_tSwapChainDesc;
 
-	ComPtr<ID3D11RasterizerState>	m_arrRS[(UINT)RS_TYPE::END];			//Rasterizer를 조작하기위한 변수 
+
+
+	ComPtr<ID3D11RasterizerState>	m_arrRS[(UINT)RS_TYPE::END];
 	CConstBuffer*					m_arrCB[(UINT)CB_TYPE::END];
 
 public:
 	int init(HWND _hWnd, Vec2 _vRenderResolution);
 
-	void Present(){ m_pSwapChain->Present(0, 0); }
+	void Present() { m_pSwapChain->Present(0, 0); }
 	void ClearTarget();
+
+	Vec2 GetRenderResolution() { return m_vRenderResolution; }
 
 	ComPtr<ID3D11Device> GetDevice() { return m_pDevice; }
 	ComPtr<ID3D11DeviceContext> GetDeviceContext() { return m_pDeviceContext; }
 
-	ComPtr<ID3D11RasterizerState>	GetRS(RS_TYPE _eType) { return m_arrRS[(UINT)_eType]; }
+	ComPtr<ID3D11RasterizerState> GetRS(RS_TYPE _eType) { return m_arrRS[(UINT)_eType]; }
 	CConstBuffer* GetCB(CB_TYPE _eType) { return m_arrCB[(UINT)_eType]; }
 
 private:
@@ -43,6 +47,5 @@ private:
 	int CreateView();
 	int CreateRasterizerState();
 	int CreateConstBuffer();
-
 };
 

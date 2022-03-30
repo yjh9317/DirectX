@@ -35,26 +35,27 @@ void CResMgr::CreateEngineMesh()
 	v.vColor = Vec4(1.f, 0.2f, 0.2f, 1.f);
 	vecVtx.push_back(v);
 
-	vecIdx.push_back(0);
-	vecIdx.push_back(2);
-	vecIdx.push_back(3);
-
-	vecIdx.push_back(0);
-	vecIdx.push_back(1);
-	vecIdx.push_back(2);
+	vecIdx.push_back(0); vecIdx.push_back(2); vecIdx.push_back(3);
+	vecIdx.push_back(0); vecIdx.push_back(1); vecIdx.push_back(2);
 
 	pMesh = new CMesh;
-	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(),vecIdx.data(), (UINT)vecIdx.size());
-	
-
+	pMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
 	AddRes<CMesh>(L"RectMesh", pMesh);
+	vecVtx.clear(); vecIdx.clear();
 
-	vecVtx.clear();
-	vecIdx.clear();
+	// CircleMesh
 
-	
-};
 
+	// Cube
+
+	// Sphere
+
+	// Cylinder
+
+	// Frustum
+
+
+}
 
 void CResMgr::CreateEngineTexture()
 {
@@ -64,21 +65,28 @@ void CResMgr::CreateEngineShader()
 {
 	MakeInputLayoutInfo();
 
-	
 	CGraphicsShader* pShader = nullptr;
 
-	// Test Shader
+	// TestShader
 	pShader = new CGraphicsShader;
 	pShader->CreateVertexShader(L"shader\\test.fx", "VS_Test");
 	pShader->CreatePixelShader(L"shader\\test.fx", "PS_Test");
-	
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+
+	pShader->AddParamInfo(L"IsColorRed", SCALAR_PARAM::INT_0);
+
 	AddRes<CGraphicsShader>(L"TestShader", pShader);
-
-
 }
 
 void CResMgr::CreateEngineMaterial()
 {
+	CMaterial* pMtrl = nullptr;
+
+	// TestMtrl »ý¼º
+	pMtrl = new CMaterial;
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"TestShader"));
+
+	AddRes<CMaterial>(L"TestMtrl", pMtrl);
 }
 
 

@@ -1,24 +1,26 @@
 #pragma once
 #include "CComponent.h"
 
+class CMesh;
+class CMaterial;
+
 class CMeshRender :
     public CComponent
 {
 private:
-    class CMesh*             m_pMesh;
-    class CGraphicsShader*   m_pShader;
-    
+    CMesh* m_pMesh;
+    CMaterial* m_pMtrl;
+
 public:
     void SetMesh(CMesh* _pMesh) { m_pMesh = _pMesh; }
-    void SetShader(CGraphicsShader* _pShader) { m_pShader = _pShader; }
+    void SetMaterial(CMaterial* _pMtrl) { m_pMtrl = _pMtrl; }
 
     CMesh* GetMesh() { return m_pMesh; }
-    CGraphicsShader* GetShader() { return m_pShader; }
+    CMaterial* GetMaterial() { return m_pMtrl; }
 
 public:
     virtual void finalupdate() override;
     virtual void render() override;
-
 
 public:
     CMeshRender();

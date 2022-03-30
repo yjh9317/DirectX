@@ -5,17 +5,16 @@
 #include "CMesh.h"
 #include "CGraphicsShader.h"
 
+#include "CDevice.h"
 
 #include "CScene.h"
 #include "CLayer.h"
 #include "CGameObject.h"
 #include "CTransform.h"
 #include "CMeshRender.h"
+#include "CCamera.h"
 #include "CPlayerScript.h"
 #include "CCameraMoveScript.h"
-
-#include "CDevice.h"
-#include "CCamera.h"
 
 CSceneMgr::CSceneMgr()
 	: m_pCurScene(nullptr)
@@ -52,8 +51,15 @@ void CSceneMgr::init()
 	pObject->AddComponent(new CMeshRender);
 	pObject->AddComponent(new CPlayerScript);
 
+	pObject->Transform()->SetScale(Vec3(100.f, 100.f, 1.f));
+
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pObject->MeshRender()->SetShader(CResMgr::GetInst()->FindRes<CGraphicsShader>(L"TestShader"));
+	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
+
+
+	int a = 0;
+	//pObject->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_0, &a);
+	pObject->MeshRender()->GetMaterial()->SetScalarParam(L"IsColorRed", &a);
 
 
 	m_pCurScene->AddObject(pObject, L"Default"); //현재 씬에 pObject를 Default 레이어에 추가
