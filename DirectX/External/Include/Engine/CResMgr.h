@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Ptr.h"
+
 #include "CMaterial.h"
 #include "CMesh.h"
 //#include "CTexture.h"
@@ -31,7 +33,7 @@ public:
 	RES_TYPE GetResType();
 
 	template<typename type>
-	type* FindRes(const wstring& _strKey);
+	Ptr<type> FindRes(const wstring& _strKey);
 
 	template<typename type>	// 리소스마다 각자 맵이 다르므로 템플릿
 	void AddRes(const wstring& _strKey,type* _pRes);
@@ -40,7 +42,7 @@ public:
 
 
 template<typename type>
-inline RES_TYPE CResMgr::GetResType()
+RES_TYPE CResMgr::GetResType()
 {
 	const type_info& info = typeid(type);	//타입의 정보를 알아 낼 수 있다
 
@@ -63,7 +65,7 @@ inline RES_TYPE CResMgr::GetResType()
 }
 
 template<typename type>
-type* CResMgr::FindRes(const wstring& _strKey)
+Ptr<type> CResMgr::FindRes(const wstring& _strKey)
 {
 	RES_TYPE eType = GetResType<type>();
 
@@ -81,7 +83,7 @@ void CResMgr::AddRes(const wstring& _strKey, type* _pRes)
 {
 	RES_TYPE eType = GetResType<type>();
 
-	CRes* pRes = FindRes<type>(_strKey);
+	Ptr<type> pRes = FindRes<type>(_strKey);
 
 	assert(nullptr == pRes); //null이 아니면 이미 있다는거 이므로 어설트
 

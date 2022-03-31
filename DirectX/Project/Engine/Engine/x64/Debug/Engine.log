@@ -36,7 +36,19 @@
       float4x4 g_mat_3;                   // Offset:  320, size:   64
   }
   
+  CCore.cpp
+  CGameObject.cpp
+  CGraphicsShader.cpp
+  CMaterial.cpp
+  CMesh.cpp
+  CMeshRender.cpp
+  CRes.cpp
+  CResMgr.cpp
+  CResMgr_init.cpp
   CSceneMgr.cpp
+  CShader.cpp
+  CTexture.cpp
+  코드를 생성하고 있습니다...
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
   .\Project\Engine\Engine\CCamera.h
   .\Project\Engine\Engine\CCameraMoveScript.h
@@ -60,15 +72,17 @@
   .\Project\Engine\Engine\CSceneMgr.h
   .\Project\Engine\Engine\CScript.h
   .\Project\Engine\Engine\CShader.h
+  .\Project\Engine\Engine\CTexture.h
   .\Project\Engine\Engine\CTimeMgr.h
   .\Project\Engine\Engine\CTransform.h
   .\Project\Engine\Engine\define.h
   .\Project\Engine\Engine\extern.h
   .\Project\Engine\Engine\func.h
   .\Project\Engine\Engine\global.h
+  .\Project\Engine\Engine\Ptr.h
   .\Project\Engine\Engine\resource.h
   .\Project\Engine\Engine\SimpleMath.h
   .\Project\Engine\Engine\struct.h
-  31개 파일이 복사되었습니다.
+  33개 파일이 복사되었습니다.
   .\Project\Engine\Engine\test.fx
   1개 파일이 복사되었습니다.

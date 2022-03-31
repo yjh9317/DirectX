@@ -97,6 +97,12 @@
     <ClInclude Include="CMaterial.h">
       <Filter>Engine\07. Resource\01. Material</Filter>
     </ClInclude>
+    <ClInclude Include="Ptr.h">
+      <Filter>Engine\07. Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>Engine\07. Resource\04. Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -182,6 +188,9 @@
     </ClCompile>
     <ClCompile Include="CMaterial.cpp">
       <Filter>Engine\07. Resource\01. Material</Filter>
+    </ClCompile>
+    <ClCompile Include="CTexture.cpp">
+      <Filter>Engine\07. Resource\04. Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -39,7 +39,7 @@ void CResMgr::CreateEngineMesh()
 	vecIdx.push_back(0); vecIdx.push_back(1); vecIdx.push_back(2);
 
 	pMesh = new CMesh;
-	pMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
+	pMesh->Create(vecVtx.data(),(UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 	AddRes<CMesh>(L"RectMesh", pMesh);
 	vecVtx.clear(); vecIdx.clear();
 

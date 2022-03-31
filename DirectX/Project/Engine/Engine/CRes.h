@@ -1,5 +1,8 @@
 #pragma once
 #include "CEntity.h"
+
+#include "Ptr.h"
+
 class CRes :
     public CEntity
 {
@@ -10,10 +13,10 @@ private:
     UINT    m_iRefCount;    //리소스가 참조되는 개수
 
 
-public:
+protected:
     void SetKey(const wstring& _strKey) { m_strKey = _strKey; }
     void SetRelativePath(const wstring& _strRelativePath) { m_strRelativePath = _strRelativePath; }
-
+    bool CheckFail(HRESULT _hr);
 
 public:
     const wstring& GetKey() { return m_strKey; }
@@ -32,5 +35,8 @@ public:
     virtual ~CRes();
 
     friend class CResMgr;
+
+    template<typename T>
+    friend class Ptr;  
 };
 

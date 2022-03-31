@@ -28,7 +28,7 @@ void CMaterial::UpdateData()
 	}
 }
 
-void CMaterial::SetShader(CGraphicsShader* _pShader)
+void CMaterial::SetShader(Ptr<CGraphicsShader> _pShader)
 {
 	m_pShader = _pShader;
 

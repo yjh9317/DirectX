@@ -9,13 +9,13 @@ class CMaterial :
 {
 private:
     tScalarParam            m_Param;
-    CGraphicsShader*        m_pShader;
+    Ptr<CGraphicsShader>        m_pShader;
 
     vector<tParamInfo>      m_vecParamInfo;
 
 public:
-    void SetShader(CGraphicsShader* _pShader);
-    CGraphicsShader* GetShader() { return m_pShader; }
+    void SetShader(Ptr<CGraphicsShader> _pShader);
+    Ptr<CGraphicsShader> GetShader() { return m_pShader; }
 
     void SetScalarParam(SCALAR_PARAM _eType,void* _pData);  // 상수버퍼에 추가적인 인자 전달
     void SetScalarParam(const wstring& _strParamName, void* _pData);

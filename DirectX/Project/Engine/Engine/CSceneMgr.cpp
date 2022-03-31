@@ -6,6 +6,7 @@
 #include "CGraphicsShader.h"
 
 #include "CDevice.h"
+#include "CPathMgr.h"
 
 #include "CScene.h"
 #include "CLayer.h"
@@ -15,6 +16,8 @@
 #include "CCamera.h"
 #include "CPlayerScript.h"
 #include "CCameraMoveScript.h"
+
+#include "CTexture.h"
 
 CSceneMgr::CSceneMgr()
 	: m_pCurScene(nullptr)
@@ -34,6 +37,13 @@ void CSceneMgr::init()
 	m_pCurScene->SetLayerName(0, L"Default");		//특정 레이어 네이밍
 	m_pCurScene->SetLayerName(1, L"Player");
 	m_pCurScene->SetLayerName(2, L"Monster");
+
+	// Texture 한장 로딩하기
+	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
+	Ptr<CTexture> tex = new CTexture;
+	tex->Load(strContentPath + L"texture\\Player.bmp");
+
+	delete tex.Get();
 
 	// Camera Object 추가
 	CGameObject* pCamObj = new CGameObject;
