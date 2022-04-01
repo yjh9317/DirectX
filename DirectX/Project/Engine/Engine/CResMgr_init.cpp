@@ -19,20 +19,27 @@ void CResMgr::CreateEngineMesh()
 	Vtx v;
 
 	// RectMesh
+	// 0 ---- 1
+	// |  \   | 
+	// 3 ---- 2 
 	v.vPos = Vec3(-0.5f, 0.5f, 0.f);
 	v.vColor = Vec4(1.f, 0.2f, 0.2f, 1.f);
+	v.vUV = Vec2(0.f, 0.f);
 	vecVtx.push_back(v);
 
 	v.vPos = Vec3(0.5f, 0.5f, 0.f);
 	v.vColor = Vec4(0.2f, 1.f, 0.2f, 1.f);
+	v.vUV = Vec2(1.f, 0.f);
 	vecVtx.push_back(v);
 
 	v.vPos = Vec3(0.5f, -0.5f, 0.f);
 	v.vColor = Vec4(0.2f, 0.2f, 1.f, 1.f);
+	v.vUV = Vec2(1.f, 1.f);
 	vecVtx.push_back(v);
 
 	v.vPos = Vec3(-0.5f, -0.5f, 0.f);
 	v.vColor = Vec4(1.f, 0.2f, 0.2f, 1.f);
+	v.vUV = Vec2(0.f, 1.f);
 	vecVtx.push_back(v);
 
 	vecIdx.push_back(0); vecIdx.push_back(2); vecIdx.push_back(3);
@@ -73,7 +80,7 @@ void CResMgr::CreateEngineShader()
 	pShader->CreatePixelShader(L"shader\\test.fx", "PS_Test");
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 
-	pShader->AddParamInfo(L"IsColorRed", SCALAR_PARAM::INT_0);
+	pShader->AddScalarParamInfo(L"IsColorRed", SCALAR_PARAM::INT_0);
 
 	AddRes<CGraphicsShader>(L"TestShader", pShader);
 }
@@ -114,6 +121,16 @@ void CResMgr::MakeInputLayoutInfo()
 	tInputDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	tInputDesc.AlignedByteOffset = iOffset;
 	iOffset += 16;
+
+	CGraphicsShader::AddInputLayout(tInputDesc);
+
+	tInputDesc.SemanticName = "TEXCOORD";
+	tInputDesc.SemanticIndex = 0;
+	tInputDesc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+	tInputDesc.InstanceDataStepRate = 0;
+	tInputDesc.Format = DXGI_FORMAT_R32G32_FLOAT;
+	tInputDesc.AlignedByteOffset = iOffset;
+	iOffset += 8;
 
 	CGraphicsShader::AddInputLayout(tInputDesc);
 

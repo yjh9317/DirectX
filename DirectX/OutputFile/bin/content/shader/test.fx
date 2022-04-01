@@ -43,17 +43,37 @@ cbuffer SCALAR_PARAM : register(b1) //Material의 상수 레지스터
     matrix g_mat_3;
 }
 
+
+Texture2D g_tex_0 : register(t0);   
+Texture2D g_tex_1 : register(t1);
+Texture2D g_tex_2 : register(t2);
+Texture2D g_tex_3 : register(t3);
+
+TextureCube g_texcube_0 : register(t4);
+TextureCube g_texcube_1 : register(t5);
+
+Texture2DArray g_texarr_0 : register(t6);
+Texture2DArray g_texarr_1 : register(t7);
+
+
+SamplerState g_sam_0 : register(s0);    // Anisotropic Filter 이방성 필터
+SamplerState g_sam_1 : register(s1);    // Point Filter       2D에서 많이쓰이는 필터
+
+
+
 // Vertex Shader
 struct VTX_IN
 {
-    float3 vPos : POSITION; // semantic    
+    float3 vPos : POSITION; // semantic : 인풋레이아웃 작성해야된다.   
     float4 vColor : COLOR;
+    float2 vUV : TEXCOORD;
 };
 
 struct VTX_OUT
 {
     float4 vPosition : SV_Position;
     float4 vColor : COLOR;
+    float2 vUV : TEXCOORD;
 };
 
 VTX_OUT VS_Test(VTX_IN _in)
@@ -71,6 +91,7 @@ VTX_OUT VS_Test(VTX_IN _in)
         
     output.vPosition = vProjPos;
     output.vColor = _in.vColor;
+    output.vUV = _in.vUV;
     
     return output;
 }
@@ -85,17 +106,15 @@ float4 PS_Test(VTX_OUT _in) : SV_Target
     
     //vOutColor = _in.vColor;
     
-    if (g_int_0)
-        vOutColor = float4(1.f, 0.f, 0.f, 1.f);
-    else
-        vOutColor = float4(0.f, 0.f, 1.f, 1.f);
+    //if (g_int_0)
+    //    vOutColor = float4(1.f, 0.f, 0.f, 1.f);
+    //else
+    //    vOutColor = float4(0.f, 0.f, 1.f, 1.f);
     
+    vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);  //샘플하는데 샘플러 스테이트가 필요
+
     return vOutColor;
 }
-
-
-
-
 
 
 

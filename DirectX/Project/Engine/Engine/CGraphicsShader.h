@@ -2,14 +2,17 @@
 #include "CShader.h"
 
 
-struct tParamInfo // Scalar Param
+struct tScalarParamInfo // Scalar Param
 {
     wstring         strDesc;
     SCALAR_PARAM    eScalarParam;
 };
 
-
-
+struct tTexParamInfo
+{
+    wstring      strDesc;
+    TEX_PARAM    eTexParam;
+};
 
 class CGraphicsShader :
     public CShader
@@ -41,7 +44,8 @@ private:
     ComPtr<ID3D11InputLayout>       m_InputLayout; //정점의 내부 구조
     D3D11_PRIMITIVE_TOPOLOGY        m_eTopology;   //정점으로 만들 도형
 
-    vector<tParamInfo>              m_vecParamInfo;
+    vector<tScalarParamInfo>              m_vecScalarParamInfo;
+    vector<tTexParamInfo>                 m_vecTexParamInfo;
 
 
 public:
@@ -59,8 +63,11 @@ public:
 
 
 public:
-    void AddParamInfo(const wstring& _strDesc, SCALAR_PARAM _eParamType);
-    const vector<tParamInfo>& GetParamInfo() { return m_vecParamInfo; }
+    void AddScalarParamInfo(const wstring& _strDesc, SCALAR_PARAM _eParamType);
+    void AddTexParamInfo(const wstring& _strDesc, TEX_PARAM _eParamType);
+
+    const vector<tScalarParamInfo>& GetScalarParamInfo() { return m_vecScalarParamInfo; }
+    const vector<tTexParamInfo>& GetTexParamInfo() { return m_vecTexParamInfo; }
 
 public:
     CGraphicsShader();

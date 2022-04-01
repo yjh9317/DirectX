@@ -36,19 +36,25 @@
       float4x4 g_mat_3;                   // Offset:  320, size:   64
   }
   
-  CCore.cpp
-  CGameObject.cpp
-  CGraphicsShader.cpp
+  //
+  // 10 local object(s)
+  //
+  Texture2D g_tex_0;
+  Texture2D g_tex_1;
+  Texture2D g_tex_2;
+  Texture2D g_tex_3;
+  TextureCube g_texcube_0;
+  TextureCube g_texcube_1;
+  Texture2DArray g_texarr_0;
+  Texture2DArray g_texarr_1;
+  SamplerState g_sam_0
+  {
+  };
+  SamplerState g_sam_1
+  {
+  };
+  
   CMaterial.cpp
-  CMesh.cpp
-  CMeshRender.cpp
-  CRes.cpp
-  CResMgr.cpp
-  CResMgr_init.cpp
-  CSceneMgr.cpp
-  CShader.cpp
-  CTexture.cpp
-  코드를 생성하고 있습니다...
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
   .\Project\Engine\Engine\CCamera.h
   .\Project\Engine\Engine\CCameraMoveScript.h

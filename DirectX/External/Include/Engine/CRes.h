@@ -22,7 +22,7 @@ public:
     const wstring& GetKey() { return m_strKey; }
     const wstring& GetRelativePath() { return m_strRelativePath; }
 
-public:
+protected:
     virtual int Load(const wstring& _strFilePath) = 0;
     
 

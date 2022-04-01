@@ -117,3 +117,32 @@ enum class SCALAR_PARAM	//Material의 추가 요소
 
 	END,
 };
+
+enum class TEX_PARAM // Materail를 통해 전달할 텍스쳐 파라미터
+{
+	TEX_0,
+	TEX_1,
+	TEX_2,
+	TEX_3,
+
+	TEX_CUBE_0,
+	TEX_CUBE_1,
+
+	TEX_ARR_0,
+	TEX_ARR_1,
+
+	END,
+};
+
+enum class PIPELINE_STAGE	//렌더링 파이프라인 enum class
+{
+	// 비트로 설정
+	VS = 0x01,	
+	HS = 0x02,
+	DS = 0x04,
+	GS = 0x08,
+	PS = 0x10,
+
+	NO_PS = VS | HS | DS | GS,
+	ALL = VS | HS | DS | GS | PS,
+};

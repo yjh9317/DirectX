@@ -11,7 +11,7 @@ private:
     tScalarParam            m_Param;
     Ptr<CGraphicsShader>        m_pShader;
 
-    vector<tParamInfo>      m_vecParamInfo;
+    vector<tScalarParamInfo>      m_vecParamInfo;
 
 public:
     void SetShader(Ptr<CGraphicsShader> _pShader);

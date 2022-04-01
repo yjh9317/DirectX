@@ -39,11 +39,11 @@ void CSceneMgr::init()
 	m_pCurScene->SetLayerName(2, L"Monster");
 
 	// Texture 한장 로딩하기
-	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
-	Ptr<CTexture> tex = new CTexture;
-	tex->Load(strContentPath + L"texture\\Player.bmp");
+	CResMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Player.bmp");
+	Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"PlayerTexture");
 
-	delete tex.Get();
+	// 텍스쳐를 렌더링 파이프라인 PixelShader 단계 때 t0 레지스터에 바인딩 시켜 둠.
+	pTex->UpdateData((int)PIPELINE_STAGE::PS,0);
 
 	// Camera Object 추가
 	CGameObject* pCamObj = new CGameObject;
@@ -61,16 +61,15 @@ void CSceneMgr::init()
 	pObject->AddComponent(new CMeshRender);
 	pObject->AddComponent(new CPlayerScript);
 
-	pObject->Transform()->SetScale(Vec3(100.f, 100.f, 1.f));
+	pObject->Transform()->SetScale(Vec3(400.f, 400.f, 1.f));
 
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
 
 
 	int a = 0;
-	//pObject->MeshRender()->GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_0, &a);
 	pObject->MeshRender()->GetMaterial()->SetScalarParam(L"IsColorRed", &a);
-
+	pObject->MeshRender()->GetMaterial()->SetTexParam(L"OutputTex", pTex);
 
 	m_pCurScene->AddObject(pObject, L"Default"); //현재 씬에 pObject를 Default 레이어에 추가
 

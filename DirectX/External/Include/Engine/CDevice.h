@@ -23,10 +23,10 @@ private:
 	D3D11_VIEWPORT					m_tViewPort;
 	DXGI_SWAP_CHAIN_DESC			m_tSwapChainDesc;
 
-
-
 	ComPtr<ID3D11RasterizerState>	m_arrRS[(UINT)RS_TYPE::END];
 	CConstBuffer*					m_arrCB[(UINT)CB_TYPE::END];
+
+	ComPtr<ID3D11SamplerState>		m_arrSam[2];
 
 public:
 	int init(HWND _hWnd, Vec2 _vRenderResolution);
@@ -47,5 +47,6 @@ private:
 	int CreateView();
 	int CreateRasterizerState();
 	int CreateConstBuffer();
+	void CreateSamplerState();
 };
 

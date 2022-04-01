@@ -111,6 +111,8 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 		return E_FAIL;
 	}
 
+	CreateSamplerState();
+
 	return S_OK;
 }
 
@@ -285,6 +287,39 @@ int CDevice::CreateConstBuffer()
 	m_arrCB[(UINT)CB_TYPE::SCALAR_PARAM]->Create(sizeof(tScalarParam));
 
 	return S_OK;
+}
+
+void CDevice::CreateSamplerState()
+{
+	D3D11_SAMPLER_DESC tDesc = {};
+
+	// ADDRESS 모드 : uv를 초과할 때 처리하는 방식을 설정
+	tDesc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+	tDesc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+	tDesc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+	tDesc.Filter = D3D11_FILTER::D3D11_FILTER_ANISOTROPIC;		//픽셀의 주변색의 평균치를 내서 찍어냄
+
+	DEVICE->CreateSamplerState(&tDesc, m_arrSam[0].GetAddressOf());
+
+	tDesc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+	tDesc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+	tDesc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+	tDesc.Filter = D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_POINT;	// 맵핑되는 픽셀 색을 그대로 가져온다.
+
+	DEVICE->CreateSamplerState(&tDesc, m_arrSam[1].GetAddressOf());
+
+	CONTEXT->VSSetSamplers(0, 1, m_arrSam[0].GetAddressOf());
+	CONTEXT->HSSetSamplers(0, 1, m_arrSam[0].GetAddressOf());
+	CONTEXT->DSSetSamplers(0, 1, m_arrSam[0].GetAddressOf());
+	CONTEXT->GSSetSamplers(0, 1, m_arrSam[0].GetAddressOf());
+	CONTEXT->PSSetSamplers(0, 1, m_arrSam[0].GetAddressOf());
+
+
+	CONTEXT->VSSetSamplers(0, 1, m_arrSam[1].GetAddressOf());
+	CONTEXT->HSSetSamplers(0, 1, m_arrSam[1].GetAddressOf());
+	CONTEXT->DSSetSamplers(0, 1, m_arrSam[1].GetAddressOf());
+	CONTEXT->GSSetSamplers(0, 1, m_arrSam[1].GetAddressOf());
+	CONTEXT->PSSetSamplers(0, 1, m_arrSam[1].GetAddressOf());
 }
 
 
