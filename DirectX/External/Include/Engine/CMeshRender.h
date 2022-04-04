@@ -22,6 +22,8 @@ public:
     virtual void finalupdate() override;
     virtual void render() override;
 
+    CLONE(CMeshRender)
+
 public:
     CMeshRender();
     ~CMeshRender();

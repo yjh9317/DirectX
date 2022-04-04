@@ -1,5 +1,8 @@
 #pragma once
+
+
 class CCore
+	: public CSingleton<CCore>
 {
 	SINGLE(CCore);
 private:

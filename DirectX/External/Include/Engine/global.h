@@ -41,3 +41,4 @@ using std::wstring;
 #include "struct.h"
 #include "extern.h"
 #include "func.h"
+#include "singleton.h"

@@ -16,6 +16,7 @@ public:
 	virtual void lateupdate() {}
 	virtual void finalupdate() final {}	// 더이상 상속되지 않도록 final
 
+	CScript* Clone() = 0;
 
 public:
 	CScript();

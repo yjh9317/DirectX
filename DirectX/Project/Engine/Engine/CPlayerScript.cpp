@@ -5,6 +5,17 @@
 
 #include "CKeyMgr.h"
 #include "CTimeMgr.h"
+#include "CResMgr.h"
+
+#include "CMesh.h"
+#include "CMaterial.h"
+
+#include "CSceneMgr.h"
+#include "CScene.h"
+#include "CLayer.h"
+
+#include "CMeshRender.h"
+#include "CMissileScript.h"
 
 CPlayerScript::CPlayerScript()
 	:m_fSpeed(0.5f)
@@ -18,8 +29,6 @@ CPlayerScript::~CPlayerScript()
 
 void CPlayerScript::start()
 {
-	Vec3 vPos = Vec3(0.f, 0.f, 0.5f);
-	Transform()->SetPos(vPos);
 }
 
 void CPlayerScript::update()
@@ -48,6 +57,22 @@ void CPlayerScript::update()
 
 	// 축의 범위를 넘어서거나 CULL_BACK인데 반대방향으로 본다면
 	// 보이지 않을 수도 있음.
+
+	if (KEY_TAP(KEY::SPACE))
+	{
+		CGameObject* pMissileObj = new CGameObject;
+		pMissileObj->AddComponent(new CTransform);
+		pMissileObj->AddComponent(new CMeshRender);
+		pMissileObj->AddComponent(new CMissileScript);
+
+		pMissileObj->Transform()->SetPos(Transform()->GetPos() + Vec3(0.f, 50.f, 0.f));
+		pMissileObj->Transform()->SetScale(Vec3(50.f, 50.f, 1.f));
+		pMissileObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh"));
+		pMissileObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
+
+		CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+		pCurScene->AddObject(pMissileObj, 0);
+	}
 
 }
 

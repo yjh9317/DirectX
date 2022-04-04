@@ -89,6 +89,7 @@ struct tKeyInfo
 };
 
 class CKeyMgr
+	:public CSingleton<CKeyMgr>
 {
 	SINGLE(CKeyMgr);
 private:

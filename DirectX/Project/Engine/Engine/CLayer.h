@@ -19,6 +19,8 @@ public:
 public:
     void AddObject(CGameObject* _pObj);     // 오브젝트에 추가
 
+    CLONE(CLayer)
+
 public:
     CLayer();
     ~CLayer();

@@ -15,6 +15,7 @@
 
 
 class CResMgr
+	:public CSingleton<CResMgr>
 {
 	SINGLE(CResMgr);
 private:

@@ -103,6 +103,13 @@
     <ClInclude Include="CTexture.h">
       <Filter>Engine\07. Resource\04. Texture</Filter>
     </ClInclude>
+    <ClInclude Include="CEventMgr.h">
+      <Filter>Engine\03. Manager\08. EventMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="singleton.h">
+      <Filter>Engine\03. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CMissileScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -192,6 +199,10 @@
     <ClCompile Include="CTexture.cpp">
       <Filter>Engine\07. Resource\04. Texture</Filter>
     </ClCompile>
+    <ClCompile Include="CEventMgr.cpp">
+      <Filter>Engine\03. Manager\08. EventMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CMissileScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -334,6 +345,9 @@
     </Filter>
     <Filter Include="Engine\Scripts\CameraMoveScript">
       <UniqueIdentifier>{6af18667-800d-4ec7-b3ae-ffc61bfdb8d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Manager\08. EventMgr">
+      <UniqueIdentifier>{3ef9b15b-bf1f-4c50-a3c0-33f5b291306f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -54,7 +54,7 @@
   {
   };
   
-  CMaterial.cpp
+  CPlayerScript.cpp
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
   .\Project\Engine\Engine\CCamera.h
   .\Project\Engine\Engine\CCameraMoveScript.h
@@ -63,6 +63,7 @@
   .\Project\Engine\Engine\CCore.h
   .\Project\Engine\Engine\CDevice.h
   .\Project\Engine\Engine\CEntity.h
+  .\Project\Engine\Engine\CEventMgr.h
   .\Project\Engine\Engine\CGameObject.h
   .\Project\Engine\Engine\CGraphicsShader.h
   .\Project\Engine\Engine\CKeyMgr.h
@@ -70,6 +71,7 @@
   .\Project\Engine\Engine\CMaterial.h
   .\Project\Engine\Engine\CMesh.h
   .\Project\Engine\Engine\CMeshRender.h
+  .\Project\Engine\Engine\CMissileScript.h
   .\Project\Engine\Engine\CPathMgr.h
   .\Project\Engine\Engine\CPlayerScript.h
   .\Project\Engine\Engine\CRes.h
@@ -88,7 +90,8 @@
   .\Project\Engine\Engine\Ptr.h
   .\Project\Engine\Engine\resource.h
   .\Project\Engine\Engine\SimpleMath.h
+  .\Project\Engine\Engine\singleton.h
   .\Project\Engine\Engine\struct.h
-  33개 파일이 복사되었습니다.
+  36개 파일이 복사되었습니다.
   .\Project\Engine\Engine\test.fx
   1개 파일이 복사되었습니다.

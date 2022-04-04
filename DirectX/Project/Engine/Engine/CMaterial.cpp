@@ -8,6 +8,7 @@
 
 CMaterial::CMaterial()
 	: m_pShader(nullptr)
+	, m_arrTex{}
 {
 }
 
@@ -15,11 +16,20 @@ CMaterial::~CMaterial()
 {
 }
 
+
 void CMaterial::UpdateData()
 {
 	CConstBuffer* pCB = CDevice::GetInst()->GetCB(CB_TYPE::SCALAR_PARAM);
 	pCB->SetData(&m_Param, sizeof(tScalarParam));
 	pCB->UpdateData();
+
+	for (UINT i = 0; i < (UINT)TEX_PARAM::END; ++i)
+	{
+		if (nullptr != m_arrTex[i])
+		{
+			m_arrTex[i]->UpdateData((int)PIPELINE_STAGE::ALL, i);
+		}
+	}
 
 
 	if (nullptr != m_pShader)
@@ -117,5 +127,4 @@ void CMaterial::SetTexParam(const wstring& _strParamName, Ptr<CTexture> _pTex)
 		}
 	}
 }
-
 

@@ -10,6 +10,8 @@ private:
 public:
 	virtual void update() override;
 
+	CLONE(CCameraMoveScript)
+
 public:
 	CCameraMoveScript();
 	~CCameraMoveScript();

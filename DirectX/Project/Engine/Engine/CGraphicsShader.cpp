@@ -65,7 +65,7 @@ int CGraphicsShader::CreatePixelShader(const wstring& _strRelativePath, const st
 {
 	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
 
-	// 버텍스 쉐이더(HLSL) 컴파일
+	// 픽셀 쉐이더(HLSL) 컴파일
 	HRESULT hr = D3DCompileFromFile(wstring(strContentPath + _strRelativePath).c_str(), nullptr
 		, D3D_COMPILE_STANDARD_FILE_INCLUDE, _strFunc.c_str(), "ps_5_0", g_iFlag, 0
 		, m_PSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf());
@@ -76,7 +76,7 @@ int CGraphicsShader::CreatePixelShader(const wstring& _strRelativePath, const st
 		return E_FAIL;
 	}
 
-	// 컴파일 된 코드로 VertexShader 객체 만들기
+	// 컴파일 된 코드로 PixelShader 객체 만들기
 	if (FAILED(DEVICE->CreatePixelShader(m_PSBlob->GetBufferPointer(), m_PSBlob->GetBufferSize()
 		, nullptr, m_PS.GetAddressOf())))
 	{

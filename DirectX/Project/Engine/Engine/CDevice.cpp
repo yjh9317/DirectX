@@ -135,9 +135,9 @@ int CDevice::CreateSwapchain()
 
 	desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; // 렌더 타겟 용도
 	desc.Flags = 0; 
-	desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // 스왑체인인데 백버퍼에 그림을 그리다가 Present함수 호출시켜서 그려놓은 장면을 Front로 바꾸는데
-	//그때부터는 원래 Front가 Back, Back->Front가 되서 화면에 송출,이제 백버퍼가 된 애는 송출하던 장면을 가지고 있는데 그 장면을 보존할것인데
-	//DXGI_SWAP_EFFECT_DISCARD는 보존하지 않고 그 위에 덮어씌운다.
+	desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // 백버퍼와 프론트 버퍼가 서로 바뀌고 화면에 송출했던 그림을 가지고 있는 프론트버퍼의 그림을
+	// 어떻게 처분할지 정한다. DISCARD는 그림을 삭제.
+
 	desc.SampleDesc.Count = 1; 
 	desc.SampleDesc.Quality = 0;
 		

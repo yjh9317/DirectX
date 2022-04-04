@@ -28,6 +28,7 @@ public:
 private:
     int GetLayerIdxFromName(const wstring& _strName); //레이어의 인덱스를 가져온다
 
+    CLONE(CScene)
 
 public:
     CScene();

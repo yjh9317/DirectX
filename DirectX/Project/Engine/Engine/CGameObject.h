@@ -15,6 +15,10 @@ class CGameObject : //오브젝트는 컴포넌트 기반으로 실행
 private:
     CComponent* m_arrCom[(UINT)COMPONENT_TYPE::END];
 
+    bool        m_bActive;  // 활성화 
+    bool        m_bDead;    // 죽음 변수
+
+
 public:
     void start();
     void update();
@@ -28,14 +32,19 @@ public:
     void    AddComponent(CComponent* _component);
     CComponent* GetComponent(COMPONENT_TYPE _eType) { return m_arrCom[(UINT)_eType]; }
 
-  
+
     // 컴포넌트를 매크로형식으로 작성
     GET_COMPONENT(Transform, TRANSFORM)
-    GET_COMPONENT(MeshRender, MESHRENDER)
+        GET_COMPONENT(MeshRender, MESHRENDER)
 
 
 public:
+    
+    CLONE(CGameObject);
+
+public:
     CGameObject();
+    CGameObject(const CGameObject& _origin);
     ~CGameObject();
 };
 

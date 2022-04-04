@@ -25,6 +25,7 @@ public:
 protected:
     virtual int Load(const wstring& _strFilePath) = 0;
     
+    virtual CRes* Clone() { return nullptr; }
 
 private:
     void AddRef() { ++m_iRefCount; }

@@ -18,6 +18,8 @@ public:
 public:
 	virtual void UpdateData() {}	//파이프라인에 전달
 
+	virtual CEntity* Clone() = 0;
+
 public:
 	CEntity();
 	CEntity(const CEntity& _origin);

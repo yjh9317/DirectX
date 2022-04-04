@@ -55,7 +55,6 @@ void CSceneMgr::init()
 
 	// Scene 에 GameObject 추가
 	CGameObject* pObject = new CGameObject;
-
 	pObject->SetName(L"Player");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
@@ -63,15 +62,21 @@ void CSceneMgr::init()
 
 	pObject->Transform()->SetScale(Vec3(400.f, 400.f, 1.f));
 
-	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh"));
 	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
 
 
 	int a = 0;
 	pObject->MeshRender()->GetMaterial()->SetScalarParam(L"IsColorRed", &a);
 	pObject->MeshRender()->GetMaterial()->SetTexParam(L"OutputTex", pTex);
-
 	m_pCurScene->AddObject(pObject, L"Default"); //현재 씬에 pObject를 Default 레이어에 추가
+
+	pObject = pObject->Clone();
+	pObject->SetName(L"Player_Clone");
+	pObject->Transform()->SetPos(pObject->Transform()->GetPos() + Vec3(200.f, 0.f, 0.f));
+	m_pCurScene->AddObject(pObject, L"Default");
+
+
 
 
 	m_pCurScene->start();

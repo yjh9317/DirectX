@@ -1,15 +1,12 @@
 #pragma once
 
 
-#define SINGLE(TYPE) private:\
-	TYPE();\
-	~TYPE();\
-public:\
-	static TYPE* GetInst()\
-	{\
-		static TYPE mgr;\
-		return &mgr;\
-	}
+
+#define SINGLE(TYPE) friend class CSingleton<TYPE>;\
+					 private:\
+						TYPE();\
+						~TYPE();
+
 
 #define DT CTimeMgr::GetInst()->GetDT()
 
@@ -23,6 +20,8 @@ public:\
 #define MAX_LAYER 32
 
 #define SAFE_DELETE(p) if(nullptr != p) delete p; p = nullptr;
+#define CLONE(type) virtual type* Clone() {return new type(*this);}
+#define CLONE_DISABLE(type) virtual type* Clone() { return nullptr; }
 
 
 

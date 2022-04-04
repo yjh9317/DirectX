@@ -3,6 +3,7 @@
 class CConstBuffer;
 
 class CDevice
+	:public CSingleton<CDevice>
 {
 	SINGLE(CDevice);
 private:

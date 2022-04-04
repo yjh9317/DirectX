@@ -20,6 +20,7 @@ public:
 
     void SetData(void* _pData, UINT _iSize);
 
+    virtual CConstBuffer* Clone() { return nullptr; }
 
 public:
     CConstBuffer(CB_TYPE _eType);

@@ -11,7 +11,23 @@
 
 CGameObject::CGameObject()
 	:m_arrCom{}
+	,m_bActive(true)
+	,m_bDead(false)
 {
+}
+
+CGameObject::CGameObject(const CGameObject& _origin)
+	:CEntity(_origin)
+	, m_arrCom{}
+	, m_bActive(true)
+	, m_bDead(false)
+{
+	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
+	{
+		if (nullptr != _origin.m_arrCom[i]) {
+			AddComponent(_origin.m_arrCom[i]->Clone());
+		}
+	}
 }
 
 CGameObject::~CGameObject()
