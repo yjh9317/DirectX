@@ -1,28 +1,35 @@
 #pragma once
 
 
-struct Vertex		//3차원 공간에서 사용할 구조체
+struct tEventInfo
 {
-	Vec3 vPos;		// 정점의 좌표
-	Vec4 vColor;	// 정점의 색상 정보
+	EVENT_TYPE	eType;
+	DWORD_PTR	lParam;
+	DWORD_PTR	wParam;
+};
 
-	Vec2 vUV;		// 텍스터좌표계의 양끝 모서리 좌표
+
+struct Vertex
+{
+	Vec3 vPos;		// 좌표	
+	Vec4 vColor;	// 색상
+
+	Vec2 vUV;
+
 };
 
 typedef Vertex Vtx;
 
 
-// ================
+// ===================
 // 상수버퍼 대응 구조체
-// ================
-
+// ===================
 struct tTransform
 {
 	Matrix matWorld;
 	Matrix matView;
 	Matrix matProj;
 };
-
 
 struct tScalarParam
 {

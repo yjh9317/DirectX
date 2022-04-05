@@ -2,19 +2,17 @@
 #include "CScript.h"
 
 class CCameraMoveScript :
-	public CScript
+    public CScript
 {
 private:
-	float m_fCamSpeed;
+    float   m_fCamSpeed;
 
 public:
-	virtual void update() override;
+    virtual void update() override;
 
-	CLONE(CCameraMoveScript)
-
+    CLONE(CCameraMoveScript)
 public:
-	CCameraMoveScript();
-	~CCameraMoveScript();
-
+    CCameraMoveScript();
+    ~CCameraMoveScript();
 };
 

@@ -5,7 +5,7 @@
 #include "CDevice.h"
 
 #ifdef _DEBUG		// 디버그 모드
-UINT g_iFlag = D3DCOMPILE_DEBUG;	
+UINT g_iFlag = D3DCOMPILE_DEBUG;
 #else				// 디버그 아닐 때
 UINT g_iFlag = 0;
 #endif

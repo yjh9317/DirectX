@@ -13,4 +13,3 @@ CResMgr::~CResMgr()
 		Safe_Del_Map(m_Res[i]);
 	}
 }
-

@@ -4,22 +4,23 @@
 
 #include "CPathMgr.h"
 
+#include "CPrefab.h"
 #include "CMaterial.h"
 #include "CMesh.h"
 #include "CTexture.h"
 #include "CGraphicsShader.h"
 //#include "CComputeShader.h"
 //#include "CSound.h"
-
 //#include "CMeshData.h"
 
 
+
 class CResMgr
-	:public CSingleton<CResMgr>
+	: public CSingleton<CResMgr>
 {
 	SINGLE(CResMgr);
 private:
-	map<wstring, CRes*>			m_Res[(UINT)RES_TYPE::END]; //리소스마다 각자의 맵으로 관리
+	map<wstring, CRes*>		m_Res[(UINT)RES_TYPE::END];
 
 public:
 	void init();
@@ -30,7 +31,7 @@ private:
 	void CreateEngineShader();
 	void CreateEngineMaterial();
 	void MakeInputLayoutInfo();
-	
+
 public:
 	template<typename type>
 	RES_TYPE GetResType();
@@ -41,21 +42,18 @@ public:
 	template<typename type>
 	Ptr<type> FindRes(const wstring& _strKey);
 
-	template<typename type>	// 리소스마다 각자 맵이 다르므로 템플릿
-	void AddRes(const wstring& _strKey,type* _pRes);
-
+	template<typename type>
+	void AddRes(const wstring& _strKey, type* _pRes);
 };
 
-
 template<typename type>
-RES_TYPE CResMgr::GetResType()
+inline RES_TYPE CResMgr::GetResType()
 {
-	const type_info& info = typeid(type);	//타입의 정보를 알아 낼 수 있다
+	const type_info& info = typeid(type);
 
-	//	typeid는  자료형이나 변수 또는 식을 입력받아 const type_info& 형식의 객체를 반환해 주는 연산자
-
-
-	if (info.hash_code() == typeid(CMesh).hash_code())	//타입의 해쉬코드 비교
+	if (info.hash_code() == typeid(CPrefab).hash_code())
+		return RES_TYPE::PREFAB;
+	else if (info.hash_code() == typeid(CMesh).hash_code())
 		return RES_TYPE::MESH;
 	else if (info.hash_code() == typeid(CGraphicsShader).hash_code())
 		return RES_TYPE::GRAPHICS_SHADER;
@@ -65,7 +63,7 @@ RES_TYPE CResMgr::GetResType()
 		return RES_TYPE::TEXTURE;
 	//else if (info.hash_code() == typeid(CMesh).hash_code())
 	//	return RES_TYPE::MESH;
-
+	
 
 	return RES_TYPE::END;
 }
@@ -75,24 +73,24 @@ Ptr<type> CResMgr::Load(const wstring& _strKey, const wstring& _strRelativePath)
 {
 	RES_TYPE eType = GetResType<type>();
 
-	CRes* pRes = FindRes<type>(_strKey).Get();	//이미 중복된 키가 있다면
+	CRes* pRes = FindRes<type>(_strKey).Get();
 	if (nullptr != pRes)
-		return Ptr<type>((type*)pRes);	//반환
-	
+		return Ptr<type>((type*)pRes);
 
 	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
-	wstring strFilePath= strContentPath + _strRelativePath;
+	wstring strFilePath = strContentPath + _strRelativePath;
 
 	pRes = new type;
-	if (FAILED(pRes->Load(strFilePath))) {
-		MessageBox(nullptr,L"리소스 로딩 실패", L"리소스 로딩 오류", MB_OK);
-			return nullptr;
+	if (FAILED(pRes->Load(strFilePath)))
+	{
+		MessageBox(nullptr, L"리소스 로딩 실패", L"리소스 로딩 오류", MB_OK);
+		return nullptr;
 	}
 
 	pRes->SetKey(_strKey);
 	pRes->SetRelativePath(_strRelativePath);
 
-	m_Res[(UINT)eType].insert(make_pair(_strKey,pRes));
+	m_Res[(UINT)eType].insert(make_pair(_strKey, pRes));
 
 	return Ptr<type>((type*)pRes);
 }
@@ -102,11 +100,10 @@ Ptr<type> CResMgr::FindRes(const wstring& _strKey)
 {
 	RES_TYPE eType = GetResType<type>();
 
-	map<wstring,CRes*>::iterator iter=	m_Res[(UINT)eType].find(_strKey);
+	map<wstring, CRes*>::iterator iter = m_Res[(UINT)eType].find(_strKey);
 
 	if (iter == m_Res[(UINT)eType].end())
 		return nullptr;
-
 
 	return (type*)iter->second;
 }
@@ -118,8 +115,7 @@ void CResMgr::AddRes(const wstring& _strKey, type* _pRes)
 
 	Ptr<type> pRes = FindRes<type>(_strKey);
 
-	assert(nullptr == pRes); //null이 아니면 이미 있다는거 이므로 어설트
+	assert(nullptr == pRes);
 
-		
-	m_Res[(UINT)eType].insert(make_pair(_strKey,_pRes));
+	m_Res[(UINT)eType].insert(make_pair(_strKey, _pRes));
 }

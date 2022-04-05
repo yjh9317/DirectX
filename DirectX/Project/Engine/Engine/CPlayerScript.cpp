@@ -1,34 +1,21 @@
 #include "pch.h"
 #include "CPlayerScript.h"
 
-#include "CTransform.h"
-
-#include "CKeyMgr.h"
-#include "CTimeMgr.h"
-#include "CResMgr.h"
-
-#include "CMesh.h"
-#include "CMaterial.h"
-
-#include "CSceneMgr.h"
-#include "CScene.h"
-#include "CLayer.h"
-
-#include "CMeshRender.h"
-#include "CMissileScript.h"
-
 CPlayerScript::CPlayerScript()
-	:m_fSpeed(0.5f)
+	: m_pMissilePrefab(nullptr)
+	, m_fSpeed(0.5f)
 {
+
 }
 
 CPlayerScript::~CPlayerScript()
 {
-}
 
+}
 
 void CPlayerScript::start()
 {
+	m_pMissilePrefab = CResMgr::GetInst()->FindRes<CPrefab>(L"MissilePrefab");
 }
 
 void CPlayerScript::update()
@@ -50,33 +37,25 @@ void CPlayerScript::update()
 	if (KEY_PRESSED(KEY::Z))
 	{
 		Vec3 vRot = Transform()->GetRotation();
-		vRot.z += DT * XM_2PI; // XM_2PI는 3.14
+		vRot.y += DT * XM_2PI;
 		Transform()->SetRotation(vRot);
 	}
 
-
-	// 축의 범위를 넘어서거나 CULL_BACK인데 반대방향으로 본다면
-	// 보이지 않을 수도 있음.
-
 	if (KEY_TAP(KEY::SPACE))
 	{
-		CGameObject* pMissileObj = new CGameObject;
-		pMissileObj->AddComponent(new CTransform);
-		pMissileObj->AddComponent(new CMeshRender);
-		pMissileObj->AddComponent(new CMissileScript);
+		if (nullptr != m_pMissilePrefab)
+		{
+			CGameObject* pMissileObject = m_pMissilePrefab->Instantiate();
 
-		pMissileObj->Transform()->SetPos(Transform()->GetPos() + Vec3(0.f, 50.f, 0.f));
-		pMissileObj->Transform()->SetScale(Vec3(50.f, 50.f, 1.f));
-		pMissileObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh"));
-		pMissileObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
+			Vec3 vMissilePos = Transform()->GetPos();
+			vMissilePos.y += Transform()->GetScale().y / 2.f;
 
-		CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
-		pCurScene->AddObject(pMissileObj, 0);
+			CSceneMgr::GetInst()->SpawnObject(pMissileObject, vMissilePos, L"Missile", 0);
+		}		
 	}
-
 }
 
 void CPlayerScript::lateupdate()
 {
-}
 
+}

@@ -1,32 +1,43 @@
 #include "pch.h"
 #include "CGameObject.h"
 
-
+#include "CSceneMgr.h"
+#include "CScene.h"
+#include "CLayer.h"
+#include "CEventMgr.h"
 
 #include "CComponent.h"
 #include "CTransform.h"
 #include "CMeshRender.h"
 
-
-
 CGameObject::CGameObject()
-	:m_arrCom{}
-	,m_bActive(true)
-	,m_bDead(false)
+	: m_arrCom{}
+	, m_pParent(nullptr)
+	, m_iLayerIdx(-1)
+	, m_bActive(true)
+	, m_bDead(false)
 {
 }
 
 CGameObject::CGameObject(const CGameObject& _origin)
-	:CEntity(_origin)
+	: CEntity(_origin)
 	, m_arrCom{}
+	, m_pParent(nullptr)
+	, m_iLayerIdx(-1)
 	, m_bActive(true)
 	, m_bDead(false)
 {
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
-		if (nullptr != _origin.m_arrCom[i]) {
+		if (nullptr != _origin.m_arrCom[i])
+		{
 			AddComponent(_origin.m_arrCom[i]->Clone());
-		}
+		}		
+	}
+
+	for (size_t i = 0; i < _origin.m_vecChild.size(); ++i)
+	{
+		AddChild(_origin.m_vecChild[i]->Clone());
 	}
 }
 
@@ -37,24 +48,29 @@ CGameObject::~CGameObject()
 
 void CGameObject::start()
 {
-	// 게임이 시작되는 순간에 최초로 호출되는 함수
-	// 게임 중간에 추가되는 오브젝트들은 생성되서 합류하는 시점에서 start를 호출된다
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->start();
 	}
 
+	for (size_t i = 0; i < m_vecChild.size(); ++i)
+	{
+		m_vecChild[i]->start();
+	}
 }
 
 void CGameObject::update()
 {
-
-
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
-		if (nullptr != m_arrCom[i])
+		if(nullptr != m_arrCom[i])
 			m_arrCom[i]->update();
+	}
+
+	for (size_t i = 0; i < m_vecChild.size(); ++i)
+	{
+		m_vecChild[i]->update();
 	}
 }
 
@@ -65,6 +81,11 @@ void CGameObject::lateupdate()
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->lateupdate();
 	}
+
+	for (size_t i = 0; i < m_vecChild.size(); ++i)
+	{
+		m_vecChild[i]->lateupdate();
+	}
 }
 
 void CGameObject::finalupdate()
@@ -74,6 +95,16 @@ void CGameObject::finalupdate()
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->finalupdate();
 	}
+
+	for (size_t i = 0; i < m_vecChild.size(); ++i)
+	{
+		m_vecChild[i]->finalupdate();
+	}
+
+	// Layer 에 등록
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+	CLayer* pLayer = pCurScene->GetLayer(m_iLayerIdx);
+	pLayer->RegisterObject(this);
 }
 
 void CGameObject::render()
@@ -82,13 +113,32 @@ void CGameObject::render()
 		MeshRender()->render();
 }
 
+void CGameObject::AddChild(CGameObject* _pChild)
+{
+	m_vecChild.push_back(_pChild);
+	_pChild->m_pParent = this;
+}
+
 void CGameObject::AddComponent(CComponent* _component)
 {
-	COMPONENT_TYPE eType= _component->GetType();		//컴포넌트의 타입확인후
+	COMPONENT_TYPE eType = _component->GetType();
 
-	assert(nullptr == m_arrCom[(UINT)eType]);	
-	
+	assert(nullptr == m_arrCom[(UINT)eType]);
 
-	m_arrCom[(UINT)eType] = _component;				// 배열에 추가
-	_component->m_pOwner =this;						// 컴포넌트에서 소유주 알림
+	m_arrCom[(UINT)eType] = _component;
+	_component->m_pOwner = this;
 }
+
+void CGameObject::Destroy()
+{	
+	if (m_bDead)
+		return;
+
+	tEventInfo info = {};
+
+	info.eType = EVENT_TYPE::DELETE_OBJ;
+	info.lParam = (DWORD_PTR)this;
+
+	CEventMgr::GetInst()->AddEvent(info);
+}
+

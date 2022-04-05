@@ -3,7 +3,7 @@
 
 
 class CTimeMgr
-	:public CSingleton<CTimeMgr>
+	: public CSingleton<CTimeMgr>
 {
 	SINGLE(CTimeMgr);
 private:

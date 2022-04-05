@@ -34,6 +34,6 @@ void CCamera::finalupdate()
 	g_transform.matView = m_matView;
 	g_transform.matProj = m_matProj;
 
-	
-	
+
+
 }

@@ -1,10 +1,14 @@
 #pragma once
 #include "CScript.h"
-class CPlayerScript :       //플레이어의 스크립트
+
+
+class CPlayerScript :
     public CScript
 {
 private:
-    float m_fSpeed;
+    Ptr<CPrefab>    m_pMissilePrefab;
+    float           m_fSpeed;
+
 
 public:
     virtual void start();

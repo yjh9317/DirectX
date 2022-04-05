@@ -3,33 +3,31 @@
 
 #include "Ptr.h"
 
-class CRes :
+class CRes : 
     public CEntity
 {
 private:
-    wstring m_strKey;
-    wstring m_strRelativePath;
-
-    UINT    m_iRefCount;    //리소스가 참조되는 개수
+    wstring     m_strKey;
+    wstring     m_strRelativePath;
+    UINT        m_iRefCount;   //리소스가 참조되는 개수
 
 
 protected:
     void SetKey(const wstring& _strKey) { m_strKey = _strKey; }
-    void SetRelativePath(const wstring& _strRelativePath) { m_strRelativePath = _strRelativePath; }
+    void SetRelativePath(const wstring& _strRelativePath){m_strRelativePath = _strRelativePath;}
     bool CheckFail(HRESULT _hr);
 
 public:
     const wstring& GetKey() { return m_strKey; }
     const wstring& GetRelativePath() { return m_strRelativePath; }
 
-protected:
-    virtual int Load(const wstring& _strFilePath) = 0;
-    
-    virtual CRes* Clone() { return nullptr; }
+protected:    
+    virtual int Load(const wstring& _strFilePath) = 0;    
+    CLONE_DISABLE(CRes)
 
 private:
-    void AddRef() { ++m_iRefCount; }
-    void SubRef() { --m_iRefCount; }
+    void AddRef()   {   ++m_iRefCount;  }
+    void SubRef()   {   --m_iRefCount;  }
 
 public:
     CRes();
@@ -38,6 +36,6 @@ public:
     friend class CResMgr;
 
     template<typename T>
-    friend class Ptr;  
+    friend class Ptr;
 };
 

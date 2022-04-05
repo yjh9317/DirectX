@@ -1,12 +1,10 @@
 #pragma once
 
 
-
 #define SINGLE(TYPE) friend class CSingleton<TYPE>;\
 					 private:\
 						TYPE();\
 						~TYPE();
-
 
 #define DT CTimeMgr::GetInst()->GetDT()
 
@@ -20,8 +18,10 @@
 #define MAX_LAYER 32
 
 #define SAFE_DELETE(p) if(nullptr != p) delete p; p = nullptr;
-#define CLONE(type) virtual type* Clone() {return new type(*this);}
+#define CLONE(type) virtual type* Clone() { return new type(*this); }
 #define CLONE_DISABLE(type) virtual type* Clone() { return nullptr; }
+
+
 
 
 
@@ -32,8 +32,9 @@ typedef Vector4 Vec4;
 
 enum class RES_TYPE
 {
-	MATERIAL,
+	PREFAB,
 	MESHDATA,
+	MATERIAL,
 	MESH,
 	TEXTURE,
 	SOUND,
@@ -54,8 +55,8 @@ enum class RS_TYPE
 {
 	CULL_BACK,	// Default
 	CULL_FRONT,
-	CULL_NONE,
-	WIRE_FRAME,
+	CULL_NONE, 
+	WIRE_FRAME, 
 	END,
 };
 
@@ -87,7 +88,7 @@ enum class COMPONENT_TYPE
 };
 
 
-enum class SCALAR_PARAM	//Material의 추가 요소
+enum class SCALAR_PARAM
 {
 	INT_0,
 	INT_1,
@@ -100,7 +101,7 @@ enum class SCALAR_PARAM	//Material의 추가 요소
 	FLOAT_3,
 
 	VEC2_0,
-	VEC2_1,
+	VEC2_1, 
 	VEC2_2,
 	VEC2_3,
 
@@ -117,7 +118,7 @@ enum class SCALAR_PARAM	//Material의 추가 요소
 	END,
 };
 
-enum class TEX_PARAM // Materail를 통해 전달할 텍스쳐 파라미터
+enum class TEX_PARAM
 {
 	TEX_0,
 	TEX_1,
@@ -126,22 +127,33 @@ enum class TEX_PARAM // Materail를 통해 전달할 텍스쳐 파라미터
 
 	TEX_CUBE_0,
 	TEX_CUBE_1,
-
+		
 	TEX_ARR_0,
 	TEX_ARR_1,
 
 	END,
 };
 
-enum class PIPELINE_STAGE	//렌더링 파이프라인 enum class
+
+enum class PIPELINE_STAGE
 {
-	// 비트로 설정
-	VS = 0x01,	
+	VS = 0x01,
 	HS = 0x02,
 	DS = 0x04,
 	GS = 0x08,
-	PS = 0x10,
+	PS = 0x10,	
 
 	NO_PS = VS | HS | DS | GS,
 	ALL = VS | HS | DS | GS | PS,
+};
+
+
+enum class EVENT_TYPE
+{
+	CREATE_OBJ,			// lParam : Object Adress, wParam : Layer Index
+	DELETE_OBJ,			// lParam : Object Adress
+	STAGE_CHANGE,		// lParam : Next Stage Enum
+	CHANGE_AI_STATE,	// lParam : FSM Adress, wParam : Next State Type
+
+	END,
 };

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CSceneMgr.h"
 
+#include "CEventMgr.h"
+
 #include "CResMgr.h"
 #include "CMesh.h"
 #include "CGraphicsShader.h"
@@ -16,8 +18,12 @@
 #include "CCamera.h"
 #include "CPlayerScript.h"
 #include "CCameraMoveScript.h"
+#include "CMissileScript.h"
 
 #include "CTexture.h"
+#include "CPrefab.h"
+
+
 
 CSceneMgr::CSceneMgr()
 	: m_pCurScene(nullptr)
@@ -33,17 +39,27 @@ CSceneMgr::~CSceneMgr()
 
 void CSceneMgr::init()
 {
-	m_pCurScene = new CScene;
-	m_pCurScene->SetLayerName(0, L"Default");		//특정 레이어 네이밍
+	m_pCurScene = new CScene;	
+	m_pCurScene->SetLayerName(0, L"Default");
 	m_pCurScene->SetLayerName(1, L"Player");
 	m_pCurScene->SetLayerName(2, L"Monster");
-
-	// Texture 한장 로딩하기
+	
+	// Texture 한장 로딩해보기
 	CResMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Player.bmp");
 	Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"PlayerTexture");
 
-	// 텍스쳐를 렌더링 파이프라인 PixelShader 단계 때 t0 레지스터에 바인딩 시켜 둠.
-	pTex->UpdateData((int)PIPELINE_STAGE::PS,0);
+	// Prefab 제작
+	CGameObject* pMissileObj = new CGameObject;
+	pMissileObj->AddComponent(new CTransform);
+	pMissileObj->AddComponent(new CMeshRender);
+	pMissileObj->AddComponent(new CMissileScript);
+		
+	pMissileObj->Transform()->SetScale(Vec3(50.f, 50.f, 1.f));
+	pMissileObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh"));
+	pMissileObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
+	
+	CResMgr::GetInst()->AddRes<CPrefab>(L"MissilePrefab", new CPrefab(pMissileObj));
+
 
 	// Camera Object 추가
 	CGameObject* pCamObj = new CGameObject;
@@ -53,24 +69,26 @@ void CSceneMgr::init()
 
 	m_pCurScene->AddObject(pCamObj, L"Default");
 
-	// Scene 에 GameObject 추가
+	// Player Object
 	CGameObject* pObject = new CGameObject;
 	pObject->SetName(L"Player");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
 	pObject->AddComponent(new CPlayerScript);
 
-	pObject->Transform()->SetScale(Vec3(400.f, 400.f, 1.f));
+	pObject->Transform()->SetScale(Vec3(300.f, 300.f, 1.f));
 
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh"));
 	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
 
-
-	int a = 0;
+	int a = 0;	
 	pObject->MeshRender()->GetMaterial()->SetScalarParam(L"IsColorRed", &a);
 	pObject->MeshRender()->GetMaterial()->SetTexParam(L"OutputTex", pTex);
-	m_pCurScene->AddObject(pObject, L"Default"); //현재 씬에 pObject를 Default 레이어에 추가
 
+	m_pCurScene->AddObject(pObject, L"Default");
+
+
+	// Player Object 복제본
 	pObject = pObject->Clone();
 	pObject->SetName(L"Player_Clone");
 	pObject->Transform()->SetPos(pObject->Transform()->GetPos() + Vec3(200.f, 0.f, 0.f));
@@ -92,8 +110,33 @@ void CSceneMgr::progress()
 void CSceneMgr::render()
 {
 	CDevice::GetInst()->ClearTarget();
-	
+
 	m_pCurScene->render();
 
 	CDevice::GetInst()->Present();
+}
+
+
+
+void CSceneMgr::SpawnObject(CGameObject* _pSpawnObject, Vec3 _vWorldPos, wstring _strName, UINT _iLayerIdx)
+{
+	tEventInfo info = {};
+	info.eType = EVENT_TYPE::CREATE_OBJ;
+	info.lParam = (DWORD_PTR)_pSpawnObject;
+	info.wParam = (DWORD_PTR)_iLayerIdx;
+
+	_pSpawnObject->Transform()->SetPos(_vWorldPos);
+	_pSpawnObject->SetName(_strName);
+
+	CEventMgr::GetInst()->AddEvent(info);
+}
+
+void CSceneMgr::SpawnObject(CGameObject* _pSpawnObject, UINT _iLayerIdx)
+{
+	tEventInfo info = {};
+	info.eType = EVENT_TYPE::CREATE_OBJ;
+	info.lParam = (DWORD_PTR)_pSpawnObject;
+	info.wParam = (DWORD_PTR)_iLayerIdx;
+
+	CEventMgr::GetInst()->AddEvent(info);
 }

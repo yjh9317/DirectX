@@ -86,7 +86,7 @@ void CMesh::render()
 
 void CMesh::UpdateData()
 {
-	
+
 
 	UINT iStride = sizeof(Vtx);
 	UINT iOffset = 0;

@@ -12,7 +12,7 @@ using namespace::DirectX;
 using namespace::DirectX::PackedVector;
 
 #pragma comment(lib, "d3d11")
-#pragma comment(lib, "d3dcompiler")	//HLSL를 읽여들여서 기계어로 컴파일 해주는 함수
+#pragma comment(lib, "d3dcompiler")//HLSL를 읽여들여서 기계어로 컴파일 해주는 함수
 #pragma comment(lib, "dxguid")
 
 
@@ -29,7 +29,7 @@ using std::list;
 using std::map;
 using std::make_pair;
 
-#include<string>
+#include <string>
 using std::string;
 using std::wstring;
 
@@ -42,3 +42,4 @@ using std::wstring;
 #include "extern.h"
 #include "func.h"
 #include "singleton.h"
+

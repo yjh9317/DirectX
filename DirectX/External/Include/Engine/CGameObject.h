@@ -2,22 +2,25 @@
 #include "CEntity.h"
 
 #define GET_COMPONENT(type, TYPE)  class C##type* type() { return (C##type*)m_arrCom[(UINT)COMPONENT_TYPE::TYPE]; }
-// C##type -> Ctype  , 위에서 class를 붙이면 전방선언도 같이된다.
 
-
-class CComponent;   //서로의 헤더에서 #include를 서로 참조하면 오류가 생긴다, 그래서 한쪽은 전방선언으로해야된다.
+class CComponent;
 class CTransform;
 class CMeshRender;
 
-class CGameObject : //오브젝트는 컴포넌트 기반으로 실행
+
+class CGameObject :
     public CEntity
 {
 private:
-    CComponent* m_arrCom[(UINT)COMPONENT_TYPE::END];
+    vector<CGameObject*>    m_vecChild;
+    CComponent*             m_arrCom[(UINT)COMPONENT_TYPE::END];
 
-    bool        m_bActive;  // 활성화 
-    bool        m_bDead;    // 죽음 변수
+    CGameObject*            m_pParent;
 
+    int                     m_iLayerIdx; // 게임 오브젝트 소속 레이어 인덱스
+
+    bool                    m_bActive;
+    bool                    m_bDead;
 
 public:
     void start();
@@ -26,25 +29,32 @@ public:
     void finalupdate();
     void render();
 
+public:
+    bool IsDead() { return m_bDead; }
+    bool IsActive() { return m_bActive; }
 
 
 public:
-    void    AddComponent(CComponent* _component);
-    CComponent* GetComponent(COMPONENT_TYPE _eType) { return m_arrCom[(UINT)_eType]; }
+    void AddChild(CGameObject* _pChild);
+    void AddComponent(CComponent* _component);
+    CComponent* GetComponent(COMPONENT_TYPE _eType){ return m_arrCom[(UINT)_eType];  }
+        
+    void Destroy();
 
 
-    // 컴포넌트를 매크로형식으로 작성
     GET_COMPONENT(Transform, TRANSFORM)
-        GET_COMPONENT(MeshRender, MESHRENDER)
+    GET_COMPONENT(MeshRender, MESHRENDER)
 
 
-public:
-    
-    CLONE(CGameObject);
+public: 
+    CLONE(CGameObject)
 
 public:
     CGameObject();
     CGameObject(const CGameObject& _origin);
     ~CGameObject();
+
+    friend class CEventMgr;
+    friend class CScene;
 };
 

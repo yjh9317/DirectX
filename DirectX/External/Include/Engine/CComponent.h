@@ -8,12 +8,12 @@
 class CTransform;
 class CMeshRender;
 
-class CComponent :  
+class CComponent :
     public CEntity
 {
 private:
     const COMPONENT_TYPE     m_eComType;        //물체의 컴포넌트 타입
-    CGameObject*            m_pOwner;
+    CGameObject* m_pOwner;
 
 public:
     virtual void start() {}
@@ -26,12 +26,12 @@ public:
     COMPONENT_TYPE GetType() { return m_eComType; }
     CGameObject* GetOwner() { return m_pOwner; }
 
-    
+
 
     GET_OTHER_COMPONENT(Transform) // 컴포넌트끼리 서로 상호작용을 하므로 CComponent(부모클래스)에서 작성
-    GET_OTHER_COMPONENT(MeshRender)
+        GET_OTHER_COMPONENT(MeshRender)
 
-    CComponent* Clone() = 0;
+        CComponent* Clone() = 0;
 
 
 

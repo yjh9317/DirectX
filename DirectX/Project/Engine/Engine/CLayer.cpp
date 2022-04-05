@@ -38,21 +38,34 @@ void CLayer::lateupdate()
 
 void CLayer::finalupdate()
 {
-	for (size_t i = 0; i < m_vecRoot.size(); ++i)
+	vector<CGameObject*>::iterator iter = m_vecRoot.begin();
+
+	for (; iter != m_vecRoot.end(); )
 	{
-		m_vecRoot[i]->finalupdate();
+		(*iter)->finalupdate();
+
+		if ((*iter)->IsDead())
+		{
+			iter = m_vecRoot.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
 	}
 }
 
 void CLayer::render()
 {
-	for (size_t i = 0; i < m_vecRoot.size(); ++i)
+	// 최상위 오브젝트가 아닌 레이어에 있는 모든 오브젝트를 렌더
+	for (size_t i = 0; i < m_vecObj.size(); ++i)
 	{
-		m_vecRoot[i]->render();
-	}
+		m_vecObj[i]->render();
+	}	
 }
 
 void CLayer::AddObject(CGameObject* _pObj)
 {
 	m_vecRoot.push_back(_pObj);
 }
+

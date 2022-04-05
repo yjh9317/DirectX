@@ -1,4 +1,3 @@
-
 #include "pch.h"
 #include "CMissileScript.h"
 
@@ -7,7 +6,8 @@
 
 
 CMissileScript::CMissileScript()
-	: m_fSpeed(300.f)
+	: m_fSpeed(100.f)
+	, m_fAccTime(0.f)
 {
 }
 
@@ -22,5 +22,13 @@ void CMissileScript::update()
 	vPos.y += DT * m_fSpeed;
 
 	Transform()->SetPos(vPos);
+
+
+	m_fAccTime += DT;
+
+	if (m_fAccTime >= 2.f)
+	{
+		GetOwner()->Destroy();
+	}
 }
 

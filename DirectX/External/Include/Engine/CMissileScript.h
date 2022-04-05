@@ -6,6 +6,7 @@ class CMissileScript :
 {
 private:
     float       m_fSpeed;
+    float       m_fAccTime;
 
 public:
     virtual void update();
@@ -16,5 +17,4 @@ public:
     CMissileScript();
     ~CMissileScript();
 };
-
 

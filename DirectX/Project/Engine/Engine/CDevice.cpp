@@ -5,16 +5,16 @@
 
 CDevice::CDevice()
 	:m_hWnd(nullptr)
-	,m_tSwapChainDesc{}
-	,m_tViewPort{}
-	,m_arrRS{}
-	,m_arrCB{}
+	, m_tSwapChainDesc{}
+	, m_tViewPort{}
+	, m_arrRS{}
+	, m_arrCB{}
 {
 
 }
 
 CDevice::~CDevice()
-{	
+{
 	Safe_Del_Arr(m_arrCB);
 }
 
@@ -39,7 +39,7 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 	// D3D_DRIVER_TYPE_HARDWARE -> 그래픽 카드를 사용
 	// D3D_DRIVER_TYPE_SOFTWARE -> CPU를 사용
 	// D3D11_SDK_VERSION -> 라이브러리 버전을 나타냄.
-	
+
 	// m_pDevice와 m_pDeviceContext는 ID3D11Device 포인터 변수를 스마트포인터(클래스)의 멤버로 만든 상태로
 	// 스마트 포인터의 GetAddressOf란 함수를 사용하여 인터페이스의 주소를 가져올 수 있다.
 
@@ -58,7 +58,7 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 		MessageBox(nullptr, L"멀티셈플 레벨체크 실패", L"엔진 초기화 실패", MB_OK);
 		return E_FAIL;
 	}
-	
+
 
 	if (FAILED(CreateSwapchain()))
 	{
@@ -76,7 +76,7 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 
 	// RenderTargetView, DepthStencilVeiw 전달
 	// Render 출력 버퍼 및 출력 깊이 버퍼 지정
-	m_pDeviceContext->OMSetRenderTargets(1,m_RTV.GetAddressOf(),m_DSV.Get());
+	m_pDeviceContext->OMSetRenderTargets(1, m_RTV.GetAddressOf(), m_DSV.Get());
 
 
 
@@ -94,7 +94,7 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 	m_tViewPort.MinDepth = 0;
 	m_tViewPort.MaxDepth = 1;
 
-	
+
 	m_pDeviceContext->RSSetViewports(1, &m_tViewPort);
 
 
@@ -121,11 +121,11 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 
 int CDevice::CreateSwapchain()
 {
-	DXGI_SWAP_CHAIN_DESC desc = {}; 
+	DXGI_SWAP_CHAIN_DESC desc = {};
 
 
 	desc.BufferCount = 1; // 1을 넣어주면 알아서 내부적으로 버퍼를 2장 만들어준다.(프론트,백)
-	desc.BufferDesc.Width= (UINT)m_vRenderResolution.x;
+	desc.BufferDesc.Width = (UINT)m_vRenderResolution.x;
 	desc.BufferDesc.Height = (UINT)m_vRenderResolution.y;
 	desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;// 만들어진 픽셀의 Format (픽셀이 몇바이트인지 ,어떤구성인지)픽셀당 4바이트
 	desc.BufferDesc.RefreshRate.Denominator = 1;	// 스왑체인 구조체안에 구조체가 또있음			분모
@@ -134,14 +134,14 @@ int CDevice::CreateSwapchain()
 	desc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER::DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED; //픽셀 쉐이더의 픽셀 순서(디폴트)
 
 	desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; // 렌더 타겟 용도
-	desc.Flags = 0; 
+	desc.Flags = 0;
 	desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // 백버퍼와 프론트 버퍼가 서로 바뀌고 화면에 송출했던 그림을 가지고 있는 프론트버퍼의 그림을
 	// 어떻게 처분할지 정한다. DISCARD는 그림을 삭제.
 
-	desc.SampleDesc.Count = 1; 
+	desc.SampleDesc.Count = 1;
 	desc.SampleDesc.Quality = 0;
-		
-	desc.OutputWindow= m_hWnd; //출력하려는 목적지 윈도우
+
+	desc.OutputWindow = m_hWnd; //출력하려는 목적지 윈도우
 	desc.Windowed = true;// 창모드거나 전체화면
 
 
@@ -157,23 +157,23 @@ int CDevice::CreateSwapchain()
 	//사용자 정의 타입은 만들어질때 자동으로 아이디값이 생성되는게 그 아이디를 찾아오는 QueryInterFace
 	//void포인터인 이유는 함수마다 타입이 다를 수 있어서
 
-	m_pDevice->QueryInterface(__uuidof(IDXGIDevice),(void**)pDXGIDevice.GetAddressOf());
+	m_pDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)pDXGIDevice.GetAddressOf());
 	pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void**)pDXGIAdaptor.GetAddressOf());
 	pDXGIAdaptor->GetParent(__uuidof(IDXGIFactory), (void**)pDXGIFactory.GetAddressOf());
 
 	// 스왑체인을 생성
-	
-	pDXGIFactory->CreateSwapChain(m_pDevice.Get(),&desc,m_pSwapChain.GetAddressOf());
+
+	pDXGIFactory->CreateSwapChain(m_pDevice.Get(), &desc, m_pSwapChain.GetAddressOf());
 	//원본 디바이스 .Get()은 최상위 부모타입,스왑체인 구조체 주소값,SwapChain의 주소
-	
-	IDXGISwapChain* p=m_pSwapChain.Get();
+
+	IDXGISwapChain* p = m_pSwapChain.Get();
 	IDXGISwapChain** pp = m_pSwapChain.GetAddressOf();
 
 	if (nullptr == m_pSwapChain)
 	{
 		return E_FAIL;
 	}
-	
+
 
 
 	return S_OK;
@@ -187,7 +187,7 @@ int CDevice::CreateView()
 
 	// gpu 메모리에 올리는 애들은 ID3D11Resource를 부모로 하고 그밑에 Texture2D 클래스와 Buffer 클래스가 있다.
 	// Texture2D에도 텍스쳐별로 View가 4종류가 있음
-	
+
 
 
 	// Render Target View
@@ -198,7 +198,7 @@ int CDevice::CreateView()
 
 	m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)pBuffer.GetAddressOf());//스왑체인이 들고있는 버퍼를 가져옴
 
-	
+
 	m_pDevice->CreateRenderTargetView(pBuffer.Get(), nullptr, m_RTV.GetAddressOf());
 
 	if (nullptr == m_RTV)
@@ -211,10 +211,10 @@ int CDevice::CreateView()
 	desc.Height = (UINT)m_vRenderResolution.y;
 	desc.MipLevels = 0;
 	desc.ArraySize = 1;
-	
+
 	desc.CPUAccessFlags = 0; //cpu 접근
 	desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL; // 역할을 미리 정해준다.(리소스마다 View가 다른데 이 값으로 구분)
-	desc.Usage=D3D11_USAGE::D3D11_USAGE_DEFAULT;
+	desc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
 
 	desc.MiscFlags = 0; //추가 옵션
 	desc.SampleDesc.Count = 1;
@@ -226,7 +226,7 @@ int CDevice::CreateView()
 
 	if (nullptr == m_pDepthStencilTarget)
 		return E_FAIL;
-	
+
 
 	// Depth Stencil View 
 	// 깊이의 비교가 물체단위가 아닌 픽셀단위로 비교해서 물체의 앞뒤를 비교해야함
@@ -235,7 +235,7 @@ int CDevice::CreateView()
 
 	if (nullptr == m_DSV)
 		return E_FAIL;
-	
+
 
 	return S_OK;
 }
@@ -252,11 +252,11 @@ int CDevice::CreateRasterizerState()
 	desc.CullMode = D3D11_CULL_FRONT;
 	desc.FillMode = D3D11_FILL_SOLID; //안을 채울지 안채울지 정해주는 속성
 
-	hr =DEVICE->CreateRasterizerState(&desc, m_arrRS[(UINT)RS_TYPE::CULL_FRONT].GetAddressOf());
-	
+	hr = DEVICE->CreateRasterizerState(&desc, m_arrRS[(UINT)RS_TYPE::CULL_FRONT].GetAddressOf());
+
 	if (FAILED(hr))
 		return E_FAIL;
-	
+
 
 	// 양면 모두 그리기, 주로 단면 형태의 메쉬를 앞 뒤에서 볼 때
 	desc.CullMode = D3D11_CULL_NONE;
@@ -325,7 +325,7 @@ void CDevice::CreateSamplerState()
 
 void CDevice::ClearTarget()
 {
-	m_pDeviceContext->ClearRenderTargetView(m_RTV.Get(),Vec4(0.65f,0.65f,0.65f,1.f));
+	m_pDeviceContext->ClearRenderTargetView(m_RTV.Get(), Vec4(0.65f, 0.65f, 0.65f, 1.f));
 	// RGB의 0~255값을 0.f ~ 1.f로 보간해서 변경해서 넣어줌
 
 	m_pDeviceContext->ClearDepthStencilView(m_DSV.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);

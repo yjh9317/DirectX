@@ -1,5 +1,7 @@
 #pragma once
 #include "CRes.h"
+
+
 class CShader :
     public CRes
 {
@@ -8,11 +10,10 @@ protected:
 
 
 public:
-    virtual int Load(const wstring& _strFilePath) { return S_OK; }
+    virtual int Load(const wstring& _strFilePath) { return S_OK; };
 
 public:
     CShader();
     ~CShader();
-
 };
 

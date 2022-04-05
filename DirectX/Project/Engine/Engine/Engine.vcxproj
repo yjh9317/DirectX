@@ -184,6 +184,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CMissileScript.h" />
     <ClInclude Include="CPathMgr.h" />
     <ClInclude Include="CPlayerScript.h" />
+    <ClInclude Include="CPrefab.h" />
     <ClInclude Include="CRes.h" />
     <ClInclude Include="CResMgr.h" />
     <ClInclude Include="CScene.h" />
@@ -223,6 +224,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CMissileScript.cpp" />
     <ClCompile Include="CPathMgr.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
+    <ClCompile Include="CPrefab.cpp" />
     <ClCompile Include="CRes.cpp" />
     <ClCompile Include="CResMgr.cpp" />
     <ClCompile Include="CResMgr_init.cpp" />

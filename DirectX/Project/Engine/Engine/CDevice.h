@@ -3,7 +3,7 @@
 class CConstBuffer;
 
 class CDevice
-	:public CSingleton<CDevice>
+	: public CSingleton<CDevice>
 {
 	SINGLE(CDevice);
 private:
@@ -32,7 +32,7 @@ private:
 public:
 	int init(HWND _hWnd, Vec2 _vRenderResolution);
 
-	void Present() { m_pSwapChain->Present(0, 0); }
+	void Present(){ m_pSwapChain->Present(0, 0); }
 	void ClearTarget();
 
 	Vec2 GetRenderResolution() { return m_vRenderResolution; }

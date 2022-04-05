@@ -1,5 +1,6 @@
 #pragma once
 
+
 template<typename T>
 void Safe_Del_Vec(vector<T*>& _vec)
 {
@@ -7,8 +8,8 @@ void Safe_Del_Vec(vector<T*>& _vec)
 	{
 		SAFE_DELETE(_vec[i]);
 	}
+	_vec.clear();
 }
-
 
 template<typename T>
 void Safe_Del_list(list<T*>& _list)
@@ -19,7 +20,6 @@ void Safe_Del_list(list<T*>& _list)
 	{
 		SAFE_DELETE(*iter);
 	}
-
 	_list.clear();
 }
 
@@ -27,7 +27,6 @@ template<typename T1, typename T2>
 void Safe_Del_Map(map<T1, T2>& _map)
 {
 	typename map<T1, T2>::iterator iter = _map.begin();
-
 	for (; iter != _map.end(); ++iter)
 	{
 		SAFE_DELETE(iter->second);
@@ -35,12 +34,11 @@ void Safe_Del_Map(map<T1, T2>& _map)
 	_map.clear();
 }
 
-template<typename T,UINT _iSize>
+template<typename T, UINT _iSize>
 void Safe_Del_Arr(T(&_Arr)[_iSize])
 {
 	for (UINT i = 0; i < _iSize; ++i)
 	{
 		SAFE_DELETE(_Arr[i]);
-			
 	}
 }
