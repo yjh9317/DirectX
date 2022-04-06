@@ -115,6 +115,9 @@
     <ClInclude Include="CMissileScript.h">
       <Filter>Engine\Scripts\MissileScript</Filter>
     </ClInclude>
+    <ClInclude Include="CCollider2D.h">
+      <Filter>Engine\05. Component\03. Collider2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -212,6 +215,9 @@
     </ClCompile>
     <ClCompile Include="CMissileScript.cpp">
       <Filter>Engine\Scripts\MissileScript</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollider2D.cpp">
+      <Filter>Engine\05. Component\03. Collider2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -370,6 +376,12 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="test.fx">
+      <Filter>Engine\ShaderCode</Filter>
+    </FxCompile>
+    <FxCompile Include="std2d.fx">
+      <Filter>Engine\ShaderCode</Filter>
+    </FxCompile>
+    <FxCompile Include="value.fx">
       <Filter>Engine\ShaderCode</Filter>
     </FxCompile>
   </ItemGroup>

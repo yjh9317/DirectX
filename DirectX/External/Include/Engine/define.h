@@ -30,11 +30,16 @@ typedef Vector3 Vec3;
 typedef Vector4 Vec4;
 
 
-enum class RES_TYPE
+enum class RES_TYPE	//다른 리소르를 참조하는 리소스타입부터 상단에 적음. 순서대로 생성되고 삭제되기 때문
 {
+	// 참조형 리소스
 	PREFAB,
 	MESHDATA,
 	MATERIAL,
+
+
+
+	// 실제 리소스
 	MESH,
 	TEXTURE,
 	SOUND,
@@ -152,6 +157,7 @@ enum class EVENT_TYPE
 {
 	CREATE_OBJ,			// lParam : Object Adress, wParam : Layer Index
 	DELETE_OBJ,			// lParam : Object Adress
+	ADD_CHILD,			// lParam : Parent Object, wParam : Child Object
 	STAGE_CHANGE,		// lParam : Next Stage Enum
 	CHANGE_AI_STATE,	// lParam : FSM Adress, wParam : Next State Type
 

@@ -39,11 +39,11 @@ CSceneMgr::~CSceneMgr()
 
 void CSceneMgr::init()
 {
-	m_pCurScene = new CScene;	
+	m_pCurScene = new CScene;
 	m_pCurScene->SetLayerName(0, L"Default");
 	m_pCurScene->SetLayerName(1, L"Player");
 	m_pCurScene->SetLayerName(2, L"Monster");
-	
+
 	// Texture 한장 로딩해보기
 	CResMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Player.bmp");
 	Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"PlayerTexture");
@@ -53,11 +53,11 @@ void CSceneMgr::init()
 	pMissileObj->AddComponent(new CTransform);
 	pMissileObj->AddComponent(new CMeshRender);
 	pMissileObj->AddComponent(new CMissileScript);
-		
+
 	pMissileObj->Transform()->SetScale(Vec3(50.f, 50.f, 1.f));
 	pMissileObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh"));
 	pMissileObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
-	
+
 	CResMgr::GetInst()->AddRes<CPrefab>(L"MissilePrefab", new CPrefab(pMissileObj));
 
 
@@ -81,20 +81,27 @@ void CSceneMgr::init()
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh"));
 	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
 
-	int a = 0;	
+	int a = 0;
 	pObject->MeshRender()->GetMaterial()->SetScalarParam(L"IsColorRed", &a);
 	pObject->MeshRender()->GetMaterial()->SetTexParam(L"OutputTex", pTex);
 
+
+	/*CGameObject* pChildObject = new CGameObject;
+	pChildObject->SetName(L"ChildObject");
+
+	pChildObject->AddComponent(new CTransform);
+	pChildObject->AddComponent(new CMeshRender);
+
+	pChildObject->Transform()->SetIgnoreParentScale(true);
+	pChildObject->Transform()->SetScale(Vec3(150.f, 150.f, 1.f));
+	pChildObject->Transform()->SetPos(Vec3(300.f, 0.f, 0.f));
+
+	pChildObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh"));
+	pChildObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
+
+	pObject->AddChild(pChildObject);*/
+
 	m_pCurScene->AddObject(pObject, L"Default");
-
-
-	// Player Object 복제본
-	pObject = pObject->Clone();
-	pObject->SetName(L"Player_Clone");
-	pObject->Transform()->SetPos(pObject->Transform()->GetPos() + Vec3(200.f, 0.f, 0.f));
-	m_pCurScene->AddObject(pObject, L"Default");
-
-
 
 
 	m_pCurScene->start();
@@ -137,6 +144,16 @@ void CSceneMgr::SpawnObject(CGameObject* _pSpawnObject, UINT _iLayerIdx)
 	info.eType = EVENT_TYPE::CREATE_OBJ;
 	info.lParam = (DWORD_PTR)_pSpawnObject;
 	info.wParam = (DWORD_PTR)_iLayerIdx;
+
+	CEventMgr::GetInst()->AddEvent(info);
+}
+
+void CSceneMgr::AddChild(CGameObject* _pParentObject, CGameObject* _pChildObject)
+{
+	tEventInfo info = {};
+	info.eType = EVENT_TYPE::ADD_CHILD;
+	info.lParam = (DWORD_PTR)_pParentObject;
+	info.wParam = (DWORD_PTR)_pChildObject;
 
 	CEventMgr::GetInst()->AddEvent(info);
 }

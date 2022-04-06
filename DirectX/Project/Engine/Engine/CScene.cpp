@@ -87,22 +87,42 @@ int CScene::GetLayerIdxFromName(const wstring& _strName)
 	return -1;
 }
 
-void CScene::AddObject(CGameObject* _pObj, const wstring& _strLayerName)
+void CScene::AddObject(CGameObject* _pRootObj, const wstring& _strLayerName)
 {
 	int iLayerIdx = GetLayerIdxFromName(_strLayerName);
 
 	assert(iLayerIdx != -1);	    // 없는 레이어였다면 assert
-	assert(!_pObj->m_pParent);		// 부모가 있는 오브젝트였다면 assert,최상위 오브젝트만 가능
+	assert(!_pRootObj->m_pParent);	// 부모가 있는 오브젝트였다면 assert,최상위 오브젝트만 가능
 
-	AddObject(_pObj, iLayerIdx);
+	AddObject(_pRootObj, iLayerIdx);
 }
 
-void CScene::AddObject(CGameObject* _pObj, int _iLayerIdx)
+void CScene::AddObject(CGameObject* _pRootObj, int _iLayerIdx)
 {
 	assert(0 <= _iLayerIdx && _iLayerIdx < MAX_LAYER);
-	assert(!_pObj->m_pParent);
+	assert(!_pRootObj->m_pParent);
 
-	m_arrLayer[_iLayerIdx]->AddObject(_pObj);
+	m_arrLayer[_iLayerIdx]->AddObject(_pRootObj);
 
-	_pObj->m_iLayerIdx = _iLayerIdx;
+	//자식 오브젝트 들도 해당 레이어의 인덱스로 알려준다.
+	list<CGameObject*> queue;
+	
+	queue.push_back(_pRootObj);
+
+	// 부모 오브젝트 포함, 자식들 모두 해당 레이어의 인덱스를 알려준다 (특정 레이어 소속이 아닌경우)
+	while (!queue.empty())
+	{
+		CGameObject* pTargetObj = queue.front();
+		queue.pop_front();
+		
+		// 레이어가 무소속 이였을 경우
+		if(-1 == pTargetObj->m_iLayerIdx)
+		pTargetObj->m_iLayerIdx = _iLayerIdx;
+
+		const vector<CGameObject*>& vecChild=pTargetObj->GetChild();
+		for (size_t i = 0; i < vecChild.size(); ++i)
+		{
+			queue.push_back(vecChild[i]);
+		}
+	}
 }

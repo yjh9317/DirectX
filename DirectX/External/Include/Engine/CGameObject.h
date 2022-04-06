@@ -30,6 +30,14 @@ public:
     void render();
 
 public:
+    CGameObject* GetParent() { return m_pParent; }
+    const vector<CGameObject*>& GetChild() { return m_vecChild; }
+
+    // Deregister ==> 등록 취소(등록->미등록), Unregister ==> 등록 안됨(등록 ->미등록, 애초에 등록X)
+    void Deregister();
+
+    void DisconnectBetweenParent();
+
     bool IsDead() { return m_bDead; }
     bool IsActive() { return m_bActive; }
 
@@ -56,5 +64,6 @@ public:
 
     friend class CEventMgr;
     friend class CScene;
+    friend class CLayer;
 };
 

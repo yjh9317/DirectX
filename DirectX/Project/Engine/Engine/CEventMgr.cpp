@@ -56,6 +56,16 @@ void CEventMgr::update()
 			}			
 		}
 		break;
+		case EVENT_TYPE::ADD_CHILD:
+			// lParam: Parent Obecjt, wParam : Child Object;
+		{
+			CGameObject* pParent = (CGameObject*)m_vecEvent[i].lParam;
+			CGameObject* pChild = (CGameObject*)m_vecEvent[i].wParam;
+
+			// 자식 추가
+			pParent->AddChild(pChild);
+		}
+		break;
 		case EVENT_TYPE::STAGE_CHANGE:
 			// lParam : Next Stage Enum		
 			

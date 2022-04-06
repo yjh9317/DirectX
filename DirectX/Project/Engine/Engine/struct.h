@@ -29,6 +29,9 @@ struct tTransform
 	Matrix matWorld;
 	Matrix matView;
 	Matrix matProj;
+
+	Matrix matWV;
+	Matrix matWVP;
 };
 
 struct tScalarParam

@@ -3,7 +3,7 @@
 
 class CGameObject;
 
-class CPrefab :
+class CPrefab :     // 다른 리소스를 참조하는 클래스
     public CRes
 {
 private:
@@ -11,7 +11,7 @@ private:
 
 
 public:
-    CGameObject* Instantiate();
+    CGameObject* Instantiate(); // 원본 리소스를 객체화 하는 함수
 
     virtual int Load(const wstring& _strFilePath)
     {
