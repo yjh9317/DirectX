@@ -2,10 +2,12 @@
 #include "CEntity.h"
 
 #define GET_COMPONENT(type, TYPE)  class C##type* type() { return (C##type*)m_arrCom[(UINT)COMPONENT_TYPE::TYPE]; }
+// C##type -> Ctype 
 
 class CComponent;
 class CTransform;
 class CMeshRender;
+class CCollider2D;
 
 
 class CGameObject :
@@ -52,6 +54,7 @@ public:
 
     GET_COMPONENT(Transform, TRANSFORM)
     GET_COMPONENT(MeshRender, MESHRENDER)
+    GET_COMPONENT(Collider2D, COLLIDER2D)
 
 
 public: 

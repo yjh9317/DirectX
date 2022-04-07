@@ -17,15 +17,17 @@ struct VTX_OUT
 };
 
 
+
 // ============
 // Std2D Shader
 // ============
+
 VTX_OUT VS_Std2D(VTX_IN _in)
 {
     VTX_OUT output = (VTX_OUT) 0.f;
     
     output.vPosition = mul(float4(_in.vPos, 1.f), g_matWVP);
-    output.vUV = _in.vUV;
+    output.vUV = _in.vUV; // vUV 는 보간해서 적용된다(외우자)
     
     return output;
 }
@@ -42,9 +44,14 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
 // =================
 // Collider2D Shader
 // =================
+
 VTX_OUT VS_Collider2D(VTX_IN _in)
 {
     VTX_OUT output = (VTX_OUT) 0.f;
+    
+    output.vPosition = mul(float4(_in.vPos, 1.f), g_matWVP);
+    output.vUV = _in.vUV;
+    
     
     return output;
 }
@@ -54,7 +61,21 @@ float4 PS_Collider2D(VTX_OUT _in) : SV_Target
 {
     float4 vOutColor = (float4) 0.f;
     
-    return vOutColor;
+    vOutColor = float4(0.f, 1.f, 0.f, 1.f);
+    
+    // 보간된 내부 정점의 값을 이용해서 (범위 (0,0) ~ (1,1)) 충돌체의 크기를 조절가능
+    // 재질을 통해서 값을 전달받아서 조절도 가능함.
+    // 퍼센트라 충돌체가 커지면 그만큼 커져서 해상도,크기등 미리 값을 알고 있어야 정확히 사용가능
+    
+    //if (0.1f <= _in.vUV.x && _in.vUV.x <= 0.9f && 0.1f <= _in.vUV.y && _in.vUV.y <= 0.9f)
+    //{
+    //    discard;
+    //}
+    
+    //discard; : 모든 픽셀을 버린다, 파이프라인가다가 discard가 나올 때 중단된다.
+    //clip(-1) == discard
+    
+        return vOutColor;
 }
 
 

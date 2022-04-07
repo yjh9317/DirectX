@@ -9,6 +9,7 @@
 #include "CComponent.h"
 #include "CTransform.h"
 #include "CMeshRender.h"
+#include "CCollider2D.h"
 
 CGameObject::CGameObject()
 	: m_arrCom{}
@@ -114,6 +115,12 @@ void CGameObject::render()
 {
 	if (nullptr != MeshRender())
 		MeshRender()->render();
+
+
+	// 충돌체 컴포넌트가 있으면 렌더
+	if (nullptr != Collider2D())
+		Collider2D()->render();
+
 }
 
 void CGameObject::Deregister()

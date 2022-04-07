@@ -172,7 +172,7 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   {
   };
   
-  CSceneMgr.cpp
+  CGraphicsShader.cpp
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
   .\Project\Engine\Engine\CCamera.h
   .\Project\Engine\Engine\CCameraMoveScript.h

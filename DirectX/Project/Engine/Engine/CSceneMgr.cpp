@@ -6,6 +6,7 @@
 #include "CResMgr.h"
 #include "CMesh.h"
 #include "CGraphicsShader.h"
+#include "CCollider2D.h"
 
 #include "CDevice.h"
 #include "CPathMgr.h"
@@ -19,6 +20,7 @@
 #include "CPlayerScript.h"
 #include "CCameraMoveScript.h"
 #include "CMissileScript.h"
+
 
 #include "CTexture.h"
 #include "CPrefab.h"
@@ -74,16 +76,20 @@ void CSceneMgr::init()
 	pObject->SetName(L"Player");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
+	pObject->AddComponent(new CCollider2D);
 	pObject->AddComponent(new CPlayerScript);
 
 	pObject->Transform()->SetScale(Vec3(300.f, 300.f, 1.f));
 
-	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh"));
+	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
 
 	int a = 0;
 	pObject->MeshRender()->GetMaterial()->SetScalarParam(L"IsColorRed", &a);
 	pObject->MeshRender()->GetMaterial()->SetTexParam(L"OutputTex", pTex);
+
+	pObject->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
+	pObject->Collider2D()->SetOffsetScale(Vec2(100.f, 100.f));
 
 
 	/*CGameObject* pChildObject = new CGameObject;

@@ -56,12 +56,29 @@ enum class CB_TYPE
 	END,
 };
 
+	// Rasterizer option
 enum class RS_TYPE
 {
 	CULL_BACK,	// Default
 	CULL_FRONT,
 	CULL_NONE, 
 	WIRE_FRAME, 
+	END,
+};
+
+// DepthStencil Option
+enum class DS_TYPE
+{
+	LESS,
+	LESS_EQUAL,
+
+	GREATER,		// 깊이가 더 멀어야 통과
+	GREATER_EQUAL,
+
+	NO_TEST,		// 깊이 테스트 하지 않음, 깊이는 기록
+	NO_WRITE,		// 깊이 테스트 진행 , 깊이를 기록하지 않음
+
+	NO_TEST_NO_WRITE,	// 깊이 테스트 하지 않음, 깊이 기록하지 않음
 	END,
 };
 

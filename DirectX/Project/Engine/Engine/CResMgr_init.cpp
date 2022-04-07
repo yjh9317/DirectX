@@ -46,11 +46,25 @@ void CResMgr::CreateEngineMesh()
 
 	vecIdx.push_back(0); vecIdx.push_back(2); vecIdx.push_back(3);
 	vecIdx.push_back(0); vecIdx.push_back(1); vecIdx.push_back(2);
-	
+
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 	AddRes<CMesh>(L"RectMesh", pMesh);
+	vecIdx.clear();
+
+
+
+
+	vecIdx.push_back(0); vecIdx.push_back(1); vecIdx.push_back(2); vecIdx.push_back(3); vecIdx.push_back(0);
+
+	pMesh = new CMesh;
+	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	AddRes<CMesh>(L"RectMesh_LineStrip", pMesh);
 	vecVtx.clear(); vecIdx.clear();
+
+
+
+
 
 	// ==========
 	// CircleMesh
@@ -121,6 +135,17 @@ void CResMgr::CreateEngineShader()
 	pShader->AddTexParamInfo(L"OutputTex", TEX_PARAM::TEX_0);
 
 	AddRes<CGraphicsShader>(L"TestShader", pShader);
+
+	// Collider2D Shader
+	pShader = new CGraphicsShader;
+	pShader->CreateVertexShader(L"Shader\\std2d.fx", "VS_Collider2D");
+	pShader->CreatePixelShader(L"Shader\\std2d.fx", "PS_Collider2D");
+
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP); //위상 구조를 라인스트립으로 설정
+
+	AddRes<CGraphicsShader>(L"Collider2DShader", pShader);
+
 }
 
 void CResMgr::CreateEngineMaterial()
@@ -132,6 +157,11 @@ void CResMgr::CreateEngineMaterial()
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"TestShader"));
 
 	AddRes<CMaterial>(L"TestMtrl", pMtrl);
+
+	// Collider2DMtrl 
+	pMtrl = new CMaterial;
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Collider2DShader"));
+	AddRes<CMaterial>(L"Collider2DMtrl", pMtrl);
 }
 
 void CResMgr::MakeInputLayoutInfo()

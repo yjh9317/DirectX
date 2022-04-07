@@ -29,9 +29,10 @@ public:
 
 
     GET_OTHER_COMPONENT(Transform) // 컴포넌트끼리 서로 상호작용을 하므로 CComponent(부모클래스)에서 작성
-        GET_OTHER_COMPONENT(MeshRender)
+    GET_OTHER_COMPONENT(MeshRender)
+    GET_OTHER_COMPONENT(Collider2D)
 
-        CComponent* Clone() = 0;
+    CComponent* Clone() = 0;
 
 
 

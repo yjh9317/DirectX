@@ -104,6 +104,11 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 		return E_FAIL;
 	}
 
+	// 뎁스스텐실 스테이트 생성
+	if (FAILED(CreateDepthStencilState()))
+	{
+		return E_FAIL;
+	}
 
 	// 상수버퍼 생성
 	if (FAILED(CreateConstBuffer()))
@@ -273,6 +278,81 @@ int CDevice::CreateRasterizerState()
 
 	if (FAILED(hr))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+int CDevice::CreateDepthStencilState()
+{
+	// 스텐실 옵션은 아직 사용하지 않음.
+	//desc.StencilEnable = false; // 스텐실 기능 Off
+	//desc.BackFace;
+	//desc.FrontFace;
+	//desc.StencilReadMask;
+	//desc.StencilWriteMask;
+
+	//desc.DepthEnable = false; //깊이 판정을 안함
+
+
+
+	// Less(Default)
+	m_arrDS[(UINT)DS_TYPE::LESS] =nullptr;		//Default 옵션
+
+	D3D11_DEPTH_STENCIL_DESC desc = {};
+
+	// LessEqual
+	desc.DepthEnable = true;				
+	desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;	//깊이 기록함
+
+	if(FAILED(DEVICE->CreateDepthStencilState(&desc, m_arrDS[(UINT)DS_TYPE::LESS_EQUAL].GetAddressOf())))
+		return E_FAIL;
+
+	//Greater
+	desc.DepthEnable = true;
+	desc.DepthFunc = D3D11_COMPARISON_GREATER;
+	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	
+	if (FAILED(DEVICE->CreateDepthStencilState(&desc, m_arrDS[(UINT)DS_TYPE::GREATER].GetAddressOf())))
+		return E_FAIL;
+
+	//Greater_Equal
+	desc.DepthEnable = true;
+	desc.DepthFunc = D3D11_COMPARISON_GREATER_EQUAL;
+	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+
+	if (FAILED(DEVICE->CreateDepthStencilState(&desc, m_arrDS[(UINT)DS_TYPE::GREATER_EQUAL].GetAddressOf())))
+		return E_FAIL;
+
+
+	// NO_TEST
+	desc.DepthEnable = false;	//비교를 안함
+	desc.DepthFunc = D3D11_COMPARISON_ALWAYS; // 항상 통과
+	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+
+	if (FAILED(DEVICE->CreateDepthStencilState(&desc, m_arrDS[(UINT)DS_TYPE::NO_TEST].GetAddressOf())))
+		return E_FAIL;
+
+
+	// NO_WRITE
+	desc.DepthEnable = true;
+	desc.DepthFunc = D3D11_COMPARISON_LESS;	
+	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO; //깊이 기록 안함
+
+	if (FAILED(DEVICE->CreateDepthStencilState(&desc, m_arrDS[(UINT)DS_TYPE::NO_WRITE].GetAddressOf())))
+		return E_FAIL;
+
+
+	// NO_TEST_NO_WRITE
+	desc.DepthEnable = false;
+	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+
+	if (FAILED(DEVICE->CreateDepthStencilState(&desc, m_arrDS[(UINT)DS_TYPE::NO_TEST_NO_WRITE].GetAddressOf())))
+		return E_FAIL;
+
+
+	
+
 
 	return S_OK;
 }
