@@ -5,7 +5,6 @@
 #include "CMaterial.h"
 
 
-// 충돌체의 모양
 enum class COLLIDER2D_TYPE
 {
     BOX,
@@ -16,31 +15,48 @@ class CCollider2D :
     public CComponent
 {
 private:
-    Matrix              m_matColWorld;          // 월드 매트릭스
+    Matrix              m_matColWorld;
 
     COLLIDER2D_TYPE     m_eColliderType;
 
-    Vec2                m_vOffsetPos;           // 오브젝트로부터의 충돌체의 상대거리
-    Vec2                m_vOffsetScale;         // 오브젝트 크기로부터 충돌체의 배율
+    Vec2                m_vOffsetPos;       // 오브젝트로 부터의 충돌체의 상대 거리
+    Vec2                m_vOffsetScale;     // 오브젝트 크기로 부터 충돌체의 배율
 
-    Ptr<CMesh>          m_pMesh;                 // 충돌체 모양
-    Ptr<CMaterial>      m_pMtrl;                // 충돌체 렌더링 재질
+    Ptr<CMesh>          m_pMesh;            // 충돌체 모양
+    Ptr<CMaterial>      m_pMtrl;            // 충돌체 랜더링 재질
+
+    int                 m_iCollisionCount;  // 충돌 횟수
+
 
 public:
     void SetCollider2DType(COLLIDER2D_TYPE _type);
     void SetOffsetPos(Vec2 _vOffsetPos) { m_vOffsetPos = _vOffsetPos; }
     void SetOffsetScale(Vec2 _vOffsetScale) { m_vOffsetScale = _vOffsetScale; }
 
+    Vec3 GetWorldPos();
+    Vec3 GetWorldScale() { return Vec3(m_vOffsetScale); }   //충돌체는 행렬에서 부모의 크기를 역행렬 곱하기 때문에 오프셋이 곧 충돌체의 크기.
 
 public:
     virtual void finalupdate() override;
     virtual void UpdateData() override;
     void render();
 
-    CLONE(CCollider2D)
+public:
 
+    // 이전 프레임에는 충돌 X, 이번 프레임에 충돌 시작일 때
+    void OnCollisionEnter(CCollider2D* _Other);
+
+    // 이전 프레임에도 충돌 중, 지금도 충돌 중일 때
+    void OnCollision(CCollider2D* _Other);
+
+    // 이전 프레임에 충돌 중, 지금은 충돌 X 일때
+    void OnCollisionExit(CCollider2D* _Other);
+
+
+    CLONE(CCollider2D)
 public:
     CCollider2D();
+    CCollider2D(const CCollider2D& _Origin);
     ~CCollider2D();
 };
 

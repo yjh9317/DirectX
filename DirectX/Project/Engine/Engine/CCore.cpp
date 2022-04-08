@@ -7,6 +7,7 @@
 #include "CKeyMgr.h"
 #include "CResMgr.h"
 #include "CSceneMgr.h"
+#include "CCollisionMgr.h"
 #include "CEventMgr.h"
 
 CCore::CCore()
@@ -18,7 +19,7 @@ CCore::CCore()
 
 CCore::~CCore()
 {
-	
+
 }
 
 int CCore::init(HWND _hWnd, POINT _ptResolution)
@@ -41,7 +42,7 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 	CTimeMgr::GetInst()->init();
 	CResMgr::GetInst()->init();
 	CSceneMgr::GetInst()->init();
-	
+
 
 	return S_OK;
 }
@@ -54,8 +55,11 @@ void CCore::progress()
 	// Scene Update
 	CSceneMgr::GetInst()->progress();
 
+	// Collision Check
+	CCollisionMgr::GetInst()->update();
+
 	// Scene Render
-	CSceneMgr::GetInst()->render();	
+	CSceneMgr::GetInst()->render();
 
 
 	// EventMgr update

@@ -65,17 +65,23 @@ Vec3 CTransform::GetWorldScale()
 	Vec3 vWorldScale = m_vRelativeScale;
 
 	CGameObject* pParent = GetOwner()->GetParent();
-	
+	if (m_bIgnoreParentScale)	// 부모 오브젝트 크기를 무시
+		pParent = nullptr;
+
 	while (pParent)
 	{
 		vWorldScale *= pParent->Transform()->GetScale();
 
+		bool bIgnoreParentScale = pParent->Transform()->m_bIgnoreParentScale;
 		pParent = pParent->GetParent();
+
+		if (bIgnoreParentScale)
+			pParent = nullptr;
 	}
 
-	// 본인의 최종 크기
 	return vWorldScale;
 }
+
 
 void CTransform::UpdateData()
 {

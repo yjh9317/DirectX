@@ -66,6 +66,8 @@ void CResMgr::CreateEngineMesh()
 
 
 
+
+
 	// ==========
 	// CircleMesh
 	// ==========
@@ -80,7 +82,7 @@ void CResMgr::CreateEngineMesh()
 
 	for (UINT i = 0; i < iSliceCount + 1; ++i)
 	{
-		v.vPos = Vec3( fRadius * cosf(fAngleStep * (float)i) , fRadius * sinf(fAngleStep * (float)i), 0.f);
+		v.vPos = Vec3(fRadius * cosf(fAngleStep * (float)i), fRadius * sinf(fAngleStep * (float)i), 0.f);
 		v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
 		v.vUV = Vec2(v.vPos.x + 0.5f, -v.vPos.y + 0.5f);
 		vecVtx.push_back(v);
@@ -122,14 +124,14 @@ void CResMgr::CreateEngineTexture()
 void CResMgr::CreateEngineShader()
 {
 	MakeInputLayoutInfo();
-		
+
 	CGraphicsShader* pShader = nullptr;
 
 	// TestShader
 	pShader = new CGraphicsShader;
 	pShader->CreateVertexShader(L"shader\\test.fx", "VS_Test");
 	pShader->CreatePixelShader(L"shader\\test.fx", "PS_Test");
-	pShader->SetRSType(RS_TYPE::CULL_NONE);	
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
 
 	pShader->AddScalarParamInfo(L"IsColorRed", SCALAR_PARAM::INT_0);
 	pShader->AddTexParamInfo(L"OutputTex", TEX_PARAM::TEX_0);
@@ -142,10 +144,11 @@ void CResMgr::CreateEngineShader()
 	pShader->CreatePixelShader(L"Shader\\std2d.fx", "PS_Collider2D");
 
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
-	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP); //위상 구조를 라인스트립으로 설정
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+
+	pShader->AddScalarParamInfo(L"IsCollision", SCALAR_PARAM::INT_0);
 
 	AddRes<CGraphicsShader>(L"Collider2DShader", pShader);
-
 }
 
 void CResMgr::CreateEngineMaterial()
@@ -155,7 +158,6 @@ void CResMgr::CreateEngineMaterial()
 	// TestMtrl 생성
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"TestShader"));
-
 	AddRes<CMaterial>(L"TestMtrl", pMtrl);
 
 	// Collider2DMtrl 

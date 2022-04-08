@@ -8,6 +8,7 @@ class CComponent;
 class CTransform;
 class CMeshRender;
 class CCollider2D;
+class CScript;
 
 
 class CGameObject :
@@ -56,6 +57,7 @@ public:
     GET_COMPONENT(MeshRender, MESHRENDER)
     GET_COMPONENT(Collider2D, COLLIDER2D)
 
+    CScript* GetScript() { return (CScript*)m_arrCom[(UINT)COMPONENT_TYPE::SCRIPT]; }
 
 public: 
     CLONE(CGameObject)

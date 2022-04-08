@@ -118,6 +118,9 @@
     <ClInclude Include="CCollider2D.h">
       <Filter>Engine\05. Component\03. Collider2D</Filter>
     </ClInclude>
+    <ClInclude Include="CCollisionMgr.h">
+      <Filter>Engine\03. Manager\09. CollisionMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -218,6 +221,9 @@
     </ClCompile>
     <ClCompile Include="CCollider2D.cpp">
       <Filter>Engine\05. Component\03. Collider2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollisionMgr.cpp">
+      <Filter>Engine\03. Manager\09. CollisionMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -367,6 +373,9 @@
     </Filter>
     <Filter Include="Engine\07. Resource\01. Prefab">
       <UniqueIdentifier>{dd90699f-65bb-4e1a-91cb-8057608b7ffe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Manager\09. CollisionMgr">
+      <UniqueIdentifier>{47f75cf4-214b-43b1-8a3d-a044ab0f83cf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

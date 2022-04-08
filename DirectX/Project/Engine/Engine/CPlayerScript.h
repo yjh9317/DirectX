@@ -15,6 +15,9 @@ public:
     virtual void update();
     virtual void lateupdate();
 
+    virtual void OnCollisionEnter(CGameObject* _OtherObject) override;
+
+
     CLONE(CPlayerScript)
 
 public:

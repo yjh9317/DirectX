@@ -6,7 +6,7 @@
 
 
 CMissileScript::CMissileScript()
-	: m_fSpeed(100.f)
+	: m_fSpeed(0.f)
 	, m_fAccTime(0.f)
 {
 }
@@ -28,7 +28,7 @@ void CMissileScript::update()
 
 	if (m_fAccTime >= 2.f)
 	{
-		GetOwner()->Destroy();
+		//GetOwner()->Destroy();
 	}
 }
 

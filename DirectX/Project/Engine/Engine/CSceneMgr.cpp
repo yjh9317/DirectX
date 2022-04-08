@@ -2,25 +2,27 @@
 #include "CSceneMgr.h"
 
 #include "CEventMgr.h"
+#include "CCollisionMgr.h"
 
 #include "CResMgr.h"
 #include "CMesh.h"
 #include "CGraphicsShader.h"
-#include "CCollider2D.h"
 
 #include "CDevice.h"
 #include "CPathMgr.h"
 
 #include "CScene.h"
 #include "CLayer.h"
+
 #include "CGameObject.h"
 #include "CTransform.h"
 #include "CMeshRender.h"
 #include "CCamera.h"
+#include "CCollider2D.h"
+
 #include "CPlayerScript.h"
 #include "CCameraMoveScript.h"
 #include "CMissileScript.h"
-
 
 #include "CTexture.h"
 #include "CPrefab.h"
@@ -91,23 +93,31 @@ void CSceneMgr::init()
 	pObject->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
 	pObject->Collider2D()->SetOffsetScale(Vec2(100.f, 100.f));
 
+	m_pCurScene->AddObject(pObject, L"Player");
 
-	/*CGameObject* pChildObject = new CGameObject;
-	pChildObject->SetName(L"ChildObject");
+	// Monster Object
+	pObject = new CGameObject;
+	pObject->SetName(L"Missile");
+	pObject->AddComponent(new CTransform);
+	pObject->AddComponent(new CMeshRender);
+	pObject->AddComponent(new CCollider2D);
+	pObject->AddComponent(new CMissileScript);
 
-	pChildObject->AddComponent(new CTransform);
-	pChildObject->AddComponent(new CMeshRender);
+	pObject->Transform()->SetPos(Vec3(400.f, 0.f, 0.f));
+	pObject->Transform()->SetScale(Vec3(300.f, 300.f, 1.f));
 
-	pChildObject->Transform()->SetIgnoreParentScale(true);
-	pChildObject->Transform()->SetScale(Vec3(150.f, 150.f, 1.f));
-	pChildObject->Transform()->SetPos(Vec3(300.f, 0.f, 0.f));
+	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
 
-	pChildObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh"));
-	pChildObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
+	pObject->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
+	pObject->Collider2D()->SetOffsetScale(Vec2(100.f, 100.f));
 
-	pObject->AddChild(pChildObject);*/
+	m_pCurScene->AddObject(pObject, L"Monster");
 
-	m_pCurScene->AddObject(pObject, L"Default");
+
+
+
+	CCollisionMgr::GetInst()->CollisionCheck(1, 2);
 
 
 	m_pCurScene->start();

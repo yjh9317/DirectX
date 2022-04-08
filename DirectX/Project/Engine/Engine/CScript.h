@@ -26,7 +26,11 @@ public:
 	virtual void lateupdate() {}
 	virtual void finalupdate() final {}	// 더이상 상속되지 않도록 final
 
-	CScript* Clone() = 0;
+	virtual void OnCollisionEnter(CGameObject* _OtherObject) {};
+	virtual void OnCollision(CGameObject* _OtherObject) {};
+	virtual void OnCollisionExit(CGameObject* _OtherObject) {};
+
+	virtual CScript* Clone() = 0;
 
 public:
 	CScript();

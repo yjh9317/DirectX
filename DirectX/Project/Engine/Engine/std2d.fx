@@ -63,6 +63,15 @@ float4 PS_Collider2D(VTX_OUT _in) : SV_Target
     
     vOutColor = float4(0.f, 1.f, 0.f, 1.f);
     
+    if (g_int_0)
+    {
+        vOutColor = float4(1.f, 0.f, 0.f, 1.f);
+    }
+    else
+    {
+        vOutColor = float4(0.f, 1.f, 0.f, 1.f);
+    }
+    
     // 보간된 내부 정점의 값을 이용해서 (범위 (0,0) ~ (1,1)) 충돌체의 크기를 조절가능
     // 재질을 통해서 값을 전달받아서 조절도 가능함.
     // 퍼센트라 충돌체가 커지면 그만큼 커져서 해상도,크기등 미리 값을 알고 있어야 정확히 사용가능
