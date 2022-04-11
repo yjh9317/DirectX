@@ -22,6 +22,10 @@ private:
     void* m_pIdxSys;
 
 public:
+    Vtx* GetVtxSysMem() { return (Vtx*)m_pVtxSys; }
+
+
+public:
     virtual int Load(const wstring& _strFilePath) { return S_OK; }
     virtual void UpdateData() override;
 

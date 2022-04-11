@@ -57,12 +57,6 @@ void CCollider2D::SetCollider2DType(COLLIDER2D_TYPE _type)
 	}
 }
 
-Vec3 CCollider2D::GetWorldPos()
-{
-	Vec3 vColliderWorldPos = Transform()->GetWorldPos() + m_vOffsetPos;
-
-	return vColliderWorldPos;
-}
 
 
 
