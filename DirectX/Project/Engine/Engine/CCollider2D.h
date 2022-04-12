@@ -31,8 +31,9 @@ private:
 public:
     void SetCollider2DType(COLLIDER2D_TYPE _type);
     void SetOffsetPos(Vec2 _vOffsetPos) { m_vOffsetPos = _vOffsetPos; }
-    void SetOffsetScale(Vec2 _vOffsetScale) { m_vOffsetScale = _vOffsetScale; }
+    void SetOffsetScale(Vec2 _vOffsetScale);
 
+    COLLIDER2D_TYPE GetCollider2DType() { return m_eColliderType; }
     Vec3 GetWorldPos() { return m_matColWorld.Translation(); }
     Vec3 GetWorldScale() { return Vec3(m_vOffsetScale); }   //충돌체는 행렬에서 부모의 크기를 역행렬 곱하기 때문에 오프셋이 곧 충돌체의 크기.
 

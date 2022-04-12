@@ -38,13 +38,6 @@ void CCollisionMgr::update()
 	}
 }
 
-void CCollisionMgr::CollisionCheck(const wstring& _strLeftName, const wstring& _strRightName)
-{
-}
-
-void CCollisionMgr::CollisionOff(const wstring& _strLeftName, const wstring& _strRightName)
-{
-}
 
 void CCollisionMgr::CollisionBetweenLayer(const vector<CGameObject*>& _left, const vector<CGameObject*>& _right)
 {
@@ -134,9 +127,30 @@ void CCollisionMgr::CollisionBetweenLayer(const vector<CGameObject*>& _left, con
 	}
 }
 
+
 bool CCollisionMgr::IsCollision(CCollider2D* _pLeftCol, CCollider2D* _pRightCol)
 {
-	// 충돌체가 사용하는 기본 도형(사각형) 로컬 정점위치를 알아낸다, 시스템 메모리쪽의 버퍼를 가져오면 로컬스페이스의 좌표를 알 수 있다.
+	// 박스 충돌체끼리 충돌
+	if (_pLeftCol->GetCollider2DType() == COLLIDER2D_TYPE::BOX
+		&& _pRightCol->GetCollider2DType() == COLLIDER2D_TYPE::BOX)
+	{
+		return IsCollision_Box(_pLeftCol, _pRightCol);
+	}
+	// 원 충돌체끼리 충돌
+	else if (_pLeftCol->GetCollider2DType() == COLLIDER2D_TYPE::CIRCLE
+		&& _pRightCol->GetCollider2DType() == COLLIDER2D_TYPE::CIRCLE)
+	{
+		return IsCollision_Circle(_pLeftCol, _pRightCol);
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool CCollisionMgr::IsCollision_Box(CCollider2D* _pLeftCol, CCollider2D* _pRightCol)
+{
+	// 충돌체가 사용하는 기본 도형(사각형) 로컬 정점위치를 알아낸다.
 	// 0 -- 1
 	// | \  |
 	// 3 -- 2	
@@ -147,14 +161,15 @@ bool CCollisionMgr::IsCollision(CCollider2D* _pLeftCol, CCollider2D* _pRightCol)
 	Matrix matLeft = _pLeftCol->GetWorldMat();
 	Matrix matRight = _pRightCol->GetWorldMat();
 
+	// (vector3, 1.f)에서 1.f는 이동변환도 전환시키겠다, 0.f는 이동변환을 적용시키지 않겠다라는의미.
+// 점4개가 아니라 3개만 사용해서 구함.(반대쪽도 같은 방향벡터이므로)
+// 로컬스페이스의 중심점(0, 0)을 보내면 도형의 센터좌표가 나옴.
+// Normalize(정규화)를 하지 않는 이유는 다른 축에 투영시킬 때는 축의 길이를 사용할 수도 있다.
+// 축으로 사용할 때는 길이가 상관없다.
+
+
 	// Local 스페이스의 네개의 정점을 각 충돌체 월드 위치로 보낸다.
 	Vec3 vAsix[4] = {};
-
-	// (vector3, 1.f)에서 1.f는 이동변환도 전환시키겠다, 0.f는 이동변환을 적용시키지 않겠다라는의미.
-	// 점4개가 아니라 3개만 사용해서 구함.(반대쪽도 같은 방향벡터이므로)
-	// 로컬스페이스의 중심점(0, 0)을 보내면 도형의 센터좌표가 나옴.
-	// Normalize(정규화)를 하지 않는 이유는 다른 축에 투영시킬 때는 축의 길이를 사용할 수도 있다.
-	// 축으로 사용할 때는 길이가 상관없다.
 
 	// (Vector3, 0.f) X Matirx(4x4)
 	// XMVector3TransformNormal();
@@ -170,9 +185,45 @@ bool CCollisionMgr::IsCollision(CCollider2D* _pLeftCol, CCollider2D* _pRightCol)
 	//Vec3 vCenter = XMVector3TransformCoord(Vec3::Zero, matRight) - XMVector3TransformCoord(Vec3::Zero, matLeft);	
 	Vec3 vCenter = _pRightCol->GetWorldPos() - _pLeftCol->GetWorldPos();
 
+	for (int i = 0; i < 4; ++i)
+	{
+		vAsix[i].z = 0.f;		// 2차원 벡터이므로 z는 0
+		Vec3 vProj = vAsix[i];
+		vProj.Normalize();		// 투영축의 길이를 1로 변환
+
+		float fDist = 0.f;
+
+		for (int j = 0; j < 4; ++j)
+		{
+			// vProj 에 vAsix[j] 를 투영시킨 길이		
+			fDist += abs(vAsix[j].Dot(vProj));
+		}
+		// 축에 투영시킨 길이의 절반
+		fDist *= 0.5f;
+		float fCenterDist = abs(vCenter.Dot(vProj));
+
+		// 두 도형사이의 거리가 투영한 길이보다 멀다(분리축이 있다), 분리축이 있으므로 충돌X(바로 return false)
+		if (fDist < fCenterDist)
+			return false;
+	}
 
 	return true;
 }
+
+bool CCollisionMgr::IsCollision_Circle(CCollider2D* _pLeftCol, CCollider2D* _pRightCol)
+{
+	Vec3 vCenter = _pLeftCol->GetWorldPos() - _pRightCol->GetWorldPos();
+	float fDist = vCenter.Length();
+	float fRadius = fabsf(_pLeftCol->GetWorldScale().x) * 0.5f + fabsf(_pRightCol->GetWorldScale().x) * 0.5f;
+
+	if (fRadius < fDist)
+	{
+		return false;
+	}
+
+	return true;
+}
+
 
 
 void CCollisionMgr::CollisionCheck(int _iLayerLeftIdx, int _iLayerRightIdx)
@@ -209,4 +260,24 @@ void CCollisionMgr::CollisionOff(int _iLayerLeftIdx, int _iLayerRightIdx)
 	}
 
 	m_arrCheck[iRow] &= ~(1 << iCol);
+}
+
+void CCollisionMgr::CollisionCheck(const wstring& _strLeftName, const wstring& _strRightName)
+{
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+	CLayer* pLeftLayer = pCurScene->GetLayer(_strLeftName);
+	CLayer* pRightLayer = pCurScene->GetLayer(_strRightName);
+
+	if (pLeftLayer && pRightLayer)
+		CollisionCheck(pLeftLayer->GetLayerIdx(), pRightLayer->GetLayerIdx());
+}
+
+void CCollisionMgr::CollisionOff(const wstring& _strLeftName, const wstring& _strRightName)
+{
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+	CLayer* pLeftLayer = pCurScene->GetLayer(_strLeftName);
+	CLayer* pRightLayer = pCurScene->GetLayer(_strRightName);
+
+	if (pLeftLayer && pRightLayer)
+		CollisionOff(pLeftLayer->GetLayerIdx(), pRightLayer->GetLayerIdx());
 }

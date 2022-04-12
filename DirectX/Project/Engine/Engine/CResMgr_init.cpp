@@ -52,21 +52,12 @@ void CResMgr::CreateEngineMesh()
 	AddRes<CMesh>(L"RectMesh", pMesh);
 	vecIdx.clear();
 
-
-
-
 	vecIdx.push_back(0); vecIdx.push_back(1); vecIdx.push_back(2); vecIdx.push_back(3); vecIdx.push_back(0);
 
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 	AddRes<CMesh>(L"RectMesh_LineStrip", pMesh);
 	vecVtx.clear(); vecIdx.clear();
-
-
-
-
-
-
 
 	// ==========
 	// CircleMesh
@@ -99,11 +90,18 @@ void CResMgr::CreateEngineMesh()
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 	AddRes<CMesh>(L"CircleMesh", pMesh);
+	vecIdx.clear();
+
+	// CicleMesh_LineStrip
+	for (UINT i = 1; i <= iSliceCount + 1; ++i)
+	{
+		vecIdx.push_back(i);
+	}
+
+	pMesh = new CMesh;
+	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	AddRes<CMesh>(L"CircleMesh_LineStrip", pMesh);
 	vecVtx.clear(); vecIdx.clear();
-
-
-
-
 
 
 	// Cube
@@ -131,7 +129,9 @@ void CResMgr::CreateEngineShader()
 	pShader = new CGraphicsShader;
 	pShader->CreateVertexShader(L"shader\\test.fx", "VS_Test");
 	pShader->CreatePixelShader(L"shader\\test.fx", "PS_Test");
+
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);	// ¾ËÆÄ ºí·»µå
 
 	pShader->AddScalarParamInfo(L"IsColorRed", SCALAR_PARAM::INT_0);
 	pShader->AddTexParamInfo(L"OutputTex", TEX_PARAM::TEX_0);

@@ -82,6 +82,14 @@ enum class DS_TYPE
 	END,
 };
 
+// BlendState Option
+enum class BS_TYPE
+{
+	DEFAULT,		// SrcRGB * (1) + DestRGB * (0)
+	ALPHA_BLEND,	// SrcRGB * (SrcAlpha) + DestRGB * (1 - SrcAlpha)
+	END,
+};
+
 enum class COMPONENT_TYPE
 {
 	TRANSFORM,	// 위치, 크기, 회전 (Location)

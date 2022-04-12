@@ -4,6 +4,7 @@
 #include "CGameObject.h"
 
 CLayer::CLayer()
+	: m_iLayerIdx(-1)
 {
 }
 

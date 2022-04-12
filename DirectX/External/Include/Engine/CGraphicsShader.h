@@ -45,6 +45,7 @@ private:
 
     RS_TYPE                         m_eRSType;       // 래스터라이저 타입
     DS_TYPE                         m_eDSType;       // 깊이스텐실 타입
+    BS_TYPE                         m_eBSType;       // 블렌더스테이트 타입
 
     ComPtr<ID3D11InputLayout>       m_InputLayout;   //정점의 내부 구조
     D3D11_PRIMITIVE_TOPOLOGY        m_eTopology;     //정점으로 만들 도형
@@ -62,6 +63,7 @@ public:
 
     void SetRSType(RS_TYPE _eType) { m_eRSType = _eType; }
     void SetDSType(DS_TYPE _eType) { m_eDSType = _eType; }
+    void SetBSType(BS_TYPE _eType) { m_eBSType = _eType; }
     void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _eTopology){m_eTopology = _eTopology;}
     D3D11_PRIMITIVE_TOPOLOGY GetTopology() { return m_eTopology; }
 

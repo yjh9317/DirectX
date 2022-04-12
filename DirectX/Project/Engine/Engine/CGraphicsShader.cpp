@@ -16,6 +16,7 @@ vector<D3D11_INPUT_ELEMENT_DESC> CGraphicsShader::g_vecLayout;		// 인풋 레이아웃
 CGraphicsShader::CGraphicsShader()
 	: m_eRSType(RS_TYPE::CULL_BACK)
 	, m_eDSType(DS_TYPE::LESS)
+	, m_eBSType(BS_TYPE::DEFAULT)
 	, m_eTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 	// 기본 생성자가 없기에 처음에 Topology를 정해줘야 함.
 {
@@ -101,6 +102,7 @@ void CGraphicsShader::UpdateData()
 
 	CONTEXT->RSSetState(CDevice::GetInst()->GetRS(m_eRSType).Get());//래스터라이저 스테이트 설정
 	CONTEXT->OMSetDepthStencilState(CDevice::GetInst()->GetDS(m_eDSType).Get(), 0); //깊이 스텐실 설정
+	CONTEXT->OMSetBlendState(CDevice::GetInst()->GetBS(m_eBSType).Get(), Vec4(), 0xffffffff);	//블렌드 스테이트 설정
 }
 
 void CGraphicsShader::AddScalarParamInfo(const wstring& _strDesc, SCALAR_PARAM _eParamType)

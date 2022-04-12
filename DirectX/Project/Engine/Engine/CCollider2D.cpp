@@ -53,10 +53,20 @@ void CCollider2D::SetCollider2DType(COLLIDER2D_TYPE _type)
 	}
 	else
 	{
-		m_pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh");
+		m_pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh_LineStrip");
 	}
 }
 
+
+void CCollider2D::SetOffsetScale(Vec2 _vOffsetScale)
+{
+	m_vOffsetScale = _vOffsetScale;
+
+	if (COLLIDER2D_TYPE::CIRCLE == m_eColliderType)
+	{
+		m_vOffsetScale.y = m_vOffsetScale.x;
+	}
+}
 
 
 

@@ -68,18 +68,18 @@ void CPlayerScript::OnCollisionEnter(CGameObject* _OtherObject)
 {
 	if (_OtherObject->GetName() == L"Missile")
 	{
-		int a = 0;
+		//_OtherObject->Destroy();
 	}
 
 	// C++ RTTI 를 이용한 타입 구분
-	if (typeid(CMissileScript).hash_code() == typeid(*_OtherObject->GetScript()).hash_code())
-	{
-		int a = 0;
-	}
+	//if (typeid(CMissileScript).hash_code() == typeid(*_OtherObject->GetScript()).hash_code())
+	//{
+	//	int a = 0;
+	//}
 
-	CMissileScript* pMissileScript = dynamic_cast<CMissileScript*>(_OtherObject->GetScript());
-	if (pMissileScript)
-	{
-		int a = 0;
-	}
+	//CMissileScript* pMissileScript = dynamic_cast<CMissileScript*>(_OtherObject->GetScript());
+	//if (pMissileScript)
+	//{
+	//	int a = 0;
+	//}
 }

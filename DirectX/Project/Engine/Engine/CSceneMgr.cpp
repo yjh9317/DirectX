@@ -116,8 +116,7 @@ void CSceneMgr::init()
 
 
 
-
-	CCollisionMgr::GetInst()->CollisionCheck(1, 2);
+	CCollisionMgr::GetInst()->CollisionCheck(L"Player", L"Monster");
 
 
 	m_pCurScene->start();

@@ -9,7 +9,11 @@ class CLayer :
 private:
     vector<CGameObject*>    m_vecRoot;  // 레이어에 속한 최상위 부모 오브젝트
     vector<CGameObject*>    m_vecObj;   // 매 프레임 마다 파악되는 레이어 소속 모든 오브젝트
+    int                     m_iLayerIdx;    // Scene 에서의 인덱스
 
+
+public:
+    int GetLayerIdx() { return m_iLayerIdx; }
 public:
     void start();
     void update();
@@ -34,5 +38,7 @@ public:
 public:
     CLayer();
     ~CLayer();
+
+    friend class CScene;
 };
 

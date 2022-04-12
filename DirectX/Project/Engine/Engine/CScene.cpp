@@ -12,6 +12,7 @@ CScene::CScene()
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
 		m_arrLayer[i] = new CLayer;		// 먼저 모든 레이어 생성
+		m_arrLayer[i]->m_iLayerIdx = i; // 레이어 인덱스 
 	}
 }
 
@@ -125,4 +126,16 @@ void CScene::AddObject(CGameObject* _pRootObj, int _iLayerIdx)
 			queue.push_back(vecChild[i]);
 		}
 	}
+}
+CLayer* CScene::GetLayer(const wstring& _strLayerName)
+{
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		if (_strLayerName == m_arrLayer[i]->GetName())
+		{
+			return m_arrLayer[i];
+		}
+	}
+
+	return nullptr;
 }
