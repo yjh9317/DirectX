@@ -17,17 +17,20 @@ struct VTX_OUT
 };
 
 
-
-// ============
+// =========================
 // Std2D Shader
-// ============
-
+// g_float_0 : Mask Limit
+// g_tex_0 : Output Texture
+// Rasterizer : CULL_NONE
+// BlendState : Default
+// DepthStencilState : LESS
+// =========================
 VTX_OUT VS_Std2D(VTX_IN _in)
 {
     VTX_OUT output = (VTX_OUT) 0.f;
     
     output.vPosition = mul(float4(_in.vPos, 1.f), g_matWVP);
-    output.vUV = _in.vUV; // vUV 는 보간해서 적용된다(외우자)
+    output.vUV = _in.vUV;
     
     return output;
 }
@@ -36,22 +39,28 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
 {
     float4 vOutColor = (float4) 0.f;
     
+    vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+    
+    // g_float_0보다 작으면 셰이더를 처분
+    if (vOutColor.a <= g_float_0)
+    {
+        discard;
+    }
+    
     return vOutColor;
-
 }
 
 
 // =================
 // Collider2D Shader
+// g_int_0 : Collision
 // =================
-
 VTX_OUT VS_Collider2D(VTX_IN _in)
 {
     VTX_OUT output = (VTX_OUT) 0.f;
     
     output.vPosition = mul(float4(_in.vPos, 1.f), g_matWVP);
     output.vUV = _in.vUV;
-    
     
     return output;
 }
@@ -60,9 +69,7 @@ VTX_OUT VS_Collider2D(VTX_IN _in)
 float4 PS_Collider2D(VTX_OUT _in) : SV_Target
 {
     float4 vOutColor = (float4) 0.f;
-    
-    vOutColor = float4(0.f, 1.f, 0.f, 1.f);
-    
+       
     if (g_int_0)
     {
         vOutColor = float4(1.f, 0.f, 0.f, 1.f);
@@ -83,9 +90,14 @@ float4 PS_Collider2D(VTX_OUT _in) : SV_Target
     
     //discard; : 모든 픽셀을 버린다, 파이프라인가다가 discard가 나올 때 중단된다.
     //clip(-1) == discard
-    
-        return vOutColor;
+        
+    return vOutColor;
 }
+
+
+
+
+
 
 
 #endif

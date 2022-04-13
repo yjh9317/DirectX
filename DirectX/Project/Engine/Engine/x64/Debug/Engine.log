@@ -172,7 +172,6 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   {
   };
   
-  CPlayerScript.cpp
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
   .\Project\Engine\Engine\CCamera.h
   .\Project\Engine\Engine\CCameraMoveScript.h
@@ -195,6 +194,7 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   .\Project\Engine\Engine\CPathMgr.h
   .\Project\Engine\Engine\CPlayerScript.h
   .\Project\Engine\Engine\CPrefab.h
+  .\Project\Engine\Engine\CRenderMgr.h
   .\Project\Engine\Engine\CRes.h
   .\Project\Engine\Engine\CResMgr.h
   .\Project\Engine\Engine\CScene.h
@@ -213,7 +213,7 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   .\Project\Engine\Engine\SimpleMath.h
   .\Project\Engine\Engine\singleton.h
   .\Project\Engine\Engine\struct.h
-  39개 파일이 복사되었습니다.
+  40개 파일이 복사되었습니다.
   .\Project\Engine\Engine\std2d.fx
   .\Project\Engine\Engine\test.fx
   .\Project\Engine\Engine\value.fx

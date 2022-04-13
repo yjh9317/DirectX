@@ -90,6 +90,14 @@ enum class BS_TYPE
 	END,
 };
 
+// 쉐이더의 렌더링 시점에 따른 분류(Domain Shader아님)
+enum class SHADER_DOMAIN
+{
+	DOMAIN_FORWARD,	// 불투명
+	DOMAIN_MASKED,	// 불투명 , 투명
+	DOMAIN_OPAQUE,	// 반투명
+};
+
 enum class COMPONENT_TYPE
 {
 	TRANSFORM,	// 위치, 크기, 회전 (Location)

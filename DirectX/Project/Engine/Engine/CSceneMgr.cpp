@@ -50,7 +50,12 @@ void CSceneMgr::init()
 
 	// Texture 한장 로딩해보기
 	CResMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Player.bmp");
-	Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"PlayerTexture");
+	CResMgr::GetInst()->Load<CTexture>(L"MagicCircle", L"texture\\MagicCircle.png");
+
+	Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"MagicCircle");
+
+
+
 
 	// Prefab 제작
 	CGameObject* pMissileObj = new CGameObject;
@@ -60,7 +65,7 @@ void CSceneMgr::init()
 
 	pMissileObj->Transform()->SetScale(Vec3(50.f, 50.f, 1.f));
 	pMissileObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh"));
-	pMissileObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
+	pMissileObj->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
 
 	CResMgr::GetInst()->AddRes<CPrefab>(L"MissilePrefab", new CPrefab(pMissileObj));
 
@@ -84,12 +89,13 @@ void CSceneMgr::init()
 	pObject->Transform()->SetScale(Vec3(300.f, 300.f, 1.f));
 
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
+	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
 
-	int a = 0;
-	pObject->MeshRender()->GetMaterial()->SetScalarParam(L"IsColorRed", &a);
-	pObject->MeshRender()->GetMaterial()->SetTexParam(L"OutputTex", pTex);
+	float fLimit = 0.3333f;
+	pObject->MeshRender()->GetSharedMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_0, &fLimit);
+	pObject->MeshRender()->GetSharedMaterial()->SetTexParam(TEX_PARAM::TEX_0, pTex.Get());
 
+	pObject->Collider2D()->SetCollider2DType(COLLIDER2D_TYPE::CIRCLE);
 	pObject->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
 	pObject->Collider2D()->SetOffsetScale(Vec2(100.f, 100.f));
 
@@ -97,7 +103,7 @@ void CSceneMgr::init()
 
 	// Monster Object
 	pObject = new CGameObject;
-	pObject->SetName(L"Missile");
+	pObject->SetName(L"Monster");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
 	pObject->AddComponent(new CCollider2D);
@@ -107,13 +113,13 @@ void CSceneMgr::init()
 	pObject->Transform()->SetScale(Vec3(300.f, 300.f, 1.f));
 
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
+	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
 
+	pObject->Collider2D()->SetCollider2DType(COLLIDER2D_TYPE::CIRCLE);
 	pObject->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
 	pObject->Collider2D()->SetOffsetScale(Vec2(100.f, 100.f));
 
 	m_pCurScene->AddObject(pObject, L"Monster");
-
 
 
 	CCollisionMgr::GetInst()->CollisionCheck(L"Player", L"Monster");

@@ -29,6 +29,11 @@ void CMaterial::UpdateData()
 		{
 			m_arrTex[i]->UpdateData((int)PIPELINE_STAGE::ALL, i);
 		}
+		else
+		{
+			// 레지스터에 남아있는 값을 삭제
+			CTexture::Clear(i);
+		}
 	}
 
 

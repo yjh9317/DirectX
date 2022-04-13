@@ -25,6 +25,7 @@ protected:
 public:
     // PIPELINE_STAGE
     void UpdateData(int _PipelineStage, int _iRegisterNum);
+    static void Clear(int _iRegisterNum);
 
 public:
     CTexture();

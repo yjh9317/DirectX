@@ -92,3 +92,14 @@ void CTexture::UpdateData(int _PipelineStage, int _iRegisterNum)
         CONTEXT->PSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
     }
 }
+
+void CTexture::Clear(int _iRegisterNum)
+{
+    // 레지스터에 nullptr
+	ID3D11ShaderResourceView* pSRV = nullptr;
+	CONTEXT->VSSetShaderResources(_iRegisterNum, 1, &pSRV);
+	CONTEXT->HSSetShaderResources(_iRegisterNum, 1, &pSRV);
+	CONTEXT->DSSetShaderResources(_iRegisterNum, 1, &pSRV);
+	CONTEXT->GSSetShaderResources(_iRegisterNum, 1, &pSRV);
+	CONTEXT->PSSetShaderResources(_iRegisterNum, 1, &pSRV);
+}

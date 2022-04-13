@@ -125,18 +125,19 @@ void CResMgr::CreateEngineShader()
 
 	CGraphicsShader* pShader = nullptr;
 
-	// TestShader
+	// Std2D Shader
 	pShader = new CGraphicsShader;
-	pShader->CreateVertexShader(L"shader\\test.fx", "VS_Test");
-	pShader->CreatePixelShader(L"shader\\test.fx", "PS_Test");
+	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
+	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D");
 
+	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_MASKED);
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
-	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);	// 알파 블렌드
+	pShader->SetBSType(BS_TYPE::DEFAULT);
 
-	pShader->AddScalarParamInfo(L"IsColorRed", SCALAR_PARAM::INT_0);
+	pShader->AddScalarParamInfo(L"Mask Limit", SCALAR_PARAM::FLOAT_0);
 	pShader->AddTexParamInfo(L"OutputTex", TEX_PARAM::TEX_0);
 
-	AddRes<CGraphicsShader>(L"TestShader", pShader);
+	AddRes<CGraphicsShader>(L"Std2DShader", pShader);
 
 	// Collider2D Shader
 	pShader = new CGraphicsShader;
@@ -155,10 +156,10 @@ void CResMgr::CreateEngineMaterial()
 {
 	CMaterial* pMtrl = nullptr;
 
-	// TestMtrl 생성
+	// Std2DMtrl 생성
 	pMtrl = new CMaterial;
-	pMtrl->SetShader(FindRes<CGraphicsShader>(L"TestShader"));
-	AddRes<CMaterial>(L"TestMtrl", pMtrl);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DShader"));
+	AddRes<CMaterial>(L"Std2DMtrl", pMtrl);
 
 	// Collider2DMtrl 
 	pMtrl = new CMaterial;

@@ -42,6 +42,7 @@ private:
     ComPtr<ID3D11GeometryShader>    m_GS;            //지오메트리
     ComPtr<ID3D11PixelShader>       m_PS;            //픽셀
 
+    SHADER_DOMAIN                   m_eDomain;
 
     RS_TYPE                         m_eRSType;       // 래스터라이저 타입
     DS_TYPE                         m_eDSType;       // 깊이스텐실 타입
@@ -61,6 +62,7 @@ public:
     //void CreateGeometryShader();
     int CreatePixelShader(const wstring& _strRelativePath, const string& _strFunc);
 
+    void SetShaderDomain(SHADER_DOMAIN _eDomain) { m_eDomain = _eDomain; }
     void SetRSType(RS_TYPE _eType) { m_eRSType = _eType; }
     void SetDSType(DS_TYPE _eType) { m_eDSType = _eType; }
     void SetBSType(BS_TYPE _eType) { m_eBSType = _eType; }
