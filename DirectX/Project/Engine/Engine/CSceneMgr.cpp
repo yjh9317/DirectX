@@ -76,6 +76,9 @@ void CSceneMgr::init()
 	pCamObj->AddComponent(new CCamera);
 	pCamObj->AddComponent(new CCameraMoveScript);
 
+	pCamObj->Camera()->SetCameraAsMain();
+	pCamObj->Camera()->CheckLayerMaskAll();
+
 	m_pCurScene->AddObject(pCamObj, L"Default");
 
 	// Player Object
@@ -177,4 +180,12 @@ void CSceneMgr::AddChild(CGameObject* _pParentObject, CGameObject* _pChildObject
 	info.wParam = (DWORD_PTR)_pChildObject;
 
 	CEventMgr::GetInst()->AddEvent(info);
+}
+
+void CSceneMgr::ClearLayer()
+{
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		m_pCurScene->GetLayer(i)->Clear();
+	}
 }

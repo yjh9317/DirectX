@@ -24,7 +24,7 @@ CMeshRender::CMeshRender(const CMeshRender& _meshrender)
 	{
 		GetDynamicMaterial();
 	}
-	else if (nullptr == m_pSharedMtrl)
+	else if (nullptr != m_pSharedMtrl)
 	{
 		SetSharedMaterial(m_pSharedMtrl);
 	}

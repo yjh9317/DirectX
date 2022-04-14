@@ -390,9 +390,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="test.fx">
-      <Filter>Engine\ShaderCode</Filter>
-    </FxCompile>
     <FxCompile Include="std2d.fx">
       <Filter>Engine\ShaderCode</Filter>
     </FxCompile>

@@ -68,6 +68,8 @@ public:
     void SetBSType(BS_TYPE _eType) { m_eBSType = _eType; }
     void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _eTopology){m_eTopology = _eTopology;}
     D3D11_PRIMITIVE_TOPOLOGY GetTopology() { return m_eTopology; }
+    SHADER_DOMAIN GetShaderDomain() { return m_eDomain; }
+
 
     virtual void UpdateData() override;
 

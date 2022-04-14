@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "CEventMgr.h"
 
-#include "CGameObject.h"
 #include "CSceneMgr.h"
 #include "CScene.h"
+#include "CGameObject.h"
 
+#include "CRenderMgr.h"
 
 CEventMgr::CEventMgr()
 {
@@ -48,36 +49,39 @@ void CEventMgr::update()
 			// lParam : Object Adress
 		{
 			CGameObject* pDeleteObject = (CGameObject*)m_vecEvent[i].lParam;
-			
+
 			if (false == pDeleteObject->m_bDead)
 			{
 				m_vecDead.push_back(pDeleteObject);
 				pDeleteObject->m_bDead = true;
-			}			
+			}
 		}
+
 		break;
+
 		case EVENT_TYPE::ADD_CHILD:
-			// lParam: Parent Obecjt, wParam : Child Object;
+			// lParam : Parent Object, wParam : Child Object
 		{
 			CGameObject* pParent = (CGameObject*)m_vecEvent[i].lParam;
 			CGameObject* pChild = (CGameObject*)m_vecEvent[i].wParam;
 
-			// 자식 추가
 			pParent->AddChild(pChild);
 		}
 		break;
-		case EVENT_TYPE::STAGE_CHANGE:
-			// lParam : Next Stage Enum		
-			
-			break;
 
-		case EVENT_TYPE::CHANGE_AI_STATE:
+
+		case EVENT_TYPE::SET_CAMERA_INDEX:
 		{
-			// lParam : FSM Adress, wParam : Next State Type
-			
+			CCamera* cam = (CCamera*)m_vecEvent[i].lParam;
+			int iChangeIdx = (int)m_vecEvent[i].wParam;
+
+			CRenderMgr::GetInst()->SwapCameraIndex(cam, iChangeIdx);
 		}
+
+
 		break;
 		}
+
 
 		// 이벤트 중에 Stage 변경 이벤트가 있었다면,
 		// 나머지 이벤트는 다 무시하고 종료

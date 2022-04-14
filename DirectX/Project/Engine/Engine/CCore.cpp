@@ -7,6 +7,7 @@
 #include "CKeyMgr.h"
 #include "CResMgr.h"
 #include "CSceneMgr.h"
+#include "CRenderMgr.h"
 #include "CCollisionMgr.h"
 #include "CEventMgr.h"
 
@@ -40,6 +41,8 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 	CPathMgr::GetInst()->init();
 	CKeyMgr::GetInst()->init();
 	CTimeMgr::GetInst()->init();
+
+	CRenderMgr::GetInst()->init();
 	CResMgr::GetInst()->init();
 	CSceneMgr::GetInst()->init();
 
@@ -47,10 +50,23 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 	return S_OK;
 }
 
-void CCore::progress()
+
+void CCore::Frame_Init()
 {
 	CTimeMgr::GetInst()->update();
 	CKeyMgr::GetInst()->update();
+	CRenderMgr::GetInst()->ClearCamera();
+}
+
+void CCore::Frame_Clear()
+{
+	CSceneMgr::GetInst()->ClearLayer();
+}
+
+void CCore::progress()
+{
+	// 프레임 시작
+	Frame_Init();
 
 	// Scene Update
 	CSceneMgr::GetInst()->progress();
@@ -58,10 +74,13 @@ void CCore::progress()
 	// Collision Check
 	CCollisionMgr::GetInst()->update();
 
-	// Scene Render
-	CSceneMgr::GetInst()->render();
-
+	// Render	
+	CRenderMgr::GetInst()->render();
 
 	// EventMgr update
 	CEventMgr::GetInst()->update();
+
+	// 프레임 종료
+	Frame_Clear();
 }
+
