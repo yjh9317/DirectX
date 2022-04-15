@@ -54,19 +54,7 @@ void CScene::finalupdate()
 	}
 }
 
-void CScene::render()
-{
-	for (UINT i = 0; i < MAX_LAYER; ++i)
-	{
-		m_arrLayer[i]->render();
-	}
 
-
-	for (UINT i = 0; i < MAX_LAYER; ++i)
-	{
-		m_arrLayer[i]->Clear();
-	}
-}
 
 void CScene::SetLayerName(int _iLayerIdx, const wstring& _strName)
 {

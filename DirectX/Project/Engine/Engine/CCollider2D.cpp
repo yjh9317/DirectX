@@ -68,7 +68,15 @@ void CCollider2D::SetOffsetScale(Vec2 _vOffsetScale)
 	}
 }
 
+void CCollider2D::SetOffsetScale(float _x, float _y)
+{
+	m_vOffsetScale = Vec2(_x, _y);
 
+	if (COLLIDER2D_TYPE::CIRCLE == m_eColliderType)
+	{
+		m_vOffsetScale.y = m_vOffsetScale.x;
+	}
+}
 
 void CCollider2D::finalupdate()
 {
@@ -116,13 +124,17 @@ void CCollider2D::OnCollisionEnter(CCollider2D* _Other)
 
 	// 스크립트에서 오브젝트의 상태를 조정하기 위해 스크립트에서 충돌체크
 	CScript* pScript = GetOwner()->GetScript();
-	pScript->OnCollisionEnter(_Other->GetOwner());
+
+	if (nullptr != pScript)
+		pScript->OnCollisionEnter(_Other->GetOwner());
 }
 
 void CCollider2D::OnCollision(CCollider2D* _Other)
 {
 	CScript* pScript = GetOwner()->GetScript();
-	pScript->OnCollision(_Other->GetOwner());
+
+	if (nullptr != pScript)
+		pScript->OnCollision(_Other->GetOwner());
 }
 
 void CCollider2D::OnCollisionExit(CCollider2D* _Other)
@@ -130,5 +142,7 @@ void CCollider2D::OnCollisionExit(CCollider2D* _Other)
 	--m_iCollisionCount;
 
 	CScript* pScript = GetOwner()->GetScript();
-	pScript->OnCollisionExit(_Other->GetOwner());
+
+	if (nullptr != pScript)
+		pScript->OnCollisionExit(_Other->GetOwner());
 }

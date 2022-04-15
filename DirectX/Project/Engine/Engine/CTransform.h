@@ -15,8 +15,14 @@ private:
 
 public:
     void SetPos(const Vec3& _vPos) { m_vRelativePos = _vPos; }
+    void SetPos(float _x, float _y, float _z) { m_vRelativePos = Vec3(_x, _y, _z); }
+
     void SetScale(const Vec3& _vScale) { m_vRelativeScale = _vScale; }
+    void SetScale(float _x, float _y, float _z) { m_vRelativeScale = Vec3(_x, _y, _z); }
+
     void SetRotation(const Vec3 _vRot) { m_vRelativeRot = _vRot; }
+    void SetRotation(float _x, float _y, float _z) { m_vRelativeRot = Vec3(_x, _y, _z); }
+
 
     const Vec3& GetPos() { return m_vRelativePos; }
     const Vec3& GetScale() { return m_vRelativeScale; }

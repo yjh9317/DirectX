@@ -36,6 +36,9 @@ void CPlayerScript::update()
 	if (KEY_PRESSED(KEY::DOWN))
 		vPos.y -= DT * 100.f;
 
+	if (KEY_PRESSED(KEY::LSHFT))
+		vPos.z += DT * 500.f;
+
 	Transform()->SetPos(vPos);
 
 	if (KEY_PRESSED(KEY::Z))
@@ -47,6 +50,15 @@ void CPlayerScript::update()
 
 	if (KEY_TAP(KEY::SPACE))
 	{
+		//GetOqwner()->Destroy();
+		//GetOwner()->GetChild().at(0)->Destroy();
+
+		//GetOwner()->GetChild().at(0)->Destroy();
+		//GetOwner()->Destroy();
+
+		//GetOwner()->GetChild().at(0)->Destroy();
+		//GetOwner()->Destroy();
+
 		if (nullptr != m_pMissilePrefab)
 		{
 			CGameObject* pMissileObject = m_pMissilePrefab->Instantiate();
@@ -68,18 +80,6 @@ void CPlayerScript::OnCollisionEnter(CGameObject* _OtherObject)
 {
 	if (_OtherObject->GetName() == L"Missile")
 	{
-		//_OtherObject->Destroy();
+		_OtherObject->Destroy();
 	}
-
-	// C++ RTTI 를 이용한 타입 구분
-	//if (typeid(CMissileScript).hash_code() == typeid(*_OtherObject->GetScript()).hash_code())
-	//{
-	//	int a = 0;
-	//}
-
-	//CMissileScript* pMissileScript = dynamic_cast<CMissileScript*>(_OtherObject->GetScript());
-	//if (pMissileScript)
-	//{
-	//	int a = 0;
-	//}
 }

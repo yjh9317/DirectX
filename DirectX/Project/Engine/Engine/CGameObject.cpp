@@ -145,10 +145,10 @@ void CGameObject::DisconnectBetweenParent()
 		if ((*iter) == this)
 		{
 			m_pParent->m_vecChild.erase(iter);
+			m_pParent = nullptr;
+			return;
 		}
 	}
-
-	m_pParent = nullptr;
 }
 
 void CGameObject::AddChild(CGameObject* _pChild)

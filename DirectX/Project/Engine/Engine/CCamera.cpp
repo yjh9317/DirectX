@@ -13,19 +13,33 @@
 #include "CMeshRender.h"
 
 #include "CResMgr.h"
+#include "CTimeMgr.h"
+#include "CKeyMgr.h"
 
 
 CCamera::CCamera()
 	:CComponent(COMPONENT_TYPE::CAMERA)
+	, m_eProjType(PROJ_TYPE::ORTHOGRAPHIC)
+	, m_fWidth(0.f)
+	, m_fAspectRatio(1.f)
+	, m_fFOV(XM_PI/4.f)
+	, m_fFar(10000.f)
 	, m_iLayerMask(0)
 	, m_iCamIdx(-1)
 {
+	m_fWidth = CDevice::GetInst()->GetRenderResolution().x;
+	m_fAspectRatio = CDevice::GetInst()->GetRenderResolution().x / CDevice::GetInst()->GetRenderResolution().y;
 }
 
 CCamera::CCamera(const CCamera& _origin)
 	:CComponent(_origin)
-	,m_iLayerMask(_origin.m_iLayerMask)
-	,m_iCamIdx(-1)
+	, m_eProjType(_origin.m_eProjType)
+	, m_fWidth(_origin.m_fWidth)
+	, m_fAspectRatio(_origin.m_fAspectRatio)
+	, m_fFOV(_origin.m_fFOV)
+	, m_fFar(_origin.m_fFar)
+	, m_iLayerMask(_origin.m_iLayerMask)
+	, m_iCamIdx(-1)
 {
 }
 
@@ -35,20 +49,32 @@ CCamera::~CCamera()
 
 void CCamera::finalupdate()
 {
+
+	// m_fWidth를 이용하여 종횡비,가로,세로를 움직여서 카메라로 움직이는 효과 가능(CameraScript에서 구현)
+	
 	//world에 있는 물체들이 view space로 오도록 변환행렬을 구하는 작업
 
 	// View 행렬 계산
 
 	Vec3 vCamPos = Transform()->GetPos(); //카메라 오브젝트의 좌표
-	// 카메라가 원점이 되도록 카메라가 이동한 만큼 다른 오브젝트들은 반대방향(음수)로 이동해야 된다.
+	// 카메라가 원점이 되도록 카메라가 이동한 만큼 다른 오브젝트들도 카메라와 같은 방향으로 이동해야 된다.
 	m_matView = XMMatrixTranslation(-vCamPos.x, -vCamPos.y, -vCamPos.z);
 
 
 	// 투영 행렬 계산
 
-	Vec2 vRenderResolution = CDevice::GetInst()->GetRenderResolution();
-	//XMMatrixOrthographicLH는 직영 행렬, 윈도우의 가로,세로,z좌표 처음 ,z좌표 끝
-	m_matProj = XMMatrixOrthographicLH(vRenderResolution.x, vRenderResolution.y, 0.f, 5000.f);
+	// 직교투영
+	if (PROJ_TYPE::ORTHOGRAPHIC == m_eProjType) {
+		// XMMatrixOrthographicLH는 직영 행렬, 윈도우의 가로,세로,z좌표 처음 ,z좌표 끝
+		float fHeight = m_fWidth / m_fAspectRatio; // 세로
+		m_matProj = XMMatrixOrthographicLH(m_fWidth, fHeight, 0.f, 5000.f);
+	}
+	// 원근투영
+	else
+	{
+		m_matProj = XMMatrixPerspectiveFovLH(m_fFOV,m_fAspectRatio,1.f,m_fFar); //왼손기준 ,시야각,종횡비 ,near ,far
+	}
+	
 
 	g_transform.matView = m_matView;
 	g_transform.matProj = m_matProj;

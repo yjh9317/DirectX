@@ -56,14 +56,6 @@ void CLayer::finalupdate()
 	}
 }
 
-void CLayer::render()
-{
-	// 최상위 오브젝트가 아닌 레이어에 있는 모든 오브젝트를 렌더
-	for (size_t i = 0; i < m_vecObj.size(); ++i)
-	{
-		m_vecObj[i]->render();
-	}	
-}
 
 void CLayer::AddObject(CGameObject* _pObj)
 {

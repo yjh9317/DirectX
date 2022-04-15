@@ -32,3 +32,11 @@ void CMissileScript::update()
 	}
 }
 
+void CMissileScript::OnCollisionEnter(CGameObject* _pOtherObj)
+{
+	/*if (_pOtherObj->GetName() == L"ChildObject")
+	{
+		_pOtherObj->Destroy();
+	}*/
+}
+
