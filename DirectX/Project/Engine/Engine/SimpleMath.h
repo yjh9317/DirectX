@@ -144,6 +144,7 @@ namespace DirectX
             Vector2& operator*= (const Vector2& V);
             Vector2& operator*= (float S);
             Vector2& operator/= (float S);
+            Vector2& operator/= (const Vector2& V);
 
             // Unary operators
             Vector2 operator+ () const { return *this; }

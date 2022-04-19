@@ -17,27 +17,53 @@ CCameraMoveScript::~CCameraMoveScript()
 
 void CCameraMoveScript::update()
 {
-	Vec3 vPos = Transform()->GetPos();
+	Vec3 vPos = Transform()->GetRelativePos();
+	float fSpeed = m_fCamSpeed;
+
+	if (KEY_PRESSED(KEY::LSHFT))
+	{
+		fSpeed *= 2.f;
+	}
 
 	if (KEY_PRESSED(KEY::W))
 	{
-		vPos.y += DT * m_fCamSpeed;
+		Vec3 vFront = Transform()->GetWorldFrontDir();
+
+		vPos += DT * vFront * fSpeed;
 	}
 
 	if (KEY_PRESSED(KEY::S))
 	{
-		vPos.y -= DT * m_fCamSpeed;
+		Vec3 vFront = Transform()->GetWorldFrontDir();
+
+		vPos -= DT * vFront * fSpeed;
 	}
 
 	if (KEY_PRESSED(KEY::A))
 	{
-		vPos.x -= DT * m_fCamSpeed;
+		Vec3 vRight = Transform()->GetWorldRightDir();
+
+		vPos -= DT * vRight* fSpeed;
 	}
 
 	if (KEY_PRESSED(KEY::D))
 	{
-		vPos.x += DT * m_fCamSpeed;
+		Vec3 vRight = Transform()->GetWorldRightDir();
+
+		vPos += DT * vRight * fSpeed;
 	}
 
-	Transform()->SetPos(vPos);
+	if (KEY_PRESSED(KEY::RBTN))
+	{
+		Vec3 vRot = Transform()->GetRelativeRotation();
+
+		Vec2 vMouseDir = CKeyMgr::GetInst()->GetMouseDir();
+		vRot.y += DT * vMouseDir.x * XM_PI;
+		
+		vRot.x -= DT * vMouseDir.y * XM_PI;
+
+		Transform()->SetRelativeRotation(vRot);
+	}
+
+	Transform()->SetRelativePos(vPos);
 }

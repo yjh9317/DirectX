@@ -2,12 +2,13 @@
 #include "CEntity.h"
 
 #define GET_COMPONENT(type, TYPE)  class C##type* type() { return (C##type*)m_arrCom[(UINT)COMPONENT_TYPE::TYPE]; }
-// C##type -> Ctype 
+// C##type -> Ctype¿ª ¿«πÃ
 
 class CComponent;
 class CTransform;
 class CMeshRender;
 class CCollider2D;
+class CAnimator2D;
 class CCamera;
 class CScript;
 
@@ -58,6 +59,7 @@ public:
     GET_COMPONENT(MeshRender, MESHRENDER)
     GET_COMPONENT(Camera, CAMERA)
     GET_COMPONENT(Collider2D, COLLIDER2D)
+    GET_COMPONENT(Animator2D, ANIMATOR2D)
 
     CScript* GetScript() { return (CScript*)m_arrCom[(UINT)COMPONENT_TYPE::SCRIPT]; }
 

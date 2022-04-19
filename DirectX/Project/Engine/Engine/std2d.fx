@@ -40,11 +40,21 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
 {
     float4 vOutColor = (float4) 0.f;
     
-    vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
-    
-    if (vOutColor.a <= g_float_0)
+    // Animation 정보가 있는 경우
+    if(g_useAnim2D)
     {
-        discard;
+        float vUv = g_vSlice * _in.vUV + g_vLT;
+        vOutColor = g_Atlas.Sample(g_sam_0, _in.uv);
+    }
+    else
+    {
+        // 없으면 Material를 이용
+        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+    
+        if (vOutColor.a <= g_float_0)
+        {
+            discard;
+        }
     }
     
     return vOutColor;

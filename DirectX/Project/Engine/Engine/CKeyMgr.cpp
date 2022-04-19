@@ -139,6 +139,10 @@ void CKeyMgr::update()
 
 		m_vMousePrevPos = m_vMousePos;
 		m_vMousePos = Vec2((float)ptMouse.x, (float)ptMouse.y);
+
+		m_vMouseDir = m_vMousePos - m_vMousePrevPos;
+		// 윈도우는 아래가 +였지만 DirectX에서는 위가 +
+		m_vMouseDir.y *= -1;
 	}
 		
 	// 윈도우가 포커싱 되어있지 않다.

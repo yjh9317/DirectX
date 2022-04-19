@@ -46,18 +46,36 @@ cbuffer SCALAR_PARAM : register(b1) //Material의 상수 레지스터
     matrix g_mat_3;
 }
 
+cbuffer ANIM2D : register(b2) //Animation의 상수 레지스터
+{
+    int     g_useAnim2D;         //애니메이션의 사용여부
+    float   g_Atlas_Width;
+    float   g_Atlas_Height;
+    
+    float2 g_vLT;       // 아틀라스에서 좌상단 UV 좌표
+    float2 g_vSlice;    // 자를 사이즈
+    float2 g_BaseSize;
+    
+    float3 g_Anim2D_Padding;   
+}
 
+
+// Material를 통해서 전달받는 텍스쳐 레지스터
 Texture2D g_tex_0 : register(t0);
 Texture2D g_tex_1 : register(t1);
 Texture2D g_tex_2 : register(t2);
 Texture2D g_tex_3 : register(t3);
+Texture2D g_tex_4 : register(t4);
+Texture2D g_tex_5 : register(t5);
 
-TextureCube g_texcube_0 : register(t4);
-TextureCube g_texcube_1 : register(t5);
+TextureCube g_texcube_0 : register(t6);
+TextureCube g_texcube_1 : register(t7);
 
-Texture2DArray g_texarr_0 : register(t6);
-Texture2DArray g_texarr_1 : register(t7);
+Texture2DArray g_texarr_0 : register(t8);
+Texture2DArray g_texarr_1 : register(t9);
 
+// 애니메이션
+Texture2D g_Atlas : register(t10);
 
 
 

@@ -17,11 +17,11 @@ CMissileScript::~CMissileScript()
 
 void CMissileScript::update()
 {
-	Vec3 vPos = Transform()->GetPos();
+	Vec3 vPos = Transform()->GetRelativePos();
 
 	vPos.y += DT * m_fSpeed;
 
-	Transform()->SetPos(vPos);
+	Transform()->SetRelativePos(vPos);
 
 
 	m_fAccTime += DT;

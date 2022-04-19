@@ -59,35 +59,35 @@ int CTexture::Load(const wstring& _strFilePath)
 
     m_pSRV->GetResource((ID3D11Resource**)m_pTex2D.GetAddressOf()); //Texture2D를 받아오는 함수
 
-
+    m_pTex2D->GetDesc(&m_tDesc);
 
     return S_OK;
 }
 
 // 레지스터 바인딩
-void CTexture::UpdateData(int _PipelineStage, int _iRegisterNum)
+void CTexture::UpdateData(UINT _PipelineStage, int _iRegisterNum)
 {
-    if (_PipelineStage & (int)PIPELINE_STAGE::VS)
+    if (_PipelineStage & (UINT)PIPELINE_STAGE::VS)
     {
         CONTEXT->VSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
     }
 
-    if (_PipelineStage & (int)PIPELINE_STAGE::HS)
+    if (_PipelineStage & (UINT)PIPELINE_STAGE::HS)
     {
         CONTEXT->HSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
     }
 
-    if (_PipelineStage & (int)PIPELINE_STAGE::DS)
+    if (_PipelineStage & (UINT)PIPELINE_STAGE::DS)
     {
         CONTEXT->DSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
     }
 
-    if (_PipelineStage & (int)PIPELINE_STAGE::GS)
+    if (_PipelineStage & (UINT)PIPELINE_STAGE::GS)
     {
         CONTEXT->GSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
     }
 
-    if (_PipelineStage & (int)PIPELINE_STAGE::PS)
+    if (_PipelineStage & (UINT)PIPELINE_STAGE::PS)
     {
         CONTEXT->PSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
     }

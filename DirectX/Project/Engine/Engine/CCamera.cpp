@@ -52,16 +52,42 @@ void CCamera::finalupdate()
 
 	// m_fWidth를 이용하여 종횡비,가로,세로를 움직여서 카메라로 움직이는 효과 가능(CameraScript에서 구현)
 	
-	//world에 있는 물체들이 view space로 오도록 변환행렬을 구하는 작업
+	// world에 있는 물체들이 view space로 오도록 변환행렬을 구하는 작업
 
-	// View 행렬 계산
 
-	Vec3 vCamPos = Transform()->GetPos(); //카메라 오브젝트의 좌표
+	Vec3 vCamPos = Transform()->GetRelativePos(); //카메라 오브젝트의 좌표
+
 	// 카메라가 원점이 되도록 카메라가 이동한 만큼 다른 오브젝트들도 카메라와 같은 방향으로 이동해야 된다.
-	m_matView = XMMatrixTranslation(-vCamPos.x, -vCamPos.y, -vCamPos.z);
+	// View 이동 행렬
+	Matrix matViewTrans = XMMatrixTranslation(-vCamPos.x, -vCamPos.y, -vCamPos.z);
 
+	// View Space에서는 카메라의 방향은 전방방향이다.
+	// 카메라의 오른쪽, 위, 앞 방향 행렬에 곱해서 단위행렬로 만들면 되는데
+	// 카메라 회전 행렬에 역행렬을 곱하면 단위 행렬이 된다.
+	// 그런데 각 x,y,z축은 서로 수직이므로 단위벡터에서 역행렬을 곱하면 같은 성분끼리의 곱말고는 cos90도 이므로 0이된다.
 
-	// 투영 행렬 계산
+	// View 회전 행렬	
+	Matrix matViewRot =XMMatrixIdentity(); //단위행렬
+
+	// Right, Up, Front를 가져온다.
+	Vec3 vRight = Transform()->GetWorldRightDir();
+	Vec3 vUp = Transform()->GetWorldUpDir();
+	Vec3 vFront = Transform()->GetWorldFrontDir();
+
+	matViewRot._11 = vRight.x; matViewRot._12 = vUp.x; matViewRot._13 = vFront.x;
+	matViewRot._21 = vRight.y; matViewRot._22 = vUp.y; matViewRot._23 = vFront.y;
+	matViewRot._31 = vRight.z; matViewRot._32 = vUp.z; matViewRot._33 = vFront.z;
+
+	// 이동 후 회전 (순서 중요) ,카메라와 같이 View 스페이스로 이동하고 난후 회전
+	m_matView = matViewTrans * matViewRot;
+
+	// r= right, u = up, f= front , T=transform
+	
+	// ( 1, 0, 0, 0)			( r.x,	u.x,  f.x,  0)				( r.x  u.x,  f.x,   0)
+	// ( 0, 1, 0, 0)     *		( r.y,	u.y,  f.y,  0)				( r.y  u.y,  f.y,   0)
+	// ( 0, 0, 1, 0)			( r.z,	u.z,  f.z,  0)		=		( r.z  u.z,  f.z,   0)
+	// ( -x,-y,-z,1)			(  0,	 0,	   0,   1)				(-T*R , -T*U, -T*F ,1)
+	
 
 	// 직교투영
 	if (PROJ_TYPE::ORTHOGRAPHIC == m_eProjType) {

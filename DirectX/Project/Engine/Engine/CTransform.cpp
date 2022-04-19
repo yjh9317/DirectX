@@ -7,6 +7,8 @@
 CTransform::CTransform()
 	: CComponent(COMPONENT_TYPE::TRANSFORM)
 	, m_vRelativeScale(Vec3(1.f, 1.f, 1.f))
+	, m_arrRelativeDir{}
+	, m_arrWorldDir{}
 	, m_bIgnoreParentScale(false)
 {
 }
@@ -26,10 +28,22 @@ void CTransform::finalupdate()
 	Matrix matRotX = XMMatrixRotationX(m_vRelativeRot.x);
 	Matrix matRotY = XMMatrixRotationY(m_vRelativeRot.y);
 	Matrix matRotZ = XMMatrixRotationZ(m_vRelativeRot.z);
-	Matrix matRotation = matRotX * matRotY * matRotZ; //라디안 단위
+	Matrix matRotation = matRotX * matRotY * matRotZ; //라디안 단위,최종 회전 상태
 
 	// 크기 x 회전(자전) x 이동 순서로 행렬곱 (순서중요)
 	m_matWorld = matScale * matRotation * matTranslation;
+
+	// RelativeDir 구하기
+	static Vec3 vAxis[(UINT)DIR_TYPE::END] = { Vec3::Right,Vec3::Up,Vec3::Front };
+
+
+	for (int i = 0; i < (int)DIR_TYPE::END; ++i)
+	{
+		// vAxis[i](회전하지 않았을 때의 기저축) * 회전행렬
+		// 부모가 없었다면 상대 회전축이 곧 방향
+		m_arrWorldDir[i] = m_arrRelativeDir[i] = XMVector3TransformNormal(vAxis[i], matRotation);
+
+	}
 
 
 	// 자식의 크기,회전,이동은 부모를 기준으로 상대적으로 적용된다.
@@ -55,8 +69,17 @@ void CTransform::finalupdate()
 		{
 			m_matWorld *= matParentWorld;
 		}
-		
+
+		// World Dir 구하기
+		for (int i = 0; i < (int)DIR_TYPE::END; ++i)
+		{
+			// 부모가 있으면 부모행렬까지 곱한다.
+			m_arrWorldDir[i] = XMVector3TransformNormal(m_arrRelativeDir[i], matParentWorld);
+			m_arrWorldDir[i].Normalize(); // 길이가 바뀔수도 있으므로 노말라이즈
+		}
 	}
+
+	
 }
 
 // 오브젝트의 모든 부모행렬를 계산해서 크기를 받아온다.
@@ -70,7 +93,7 @@ Vec3 CTransform::GetWorldScale()
 
 	while (pParent)
 	{
-		vWorldScale *= pParent->Transform()->GetScale();
+		vWorldScale *= pParent->Transform()->GetRelativeScale();
 
 		bool bIgnoreParentScale = pParent->Transform()->m_bIgnoreParentScale;
 		pParent = pParent->GetParent();

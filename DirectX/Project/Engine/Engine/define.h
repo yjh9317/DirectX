@@ -52,7 +52,8 @@ enum class CB_TYPE
 {
 	TRANSFORM,		// b0
 	SCALAR_PARAM,	// b1
-	GLOBAL,			// b2
+	ANIM2D,			// b2
+	GLOBAL,			// b3
 	END,
 };
 
@@ -125,6 +126,15 @@ enum class COMPONENT_TYPE
 	END,
 };
 
+// 카메라의 방향  오른쪽, 위 , 앞
+// 반대방향은 각 방향의 음수
+enum class DIR_TYPE
+{
+	RIGHT,
+	UP,
+	FRONT,
+	END,
+};
 
 enum class SCALAR_PARAM
 {
@@ -162,6 +172,8 @@ enum class TEX_PARAM
 	TEX_1,
 	TEX_2,
 	TEX_3,
+	TEX_4,
+	TEX_5,
 
 	TEX_CUBE_0,
 	TEX_CUBE_1,
