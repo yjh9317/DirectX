@@ -73,7 +73,7 @@ void CLayer::DeregisterObject(CGameObject* _pObj)
 	vector<CGameObject*>::iterator iter = m_vecRoot.begin();
 	for (; iter != m_vecRoot.end(); ++iter)
 	{
-		if ((*iter)== _pObj)
+		if ((*iter) == _pObj)
 		{
 			m_vecRoot.erase(iter);
 			_pObj->m_iLayerIdx = -1;

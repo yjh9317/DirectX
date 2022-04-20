@@ -31,7 +31,7 @@ public:
 public:
     virtual int Load(const wstring& _strFilePath) override { return S_OK; }
 
-    CLONE(CMaterial)
+    CLONE(CMaterial);
 
 public:
     CMaterial();

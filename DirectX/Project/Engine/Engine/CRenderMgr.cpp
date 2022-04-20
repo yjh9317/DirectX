@@ -5,8 +5,9 @@
 
 #include "CCamera.h"
 
+
 CRenderMgr::CRenderMgr()
-	:m_pEditorCam(nullptr)
+	: m_pEditorCam(nullptr)
 {
 
 }
@@ -18,6 +19,7 @@ CRenderMgr::~CRenderMgr()
 
 void CRenderMgr::init()
 {
+
 }
 
 void CRenderMgr::update()
@@ -32,6 +34,7 @@ void CRenderMgr::render()
 
 	// Rendering 시작
 	CDevice::GetInst()->ClearTarget();
+
 
 	// 메인 카메라 시점으로 렌더링
 	CCamera* pMainCam = m_vecCam[0];
@@ -78,17 +81,16 @@ void CRenderMgr::render()
 	CDevice::GetInst()->Present();
 }
 
-
 void CRenderMgr::RegisterCamera(CCamera* _pCam)
 {
-	// 카메라가 RenderMgr에 최초 등록 되는경우
+	// 카메라가 RenderMgr에 최초 등록 되는 경우
 	if (-1 == _pCam->m_iCamIdx)
 	{
 		// 카메라 등록
 		m_vecCam.push_back(_pCam);
 
 		// 푸쉬백한 카메라의 인덱스를 세팅
-		int iIdx = m_vecCam.size() - 1;
+		int iIdx = (int)m_vecCam.size() - 1;
 		_pCam->m_iCamIdx = iIdx;
 	}
 	// 등록된 적이 있다면
@@ -102,7 +104,6 @@ void CRenderMgr::RegisterCamera(CCamera* _pCam)
 
 		m_vecCam[_pCam->m_iCamIdx] = _pCam;
 	}
-
 }
 
 void CRenderMgr::SwapCameraIndex(CCamera* _pCam, int _iChangeIdx)

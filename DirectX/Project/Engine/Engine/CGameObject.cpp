@@ -33,7 +33,7 @@ CGameObject::CGameObject(const CGameObject& _origin)
 		if (nullptr != _origin.m_arrCom[i])
 		{
 			AddComponent(_origin.m_arrCom[i]->Clone());
-		}		
+		}
 	}
 
 	for (size_t i = 0; i < _origin.m_vecChild.size(); ++i)
@@ -66,7 +66,7 @@ void CGameObject::update()
 {
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
-		if(nullptr != m_arrCom[i])
+		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->update();
 	}
 
@@ -107,8 +107,6 @@ void CGameObject::finalupdate()
 	{
 		m_vecChild[i]->finalupdate();
 	}
-
-
 }
 
 void CGameObject::render()
@@ -116,11 +114,8 @@ void CGameObject::render()
 	if (nullptr != MeshRender())
 		MeshRender()->render();
 
-
-	// 충돌체 컴포넌트가 있으면 렌더
 	if (nullptr != Collider2D())
 		Collider2D()->render();
-
 }
 
 void CGameObject::Deregister()
@@ -129,10 +124,10 @@ void CGameObject::Deregister()
 	{
 		return;
 	}
+
 	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
 	CLayer* pCurLayer = pCurScene->GetLayer(m_iLayerIdx);
 	pCurLayer->DeregisterObject(this);
-	
 }
 
 void CGameObject::DisconnectBetweenParent()
@@ -155,15 +150,14 @@ void CGameObject::AddChild(CGameObject* _pChild)
 {
 	int iLayerIdx = _pChild->m_iLayerIdx;
 
-
-	// 자식으로 들어오는 오브젝트가 루트 오브젝트이고,특정 레이어 소속이라면 
+	// 자식으로 들어오는 오브젝트가 루트 오브젝트이고, 특정 레이어 소속이라면
 	if (nullptr == _pChild->GetParent() && -1 != iLayerIdx)
 	{
 		// 레이어에서 루트 오브젝트로서 등록 해제
 		_pChild->Deregister();
 		_pChild->m_iLayerIdx = iLayerIdx;
 	}
-	
+
 	// 다른 부모오브젝트가 이미 있다면
 	if (_pChild->GetParent())
 	{
@@ -171,7 +165,6 @@ void CGameObject::AddChild(CGameObject* _pChild)
 	}
 
 
-	// 부모 자식 세팅
 	m_vecChild.push_back(_pChild);
 	_pChild->m_pParent = this;
 }
@@ -187,7 +180,7 @@ void CGameObject::AddComponent(CComponent* _component)
 }
 
 void CGameObject::Destroy()
-{	
+{
 	if (m_bDead)
 		return;
 

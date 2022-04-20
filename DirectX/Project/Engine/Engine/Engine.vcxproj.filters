@@ -393,16 +393,17 @@
       <UniqueIdentifier>{dd90699f-65bb-4e1a-91cb-8057608b7ffe}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\03. Manager\09. CollisionMgr">
-      <UniqueIdentifier>{47f75cf4-214b-43b1-8a3d-a044ab0f83cf}</UniqueIdentifier>
+      <UniqueIdentifier>{6dd8a486-5c5b-47c5-a5db-fac349597fd8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\05. Component\05. Animator2D\Animation2D">
-      <UniqueIdentifier>{7d0d3276-2643-4a10-8647-6686d66e365c}</UniqueIdentifier>
+      <UniqueIdentifier>{c017b514-3c36-4dea-9cae-c692ca17907a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
       <Filter>Engine\Module</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="std2d.fx">

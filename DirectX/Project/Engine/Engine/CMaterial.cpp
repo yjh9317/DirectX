@@ -31,7 +31,6 @@ void CMaterial::UpdateData()
 		}
 		else
 		{
-			// 레지스터에 남아있는 값을 삭제
 			CTexture::Clear(i);
 		}
 	}
@@ -58,10 +57,10 @@ void CMaterial::SetScalarParam(SCALAR_PARAM _eType, void* _pData)
 {
 	switch (_eType)
 	{
-	case SCALAR_PARAM::INT_0:		
+	case SCALAR_PARAM::INT_0:
 	case SCALAR_PARAM::INT_1:
 	case SCALAR_PARAM::INT_2:
-	case SCALAR_PARAM::INT_3:		
+	case SCALAR_PARAM::INT_3:
 		m_Param.iArr[(UINT)_eType - (UINT)SCALAR_PARAM::INT_0] = *((int*)_pData);
 		break;
 	case SCALAR_PARAM::FLOAT_0:

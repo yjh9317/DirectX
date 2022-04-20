@@ -4,9 +4,9 @@
 #include "CPathMgr.h"
 #include "CDevice.h"
 
-#ifdef _DEBUG		// 디버그 모드
+#ifdef _DEBUG	// 디버그 모드
 UINT g_iFlag = D3DCOMPILE_DEBUG;
-#else				// 디버그 아닐 때
+#else			// 디버그 아닐 때
 UINT g_iFlag = 0;
 #endif
 
@@ -29,15 +29,13 @@ CGraphicsShader::~CGraphicsShader()
 
 
 
-
-
-int CGraphicsShader::CreateVertexShader(const wstring& _strRelativePath, const string& _strFunc)
+int CGraphicsShader::CreateVertexShader(const wstring& _strRelativePath, const string& _strVSFunc)
 {
 	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
 
 	// 버텍스 쉐이더(HLSL) 컴파일
 	HRESULT hr = D3DCompileFromFile(wstring(strContentPath + _strRelativePath).c_str(), nullptr
-		, D3D_COMPILE_STANDARD_FILE_INCLUDE, _strFunc.c_str(), "vs_5_0", g_iFlag, 0
+		, D3D_COMPILE_STANDARD_FILE_INCLUDE, _strVSFunc.c_str(), "vs_5_0", g_iFlag, 0
 		, m_VSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf());
 
 	if (FAILED(hr))
@@ -68,7 +66,7 @@ int CGraphicsShader::CreatePixelShader(const wstring& _strRelativePath, const st
 {
 	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
 
-	// 픽셀 쉐이더(HLSL) 컴파일
+	// 버텍스 쉐이더(HLSL) 컴파일
 	HRESULT hr = D3DCompileFromFile(wstring(strContentPath + _strRelativePath).c_str(), nullptr
 		, D3D_COMPILE_STANDARD_FILE_INCLUDE, _strFunc.c_str(), "ps_5_0", g_iFlag, 0
 		, m_PSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf());
@@ -79,7 +77,7 @@ int CGraphicsShader::CreatePixelShader(const wstring& _strRelativePath, const st
 		return E_FAIL;
 	}
 
-	// 컴파일 된 코드로 PixelShader 객체 만들기
+	// 컴파일 된 코드로 VertexShader 객체 만들기
 	if (FAILED(DEVICE->CreatePixelShader(m_PSBlob->GetBufferPointer(), m_PSBlob->GetBufferSize()
 		, nullptr, m_PS.GetAddressOf())))
 	{
@@ -101,21 +99,20 @@ void CGraphicsShader::UpdateData()
 	CONTEXT->GSSetShader(m_GS.Get(), 0, 0);
 	CONTEXT->PSSetShader(m_PS.Get(), 0, 0);
 
-	CONTEXT->RSSetState(CDevice::GetInst()->GetRS(m_eRSType).Get());//래스터라이저 스테이트 설정
-	CONTEXT->OMSetDepthStencilState(CDevice::GetInst()->GetDS(m_eDSType).Get(), 0); //깊이 스텐실 설정
+	CONTEXT->RSSetState(CDevice::GetInst()->GetRS(m_eRSType).Get());	//래스터라이저 스테이트 설정
+	CONTEXT->OMSetDepthStencilState(CDevice::GetInst()->GetDS(m_eDSType).Get(), 0);	//깊이 스텐실 설정
 	CONTEXT->OMSetBlendState(CDevice::GetInst()->GetBS(m_eBSType).Get(), Vec4(), 0xffffffff);	//블렌드 스테이트 설정
 }
 
 void CGraphicsShader::AddScalarParamInfo(const wstring& _strDesc, SCALAR_PARAM _eParamType)
 {
-	m_vecScalarParamInfo.push_back(tScalarParamInfo{ _strDesc,_eParamType });
+	m_vecScalarParamInfo.push_back(tScalarParamInfo{ _strDesc, _eParamType });
 }
 
 void CGraphicsShader::AddTexParamInfo(const wstring& _strDesc, TEX_PARAM _eParamType)
 {
 	m_vecTexParamInfo.push_back(tTexParamInfo{ _strDesc ,_eParamType });
 }
-
 
 void CGraphicsShader::AddInputLayout(D3D11_INPUT_ELEMENT_DESC _desc)
 {

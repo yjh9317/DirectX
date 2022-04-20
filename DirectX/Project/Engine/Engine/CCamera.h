@@ -20,20 +20,19 @@ private:
     vector<CGameObject*>    m_vecForward;   // 불투명 물체
     vector<CGameObject*>    m_vecMasked;    // 투명 , 불투명 물체
     vector<CGameObject*>    m_vecOpaque;    // 반투명 물체
-    
+
     Matrix                  m_matView;       // View행렬, 이 행렬을 곱하면 View Space로 넘어온다.
     Matrix                  m_matProj;       // 투영 행렬(View Space로 넘어온 물체를 -1 ~ 1범위로 압축할 때 필요한 행렬)
+
+    PROJ_TYPE               m_eProjType;
 
     float                   m_fWidth;       // 투영 가로 길이
     float                   m_fAspectRatio; // 종횡비 : (가로 / 세로)
     float                   m_fFOV;         // Field of View (시야각)
     float                   m_fFar;         // 최대 시야 거리
-    
-
-    PROJ_TYPE               m_eProjType;
 
 
-    UINT                    m_iLayerMask;   
+    UINT                    m_iLayerMask;
     int                     m_iCamIdx;
 
 
@@ -46,13 +45,13 @@ public:
 
     float GetWidth() { return m_fWidth; }
     float GetAspectRatio() { return m_fAspectRatio; }
-    float GetFOV() { return m_fFOV;}
+    float GetFOV() { return m_fFOV; }
 
     PROJ_TYPE GetProjType() { return m_eProjType; }
 
     void CheckLayerMask(int _iLayerIdx);
     void CheckLayerMask(const wstring& _strLayerName);
-    void CheckLayerMaskAll()  { m_iLayerMask = 0xffffffff; }
+    void CheckLayerMaskAll() { m_iLayerMask = 0xffffffff; }
 
 
     const Matrix& GetViewMat() { return m_matView; }
@@ -67,11 +66,11 @@ public:
     void render_forward();
     void render_masked();
     void render_opaque();
-    
+
 
     CLONE(CCamera)
 
-        
+
 public:
     CCamera();
     CCamera(const CCamera& _origin);

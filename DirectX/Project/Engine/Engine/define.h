@@ -38,7 +38,6 @@ enum class RES_TYPE	//다른 리소르를 참조하는 리소스타입부터 상단에 적음. 순서대�
 	MATERIAL,
 
 
-
 	// 실제 리소스
 	MESH,
 	TEXTURE,
@@ -57,13 +56,13 @@ enum class CB_TYPE
 	END,
 };
 
-	// Rasterizer option
+// Rasterizer option
 enum class RS_TYPE
 {
 	CULL_BACK,	// Default
 	CULL_FRONT,
-	CULL_NONE, 
-	WIRE_FRAME, 
+	CULL_NONE,
+	WIRE_FRAME,
 	END,
 };
 
@@ -73,13 +72,13 @@ enum class DS_TYPE
 	LESS,
 	LESS_EQUAL,
 
-	GREATER,		// 깊이가 더 멀어야 통과
+	GREATER,
 	GREATER_EQUAL,
 
-	NO_TEST,		// 깊이 테스트 하지 않음, 깊이는 기록
-	NO_WRITE,		// 깊이 테스트 진행 , 깊이를 기록하지 않음
+	NO_TEST,	// 깊이테스트 하지 않음, 깊이는 기록
+	NO_WRITE,	// 깊이테스트 진행, 깊이를 기록하지 않음
 
-	NO_TEST_NO_WRITE,	// 깊이 테스트 하지 않음, 깊이 기록하지 않음
+	NO_TEST_NO_WRITE, // 깊이테스트 하지 않음, 깊이 기록하지 않음
 	END,
 };
 
@@ -91,13 +90,15 @@ enum class BS_TYPE
 	END,
 };
 
-// 쉐이더의 렌더링 시점에 따른 분류(Domain Shader아님)
+// 쉐이더의 렌더링 시점에 따른 분류
 enum class SHADER_DOMAIN
 {
 	DOMAIN_FORWARD,	// 불투명
-	DOMAIN_MASKED,	// 불투명 , 투명
+	DOMAIN_MASKED,	// 불투명, 투명
 	DOMAIN_OPAQUE,	// 반투명
+	DOMAIN_POSTPROCESS, // 후처리
 };
+
 
 enum class COMPONENT_TYPE
 {
@@ -126,8 +127,6 @@ enum class COMPONENT_TYPE
 	END,
 };
 
-// 카메라의 방향  오른쪽, 위 , 앞
-// 반대방향은 각 방향의 음수
 enum class DIR_TYPE
 {
 	RIGHT,
@@ -135,6 +134,8 @@ enum class DIR_TYPE
 	FRONT,
 	END,
 };
+
+
 
 enum class SCALAR_PARAM
 {
@@ -149,7 +150,7 @@ enum class SCALAR_PARAM
 	FLOAT_3,
 
 	VEC2_0,
-	VEC2_1, 
+	VEC2_1,
 	VEC2_2,
 	VEC2_3,
 
@@ -177,7 +178,7 @@ enum class TEX_PARAM
 
 	TEX_CUBE_0,
 	TEX_CUBE_1,
-		
+
 	TEX_ARR_0,
 	TEX_ARR_1,
 
@@ -191,7 +192,7 @@ enum class PIPELINE_STAGE
 	HS = 0x02,
 	DS = 0x04,
 	GS = 0x08,
-	PS = 0x10,	
+	PS = 0x10,
 
 	NO_PS = VS | HS | DS | GS,
 	ALL = VS | HS | DS | GS | PS,
@@ -203,7 +204,8 @@ enum class EVENT_TYPE
 	CREATE_OBJ,			// lParam : Object Adress, wParam : Layer Index
 	DELETE_OBJ,			// lParam : Object Adress
 	ADD_CHILD,			// lParam : Parent Object, wParam : Child Object
-	SET_CAMERA_INDEX,	// lParma : Camera Component Adress, wParam : Camera Change Index
+	SET_CAMERA_INDEX,	// lParam : Camera Component Adress, wParam : Camera Change Index
+
 
 	STAGE_CHANGE,		// lParam : Next Stage Enum
 	CHANGE_AI_STATE,	// lParam : FSM Adress, wParam : Next State Type

@@ -1,7 +1,7 @@
 #pragma once
 
 
-class CEntity	//모든 오브젝트의 상위클래스
+class CEntity
 {
 private:
 	static UINT g_iNextID;
@@ -16,7 +16,7 @@ public:
 	UINT GetID() { return m_iID; }
 
 public:
-	virtual void UpdateData() {}	//파이프라인에 전달
+	virtual void UpdateData() {}
 
 	virtual CEntity* Clone() = 0;
 

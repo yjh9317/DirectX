@@ -8,14 +8,19 @@
 #include "CConstBuffer.h"
 
 CAnimation2D::CAnimation2D()
-	:m_iCurFrmIdx(0)
-	,m_fAccTime(0.f)
-	,m_bFinish(false)
+	: m_iCurFrmIdx(0)
+	, m_fAccTime(0.f)
+	, m_bFinish(false)
+{
+}
+
+CAnimation2D::~CAnimation2D()
 {
 }
 
 void CAnimation2D::finalupdate()
 {
+
 	if (m_bFinish)
 		return;
 
@@ -24,7 +29,7 @@ void CAnimation2D::finalupdate()
 	if (m_vecFrm[m_iCurFrmIdx].fDuration < m_fAccTime)
 	{
 		m_fAccTime -= m_vecFrm[m_iCurFrmIdx].fDuration;
-
+		
 		if (m_vecFrm.size() - 1 <= m_iCurFrmIdx)
 		{
 			m_bFinish = true;
@@ -32,7 +37,7 @@ void CAnimation2D::finalupdate()
 		else
 		{
 			++m_iCurFrmIdx;
-		}
+		}		
 	}
 }
 
@@ -45,46 +50,51 @@ void CAnimation2D::UpdateData()
 	info.Atlas_Width = m_pAtlasTex->Width();
 	info.Atlas_Height = m_pAtlasTex->Height();
 
-	info.vLT = m_vecFrm[m_iCurFrmIdx]._vLT;
-	info.vSlice = m_vecFrm[m_iCurFrmIdx]._vSlice;
-	
+	info.vBackgroundSize = m_vBackgroundSize;
+	info.vLT = m_vecFrm[m_iCurFrmIdx].vLT;	
+	info.vSlice = m_vecFrm[m_iCurFrmIdx].vSlice;
+	info.vOffset = m_vecFrm[m_iCurFrmIdx].vOffset;
+
 	pBuffer->SetData(&info, sizeof(tAnim2D));
 	pBuffer->UpdateData();
 
-	m_pAtlasTex->UpdateData((UINT)PIPELINE_STAGE::PS,10);
+
+	m_pAtlasTex->UpdateData((int)PIPELINE_STAGE::PS, 10);
+
 }
 
-void CAnimation2D::Create(Ptr<CTexture> _Atlas, Vec2 _vLT, Vec2 _vSlice, Vec2 _vStep, float _fDuration, int _iFrameCount)
+void CAnimation2D::Create(Ptr<CTexture> _Atlas, Vec2 _vBackgroundSizePixel, Vec2 _vLT, Vec2 _vSlice, Vec2 _vStep
+	, float _fDuration, int _iFrameCount)
 {
 	assert(_Atlas.Get());
+
 	m_pAtlasTex = _Atlas;
-
-	// 픽셀좌표가 500,600이라고 해도 UV에서 텍스처 전체크기가 없으면 만들지 못함
-
+	
 	float fWidth = m_pAtlasTex->Width();
 	float fHeight = m_pAtlasTex->Height();
 
-
-	//픽셀 좌표를 0~1 UV로 전환
+	// 픽셀 좌표를 0~1 UV 로 전환
 	Vec2 vLT = _vLT / Vec2(fWidth, fHeight);
 	Vec2 vSlice = _vSlice / Vec2(fWidth, fHeight);
 	Vec2 vStep = _vStep / Vec2(fWidth, fHeight);
-	
 
-	//프레임 정보 생성
+	m_vBackgroundSize = _vBackgroundSizePixel / Vec2(fWidth, fHeight);
+
+	// 프레임 정보 생성
 	for (int i = 0; i < _iFrameCount; ++i)
 	{
 		tAnim2DFrame frm = {};
-	
-		//_vLT += (_vStep * (float)i);
-		frm._vLT = _vLT + (vStep * (float)i);
-		frm._vSlice = vSlice;
+		
+		if (i == 3)
+		{
+			frm.vOffset = Vec2(10.f, 0.f) / Vec2(fWidth, fHeight);
+		}
+
+
+		frm.vLT = vLT + (vStep * (float)i);
+		frm.vSlice = vSlice;
 		frm.fDuration = _fDuration;
 
-		m_vecFrm.push_back(frm);	
+		m_vecFrm.push_back(frm);
 	}
-}
-
-CAnimation2D::~CAnimation2D()
-{
 }

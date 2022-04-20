@@ -1,6 +1,9 @@
 #ifndef _VALUE
 #define _VALUE
 
+// 상수버퍼를 사용할 때는 16byte 단위로 끊어야 한다(최적화를 위해)
+// 12byte 8bye (X) , 16byte 4byte(O)
+
 cbuffer TRANSFORM : register(b0)
 {
     // row_major : 행 우선으로 읽기
@@ -48,15 +51,15 @@ cbuffer SCALAR_PARAM : register(b1) //Material의 상수 레지스터
 
 cbuffer ANIM2D : register(b2) //Animation의 상수 레지스터
 {
-    int     g_useAnim2D;         //애니메이션의 사용여부
-    float   g_Atlas_Width;
-    float   g_Atlas_Height;
+    float2 g_vLT; // 아틀라스에서 좌상단 UV 좌표
+    float2 g_vSlice; // 아틀라스에서 출력을 위해 자를 사이즈
+    float2 g_vBackgroundSize; // 아틀라스에서 가져올 단위
+    float2 g_vOffset;
     
-    float2 g_vLT;       // 아틀라스에서 좌상단 UV 좌표
-    float2 g_vSlice;    // 자를 사이즈
-    float2 g_BaseSize;
-    
-    float3 g_Anim2D_Padding;   
+    int g_useAnim2D;
+    float g_Atlas_Width;
+    float g_Atlas_Height;
+    float g_Anim2D_Padding;
 }
 
 

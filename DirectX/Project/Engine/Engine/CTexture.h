@@ -22,7 +22,7 @@ private:
 protected:
     virtual int Load(const wstring& _strFilePath);
 
-public:    
+public:
     // ScartchImage에서도 가져올 수 있지만 gpu메모리에 만들어서 다이렉트로 사용하면 없을수도 있음
     float Width() { return (float)m_tDesc.Width; }
     float Height() { return (float)m_tDesc.Height; }

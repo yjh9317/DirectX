@@ -53,7 +53,7 @@ private:
 
     vector<tScalarParamInfo>        m_vecScalarParamInfo;
     vector<tTexParamInfo>           m_vecTexParamInfo;
-    
+
 
 public:
     int CreateVertexShader(const wstring& _strRelativePath, const string& _strFunc);
@@ -66,10 +66,10 @@ public:
     void SetRSType(RS_TYPE _eType) { m_eRSType = _eType; }
     void SetDSType(DS_TYPE _eType) { m_eDSType = _eType; }
     void SetBSType(BS_TYPE _eType) { m_eBSType = _eType; }
-    void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _eTopology){m_eTopology = _eTopology;}
+    void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _eTopology) { m_eTopology = _eTopology; }
+
     D3D11_PRIMITIVE_TOPOLOGY GetTopology() { return m_eTopology; }
     SHADER_DOMAIN GetShaderDomain() { return m_eDomain; }
-
 
     virtual void UpdateData() override;
 

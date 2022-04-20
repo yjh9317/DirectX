@@ -24,7 +24,7 @@ void CEventMgr::update()
 	{
 		assert(m_vecDead[i]);
 
-		// 삭제되는 오브젝트가 부모가 있다면 (자식 오브젝트라면)
+		// 삭제되는 오브젝트가 부모가 있다면(자식 오브젝트라면)
 		if (m_vecDead[i]->GetParent())
 		{
 			m_vecDead[i]->DisconnectBetweenParent();
@@ -60,10 +60,9 @@ void CEventMgr::update()
 			if (false == pDeleteObject->m_bDead)
 			{
 				m_vecDead.push_back(pDeleteObject);
-				
 
-				// 보유하고 있는 자식 오브젝트도 전부 Dead 체크
-				static list<CGameObject*>queue;
+				// 보유하고 있는 자식 오브젝트도 전부 Dead 체크 해둔다.
+				static list<CGameObject*> queue;
 				queue.clear();
 
 				queue.push_back(pDeleteObject);
@@ -79,7 +78,6 @@ void CEventMgr::update()
 					{
 						queue.push_back(vecChild[i]);
 					}
-
 				}
 			}
 		}

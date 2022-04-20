@@ -21,13 +21,16 @@ struct Vertex
 typedef Vertex Vtx;
 
 
-// Animation 2D
 
+// ==========
+// Animtion2D
+// ==========
 struct tAnim2DFrame
 {
-	Vec2 _vLT;			// 좌상단
-	Vec2 _vSlice;		// 길이
-	float fDuration;	// 지속시간
+	Vec2	vLT;
+	Vec2	vSlice;
+	Vec2	vOffset;
+	float	fDuration;
 };
 
 
@@ -56,11 +59,13 @@ struct tScalarParam
 
 struct tAnim2D
 {
-	int     useAnim2D;         //애니메이션의 사용여부
+	Vec2	vLT;
+	Vec2	vSlice;
+	Vec2	vBackgroundSize;
+	Vec2    vOffset;
+
+	int     useAnim2D;
 	float   Atlas_Width;
 	float   Atlas_Height;
-	Vec2 vLT;
-	Vec2 vSlice;
-	Vec2 vBaseSize;
-	Vec3 Anim2D_Padding;
+	float	Anim2D_Padding;
 };

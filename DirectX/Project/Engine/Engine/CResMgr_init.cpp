@@ -46,7 +46,7 @@ void CResMgr::CreateEngineMesh()
 
 	vecIdx.push_back(0); vecIdx.push_back(2); vecIdx.push_back(3);
 	vecIdx.push_back(0); vecIdx.push_back(1); vecIdx.push_back(2);
-
+	
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 	AddRes<CMesh>(L"RectMesh", pMesh);
@@ -73,7 +73,7 @@ void CResMgr::CreateEngineMesh()
 
 	for (UINT i = 0; i < iSliceCount + 1; ++i)
 	{
-		v.vPos = Vec3(fRadius * cosf(fAngleStep * (float)i), fRadius * sinf(fAngleStep * (float)i), 0.f);
+		v.vPos = Vec3( fRadius * cosf(fAngleStep * (float)i) , fRadius * sinf(fAngleStep * (float)i), 0.f);
 		v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
 		v.vUV = Vec2(v.vPos.x + 0.5f, -v.vPos.y + 0.5f);
 		vecVtx.push_back(v);
@@ -122,7 +122,7 @@ void CResMgr::CreateEngineTexture()
 void CResMgr::CreateEngineShader()
 {
 	MakeInputLayoutInfo();
-
+		
 	CGraphicsShader* pShader = nullptr;
 
 	// Std2D Shader
@@ -133,11 +133,12 @@ void CResMgr::CreateEngineShader()
 	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_MASKED);
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetBSType(BS_TYPE::DEFAULT);
-
+		
 	pShader->AddScalarParamInfo(L"Mask Limit", SCALAR_PARAM::FLOAT_0);
 	pShader->AddTexParamInfo(L"OutputTex", TEX_PARAM::TEX_0);
 
 	AddRes<CGraphicsShader>(L"Std2DShader", pShader);
+
 
 	// Std2DAlphaBlend Shader
 	pShader = new CGraphicsShader;
@@ -148,17 +149,18 @@ void CResMgr::CreateEngineShader()
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
 	pShader->SetDSType(DS_TYPE::NO_WRITE);
-
+		
 	pShader->AddTexParamInfo(L"OutputTex", TEX_PARAM::TEX_0);
 
 	AddRes<CGraphicsShader>(L"Std2DAlphaBlendShader", pShader);
+
 
 
 	// Collider2D Shader
 	pShader = new CGraphicsShader;
 	pShader->CreateVertexShader(L"Shader\\std2d.fx", "VS_Collider2D");
 	pShader->CreatePixelShader(L"Shader\\std2d.fx", "PS_Collider2D");
-
+		
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
@@ -175,6 +177,11 @@ void CResMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DShader"));
 	AddRes<CMaterial>(L"Std2DMtrl", pMtrl);
+
+	// Std2DAlphaBlend
+	pMtrl = new CMaterial;
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DAlphaBlendShader"));
+	AddRes<CMaterial>(L"Std2DAlphaBlendMtrl", pMtrl);
 
 	// Collider2DMtrl 
 	pMtrl = new CMaterial;

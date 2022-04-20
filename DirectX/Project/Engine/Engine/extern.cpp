@@ -2,7 +2,7 @@
 #include "extern.h"
 
 
-tTransform g_transform = {};	// extern 전역변수 선언
+tTransform g_transform = {};			// extern 전역변수 선언
 
 // 기저벡터
 const Vec3 Vec3::Right = Vec3(1.f, 0.f, 0.f);

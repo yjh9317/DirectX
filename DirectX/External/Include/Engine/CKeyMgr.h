@@ -98,7 +98,6 @@ private:
 	Vec2				m_vMousePrevPos;
 	Vec2				m_vMouseDir;
 
-
 public:
 	void init();
 	void update();

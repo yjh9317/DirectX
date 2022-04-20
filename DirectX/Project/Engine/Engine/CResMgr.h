@@ -63,7 +63,7 @@ inline RES_TYPE CResMgr::GetResType()
 		return RES_TYPE::TEXTURE;
 	//else if (info.hash_code() == typeid(CMesh).hash_code())
 	//	return RES_TYPE::MESH;
-
+	
 
 	return RES_TYPE::END;
 }

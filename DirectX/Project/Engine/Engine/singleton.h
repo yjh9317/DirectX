@@ -32,8 +32,6 @@ public:
 	CSingleton()
 	{
 		atexit((DESTORY)CSingleton<T>::Destroy);
-		// 함수포인터를 넣어놓으면 함수포인터가 스택처럼 쌓여서 메인함수가 끝날때
-// 등록된 함수를 맨 마지막에 등록된 순서부터 해제한다(Stack), Mgr class의 호출순서 중요(많이 참조할수록 먼저 호출)
 	}
 
 	virtual ~CSingleton()

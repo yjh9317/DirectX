@@ -52,7 +52,7 @@ void CTransform::finalupdate()
 
 	// 자식의 (크기,회전,이동) * (부모의 크기 역행렬) * 부모의 (크기 ,회전 ,이동)
 	// ==> 크기를 제외한 부모의 회전,이동만 적용
-	
+
 	if (GetOwner()->GetParent())
 	{
 		Matrix matParentWorld = GetOwner()->GetParent()->Transform()->GetWorldMat();
@@ -61,9 +61,9 @@ void CTransform::finalupdate()
 		{
 			Vec3 vParentWorldScale = GetOwner()->GetParent()->Transform()->GetWorldScale();
 			Matrix matParentScale = XMMatrixScaling(vParentWorldScale.x, vParentWorldScale.y, vParentWorldScale.z);
-			Matrix MatParentScaleInv = XMMatrixInverse(nullptr, matParentScale);
+			Matrix matParentScaleInv = XMMatrixInverse(nullptr, matParentScale);
 
-			m_matWorld = m_matWorld * MatParentScaleInv * matParentWorld;
+			m_matWorld = m_matWorld * matParentScaleInv * matParentWorld;
 		}
 		else
 		{
@@ -79,7 +79,7 @@ void CTransform::finalupdate()
 		}
 	}
 
-	
+
 }
 
 // 오브젝트의 모든 부모행렬를 계산해서 크기를 받아온다.

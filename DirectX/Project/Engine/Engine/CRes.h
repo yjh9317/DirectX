@@ -9,7 +9,7 @@ class CRes :
 private:
     wstring     m_strKey;
     wstring     m_strRelativePath;
-    UINT        m_iRefCount;   //리소스가 참조되는 개수
+    UINT        m_iRefCount;
 
 
 protected:

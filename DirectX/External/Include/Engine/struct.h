@@ -21,6 +21,20 @@ struct Vertex
 typedef Vertex Vtx;
 
 
+
+// ==========
+// Animtion2D
+// ==========
+struct tAnim2DFrame
+{
+	Vec2	vLT;
+	Vec2	vSlice;
+	Vec2	vOffset;
+	float	fDuration;
+};
+
+
+
 // ===================
 // 상수버퍼 대응 구조체
 // ===================
@@ -41,4 +55,17 @@ struct tScalarParam
 	Vec2 v2Arr[4];
 	Vec4 v4Arr[4];
 	Matrix matArr[4];
+};
+
+struct tAnim2D
+{
+	Vec2	vLT;
+	Vec2	vSlice;
+	Vec2	vBackgroundSize;
+	Vec2    vOffset;
+
+	int     useAnim2D;
+	float   Atlas_Width;
+	float   Atlas_Height;
+	float	Anim2D_Padding;
 };

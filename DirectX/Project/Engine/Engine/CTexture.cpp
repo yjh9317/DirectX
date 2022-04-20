@@ -96,10 +96,10 @@ void CTexture::UpdateData(UINT _PipelineStage, int _iRegisterNum)
 void CTexture::Clear(int _iRegisterNum)
 {
     // 레지스터에 nullptr
-	ID3D11ShaderResourceView* pSRV = nullptr;
-	CONTEXT->VSSetShaderResources(_iRegisterNum, 1, &pSRV);
-	CONTEXT->HSSetShaderResources(_iRegisterNum, 1, &pSRV);
-	CONTEXT->DSSetShaderResources(_iRegisterNum, 1, &pSRV);
-	CONTEXT->GSSetShaderResources(_iRegisterNum, 1, &pSRV);
-	CONTEXT->PSSetShaderResources(_iRegisterNum, 1, &pSRV);
+    ID3D11ShaderResourceView* pSRV = nullptr;
+    CONTEXT->VSSetShaderResources(_iRegisterNum, 1, &pSRV);
+    CONTEXT->HSSetShaderResources(_iRegisterNum, 1, &pSRV);
+    CONTEXT->DSSetShaderResources(_iRegisterNum, 1, &pSRV);
+    CONTEXT->GSSetShaderResources(_iRegisterNum, 1, &pSRV);
+    CONTEXT->PSSetShaderResources(_iRegisterNum, 1, &pSRV);
 }

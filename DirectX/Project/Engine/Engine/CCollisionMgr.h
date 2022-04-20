@@ -26,7 +26,7 @@ public:
 
 public:
 	void CollisionCheck(const wstring& _strLeftName, const wstring& _strRightName);
-	void CollisionOff(const wstring& _strLeftName, const wstring& _strRightName);
+	void CollisionOff(const wstring& _strLeftName, const wstring& _strRightName);	
 
 	void CollisionCheck(int _iLayerLeftIdx, int _iLayerRightIdx);
 	void CollisionOff(int _iLayerLeftIdx, int _iLayerRightIdx);

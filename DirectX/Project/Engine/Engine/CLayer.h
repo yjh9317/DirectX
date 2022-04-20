@@ -23,7 +23,7 @@ public:
 
 public:
     void AddObject(CGameObject* _pObj);
-    void RegisterObject(CGameObject* _pObj){m_vecObj.push_back(_pObj);}
+    void RegisterObject(CGameObject* _pObj) { m_vecObj.push_back(_pObj); }
     void DeregisterObject(CGameObject* _pObj);
     void Clear() { m_vecObj.clear(); }
 
@@ -31,7 +31,7 @@ public:
     vector<CGameObject*>& GetRootObjects() { return m_vecRoot; }
     vector<CGameObject*>& GetObjects() { return m_vecObj; }
 
-    
+
 
     CLONE(CLayer)
 

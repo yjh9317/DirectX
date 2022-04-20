@@ -30,11 +30,11 @@ void CPlayerScript::update()
 	if (KEY_PRESSED(KEY::RIGHT))
 		vPos.x += DT * 100.f;
 
-	if (KEY_PRESSED(KEY::UP))
+	if (KEY_PRESSED(KEY::UP))	
 		vPos.y += DT * 100.f;
 
 	if (KEY_PRESSED(KEY::DOWN))
-		vPos.y -= DT * 100.f;
+		vPos.y -= DT * 100.f;	
 
 	Transform()->SetRelativePos(vPos);
 
@@ -64,7 +64,7 @@ void CPlayerScript::update()
 			vMissilePos.y += Transform()->GetRelativeScale().y / 2.f;
 
 			CSceneMgr::GetInst()->SpawnObject(pMissileObject, vMissilePos, L"Missile", 0);
-		}
+		}		
 	}
 }
 

@@ -40,7 +40,7 @@ public:
     const Vec3& GetWorldRightDir() { return m_arrRelativeDir[(UINT)DIR_TYPE::RIGHT]; }
     const Vec3& GetWorldUpDir() { return m_arrRelativeDir[(UINT)DIR_TYPE::UP]; }
     const Vec3& GetWorldFrontDir() { return m_arrRelativeDir[(UINT)DIR_TYPE::FRONT]; }
-    
+
 
 
     Vec3 GetWorldPos() { return m_matWorld.Translation(); }
@@ -48,7 +48,7 @@ public:
 
     const Matrix& GetWorldMat() { return m_matWorld; }
 
-    void SetIgnoreParentScale(bool _bSet)  { m_bIgnoreParentScale = _bSet;  }
+    void SetIgnoreParentScale(bool _bSet) { m_bIgnoreParentScale = _bSet; }
 
     virtual void UpdateData() override; //필요한 데이터를 gpu메모리로 이동
 

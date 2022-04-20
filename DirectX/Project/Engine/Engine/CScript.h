@@ -11,29 +11,32 @@
 #include "CScene.h"
 #include "CLayer.h"
 
-//컴포넌트 기반이지만 오브젝트에 따라 다르게 사용할 수 있도록 상속형태
-// ex PlayerScript, MonsterScript
 
-class CScript :         //모든 스크립트의 부모
-	public CComponent
+class CScript :
+    public CComponent
 {
 private:
-	const int	m_iScriptID;		// 스크립트 구별용도(스크립트 타입)
+    const int  m_iScriptID;    // 스크립트 구별용도(스크립트 타입)
 
 public:
-	virtual void start() {}
-	virtual void update() {}
-	virtual void lateupdate() {}
-	virtual void finalupdate() final {}	// 더이상 상속되지 않도록 final
+    virtual void start() {}
+    virtual void update() {}
+    virtual void lateupdate() {}
+    virtual void finalupdate() final {}
 
-	virtual void OnCollisionEnter(CGameObject* _OtherObject) {};
-	virtual void OnCollision(CGameObject* _OtherObject) {};
-	virtual void OnCollisionExit(CGameObject* _OtherObject) {};
+    virtual void OnCollisionEnter(CGameObject* _OtherObject) {};
+    virtual void OnCollision(CGameObject* _OtherObject) {};
+    virtual void OnCollisionExit(CGameObject* _OtherObject) {};
 
-	virtual CScript* Clone() = 0;
+
+
+    virtual CScript* Clone() = 0;
+
+
+    
 
 public:
-	CScript();
-	~CScript();
+    CScript();
+    ~CScript();
 };
 

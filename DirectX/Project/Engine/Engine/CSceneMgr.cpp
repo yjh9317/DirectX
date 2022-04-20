@@ -44,15 +44,15 @@ CSceneMgr::~CSceneMgr()
 
 void CSceneMgr::init()
 {
-	m_pCurScene = new CScene;
+	m_pCurScene = new CScene;	
 	m_pCurScene->SetLayerName(0, L"Default");
 	m_pCurScene->SetLayerName(1, L"Player");
 	m_pCurScene->SetLayerName(2, L"Monster");
-
+	
 	// Texture 한장 로딩해보기
 	CResMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Player.bmp");
 	CResMgr::GetInst()->Load<CTexture>(L"MagicCircle", L"texture\\MagicCircle.png");
-
+	
 	Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"MagicCircle");
 
 
@@ -63,11 +63,11 @@ void CSceneMgr::init()
 	pMissileObj->AddComponent(new CTransform);
 	pMissileObj->AddComponent(new CMeshRender);
 	pMissileObj->AddComponent(new CMissileScript);
-
+		
 	pMissileObj->Transform()->SetRelativeScale(Vec3(50.f, 50.f, 1.f));
 	pMissileObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh"));
 	pMissileObj->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
-
+	
 	CResMgr::GetInst()->AddRes<CPrefab>(L"MissilePrefab", new CPrefab(pMissileObj));
 
 
@@ -89,6 +89,7 @@ void CSceneMgr::init()
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
 	pObject->AddComponent(new CCollider2D);
+	pObject->AddComponent(new CAnimator2D);
 
 	pObject->Transform()->SetRelativePos(0.f, 0.f, 500.f);
 	pObject->Transform()->SetRelativeScale(Vec3(300.f, 300.f, 1.f));
@@ -103,6 +104,16 @@ void CSceneMgr::init()
 	pObject->Collider2D()->SetCollider2DType(COLLIDER2D_TYPE::CIRCLE);
 	pObject->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
 	pObject->Collider2D()->SetOffsetScale(Vec2(100.f, 100.f));
+
+	Ptr<CTexture> pAnimAtlas = CResMgr::GetInst()->Load<CTexture>(L"PlayerAtlas", L"texture\\link_0.png");
+	pObject->Animator2D()->CreateAnim(L"WALK_DOWN", pAnimAtlas, Vec2(200.f, 200.f)
+									, Vec2(0.f, 260.f), Vec2(60.f, 65.f), Vec2(60.f, 0.f), 0.2f, 10);
+
+
+
+
+	pObject->Animator2D()->Play(L"WALK_DOWN", true);
+
 
 	CGameObject* pChildObj = pObject->Clone();
 	pChildObj->SetName(L"ChildObject");
@@ -124,7 +135,7 @@ void CSceneMgr::init()
 	pObject->SetName(L"Monster");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
-	pObject->AddComponent(new CCollider2D);
+	pObject->AddComponent(new CCollider2D);	
 	pObject->AddComponent(new CMissileScript);
 
 	pObject->Transform()->SetRelativePos(Vec3(400.f, 0.f, 500.f));

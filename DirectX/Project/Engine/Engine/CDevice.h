@@ -25,10 +25,13 @@ private:
 	DXGI_SWAP_CHAIN_DESC			m_tSwapChainDesc;
 
 	ComPtr<ID3D11RasterizerState>	m_arrRS[(UINT)RS_TYPE::END];
-	ComPtr<ID3D11DepthStencilState>	m_arrDS[(UINT)DS_TYPE::END];
+	ComPtr<ID3D11DepthStencilState> m_arrDS[(UINT)DS_TYPE::END];
 	ComPtr<ID3D11BlendState>		m_arrBS[(UINT)DS_TYPE::END];
 
-	CConstBuffer*					m_arrCB[(UINT)CB_TYPE::END];
+
+	CConstBuffer* m_arrCB[(UINT)CB_TYPE::END];
+
+
 
 
 
@@ -37,7 +40,7 @@ private:
 public:
 	int init(HWND _hWnd, Vec2 _vRenderResolution);
 
-	void Present(){ m_pSwapChain->Present(0, 0); }
+	void Present() { m_pSwapChain->Present(0, 0); }
 	void ClearTarget();
 
 	Vec2 GetRenderResolution() { return m_vRenderResolution; }

@@ -41,20 +41,37 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
     float4 vOutColor = (float4) 0.f;
     
     // Animation 정보가 있는 경우
-    if(g_useAnim2D)
+    if (g_useAnim2D)
     {
-        float vUv = g_vSlice * _in.vUV + g_vLT;
-        vOutColor = g_Atlas.Sample(g_sam_0, _in.uv);
+        
+        float2 vUV = _in.vUV * g_vBackgroundSize; // Background 픽셀의 UV
+        vUV = vUV - (g_vBackgroundSize - g_vSlice) / 2.f + g_vLT - g_vOffset;
+        
+        // g_vBackgroundSize - g_vSlice /2.f는 사용하려는 이미지를 가운데로 놓기위해
+        // Background를 vLT에서 시작하게 하는게 아니라 왼쪽으로 이동시킴.-> - (g_vBackgroundSize - g_vSlice) / 2.f
+        
+        // 오른쪽으로 이동하려고 하면 아틀라스에서 가져오는 Background를 왼쪽으로 옮겨야 그 안에 있는 캐릭터는
+        // 캐릭터는 Background안에서 오른쪽으로 이동하므로 오프셋을 마이너스 해줘야 한다.
+        
+        
+        if (vUV.x < g_vLT.x || g_vLT.x + g_vSlice.x < vUV.x
+            || vUV.y < g_vLT.y || g_vLT.y + g_vSlice.y < vUV.y)
+        {
+            // 캐릭터의 UV밖에 있으면 discard 처분
+            discard;
+        }
+        
+        vOutColor = g_Atlas.Sample(g_sam_1, vUV); // Minmap
     }
     else
     {
         // 없으면 Material를 이용
         vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+    }
     
-        if (vOutColor.a <= g_float_0)
-        {
-            discard;
-        }
+    if (vOutColor.a <= g_float_0)
+    {
+        discard;
     }
     
     return vOutColor;

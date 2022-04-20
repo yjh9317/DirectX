@@ -81,7 +81,7 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 
 
 	// ViewPort
-	// 윈도우에 출력 될 프론트버퍼의 위치를 설정, 기본적으로 윈도우 해상도와 1:1로 맞춰줌
+	// 윈도우에 출력 될 프론트버퍼의 위치를 설정
 
 	m_tViewPort.TopLeftX = 0;
 	m_tViewPort.TopLeftY = 0;
@@ -296,23 +296,23 @@ int CDevice::CreateDepthStencilState()
 
 
 	// Less(Default)
-	m_arrDS[(UINT)DS_TYPE::LESS] =nullptr;		//Default 옵션
+	m_arrDS[(UINT)DS_TYPE::LESS] = nullptr;		//Default 옵션
 
 	D3D11_DEPTH_STENCIL_DESC desc = {};
 
 	// LessEqual
-	desc.DepthEnable = true;				
+	desc.DepthEnable = true;
 	desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
 	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;	//깊이 기록함
 
-	if(FAILED(DEVICE->CreateDepthStencilState(&desc, m_arrDS[(UINT)DS_TYPE::LESS_EQUAL].GetAddressOf())))
+	if (FAILED(DEVICE->CreateDepthStencilState(&desc, m_arrDS[(UINT)DS_TYPE::LESS_EQUAL].GetAddressOf())))
 		return E_FAIL;
 
 	//Greater
 	desc.DepthEnable = true;
 	desc.DepthFunc = D3D11_COMPARISON_GREATER;
 	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-	
+
 	if (FAILED(DEVICE->CreateDepthStencilState(&desc, m_arrDS[(UINT)DS_TYPE::GREATER].GetAddressOf())))
 		return E_FAIL;
 
@@ -336,7 +336,7 @@ int CDevice::CreateDepthStencilState()
 
 	// NO_WRITE
 	desc.DepthEnable = true;
-	desc.DepthFunc = D3D11_COMPARISON_LESS;	
+	desc.DepthFunc = D3D11_COMPARISON_LESS;
 	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO; //깊이 기록 안함
 
 	if (FAILED(DEVICE->CreateDepthStencilState(&desc, m_arrDS[(UINT)DS_TYPE::NO_WRITE].GetAddressOf())))
@@ -351,7 +351,7 @@ int CDevice::CreateDepthStencilState()
 		return E_FAIL;
 
 
-	
+
 
 
 	return S_OK;
@@ -388,7 +388,6 @@ int CDevice::CreateBlendState()
 }
 int CDevice::CreateConstBuffer()
 {
-
 	m_arrCB[(UINT)CB_TYPE::TRANSFORM] = new CConstBuffer(CB_TYPE::TRANSFORM);
 	m_arrCB[(UINT)CB_TYPE::TRANSFORM]->Create(sizeof(tTransform));
 
@@ -398,7 +397,6 @@ int CDevice::CreateConstBuffer()
 	m_arrCB[(UINT)CB_TYPE::ANIM2D] = new CConstBuffer(CB_TYPE::ANIM2D);
 	m_arrCB[(UINT)CB_TYPE::ANIM2D]->Create(sizeof(tAnim2D));
 
-	
 	return S_OK;
 }
 

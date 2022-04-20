@@ -2,24 +2,24 @@
 #include "CEntity.h"
 
 #define GET_COMPONENT(type, TYPE)  class C##type* type() { return (C##type*)m_arrCom[(UINT)COMPONENT_TYPE::TYPE]; }
-// C##type -> Ctype 
+// C##type -> Ctype을 의미
 
 class CComponent;
 class CTransform;
 class CMeshRender;
 class CCollider2D;
+class CAnimator2D;
 class CCamera;
 class CScript;
-
 
 class CGameObject :
     public CEntity
 {
 private:
     vector<CGameObject*>    m_vecChild;
-    CComponent*             m_arrCom[(UINT)COMPONENT_TYPE::END];
+    CComponent* m_arrCom[(UINT)COMPONENT_TYPE::END];
 
-    CGameObject*            m_pParent;
+    CGameObject* m_pParent;
 
     int                     m_iLayerIdx; // 게임 오브젝트 소속 레이어 인덱스
 
@@ -37,7 +37,8 @@ public:
     CGameObject* GetParent() { return m_pParent; }
     const vector<CGameObject*>& GetChild() { return m_vecChild; }
 
-    // Deregister ==> 등록 취소(등록->미등록), Unregister ==> 등록 안됨(등록 ->미등록, 애초에 등록X)
+    // Deregister ==> 등록 취소(등록->미등록)
+    // Unregister ==> 등록 안됨(등록 x == 등록->미등록, 애초에 등록된적 없음)
     void Deregister();
 
     void DisconnectBetweenParent();
@@ -49,19 +50,19 @@ public:
 public:
     void AddChild(CGameObject* _pChild);
     void AddComponent(CComponent* _component);
-    CComponent* GetComponent(COMPONENT_TYPE _eType){ return m_arrCom[(UINT)_eType];  }
-        
+    CComponent* GetComponent(COMPONENT_TYPE _eType) { return m_arrCom[(UINT)_eType]; }
+
     void Destroy();
 
-
     GET_COMPONENT(Transform, TRANSFORM)
-    GET_COMPONENT(MeshRender, MESHRENDER)
-    GET_COMPONENT(Camera, CAMERA)
-    GET_COMPONENT(Collider2D, COLLIDER2D)
+        GET_COMPONENT(MeshRender, MESHRENDER)
+        GET_COMPONENT(Camera, CAMERA)
+        GET_COMPONENT(Collider2D, COLLIDER2D)
+        GET_COMPONENT(Animator2D, ANIMATOR2D)
 
-    CScript* GetScript() { return (CScript*)m_arrCom[(UINT)COMPONENT_TYPE::SCRIPT]; }
+        CScript* GetScript() { return (CScript*)m_arrCom[(UINT)COMPONENT_TYPE::SCRIPT]; }
 
-public: 
+public:
     CLONE(CGameObject)
 
 public:

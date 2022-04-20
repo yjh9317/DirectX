@@ -1,4 +1,4 @@
- #include "pch.h"
+#include "pch.h"
 #include "CCore.h"
 
 #include "CDevice.h"
@@ -20,7 +20,7 @@ CCore::CCore()
 
 CCore::~CCore()
 {
-
+	
 }
 
 int CCore::init(HWND _hWnd, POINT _ptResolution)
@@ -45,7 +45,7 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 	CRenderMgr::GetInst()->init();
 	CResMgr::GetInst()->init();
 	CSceneMgr::GetInst()->init();
-
+	
 
 	return S_OK;
 }
@@ -66,7 +66,7 @@ void CCore::Frame_Clear()
 void CCore::progress()
 {
 	// 프레임 시작
-	Frame_Init();
+	Frame_Init();	
 
 	// Scene Update
 	CSceneMgr::GetInst()->progress();

@@ -17,12 +17,13 @@
 #include "CKeyMgr.h"
 
 
+
 CCamera::CCamera()
-	:CComponent(COMPONENT_TYPE::CAMERA)
+	: CComponent(COMPONENT_TYPE::CAMERA)
 	, m_eProjType(PROJ_TYPE::ORTHOGRAPHIC)
 	, m_fWidth(0.f)
 	, m_fAspectRatio(1.f)
-	, m_fFOV(XM_PI/4.f)
+	, m_fFOV(XM_PI / 4.f)
 	, m_fFar(10000.f)
 	, m_iLayerMask(0)
 	, m_iCamIdx(-1)
@@ -32,7 +33,7 @@ CCamera::CCamera()
 }
 
 CCamera::CCamera(const CCamera& _origin)
-	:CComponent(_origin)
+	: CComponent(_origin)
 	, m_eProjType(_origin.m_eProjType)
 	, m_fWidth(_origin.m_fWidth)
 	, m_fAspectRatio(_origin.m_fAspectRatio)
@@ -45,13 +46,14 @@ CCamera::CCamera(const CCamera& _origin)
 
 CCamera::~CCamera()
 {
+
 }
 
 void CCamera::finalupdate()
 {
 
 	// m_fWidth를 이용하여 종횡비,가로,세로를 움직여서 카메라로 움직이는 효과 가능(CameraScript에서 구현)
-	
+
 	// world에 있는 물체들이 view space로 오도록 변환행렬을 구하는 작업
 
 
@@ -67,27 +69,27 @@ void CCamera::finalupdate()
 	// 그런데 각 x,y,z축은 서로 수직이므로 단위벡터에서 역행렬을 곱하면 같은 성분끼리의 곱말고는 cos90도 이므로 0이된다.
 
 	// View 회전 행렬	
-	Matrix matViewRot =XMMatrixIdentity(); //단위행렬
+	Matrix matViewRot = XMMatrixIdentity(); //단위행렬
 
 	// Right, Up, Front를 가져온다.
 	Vec3 vRight = Transform()->GetWorldRightDir();
 	Vec3 vUp = Transform()->GetWorldUpDir();
 	Vec3 vFront = Transform()->GetWorldFrontDir();
 
-	matViewRot._11 = vRight.x; matViewRot._12 = vUp.x; matViewRot._13 = vFront.x;
-	matViewRot._21 = vRight.y; matViewRot._22 = vUp.y; matViewRot._23 = vFront.y;
-	matViewRot._31 = vRight.z; matViewRot._32 = vUp.z; matViewRot._33 = vFront.z;
+	matViewRot._11 = vRight.x;	matViewRot._12 = vUp.x; matViewRot._13 = vFront.x;
+	matViewRot._21 = vRight.y;	matViewRot._22 = vUp.y;	matViewRot._23 = vFront.y;
+	matViewRot._31 = vRight.z;	matViewRot._32 = vUp.z;	matViewRot._33 = vFront.z;
 
 	// 이동 후 회전 (순서 중요) ,카메라와 같이 View 스페이스로 이동하고 난후 회전
 	m_matView = matViewTrans * matViewRot;
 
 	// r= right, u = up, f= front , T=transform
-	
+
 	// ( 1, 0, 0, 0)			( r.x,	u.x,  f.x,  0)				( r.x  u.x,  f.x,   0)
 	// ( 0, 1, 0, 0)     *		( r.y,	u.y,  f.y,  0)				( r.y  u.y,  f.y,   0)
 	// ( 0, 0, 1, 0)			( r.z,	u.z,  f.z,  0)		=		( r.z  u.z,  f.z,   0)
 	// ( -x,-y,-z,1)			(  0,	 0,	   0,   1)				(-T*R , -T*U, -T*F ,1)
-	
+
 
 	// 직교투영
 	if (PROJ_TYPE::ORTHOGRAPHIC == m_eProjType) {
@@ -98,9 +100,9 @@ void CCamera::finalupdate()
 	// 원근투영
 	else
 	{
-		m_matProj = XMMatrixPerspectiveFovLH(m_fFOV,m_fAspectRatio,1.f,m_fFar); //왼손기준 ,시야각,종횡비 ,near ,far
+		m_matProj = XMMatrixPerspectiveFovLH(m_fFOV, m_fAspectRatio, 1.f, m_fFar); //왼손기준 ,시야각,종횡비 ,near ,far
 	}
-	
+
 
 	g_transform.matView = m_matView;
 	g_transform.matProj = m_matProj;
@@ -133,7 +135,7 @@ void CCamera::SortGameObject()
 			CMeshRender* pMeshRender = vecObj[j]->MeshRender();
 
 			// MeshRender가 없는 경우,Mesh는 있지만 아직 참조하지 않은 경우,매터리얼이 없는경우, 쉐이더가 없는경우
-			if (nullptr == pMeshRender 
+			if (nullptr == pMeshRender
 				|| nullptr == pMeshRender->GetMesh()
 				|| nullptr == pMeshRender->GetMaterial()
 				|| nullptr == pMeshRender->GetMaterial()->GetShader())
@@ -155,12 +157,11 @@ void CCamera::SortGameObject()
 				m_vecOpaque.push_back(vecObj[j]);
 				break;
 			}
-			
+
 		}
 	}
 
 }
-
 void CCamera::render_forward()
 {
 	for (size_t i = 0; i < m_vecForward.size(); ++i)
@@ -187,15 +188,16 @@ void CCamera::render_opaque()
 
 
 
+
 void CCamera::SetCameraAsMain()
 {
 	tEventInfo tEvent = {};
 	tEvent.eType = EVENT_TYPE::SET_CAMERA_INDEX;
 	tEvent.lParam = (DWORD_PTR)this;
 	tEvent.wParam = 0;
+
 	CEventMgr::GetInst()->AddEvent(tEvent);
 }
-
 
 void CCamera::CheckLayerMask(int _iLayerIdx)
 {
@@ -213,5 +215,6 @@ void CCamera::CheckLayerMask(const wstring& _strLayerName)
 {
 	CScene* pScene = CSceneMgr::GetInst()->GetCurScene();
 	CLayer* pLayer = pScene->GetLayer(_strLayerName);
+
 	CheckLayerMask(pLayer->GetLayerIdx());
 }
