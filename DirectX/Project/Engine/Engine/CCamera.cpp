@@ -11,6 +11,7 @@
 #include "CGameObject.h"
 #include "CTransform.h"
 #include "CMeshRender.h"
+#include "CRenderComponent.h"
 
 #include "CResMgr.h"
 #include "CTimeMgr.h"
@@ -132,18 +133,18 @@ void CCamera::SortGameObject()
 
 		for (size_t j = 0; j < vecObj.size(); ++j)
 		{
-			CMeshRender* pMeshRender = vecObj[j]->MeshRender();
+			CRenderComponent* pRenderCom = vecObj[j]->GetRenderComponent();
 
 			// MeshRender가 없는 경우,Mesh는 있지만 아직 참조하지 않은 경우,매터리얼이 없는경우, 쉐이더가 없는경우
-			if (nullptr == pMeshRender
-				|| nullptr == pMeshRender->GetMesh()
-				|| nullptr == pMeshRender->GetMaterial()
-				|| nullptr == pMeshRender->GetMaterial()->GetShader())
+			if (nullptr == pRenderCom
+				|| nullptr == pRenderCom->GetMesh()
+				|| nullptr == pRenderCom->GetMaterial()
+				|| nullptr == pRenderCom->GetMaterial()->GetShader())
 			{
 				continue;
 			}
 
-			Ptr<CGraphicsShader>pShader = pMeshRender->GetMaterial()->GetShader();
+			Ptr<CGraphicsShader>pShader = pRenderCom->GetMaterial()->GetShader();
 
 			switch (pShader->GetShaderDomain())
 			{

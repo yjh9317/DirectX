@@ -10,10 +10,12 @@
 #include "CTransform.h"
 #include "CMeshRender.h"
 #include "CCollider2D.h"
+#include "CRenderComponent.h"
 
 CGameObject::CGameObject()
 	: m_arrCom{}
 	, m_pParent(nullptr)
+	, m_pRenderComponent(nullptr)
 	, m_iLayerIdx(-1)
 	, m_bActive(true)
 	, m_bDead(false)
@@ -24,6 +26,7 @@ CGameObject::CGameObject(const CGameObject& _origin)
 	: CEntity(_origin)
 	, m_arrCom{}
 	, m_pParent(nullptr)
+	, m_pRenderComponent(nullptr)
 	, m_iLayerIdx(-1)
 	, m_bActive(true)
 	, m_bDead(false)
@@ -111,8 +114,8 @@ void CGameObject::finalupdate()
 
 void CGameObject::render()
 {
-	if (nullptr != MeshRender())
-		MeshRender()->render();
+	m_pRenderComponent->render();
+
 
 	if (nullptr != Collider2D())
 		Collider2D()->render();
@@ -177,6 +180,22 @@ void CGameObject::AddComponent(CComponent* _component)
 
 	m_arrCom[(UINT)eType] = _component;
 	_component->m_pOwner = this;
+
+	// 렌더링 컴포넌트 타입을 다운캐스팅으로 저장
+	switch (_component->GetType())
+	{
+	case COMPONENT_TYPE::MESHRENDER:
+	case COMPONENT_TYPE::TILEMAP:
+	case COMPONENT_TYPE::PARTICLESYSTEM:
+	case COMPONENT_TYPE::LANDSCAPE:
+	case COMPONENT_TYPE::DECAL:
+	{
+		// 하나의 오브젝트에 Render 기능을 가진 컴포넌트는 2개이상 들어 올 수 없다.
+		assert(!m_pRenderComponent);
+		m_pRenderComponent = (CRenderComponent*)_component;
+		break;
+	}
+	}
 }
 
 void CGameObject::Destroy()

@@ -18,7 +18,7 @@ public:
     virtual void update() {}
     virtual void lateupdate() {}
     virtual void finalupdate() = 0; //최종 업데이트이므로 순수가상함수
-    virtual void render() {}
+    
 
 public:
     COMPONENT_TYPE GetType() { return m_eComType; }
@@ -31,6 +31,7 @@ public:
         GET_OTHER_COMPONENT(MeshRender)
         GET_OTHER_COMPONENT(Collider2D)
         GET_OTHER_COMPONENT(Animator2D)
+        GET_OTHER_COMPONENT(TileMap)
 
         CComponent* Clone() = 0;
 

@@ -144,46 +144,79 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   {
   };
   
-  pch.cpp
-  CAnimation2D.cpp
-  CAnimator2D.cpp
-  CCamera.cpp
-  CCameraMoveScript.cpp
-  CCollider2D.cpp
-  CCollisionMgr.cpp
-  CComponent.cpp
-  CConstBuffer.cpp
-  CCore.cpp
-  CDevice.cpp
-  CEntity.cpp
-  CEventMgr.cpp
-  CGameObject.cpp
-  CGraphicsShader.cpp
-  CKeyMgr.cpp
-  CLayer.cpp
-  CMaterial.cpp
-  CMesh.cpp
-  CMeshRender.cpp
-  CMissileScript.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  CPathMgr.cpp
-  CPlayerScript.cpp
-  CPrefab.cpp
-  CRenderMgr.cpp
-  CRes.cpp
-  CResMgr.cpp
-  CResMgr_init.cpp
-  CScene.cpp
-  CSceneMgr.cpp
-  CScript.cpp
-  CShader.cpp
-  CTexture.cpp
-  CTimeMgr.cpp
-  CTransform.cpp
-  Engine.cpp
-  extern.cpp
-  코드를 생성하고 있습니다...
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  //
+  // FX Version: fx_5_0
+  //
+  // 3 local buffer(s)
+  //
+  cbuffer TRANSFORM : register(b0)
+  {
+      float4x4 g_matWorld;                // Offset:    0, size:   64
+      float4x4 g_matView;                 // Offset:   64, size:   64
+      float4x4 g_matProj;                 // Offset:  128, size:   64
+      float4x4 g_matWV;                   // Offset:  192, size:   64
+      float4x4 g_matWVP;                  // Offset:  256, size:   64
+  }
+  
+  cbuffer SCALAR_PARAM : register(b1)
+  {
+      int     g_int_0;                    // Offset:    0, size:    4
+      int     g_int_1;                    // Offset:    4, size:    4
+      int     g_int_2;                    // Offset:    8, size:    4
+      int     g_int_3;                    // Offset:   12, size:    4
+      float   g_float_0;                  // Offset:   16, size:    4
+      float   g_float_1;                  // Offset:   20, size:    4
+      float   g_float_2;                  // Offset:   24, size:    4
+      float   g_float_3;                  // Offset:   28, size:    4
+      float2  g_vec2_0;                   // Offset:   32, size:    8
+      float2  g_vec2_1;                   // Offset:   40, size:    8
+      float2  g_vec2_2;                   // Offset:   48, size:    8
+      float2  g_vec2_3;                   // Offset:   56, size:    8
+      float4  g_vec4_0;                   // Offset:   64, size:   16
+      float4  g_vec4_1;                   // Offset:   80, size:   16
+      float4  g_vec4_2;                   // Offset:   96, size:   16
+      float4  g_vec4_3;                   // Offset:  112, size:   16
+      float4x4 g_mat_0;                   // Offset:  128, size:   64
+      float4x4 g_mat_1;                   // Offset:  192, size:   64
+      float4x4 g_mat_2;                   // Offset:  256, size:   64
+      float4x4 g_mat_3;                   // Offset:  320, size:   64
+  }
+  
+  cbuffer ANIM2D : register(b2)
+  {
+      float2  g_vLT;                      // Offset:    0, size:    8
+      float2  g_vSlice;                   // Offset:    8, size:    8
+      float2  g_vBackgroundSize;          // Offset:   16, size:    8
+      float2  g_vOffset;                  // Offset:   24, size:    8
+      int     g_useAnim2D;                // Offset:   32, size:    4
+      float   g_Atlas_Width;              // Offset:   36, size:    4
+      float   g_Atlas_Height;             // Offset:   40, size:    4
+      float   g_Anim2D_Padding;           // Offset:   44, size:    4
+  }
+  
+  //
+  // 13 local object(s)
+  //
+  Texture2D g_tex_0;
+  Texture2D g_tex_1;
+  Texture2D g_tex_2;
+  Texture2D g_tex_3;
+  Texture2D g_tex_4;
+  Texture2D g_tex_5;
+  TextureCube g_texcube_0;
+  TextureCube g_texcube_1;
+  Texture2DArray g_texarr_0;
+  Texture2DArray g_texarr_1;
+  Texture2D g_Atlas;
+  SamplerState g_sam_0
+  {
+  };
+  SamplerState g_sam_1
+  {
+  };
+  
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
   .\Project\Engine\Engine\CAnimation2D.h
   .\Project\Engine\Engine\CAnimator2D.h
@@ -208,6 +241,7 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   .\Project\Engine\Engine\CPathMgr.h
   .\Project\Engine\Engine\CPlayerScript.h
   .\Project\Engine\Engine\CPrefab.h
+  .\Project\Engine\Engine\CRenderComponent.h
   .\Project\Engine\Engine\CRenderMgr.h
   .\Project\Engine\Engine\CRes.h
   .\Project\Engine\Engine\CResMgr.h
@@ -216,6 +250,7 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   .\Project\Engine\Engine\CScript.h
   .\Project\Engine\Engine\CShader.h
   .\Project\Engine\Engine\CTexture.h
+  .\Project\Engine\Engine\CTileMap.h
   .\Project\Engine\Engine\CTimeMgr.h
   .\Project\Engine\Engine\CTransform.h
   .\Project\Engine\Engine\define.h
@@ -226,7 +261,8 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   .\Project\Engine\Engine\SimpleMath.h
   .\Project\Engine\Engine\singleton.h
   .\Project\Engine\Engine\struct.h
-  41개 파일이 복사되었습니다.
+  43개 파일이 복사되었습니다.
   .\Project\Engine\Engine\std2d.fx
+  .\Project\Engine\Engine\tilemap.fx
   .\Project\Engine\Engine\value.fx
-  2개 파일이 복사되었습니다.
+  3개 파일이 복사되었습니다.
