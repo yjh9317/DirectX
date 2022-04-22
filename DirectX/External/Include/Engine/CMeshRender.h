@@ -4,7 +4,7 @@
 #include "CComponent.h"
 
 
-
+// Mtrl 다 RenderComponent로 이동
 
 // SharedMtrl,DynamicMtrl
 

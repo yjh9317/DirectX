@@ -96,14 +96,22 @@ void CSceneMgr::init()
 	Ptr<CTexture> pTileAtlas = CResMgr::GetInst()->Load<CTexture>(L"TileMapAtlas", L"texture//TILE_32.bmp");
 	pObject->TileMap()->SetAtlasTex(pTileAtlas);
 	pObject->TileMap()->SetTileSize(Vec2(64.f, 64.f));
+	pObject->TileMap()->SetTileMapCount(16, 16);
 
+	for (int i = 0; i < 8; ++i)
+	{
+		pObject->TileMap()->SetTileData(i, 0);
+	}
+
+	for (int i = 8; i < 256; ++i)
+	{
+		pObject->TileMap()->SetTileData(i, 2);
+	}
+	pObject->TileMap()->SetTileData(7, -1);
 
 	m_pCurScene->AddObject(pObject, L"Tile");
 
-
-
 	CCollisionMgr::GetInst()->CollisionCheck(L"Player", L"Monster");
-
 
 	m_pCurScene->start();
 }

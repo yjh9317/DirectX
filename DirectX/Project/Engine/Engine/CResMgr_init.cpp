@@ -144,7 +144,7 @@ void CResMgr::CreateEngineShader()
 	pShader->CreateVertexShader(L"shader\\tilemap.fx", "VS_TileMap");
 	pShader->CreatePixelShader(L"shader\\tilemap.fx", "PS_TileMap");
 
-	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_OPAQUE);
+	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_MASKED);
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 
 	pShader->AddTexParamInfo(L"TileMapAtlas", TEX_PARAM::TEX_0);
@@ -196,6 +196,7 @@ void CResMgr::CreateEngineMaterial()
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DAlphaBlendShader"));
 	AddRes<CMaterial>(L"Std2DAlphaBlendMtrl", pMtrl);
 
+	// TilemapMtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"TileMapShader"));
 	AddRes<CMaterial>(L"TileMapMtrl", pMtrl);

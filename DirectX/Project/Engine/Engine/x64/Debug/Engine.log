@@ -3,7 +3,7 @@
   //
   // FX Version: fx_5_0
   //
-  // 3 local buffer(s)
+  // 4 local buffer(s)
   //
   cbuffer TRANSFORM : register(b0)
   {
@@ -48,6 +48,11 @@
       float   g_Atlas_Width;              // Offset:   36, size:    4
       float   g_Atlas_Height;             // Offset:   40, size:    4
       float   g_Anim2D_Padding;           // Offset:   44, size:    4
+  }
+  
+  cbuffer TILEMAP : register(b3)
+  {
+      tTileData arrTileData[2000];        // Offset:    0, size: 32000
   }
   
   //
@@ -76,7 +81,7 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   //
   // FX Version: fx_5_0
   //
-  // 3 local buffer(s)
+  // 4 local buffer(s)
   //
   cbuffer TRANSFORM : register(b0)
   {
@@ -121,6 +126,11 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
       float   g_Atlas_Width;              // Offset:   36, size:    4
       float   g_Atlas_Height;             // Offset:   40, size:    4
       float   g_Anim2D_Padding;           // Offset:   44, size:    4
+  }
+  
+  cbuffer TILEMAP : register(b3)
+  {
+      tTileData arrTileData[2000];        // Offset:    0, size: 32000
   }
   
   //
@@ -149,7 +159,7 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   //
   // FX Version: fx_5_0
   //
-  // 3 local buffer(s)
+  // 4 local buffer(s)
   //
   cbuffer TRANSFORM : register(b0)
   {
@@ -194,6 +204,11 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
       float   g_Atlas_Width;              // Offset:   36, size:    4
       float   g_Atlas_Height;             // Offset:   40, size:    4
       float   g_Anim2D_Padding;           // Offset:   44, size:    4
+  }
+  
+  cbuffer TILEMAP : register(b3)
+  {
+      tTileData arrTileData[2000];        // Offset:    0, size: 32000
   }
   
   //

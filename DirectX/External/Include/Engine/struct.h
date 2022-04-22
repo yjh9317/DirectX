@@ -20,6 +20,22 @@ struct Vertex
 
 typedef Vertex Vtx;
 
+// ===========
+// TileMap 타일 하나의 정보
+// ===========
+
+struct tTileData
+{
+	int  iImgIdx;
+	Vec2 vLTUV;
+	int  iPadding;
+
+	// iImgIdx를 -1로 초기화
+	tTileData()
+		:iImgIdx(-1)
+		,iPadding(0)
+	{}
+};
 
 
 // ==========

@@ -1,6 +1,9 @@
 #ifndef _VALUE
 #define _VALUE
 
+// value.fx는 모든 쉐이더에서 공용으로 사용하는 파일
+// 쉐이더별로 fx를 따로 사용하면 각 fx파일에서 레지스터 번호가 같아도 다른 방식으로 사용함
+
 // 상수버퍼를 사용할 때는 16byte 단위로 끊어야 한다(최적화를 위해)
 // 12byte 8bye (X) , 16byte 4byte(O)
 
@@ -60,6 +63,24 @@ cbuffer ANIM2D : register(b2) //Animation의 상수 레지스터
     float g_Atlas_Width;
     float g_Atlas_Height;
     float g_Anim2D_Padding;
+}
+
+struct tTileData
+{
+    int     iImgIdx;
+    float2  vLTUV;
+    int     iPadding;
+};
+
+// 상수버퍼는 메모리제한이 있다. 그걸 해결하기 위해 구조화버퍼를 이용
+
+// VTF : vertex fetch, 구조화 버퍼이전에 사용하던 방식 ,픽셀에 값을 담아서 사용하는 형식
+
+// 상수버퍼는 텍스쳐를 gpu메모리에 복사해서 사용해서 크기가 작고
+// 텍스쳐 레지스터 바인딩 방식은 텍스쳐를 gpu메모리에 복사가아닌 간접적인 참조방식(포인터처럼)이여서 크기가 크다
+cbuffer TILEMAP : register(b3)
+{
+    tTileData arrTileData[2000];
 }
 
 
