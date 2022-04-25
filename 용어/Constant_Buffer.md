@@ -24,7 +24,7 @@ Vertex Buffer를 이용한 이동
   	D3D11_MAPPED_SUBRESOURCE tSub = {}; //임시 메모리
   
   	CONTEXT->Map(g_pVB.Get(),0,D3D11_MAP_WRITE_DISCARD,0,&tSub); //임시 메모리와 버텍스 버퍼를 맵핑
-  	memcpy(tSub.pData, arrVtx, sizeof(VTX) * 4);        	//arrVtx값을 임시 메모리에 전이
+  	memcpy(tSub.pData, arrVtx, sizeof(VTX) * 4);        		//arrVtx값을 임시 메모리에 전이
   	CONTEXT->Unmap(g_pVB.Get(), 0);
     
     }
@@ -40,64 +40,102 @@ Constant Buffer
 모든 정점에 대해 상수값을 적용시켜 물체를 이동시킬 수 있게 된다.  
 
 
-Constant Buffer를 이용한 이동
+Constant Buffer 헤더
 =================================
-// System 메모리에 있는 데이터를 gpu메모리에 옮길 때 임시 메모리를 만들고 map함수로 맵핑을 시킨다음에
-// Unmap을 이용해서 임시메모리를 gpu 메모리에 옮긴다.
-
-      	(HLSL)
-      	//상수버퍼 레지스터 , b0:슬롯넘버
-      	cbuffer POSITION : register(b0)
-      	{
-          float4 g_Pos; //전달할 값(이동량)	
-      	}
+	// 상수 버퍼는 gpu메모리를 사용하지만 실제 파이프라인일 때
+	// 특정 레지스터에 상수값을 보내야 하는데 몇번 레지스터를 보낼지 모르기에
+	// 미리 만들어 놓는다.
 	
 	
+	
+	#pragma once
+	#include "CEntity.h"
+	
+	class CConstBuffer :
+	    public CEntity
+	{
+	private:
+	    ComPtr<ID3D11Buffer>	m_CB;	// 상수버퍼
+	    D3D11_BUFFER_DESC           m_Desc;	// 버퍼 Desc
+	
+	    CB_TYPE                     m_eCBType; // 상수버퍼를 바인딩 할 레지스터 번호
+	
+	public:
+	    virtual void UpdateData() override;	// 버퍼를 레지스터에 바인딩
+	    int Create(UINT _iBufferSize);	// 상수버퍼 생성
+	
+	    void SetData(void* _pData, UINT _iSize);
+	
+	    virtual CConstBuffer* Clone() { return nullptr; }
+	
+	public:
+	    CConstBuffer(CB_TYPE _eType);
+	    ~CConstBuffer();
+	};
+	
+	
+		
 
-      	Vec4	g_vPos; //물체의 이동량을 담을 Vec4(16byte)  
-      
-    	if (KEY_PRESSED(KEY::LEFT))
-    	{
-    		g_vPos.x -= DT * 0.5f;     //delta Time * 0.5f
-    	}
-    
-    	if (KEY_PRESSED(KEY::RIGHT))
-    	{
-    		g_vPos.x += DT * 0.5f;      //delta Time * 0.5f
-    	}
-    
-    
-    	D3D11_MAPPED_SUBRESOURCE tSub = {};
-    
-    	CONTEXT->Map(g_pCB.Get(),0,D3D11_MAP_WRITE_DISCARD,0,&tSub); //임시메모리와 맵핑
-    	memcpy(tSub.pData, &g_vPos, sizeof(Vec4));                   //g_vPos값을 메모리에 이동
-    	CONTEXT->Unmap(g_pCB.Get(), 0);                               //상수 버퍼로 이동
 
-
-
-상수버퍼생성Code
+Constant Buffer cpp
 ===============
       
-      
 
-      
-      ComPtr<ID3D11Buffer>			g_pCB; // 상수 버퍼
-      
-      
-
-     	// 상수버퍼 반드시 16바이트 단위로 잡혀야된다
-
-	    tBufferDesc = {};
-	    tBufferDesc.ByteWidth = sizeof(Vec4); (16byte)
-    
-      //읽고 쓰기 가능(수정)
-	    tBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE; 
-	    tBufferDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
-    
-	    tBufferDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_CONSTANT_BUFFER; //상수 버퍼임을 알림
-	    tBufferDesc.MiscFlags = 0;
-	    tBufferDesc.StructureByteStride = 0;
-      
-      
-	    DEVICE->CreateBuffer(&tBufferDesc, &tSubDesc, g_pCB.GetAddressOf());
-    
+	#include "pch.h"
+	#include "CConstBuffer.h"
+	
+	#include "CDevice.h"
+	
+	CConstBuffer::CConstBuffer(CB_TYPE _eType)
+		: m_eCBType(_eType)
+		, m_Desc{}
+	{
+	}
+	
+	CConstBuffer::~CConstBuffer()
+	{
+	}
+	
+	void CConstBuffer::UpdateData() // 상수버퍼를 레지스터에 바인딩
+	{
+		CONTEXT->VSSetConstantBuffers((UINT)m_eCBType, 1, m_CB.GetAddressOf());
+		CONTEXT->HSSetConstantBuffers((UINT)m_eCBType, 1, m_CB.GetAddressOf());
+		CONTEXT->DSSetConstantBuffers((UINT)m_eCBType, 1, m_CB.GetAddressOf());
+		CONTEXT->GSSetConstantBuffers((UINT)m_eCBType, 1, m_CB.GetAddressOf());
+		CONTEXT->PSSetConstantBuffers((UINT)m_eCBType, 1, m_CB.GetAddressOf());
+	}
+	
+	int CConstBuffer::Create(UINT _iBufferSize)
+	{
+		m_Desc.ByteWidth = _iBufferSize;
+	
+		// 버퍼 생성 이후에도, 버퍼의 내용을 수정 할 수 있는 옵션
+		m_Desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		m_Desc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
+	
+		// 정점을 저장하는 목적의 상수 버퍼 임을 알림
+		m_Desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_CONSTANT_BUFFER;
+		m_Desc.MiscFlags = 0;
+		m_Desc.StructureByteStride = 0;
+	
+		if (FAILED(DEVICE->CreateBuffer(&m_Desc, nullptr, m_CB.GetAddressOf())))
+		{
+			return E_FAIL;
+		}
+	
+		return S_OK;
+	}
+	
+	void CConstBuffer::SetData(void* _pData, UINT _iSize)
+	{
+		D3D11_MAPPED_SUBRESOURCE tSub = {};
+		
+		// CPU->GPU로 데이터 복사
+		CONTEXT->Map(m_CB.Get(), 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &tSub);
+		memcpy(tSub.pData, _pData, _iSize);
+		CONTEXT->Unmap(m_CB.Get(), 0);
+	}
+	
+	
+	    
+	
