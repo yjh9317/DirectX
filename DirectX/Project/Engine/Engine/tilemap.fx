@@ -2,6 +2,14 @@
 #define _TILEMAP
 
 #include "value.fx"
+#include "struct.fx"
+
+
+
+// 구조화 버퍼 : 버퍼의 한칸단위가 tTileData인 버퍼,픽셀 한 칸을 커스텀할 수 있는 텍스쳐
+StructuredBuffer<tTileData> TileDataBuffer : register(t16);
+
+//RWStructuredBuffer<tTileData> TileDataBuffer_RW : register(u0);// 구조화 버퍼가 Read_Write 타입으로 수정하고싶을 때 사용할 버퍼, u레지스터는 ComPuteShader으로만 사용가능
 
 // ==============
 // TileMap Shader
@@ -13,6 +21,8 @@
 #define TileCountY g_int_1
 
 #define SliceSizeUV g_vec2_0
+
+
 
 
 struct VTX_IN
@@ -52,11 +62,11 @@ float4 PS_TileMap(VTX_OUT _in) : SV_Target
     int TileDataIdx = iTileRowCol.y * TileCountX + iTileRowCol.x;
     
     // 만약 이미지 설정이 안된 타일이면 버림
-    if (-1 == arrTileData[TileDataIdx].iImgIdx)   
+    if (-1 == TileDataBuffer[TileDataIdx].iImgIdx)   
         discard;
     
     // 타일 데이터에 접근하면 , 각 타일 별로 좌상단 UV값이 들어있다.
-     float2 vLeftTopUV = arrTileData[TileDataIdx].vLTUV;
+    float2 vLeftTopUV = TileDataBuffer[TileDataIdx].vLTUV;
     
     // 0~1 의 UV 를 NxM 타일 크기로 확장 UV의 소수점 부분을 샘플링 용도로 사용한다.
     float2 vImgUV = frac(vUV); // frac() : 실수값에서 정수값을 뺀 소수점값을 얻는다

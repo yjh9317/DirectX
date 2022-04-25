@@ -65,23 +65,20 @@ cbuffer ANIM2D : register(b2) //Animation의 상수 레지스터
     float g_Anim2D_Padding;
 }
 
-struct tTileData
-{
-    int     iImgIdx;
-    float2  vLTUV;
-    int     iPadding;
-};
 
 // 상수버퍼는 메모리제한이 있다. 그걸 해결하기 위해 구조화버퍼를 이용
 
 // VTF : vertex fetch, 구조화 버퍼이전에 사용하던 방식 ,픽셀에 값을 담아서 사용하는 형식
 
-// 상수버퍼는 텍스쳐를 gpu메모리에 복사해서 사용해서 크기가 작고
-// 텍스쳐 레지스터 바인딩 방식은 텍스쳐를 gpu메모리에 복사가아닌 간접적인 참조방식(포인터처럼)이여서 크기가 크다
-cbuffer TILEMAP : register(b3)
-{
-    tTileData arrTileData[2000];
-}
+// 상수 레지스터는 상수를 gpu메모리에 복사해서 사용하기 때문에 크기에 제한을 받고
+// 텍스쳐 레지스터 는 텍스쳐를 gpu메모리에 복사가아닌 간접적인 참조방식(포인터처럼 텍스쳐 버퍼에 접근해서 사용)하기에 크기제한이 덜하다(구조화버퍼)
+// 그렇기에 상수버퍼는 gpu에 고정크기로 존재하므로 좀더 빠르고 ,구조화 버퍼는 포인터처럼 한번 건너서 접근하므로 약간 느림
+
+
+//cbuffer TILEMAP : register(b3)
+//{
+//    tTileData arrTileData[2000];
+//}
 
 
 // Material를 통해서 전달받는 텍스쳐 레지스터
@@ -100,6 +97,10 @@ Texture2DArray g_texarr_1 : register(t9);
 
 // 애니메이션
 Texture2D g_Atlas : register(t10);
+
+
+//texture register는 총 128개까지 사용가능 (0~127)
+
 
 
 

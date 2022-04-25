@@ -12,18 +12,34 @@ CTileMap::CTileMap()
 	:CRenderComponent(COMPONENT_TYPE::TILEMAP)
 	, m_iRowCount(0)
 	, m_iColCount(0)
-	, m_iTileCountX(4)
-	, m_iTileCountY(4)
+	, m_iTileCountX(0)
+	, m_iTileCountY(0)
 {
 	// 메쉬 , 재질
 	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TileMapMtrl"));
 
-	m_vecTileData.resize(m_iTileCountX * m_iTileCountY);
+	m_vecTileData.resize((size_t)(m_iTileCountX * m_iTileCountY));
+	m_pBuffer = new CStructuredBuffer;
+}
+
+CTileMap::CTileMap(const CTileMap& _origin)
+	: CRenderComponent(_origin)
+	, m_vSlicePixel(_origin.m_vSlicePixel)
+	, m_vSliceUV(_origin.m_vSliceUV)
+	, m_iRowCount(_origin.m_iRowCount)
+	, m_iColCount(_origin.m_iColCount)
+	, m_iTileCountX(_origin.m_iTileCountX)
+	, m_iTileCountY(_origin.m_iTileCountY)
+	, m_vecTileData(_origin.m_vecTileData)
+	, m_pBuffer(nullptr)
+{
+	m_pBuffer = new CStructuredBuffer;
 }
 
 CTileMap::~CTileMap()
 {
+	SAFE_DELETE(m_pBuffer);
 }
 
 
@@ -45,10 +61,12 @@ void CTileMap::UpdateData()
 	
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_0, &m_vSliceUV);
 
-	//모든 타일 데이터를 상수버퍼를 통해 레지스터로 바인딩
-	static CConstBuffer* pCB = CDevice::GetInst()->GetCB(CB_TYPE::TILEMAP);
-	pCB->SetData(m_vecTileData.data(), sizeof(tTileData) * m_iTileCountX * m_iTileCountY); //상수버퍼로 전달
-	pCB->UpdateData();// 레지스터에 바인딩
+	// 모든 타일 데이터(m_vecTileData)를 구조화 버퍼를 통해 t16 레지스터로 바인딩
+	// m_pBuffer->SetData(m_vecTileData.data(), sizeof(tTileData) * m_iTileCountX * m_iTileCountY);
+	// m_pBuffer->UpdateData(PIPELINE_STAGE::PS, 16);
+		
+	// pCB->SetData(m_vecTileData.data(), sizeof(tTileData) * m_iTileCountX * m_iTileCountY); //상수버퍼로 전달
+	// pCB->UpdateData();// 레지스터에 바인딩
 }
 
 
@@ -102,7 +120,14 @@ void CTileMap::ClearTileData()
 	vector<tTileData> vecTileData;
 	m_vecTileData.swap(vecTileData);
 
-	m_vecTileData.resize(m_iTileCountX * m_iTileCountY);
+	m_vecTileData.resize((size_t)(m_iTileCountX * m_iTileCountY));
+
+	// 구조화 버퍼도 크기에 대응한다 
+	size_t iBufferSize = (m_iTileCountX * m_iTileCountY) * sizeof(tTileData); //구조화 버퍼의 사이즈
+
+	if (m_pBuffer->GetBufferSize() < iBufferSize)
+	{
+		m_pBuffer->Create(sizeof(tTileData),m_iTileCountX*m_iTileCountY,SB_TYPE::READ_ONLY, false, nullptr);
+		// 기존에 버퍼가 있어도 Create안에서 Comptr변수를 nullptr로 선언해서 재생성해서 초기화시켜준다.
+	}
 }
-
-

@@ -1,6 +1,7 @@
 #pragma once
 #include "CRenderComponent.h"
 #include "CTexture.h"
+#include "CStructuredBuffer.h"
 
 // TileMap을 Object로 각각 만들면 비용이 너무 많이 들기 때문에 렌더링 컴포넌트로 하나의 오브젝트로 만들고
 // 그안에서 RectMesh를 이용하여 타일을 표현
@@ -22,6 +23,7 @@ private:
     UINT              m_iTileCountX;
     UINT              m_iTileCountY;
     vector<tTileData> m_vecTileData; //타일마다 각각 정보를 갖게 하기위해 벡터로 관리
+    CStructuredBuffer* m_pBuffer; // 타일맵마다 사이즈가 다르므로 각각 따로 들고 있어야 한다.
 
 public:
     virtual void finalupdate() override;
@@ -48,6 +50,7 @@ public:
     CLONE(CTileMap);
 public:
     CTileMap();
+    CTileMap(const CTileMap& _origin);
     ~CTileMap();
 };
 
