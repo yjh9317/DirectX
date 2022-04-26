@@ -15,10 +15,13 @@ private:
 	ComPtr<ID3D11DeviceContext>		m_pDeviceContext;	// GPU Rendering 제어
 
 	ComPtr<IDXGISwapChain>			m_pSwapChain;
-	ComPtr<ID3D11Texture2D>			m_pRenderTarget;
-	ComPtr<ID3D11Texture2D>			m_pDepthStencilTarget;
 
+	ComPtr<ID3D11Texture2D>			m_pRenderTarget;	
 	ComPtr<ID3D11RenderTargetView>	m_RTV;
+
+	//Ptr<CTexture>					m_pDepthStencilTex;	텍스쳐를 깊이 텍스쳐로 생성해서 설정도 가능
+
+	ComPtr<ID3D11Texture2D>			m_pDepthStencilTarget;
 	ComPtr<ID3D11DepthStencilView>	m_DSV;
 
 	D3D11_VIEWPORT					m_tViewPort;

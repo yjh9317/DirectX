@@ -30,7 +30,7 @@ int CConstBuffer::Create(UINT _iBufferSize)
 	m_Desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	m_Desc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
 
-	// 정점을 저장하는 목적의 버퍼 임을 알림
+	// 정점을 저장하는 목적의 상수 버퍼 임을 알림
 	m_Desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_CONSTANT_BUFFER;
 	m_Desc.MiscFlags = 0;
 	m_Desc.StructureByteStride = 0;

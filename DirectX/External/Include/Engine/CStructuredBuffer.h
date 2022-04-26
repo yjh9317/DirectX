@@ -10,6 +10,7 @@ enum class SB_TYPE
     READ_WRITE,         // 쉐이더 상에서 읽기,쓰기
 };
 
+
 class CStructuredBuffer :
     public CEntity
 {
@@ -27,7 +28,7 @@ private:
     UINT                             m_iElementCount;    // 버퍼 원소(tTileData) 개수
 
     SB_TYPE                          m_eType;
-    bool                             m_bCpuRead; // 버퍼에서 gpu로 보낼때와 gpu에서 버퍼로 읽어드릴때의 버퍼 총 2개가 필요함.
+    bool                             m_bCpuRead; // System에서 gpu로 보낼때와 gpu에서 System로 읽어드릴때의 버퍼 총 2개가 필요함.
 
     
 public:
@@ -35,7 +36,10 @@ public:
 
 public:
     int Create(UINT _iElementSize, UINT _iElementCount, SB_TYPE _eType, bool _bCpuAccessRead, void* _pInitialData);//사이즈,개수,타입,Cpu접근,초기데이터
+    void SetData(void* _pSrc, UINT _iElementCount); //데이터의 시작주소 , 원소의 개수 , gpu로 보냄
 
+    // PIPELINE_STAGE
+    void UpdateData(PIPELINE_STAGE _iStage, UINT _iRegisterNum);//레지스터로 바인딩
 public:
     CLONE_DISABLE(CStructuredBuffer);
 

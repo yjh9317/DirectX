@@ -42,7 +42,7 @@ private:
     ComPtr<ID3D11GeometryShader>    m_GS;            //지오메트리
     ComPtr<ID3D11PixelShader>       m_PS;            //픽셀
 
-    SHADER_DOMAIN                   m_eDomain;
+    SHADER_DOMAIN                   m_eDomain;      //렌더링의 동작시점을 나누기위함
 
     RS_TYPE                         m_eRSType;       // 래스터라이저 타입
     DS_TYPE                         m_eDSType;       // 깊이스텐실 타입

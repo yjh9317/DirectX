@@ -58,6 +58,13 @@ void CSceneMgr::init()
 	Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"MagicCircle");
 
 
+	// Texture Create 하기
+	Ptr<CTexture> pTestTex = CResMgr::GetInst()->CreateTexture(L"TestTexture", 512, 512
+		, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
+
+
+
+
 
 
 	// Prefab 제작

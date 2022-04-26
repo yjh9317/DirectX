@@ -9,7 +9,7 @@
 #include "CMesh.h"
 #include "CTexture.h"
 #include "CGraphicsShader.h"
-//#include "CComputeShader.h"
+#include "CComputeShader.h"
 //#include "CSound.h"
 //#include "CMeshData.h"
 
@@ -29,6 +29,7 @@ private:
 	void CreateEngineMesh();
 	void CreateEngineTexture();
 	void CreateEngineShader();
+	void CreateEngineComputeShader();
 	void CreateEngineMaterial();
 	void MakeInputLayoutInfo();
 
@@ -44,6 +45,9 @@ public:
 
 	template<typename type>
 	void AddRes(const wstring& _strKey, type* _pRes);
+
+	// _flag : D3D11_BIND_FLAG
+	Ptr<CTexture> CreateTexture(const wstring& _strKey, UINT _iWidth, UINT _iHeight, DXGI_FORMAT _format, UINT _flag);
 };
 
 template<typename type>
@@ -57,6 +61,8 @@ inline RES_TYPE CResMgr::GetResType()
 		return RES_TYPE::MESH;
 	else if (info.hash_code() == typeid(CGraphicsShader).hash_code())
 		return RES_TYPE::GRAPHICS_SHADER;
+	else if (info.hash_code() == typeid(CComputeShader).hash_code())
+		return RES_TYPE::COMPUTE_SHADER;
 	else if (info.hash_code() == typeid(CMaterial).hash_code())
 		return RES_TYPE::MATERIAL;
 	else if (info.hash_code() == typeid(CTexture).hash_code())

@@ -139,6 +139,9 @@
     <ClInclude Include="CStructuredBuffer.h">
       <Filter>Engine\03. Manager\01. Device\StructuredBuffer</Filter>
     </ClInclude>
+    <ClInclude Include="CComputeShader.h">
+      <Filter>Engine\07. Resource\07. Shader\ComputeShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -260,6 +263,9 @@
     </ClCompile>
     <ClCompile Include="CStructuredBuffer.cpp">
       <Filter>Engine\03. Manager\01. Device\StructuredBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="CComputeShader.cpp">
+      <Filter>Engine\07. Resource\07. Shader\ComputeShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -422,6 +428,12 @@
     <Filter Include="Engine\03. Manager\01. Device\StructuredBuffer">
       <UniqueIdentifier>{2022a234-577a-4b7a-aff9-22dcefd63165}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\ShaderCode\ComputeShader">
+      <UniqueIdentifier>{07ca3da6-8f83-416e-8795-18c1e4ac02ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ShaderCode\GraphicsShader">
+      <UniqueIdentifier>{716c9fa3-9022-4517-847f-2370630343ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -430,17 +442,20 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="std2d.fx">
-      <Filter>Engine\ShaderCode</Filter>
-    </FxCompile>
     <FxCompile Include="value.fx">
-      <Filter>Engine\ShaderCode</Filter>
-    </FxCompile>
-    <FxCompile Include="tilemap.fx">
       <Filter>Engine\ShaderCode</Filter>
     </FxCompile>
     <FxCompile Include="struct.fx">
       <Filter>Engine\ShaderCode</Filter>
+    </FxCompile>
+    <FxCompile Include="tilemap.fx">
+      <Filter>Engine\ShaderCode\GraphicsShader</Filter>
+    </FxCompile>
+    <FxCompile Include="std2d.fx">
+      <Filter>Engine\ShaderCode\GraphicsShader</Filter>
+    </FxCompile>
+    <FxCompile Include="TestCS.fx">
+      <Filter>Engine\ShaderCode\ComputeShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

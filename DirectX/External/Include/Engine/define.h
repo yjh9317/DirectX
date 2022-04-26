@@ -188,7 +188,7 @@ enum class TEX_PARAM
 };
 
 
-enum class PIPELINE_STAGE
+enum PIPELINE_STAGE
 {
 	VS = 0x01,
 	HS = 0x02,

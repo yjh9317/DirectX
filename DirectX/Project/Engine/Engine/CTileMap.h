@@ -3,7 +3,7 @@
 #include "CTexture.h"
 #include "CStructuredBuffer.h"
 
-// TileMap을 Object로 각각 만들면 비용이 너무 많이 들기 때문에 렌더링 컴포넌트로 하나의 오브젝트로 만들고
+// Tile을 Object로 각각 만들면 비용이 너무 많이 들기 때문에 렌더링 컴포넌트로 하나의 오브젝트로 만들고
 // 그안에서 RectMesh를 이용하여 타일을 표현
 
 class CTileMap :
@@ -24,6 +24,8 @@ private:
     UINT              m_iTileCountY;
     vector<tTileData> m_vecTileData; //타일마다 각각 정보를 갖게 하기위해 벡터로 관리
     CStructuredBuffer* m_pBuffer; // 타일맵마다 사이즈가 다르므로 각각 따로 들고 있어야 한다.
+
+    bool                m_bBufferUpDated; //업데이트의 유무, 버퍼의 변경이 없을 경우 데이터 세팅을 하지않아(기존의 데이터사용) 프레임을 올림
 
 public:
     virtual void finalupdate() override;
@@ -53,4 +55,3 @@ public:
     CTileMap(const CTileMap& _origin);
     ~CTileMap();
 };
-

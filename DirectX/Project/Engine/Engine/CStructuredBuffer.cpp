@@ -73,3 +73,42 @@ int CStructuredBuffer::Create(UINT _iElementSize, UINT _iElementCount, SB_TYPE _
 
     return S_OK;
 }
+
+void CStructuredBuffer::SetData(void* _pSrc, UINT _iElementCount)
+{
+    D3D11_MAPPED_SUBRESOURCE tSub = {};
+
+    //버퍼를 gpu로 이전
+    CONTEXT->Map(m_SB.Get(), 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &tSub);
+    memcpy(tSub.pData, _pSrc, (size_t)m_iElementSize * (size_t)_iElementCount);
+    CONTEXT->Unmap(m_SB.Get(), 0);
+}
+
+void CStructuredBuffer::UpdateData(PIPELINE_STAGE _iStage, UINT _iRegisterNum)
+{
+    //레지스터, 개수,버퍼를 설명해주는 쉐이더리소스뷰 전달
+    if (_iStage & PIPELINE_STAGE::VS)
+    {
+        CONTEXT->VSGetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf()); 
+    }
+
+    if (_iStage & PIPELINE_STAGE::HS)
+    {
+        CONTEXT->HSGetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf()); 
+    }
+
+    if (_iStage & PIPELINE_STAGE::DS)
+    {
+        CONTEXT->DSGetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf()); 
+    }
+
+    if (_iStage & PIPELINE_STAGE::GS)
+    {
+        CONTEXT->GSGetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf()); 
+    }
+
+    if (_iStage & PIPELINE_STAGE::PS)
+    {
+        CONTEXT->PSGetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf()); 
+    }
+}

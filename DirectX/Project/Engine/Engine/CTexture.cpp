@@ -64,6 +64,48 @@ int CTexture::Load(const wstring& _strFilePath)
     return S_OK;
 }
 
+void CTexture::Create(UINT _iWidth, UINT _iHeight, DXGI_FORMAT _format, UINT _flag)
+{
+    // Texture 만들기
+    
+    m_tDesc.Width = _iWidth;
+    m_tDesc.Height = _iHeight;
+    m_tDesc.MipLevels = 0;
+    m_tDesc.ArraySize = 1;
+
+    m_tDesc.CPUAccessFlags = 0;
+    m_tDesc.BindFlags = _flag; // 받아온 인자로 쉐이더나 UAV로 설정
+    m_tDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
+
+    
+    m_tDesc.SampleDesc.Count = 1;
+    m_tDesc.SampleDesc.Quality = 0;
+
+    m_tDesc.Format =_format;
+    
+
+    DEVICE->CreateTexture2D(&m_tDesc, nullptr, m_pTex2D.GetAddressOf());
+
+    assert(m_pTex2D);
+
+    //SRV 생성 Shader Resource View
+    D3D11_SHADER_RESOURCE_VIEW_DESC tSRVDesc = {};
+    tSRVDesc.ViewDimension = D3D11_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2D;
+    tSRVDesc.Texture2D.MipLevels = 1;
+    tSRVDesc.Texture2D.MostDetailedMip = 0;
+    
+    DEVICE->CreateShaderResourceView(m_pTex2D.Get(), nullptr, m_pSRV.GetAddressOf());
+    assert(m_pSRV);
+
+    //UAV 생성 Unordered Access View
+    D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVDesc = {};
+    tUAVDesc.ViewDimension = D3D11_UAV_DIMENSION::D3D11_UAV_DIMENSION_TEXTURE2D; //원본 리소스가 Texture 2D
+    tUAVDesc.Texture2D.MipSlice = 0;
+    
+    DEVICE->CreateUnorderedAccessView(m_pTex2D.Get(), &tUAVDesc, m_pUAV.GetAddressOf());
+    
+}
+
 // 레지스터 바인딩
 void CTexture::UpdateData(UINT _PipelineStage, int _iRegisterNum)
 {
