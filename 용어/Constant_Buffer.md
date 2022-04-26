@@ -46,7 +46,7 @@ Constant Buffer 헤더
 	// 특정 레지스터에 상수값을 보내야 하는데 몇번 레지스터를 보낼지 모르기에
 	// 미리 만들어 놓는다.
 	
-	
+	// 상수버퍼는 최적화를 위해 16byte로 나
 	
 	#pragma once
 	#include "CEntity.h"
