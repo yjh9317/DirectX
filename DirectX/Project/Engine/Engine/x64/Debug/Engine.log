@@ -197,7 +197,7 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   }
   
   //
-  // 13 local object(s)
+  // 14 local object(s)
   //
   Texture2D g_tex_0;
   Texture2D g_tex_1;
@@ -216,6 +216,7 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   SamplerState g_sam_1
   {
   };
+  RWTexture2D g_RWTex_0;
   
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
@@ -364,7 +365,6 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   {
   };
   
-  CSceneMgr.cpp
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
   .\Project\Engine\Engine\CAnimation2D.h
   .\Project\Engine\Engine\CAnimator2D.h
@@ -399,6 +399,7 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   .\Project\Engine\Engine\CScript.h
   .\Project\Engine\Engine\CShader.h
   .\Project\Engine\Engine\CStructuredBuffer.h
+  .\Project\Engine\Engine\CTestShader.h
   .\Project\Engine\Engine\CTexture.h
   .\Project\Engine\Engine\CTileMap.h
   .\Project\Engine\Engine\CTimeMgr.h
@@ -411,7 +412,7 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   .\Project\Engine\Engine\SimpleMath.h
   .\Project\Engine\Engine\singleton.h
   .\Project\Engine\Engine\struct.h
-  45개 파일이 복사되었습니다.
+  46개 파일이 복사되었습니다.
   .\Project\Engine\Engine\std2d.fx
   .\Project\Engine\Engine\struct.fx
   .\Project\Engine\Engine\TestCS.fx

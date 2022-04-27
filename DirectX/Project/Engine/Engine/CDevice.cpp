@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "CDevice.h"
 
+
 #include "CConstBuffer.h"
+
+#include "CResMgr.h"
 
 CDevice::CDevice()
 	:m_hWnd(nullptr)
@@ -76,7 +79,10 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 
 	// RenderTargetView, DepthStencilVeiw 전달
 	// Render 출력 버퍼 및 출력 깊이 버퍼 지정
-	m_pDeviceContext->OMSetRenderTargets(1, m_RTV.GetAddressOf(), m_DSV.Get());
+	Ptr<CTexture> pRTTex = CResMgr::GetInst()->FindRes<CTexture>(L"RenderTargetTexture");
+	Ptr<CTexture> pDSTex = CResMgr::GetInst()->FindRes<CTexture>(L"DepthStencilTexture");
+	
+	m_pDeviceContext->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(),pDSTex->GetDSV().Get());
 
 
 
@@ -199,47 +205,23 @@ int CDevice::CreateView()
 	// View는 리소스가 먼저 있어야 view를 만들 수있음
 	// SwapChain이 가지고 있는 버퍼(렌더 타겟 버퍼)를 전달하는 역할
 
+
+	// RenderTargetTexture 
 	ComPtr<ID3D11Texture2D> pBuffer = nullptr;
-
 	m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)pBuffer.GetAddressOf());//스왑체인이 들고있는 버퍼를 가져옴
+	CResMgr::GetInst()->CreateTexture(L"RenderTargetTexture", pBuffer); //ResMgr에서 RTV관리
 
-
-	m_pDevice->CreateRenderTargetView(pBuffer.Get(), nullptr, m_RTV.GetAddressOf());
-
-	if (nullptr == m_RTV)
-		return E_FAIL;
 
 
 	// Depth Stencil Texture 만들기
-	D3D11_TEXTURE2D_DESC desc = {};
-	desc.Width = (UINT)m_vRenderResolution.x;
-	desc.Height = (UINT)m_vRenderResolution.y;
-	desc.MipLevels = 0;
-	desc.ArraySize = 1;
-
-	desc.CPUAccessFlags = 0; //cpu 접근
-	desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL; // 역할을 미리 정해준다.(리소스마다 View가 다른데 이 값으로 구분)
-	desc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
-
-	desc.MiscFlags = 0; //추가 옵션
-	desc.SampleDesc.Count = 1;
-	desc.SampleDesc.Quality = 0;
-	desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	// D24 -> Depth 24(3byte), S8->Stencil 8 (1byte) 깊이를 Depth에 저장하고 나중에 Stencil를 1byte로 사용
-
-	m_pDevice->CreateTexture2D(&desc, nullptr, m_pDepthStencilTarget.GetAddressOf());
-
-	if (nullptr == m_pDepthStencilTarget)
-		return E_FAIL;
+	Ptr<CTexture> pDepthStencilView = CResMgr::GetInst()->CreateTexture(L"DepthStencilTexture", (UINT)m_vRenderResolution.x, (UINT)m_vRenderResolution.y,
+		DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
+	
 
 
 	// Depth Stencil View 
 	// 깊이의 비교가 물체단위가 아닌 픽셀단위로 비교해서 물체의 앞뒤를 비교해야함
 	// 버퍼에 있는 텍스처의 위치를 Depth Stencile Texture에 깊이를 저장해서 겹친 텍스처의 깊이를  픽셀단위로 비교함
-	m_pDevice->CreateDepthStencilView(m_pDepthStencilTarget.Get(), nullptr, m_DSV.GetAddressOf());
-
-	if (nullptr == m_DSV)
-		return E_FAIL;
 
 
 	return S_OK;
@@ -284,16 +266,6 @@ int CDevice::CreateRasterizerState()
 
 int CDevice::CreateDepthStencilState()
 {
-	// 스텐실 옵션은 아직 사용하지 않음.
-	//desc.StencilEnable = false; // 스텐실 기능 Off
-	//desc.BackFace;
-	//desc.FrontFace;
-	//desc.StencilReadMask;
-	//desc.StencilWriteMask;
-
-	//desc.DepthEnable = false; //깊이 판정을 안함
-
-
 
 	// Less(Default)
 	m_arrDS[(UINT)DS_TYPE::LESS] = nullptr;		//Default 옵션
@@ -437,8 +409,11 @@ void CDevice::CreateSamplerState()
 
 void CDevice::ClearTarget()
 {
-	m_pDeviceContext->ClearRenderTargetView(m_RTV.Get(), Vec4(0.65f, 0.65f, 0.65f, 1.f));
+	static CTexture* pRTTex = CResMgr::GetInst()->FindRes<CTexture>(L"RenderTargetTexture").Get();
+	static CTexture* pDSTex = CResMgr::GetInst()->FindRes<CTexture>(L"DepthStencilTexture").Get();
+
+	m_pDeviceContext->ClearRenderTargetView(pRTTex->GetRTV().Get(), Vec4(0.65f, 0.65f, 0.65f, 1.f));
 	// RGB의 0~255값을 0.f ~ 1.f로 보간해서 변경해서 넣어줌
 
-	m_pDeviceContext->ClearDepthStencilView(m_DSV.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+	m_pDeviceContext->ClearDepthStencilView(pDSTex->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 }

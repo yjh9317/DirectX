@@ -142,6 +142,9 @@
     <ClInclude Include="CComputeShader.h">
       <Filter>Engine\07. Resource\07. Shader\ComputeShader</Filter>
     </ClInclude>
+    <ClInclude Include="CTestShader.h">
+      <Filter>Engine\ShaderCode\ComputeShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -266,6 +269,9 @@
     </ClCompile>
     <ClCompile Include="CComputeShader.cpp">
       <Filter>Engine\07. Resource\07. Shader\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="CTestShader.cpp">
+      <Filter>Engine\ShaderCode\ComputeShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

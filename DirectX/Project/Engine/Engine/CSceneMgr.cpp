@@ -29,6 +29,7 @@
 #include "CTexture.h"
 #include "CPrefab.h"
 
+#include "CTestShader.h"
 
 
 CSceneMgr::CSceneMgr()
@@ -63,7 +64,10 @@ void CSceneMgr::init()
 		, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
 
 
-
+	// ComputeShader 실행하기
+	Ptr<CTestShader> pCS = (CTestShader*)CResMgr::GetInst()->FindRes<CComputeShader>(L"TestCS").Get();
+	pCS->SetOutputTexture(pTestTex);
+	pCS->Excute(1, 256, 1);
 
 
 
@@ -92,31 +96,21 @@ void CSceneMgr::init()
 
 	m_pCurScene->AddObject(pCamObj, L"Default");
 
-	// TileMap Object
-	CGameObject* pObject = new CGameObject;
-	pObject->AddComponent(new CTransform);
-	pObject->Transform()->SetRelativePos(Vec3(0.f, 0.f, 600.f));
-	pObject->Transform()->SetRelativeScale(1000.f, 1000.f, 1.f);
+	// Player Object
+	CGameObject* pPlayer = new CGameObject;
+	pPlayer->AddComponent(new CTransform);
+	pPlayer->AddComponent(new CMeshRender);
 
-	pObject->AddComponent(new CTileMap);
+	pPlayer->Transform()->SetRelativePos(0.f, 0.f, 500.f);
+	pPlayer->Transform()->SetRelativeScale(200.f, 200.f, 1.f);
+	pPlayer->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pPlayer->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
 
-	Ptr<CTexture> pTileAtlas = CResMgr::GetInst()->Load<CTexture>(L"TileMapAtlas", L"texture//TILE_32.bmp");
-	pObject->TileMap()->SetAtlasTex(pTileAtlas);
-	pObject->TileMap()->SetTileSize(Vec2(64.f, 64.f));
-	pObject->TileMap()->SetTileMapCount(16, 16);
+	pPlayer->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, pTestTex);
 
-	for (int i = 0; i < 8; ++i)
-	{
-		pObject->TileMap()->SetTileData(i, 0);
-	}
 
-	for (int i = 8; i < 256; ++i)
-	{
-		pObject->TileMap()->SetTileData(i, 2);
-	}
-	pObject->TileMap()->SetTileData(7, -1);
+	m_pCurScene->AddObject(pPlayer, L"Player");
 
-	m_pCurScene->AddObject(pObject, L"Tile");
 
 	CCollisionMgr::GetInst()->CollisionCheck(L"Player", L"Monster");
 

@@ -48,6 +48,8 @@ public:
 
 	// _flag : D3D11_BIND_FLAG
 	Ptr<CTexture> CreateTexture(const wstring& _strKey, UINT _iWidth, UINT _iHeight, DXGI_FORMAT _format, UINT _flag);
+
+	Ptr<CTexture> CreateTexture(const wstring& _strKey, ComPtr<ID3D11Texture2D> _pTex2D);
 };
 
 template<typename type>

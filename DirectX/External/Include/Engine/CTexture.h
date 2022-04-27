@@ -30,6 +30,7 @@ private:
 protected:
     virtual int Load(const wstring& _strFilePath);
     void Create(UINT _iWidth, UINT _iHeight,DXGI_FORMAT _format,UINT _flag); // 가로,세로,픽셀정보,플래그 .자체적으로 이미지Create
+    void Create(ComPtr<ID3D11Texture2D> _pTex2D);
 
 public:
     // ScartchImage에서도 가져올 수 있지만 gpu메모리에 다이렉트로 텍스쳐를 만들고 사용하면 없을수도 있음
@@ -38,11 +39,16 @@ public:
 
     ComPtr<ID3D11ShaderResourceView> GetSRV() { return m_pSRV; }
     ComPtr<ID3D11UnorderedAccessView> GetUAV() { return m_pUAV; }
+    ComPtr<ID3D11RenderTargetView> GetRTV() { return m_pRTV; }
+    ComPtr<ID3D11DepthStencilView> GetDSV() { return m_pDSV; }
     
 public:
     // PIPELINE_STAGE
     void UpdateData(UINT _PipelineStage, int _iRegisterNum);
+
+    void UpdateData_CS(int _iRegisterNum); //Compute Shader에서 레지스터에 바인딩할 함수
     static void Clear(int _iRegisterNum);
+    static void ClearCS(int _iRegisterNum);
 
 public:
     CTexture();

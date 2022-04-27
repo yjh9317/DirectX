@@ -7,6 +7,7 @@ void CResMgr::init()
 	CreateEngineTexture();
 	CreateEngineShader();
 	CreateEngineMaterial();
+	CreateEngineComputeShader();
 }
 
 void CResMgr::CreateEngineMesh()
@@ -247,15 +248,11 @@ void CResMgr::MakeInputLayoutInfo()
 	CGraphicsShader::AddInputLayout(tInputDesc);
 
 }
-
-
+#include "CTestShader.h"
 
 void CResMgr::CreateEngineComputeShader()
 {
-	return;
-
-	// Collider2D Shader
-	CComputeShader* pCS = new CComputeShader;
+	CComputeShader* pCS = new CTestShader;
 
 	if (FAILED(pCS->CreateComputeShader(L"Shader\\testcs.fx", "CS_Test")))
 		delete pCS;
@@ -263,7 +260,5 @@ void CResMgr::CreateEngineComputeShader()
 	{
 		AddRes<CComputeShader>(L"TestCS", pCS);
 	}
-	
-
-	
 }
+

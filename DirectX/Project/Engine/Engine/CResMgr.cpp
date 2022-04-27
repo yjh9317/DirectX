@@ -30,3 +30,19 @@ Ptr<CTexture> CResMgr::CreateTexture(const wstring& _strKey, UINT _iWidth, UINT 
 	return pTexture;
 }
 
+Ptr<CTexture> CResMgr::CreateTexture(const wstring& _strKey, ComPtr<ID3D11Texture2D> _pTex2D)
+{
+	assert(nullptr == FindRes<CTexture>(_strKey));
+
+
+
+	CTexture* pTexture = new CTexture;
+
+	pTexture->Create(_pTex2D);
+	pTexture->SetKey(_strKey);
+
+	AddRes<CTexture>(_strKey, pTexture);
+
+	return pTexture;
+}
+

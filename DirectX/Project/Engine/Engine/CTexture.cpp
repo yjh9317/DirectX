@@ -82,28 +82,96 @@ void CTexture::Create(UINT _iWidth, UINT _iHeight, DXGI_FORMAT _format, UINT _fl
     m_tDesc.SampleDesc.Quality = 0;
 
     m_tDesc.Format =_format;
-    
 
     DEVICE->CreateTexture2D(&m_tDesc, nullptr, m_pTex2D.GetAddressOf());
-
     assert(m_pTex2D);
 
-    //SRV 생성 Shader Resource View
-    D3D11_SHADER_RESOURCE_VIEW_DESC tSRVDesc = {};
-    tSRVDesc.ViewDimension = D3D11_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2D;
-    tSRVDesc.Texture2D.MipLevels = 1;
-    tSRVDesc.Texture2D.MostDetailedMip = 0;
-    
-    DEVICE->CreateShaderResourceView(m_pTex2D.Get(), nullptr, m_pSRV.GetAddressOf());
-    assert(m_pSRV);
+    if (D3D11_BIND_DEPTH_STENCIL & _flag) // Depth Stencil은 호환되지 않으므로 따로 플래그를 확인해서 View 생성
+    {
+        DEVICE->CreateDepthStencilView(m_pTex2D.Get(), nullptr, m_pDSV.GetAddressOf());
+        assert(m_pDSV);
+    }
+    else //플래그를 확인하고 각각 맞는 View를 생성
+    {
+        if (D3D11_BIND_RENDER_TARGET & _flag)  // 렌더타겟
+        {
+            DEVICE->CreateRenderTargetView(m_pTex2D.Get(), nullptr, m_pRTV.GetAddressOf());
+            assert(m_pRTV);
+        }
 
-    //UAV 생성 Unordered Access View
-    D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVDesc = {};
-    tUAVDesc.ViewDimension = D3D11_UAV_DIMENSION::D3D11_UAV_DIMENSION_TEXTURE2D; //원본 리소스가 Texture 2D
-    tUAVDesc.Texture2D.MipSlice = 0;
+        if (D3D11_BIND_SHADER_RESOURCE & _flag) //쉐이더 리소스
+        {
+            //SRV 생성 Shader Resource View
+            D3D11_SHADER_RESOURCE_VIEW_DESC tSRVDesc = {};
+            tSRVDesc.ViewDimension = D3D11_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2D;
+            tSRVDesc.Texture2D.MipLevels = 1;
+            tSRVDesc.Texture2D.MostDetailedMip = 0;
+
+            DEVICE->CreateShaderResourceView(m_pTex2D.Get(), nullptr, m_pSRV.GetAddressOf());
+            assert(m_pSRV);
+        }
+
+        if (D3D11_BIND_UNORDERED_ACCESS & _flag) //순서없는 접근
+        {
+            //UAV 생성 Unordered Access View
+            D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVDesc = {};
+            tUAVDesc.ViewDimension = D3D11_UAV_DIMENSION::D3D11_UAV_DIMENSION_TEXTURE2D; //원본 리소스가 Texture 2D
+            tUAVDesc.Texture2D.MipSlice = 0;
+
+            DEVICE->CreateUnorderedAccessView(m_pTex2D.Get(), &tUAVDesc, m_pUAV.GetAddressOf());
+            assert(m_pUAV);
+        }
+    }
+
+
+
     
-    DEVICE->CreateUnorderedAccessView(m_pTex2D.Get(), &tUAVDesc, m_pUAV.GetAddressOf());
-    
+}
+
+void CTexture::Create(ComPtr<ID3D11Texture2D> _pTex2D)
+{
+    // 전달받은 Texture(_pTex2D)를 바탕으로 View를 생성
+    m_pTex2D = _pTex2D;
+    m_pTex2D->GetDesc(&m_tDesc); //Desc로 정보 확인
+
+    if (D3D11_BIND_DEPTH_STENCIL & m_tDesc.BindFlags) // Depth Stencil은 호환되지 않으므로 따로 플래그를 확인해서 View 생성
+    {
+        DEVICE->CreateDepthStencilView(m_pTex2D.Get(), nullptr, m_pDSV.GetAddressOf());
+        assert(m_pDSV);
+    }
+    else //플래그를 확인하고 각각 맞는 View를 생성
+    {
+        if (D3D11_BIND_RENDER_TARGET & m_tDesc.BindFlags)  // 렌더타겟
+        {
+            DEVICE->CreateRenderTargetView(m_pTex2D.Get(), nullptr, m_pRTV.GetAddressOf());
+            assert(m_pRTV);
+        }
+
+        if (D3D11_BIND_SHADER_RESOURCE & m_tDesc.BindFlags) //쉐이더 리소스
+        {
+            //SRV 생성 Shader Resource View
+            D3D11_SHADER_RESOURCE_VIEW_DESC tSRVDesc = {};
+            tSRVDesc.ViewDimension = D3D11_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2D;
+            tSRVDesc.Texture2D.MipLevels = 1;
+            tSRVDesc.Texture2D.MostDetailedMip = 0;
+
+            DEVICE->CreateShaderResourceView(m_pTex2D.Get(), nullptr, m_pSRV.GetAddressOf());
+            assert(m_pSRV);
+        }
+
+        if (D3D11_BIND_UNORDERED_ACCESS & m_tDesc.BindFlags) //순서없는 접근
+        {
+            //UAV 생성 Unordered Access View
+            D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVDesc = {};
+            tUAVDesc.ViewDimension = D3D11_UAV_DIMENSION::D3D11_UAV_DIMENSION_TEXTURE2D; //원본 리소스가 Texture 2D
+            tUAVDesc.Texture2D.MipSlice = 0;
+
+            DEVICE->CreateUnorderedAccessView(m_pTex2D.Get(), &tUAVDesc, m_pUAV.GetAddressOf());
+            assert(m_pUAV);
+        }
+    }
+
+
 }
 
 // 레지스터 바인딩
@@ -135,6 +203,12 @@ void CTexture::UpdateData(UINT _PipelineStage, int _iRegisterNum)
     }
 }
 
+void CTexture::UpdateData_CS(int _iRegisterNum)
+{
+    UINT i = -1;
+    CONTEXT->CSSetUnorderedAccessViews(_iRegisterNum, 1, m_pUAV.GetAddressOf(),&i);// i는 모든 비트를 -1
+}
+
 void CTexture::Clear(int _iRegisterNum)
 {
     // 레지스터에 nullptr
@@ -144,4 +218,11 @@ void CTexture::Clear(int _iRegisterNum)
     CONTEXT->DSSetShaderResources(_iRegisterNum, 1, &pSRV);
     CONTEXT->GSSetShaderResources(_iRegisterNum, 1, &pSRV);
     CONTEXT->PSSetShaderResources(_iRegisterNum, 1, &pSRV);
+}
+
+void CTexture::ClearCS(int _iRegisterNum)
+{
+    ID3D11UnorderedAccessView* pUAV = nullptr;
+    UINT i = -1;
+    CONTEXT->CSSetUnorderedAccessViews(_iRegisterNum, 1, &pUAV,&i);
 }
