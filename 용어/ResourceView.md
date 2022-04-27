@@ -6,13 +6,13 @@ ResourceView(자원 뷰)
 
 종류
 ========================
-
-렌더 타겟 뷰 (RenderTargetView)
-깊이/스텐실 뷰 (DepthStencilView)
-셰이더 자원 뷰 (ShaderResourceView)
-순서 없는 접근 뷰 (UnorderedAccessView)
-
-자원이 같아도 어떤 자원 뷰의 연결되냐에 따라 자원의 용도가 달라진다.
+  
+렌더 타겟 뷰 (RenderTargetView)  
+깊이/스텐실 뷰 (DepthStencilView)  
+셰이더 자원 뷰 (ShaderResourceView)  
+순서 없는 접근 뷰 (UnorderedAccessView)  
+  
+자원이 같아도 어떤 자원 뷰의 연결되냐에 따라 자원의 용도가 달라진다.  
 
 
 뷰 설명
