@@ -21,6 +21,7 @@
 #include "CCollider2D.h"
 #include "CAnimator2D.h"
 #include "CTileMap.h"
+#include "CParticleSystem.h"
 
 #include "CPlayerScript.h"
 #include "CCameraMoveScript.h"
@@ -60,14 +61,15 @@ void CSceneMgr::init()
 
 
 	// Texture Create 하기
-	Ptr<CTexture> pTestTex = CResMgr::GetInst()->CreateTexture(L"TestTexture", 512, 512
+	Ptr<CTexture> pTestTex = CResMgr::GetInst()->CreateTexture(L"TestTexture", 1024, 1024
 		, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
 
 
 	// ComputeShader 실행하기
 	Ptr<CTestShader> pCS = (CTestShader*)CResMgr::GetInst()->FindRes<CComputeShader>(L"TestCS").Get();
 	pCS->SetOutputTexture(pTestTex);
-	pCS->Excute(1, 256, 1);
+	pCS->SetColor(Vec4(0.f, 1.f, 0.f, 1.f));
+	pCS->Excute();
 
 
 
@@ -108,8 +110,12 @@ void CSceneMgr::init()
 
 	pPlayer->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, pTestTex);
 
-
 	m_pCurScene->AddObject(pPlayer, L"Player");
+
+	// Particle Object
+	CGameObject* pParticleObj = new CGameObject;
+	pParticleObj->AddComponent(new CTransform);
+	pParticleObj->AddComponent(new CParticleSystem);
 
 
 	CCollisionMgr::GetInst()->CollisionCheck(L"Player", L"Monster");

@@ -31,12 +31,28 @@
 
 RWTexture2D<float4> g_RWTex_0 : register(u0);
 
-[numthreads(512, 1, 1)] // 1024는 쓰레드의 개수, 3차원 도식화 x 512,y 1 ,z 1 
+#define WIDTH g_int_0
+#define HEIGHT g_int_1
+
+#define Color g_vec4_0
+
+
+[numthreads(32, 32, 1)] // 3차원 도식화 , x :32,y :32 ,z :1 
 void CS_Test(int3 _id : SV_DispatchThreadID) //스레드당 하나의 픽셀로 맞추면 스레드의 Dispatch값이 곧 픽셀 인덱스
 {
-    g_RWTex_0[_id.xy] = float4(1.f, 0.f, 0.f, 1.f);
+    // value.fx안에 있는 상수버퍼에서 상수를 가져와서 사용
+    
+    if (_id.x < 0 || WIDTH <= _id.x ||  _id.y < 0 || HEIGHT <= _id.y )
+        return; // 이 픽셀은 범위 밖에 있는 픽셀이므로 return
+    
+    
+    g_RWTex_0[_id.xy] = Color;
 }
 
 #endif
 
+// Bilboard Effect : 완성되어 있는 이미지를 애니메이션으로 돌림
+// 장점 : 최적화가 좋음 , 단점 : 퀄리티가 허접함
 
+// Particle Effect : 입자마다 스레드 하나씩 담당해서 병렬처리로 표현
+// 장점 : 유연성과 퀄리티가 좋아진다. 단점: 비용을 많이 잡아 먹음

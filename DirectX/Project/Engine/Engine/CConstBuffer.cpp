@@ -22,6 +22,11 @@ void CConstBuffer::UpdateData()
 	CONTEXT->PSSetConstantBuffers((UINT)m_eCBType, 1, m_CB.GetAddressOf());
 }
 
+void CConstBuffer::UpdateData_CS()
+{
+	CONTEXT->CSSetConstantBuffers((UINT)m_eCBType, 1, m_CB.GetAddressOf());
+}
+
 int CConstBuffer::Create(UINT _iBufferSize)
 {
 	m_Desc.ByteWidth = _iBufferSize;

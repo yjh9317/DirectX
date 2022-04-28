@@ -249,16 +249,18 @@ void CResMgr::MakeInputLayoutInfo()
 
 }
 #include "CTestShader.h"
+#include "CParticleShader.h"
 
 void CResMgr::CreateEngineComputeShader()
 {
+	//TestShader
 	CComputeShader* pCS = new CTestShader;
+	pCS->CreateComputeShader(L"Shader\\testcs.fx", "CS_Test");
+	AddRes<CComputeShader>(L"TestCS", pCS);
 
-	if (FAILED(pCS->CreateComputeShader(L"Shader\\testcs.fx", "CS_Test")))
-		delete pCS;
-	else
-	{
-		AddRes<CComputeShader>(L"TestCS", pCS);
-	}
+	//Particle Update Shader
+	pCS = new CParticleShader;
+	pCS->CreateComputeShader(L"Shader\\particle.fx", "CS_Particle");
+	AddRes<CComputeShader>(L"ParticleShader", pCS);
 }
 

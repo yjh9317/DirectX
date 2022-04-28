@@ -10,6 +10,8 @@ private:
     ComPtr<ID3DBlob>                 m_CSBlob;
     ComPtr<ID3D11ComputeShader>      m_CS;
 
+
+protected:
     // 배정받은 쓰레드
     UINT                             m_iGroupX;
     UINT                             m_iGroupY;
@@ -19,6 +21,9 @@ private:
     UINT                            m_iGroupPerThreadCountX;
     UINT                            m_iGroupPerThreadCountY;
     UINT                            m_iGroupPerThreadCountZ;
+
+
+    tScalarParam                    m_Param; // 컴퓨터 쉐이더에서 사용할 상수값
 
 public:
     void Excute();      // 실행

@@ -2,8 +2,6 @@
 // 특정 레지스터에 상수값을 보내야 하는데 몇번 레지스터를 보낼지 모르기에
 // 미리 만들어 놓는다.
 
-
-
 #pragma once
 #include "CEntity.h"
 
@@ -18,6 +16,7 @@ private:
 
 public:
     virtual void UpdateData() override;
+    void UpdateData_CS(); //컴퓨트 쉐이더 시점에서 업데이트
     int Create(UINT _iBufferSize);
 
     void SetData(void* _pData, UINT _iSize);

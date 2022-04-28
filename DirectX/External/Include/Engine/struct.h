@@ -49,6 +49,21 @@ struct tAnim2DFrame
 	float	fDuration;
 };
 
+// ========
+// Particle
+// ========
+
+struct tParticle
+{
+	Vec3	vPos;	// 위치
+	Vec3	vScale;	// 크기
+	Vec3	vDir;	// 방향
+	Vec4	vColor;	// 색상
+	
+	int		Alive;	// 생사
+	Vec2	Padding;
+
+};
 
 
 // ===================

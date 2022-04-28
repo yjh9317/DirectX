@@ -142,8 +142,14 @@
     <ClInclude Include="CComputeShader.h">
       <Filter>Engine\07. Resource\07. Shader\ComputeShader</Filter>
     </ClInclude>
+    <ClInclude Include="CParticleSystem.h">
+      <Filter>Engine\05. Component\RenderComponent%2808~12%29\10. ParticleSystem</Filter>
+    </ClInclude>
     <ClInclude Include="CTestShader.h">
-      <Filter>Engine\ShaderCode\ComputeShader</Filter>
+      <Filter>Engine\ShaderCode\ComputeShader\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="CParticleShader.h">
+      <Filter>Engine\ShaderCode\ComputeShader\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -270,8 +276,14 @@
     <ClCompile Include="CComputeShader.cpp">
       <Filter>Engine\07. Resource\07. Shader\ComputeShader</Filter>
     </ClCompile>
+    <ClCompile Include="CParticleSystem.cpp">
+      <Filter>Engine\05. Component\RenderComponent%2808~12%29\10. ParticleSystem</Filter>
+    </ClCompile>
     <ClCompile Include="CTestShader.cpp">
-      <Filter>Engine\ShaderCode\ComputeShader</Filter>
+      <Filter>Engine\ShaderCode\ComputeShader\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="CParticleShader.cpp">
+      <Filter>Engine\ShaderCode\ComputeShader\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -440,6 +452,12 @@
     <Filter Include="Engine\ShaderCode\GraphicsShader">
       <UniqueIdentifier>{716c9fa3-9022-4517-847f-2370630343ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\ShaderCode\ComputeShader\Particle">
+      <UniqueIdentifier>{c52a0ba2-8820-425e-9961-f18b42d521ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ShaderCode\ComputeShader\Test">
+      <UniqueIdentifier>{e0f62f81-a125-4ed3-969e-0f461a34957f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -460,8 +478,14 @@
     <FxCompile Include="std2d.fx">
       <Filter>Engine\ShaderCode\GraphicsShader</Filter>
     </FxCompile>
-    <FxCompile Include="TestCS.fx">
-      <Filter>Engine\ShaderCode\ComputeShader</Filter>
+    <FxCompile Include="testCS.fx">
+      <Filter>Engine\ShaderCode\ComputeShader\Test</Filter>
+    </FxCompile>
+    <FxCompile Include="particle.fx">
+      <Filter>Engine\ShaderCode\ComputeShader\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="particleshader.fx">
+      <Filter>Engine\ShaderCode\GraphicsShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

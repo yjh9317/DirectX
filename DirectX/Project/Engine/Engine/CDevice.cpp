@@ -214,7 +214,7 @@ int CDevice::CreateView()
 
 
 	// Depth Stencil Texture ¸¸µé±â
-	Ptr<CTexture> pDepthStencilView = CResMgr::GetInst()->CreateTexture(L"DepthStencilTexture", (UINT)m_vRenderResolution.x, (UINT)m_vRenderResolution.y,
+	Ptr<CTexture> pDepthStencilTex = CResMgr::GetInst()->CreateTexture(L"DepthStencilTexture", (UINT)m_vRenderResolution.x, (UINT)m_vRenderResolution.y,
 		DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
 	
 

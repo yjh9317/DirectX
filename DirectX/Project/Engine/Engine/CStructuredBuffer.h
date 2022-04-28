@@ -33,6 +33,8 @@ private:
     
 public:
     UINT GetBufferSize() { return m_iElementSize * m_iElementCount; }
+    UINT GetBufferCount() { return m_iElementCount; }
+    //UINT GetBufferSize() { return m_iElementSize; }
 
 public:
     int Create(UINT _iElementSize, UINT _iElementCount, SB_TYPE _eType, bool _bCpuAccessRead, void* _pInitialData);//사이즈,개수,타입,Cpu접근,초기데이터

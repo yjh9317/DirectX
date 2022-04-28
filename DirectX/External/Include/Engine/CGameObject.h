@@ -6,12 +6,14 @@
 
 class CComponent;
 class CTransform;
-class CMeshRender;
 class CCollider2D;
 class CAnimator2D;
-class CTileMap;
 class CCamera;
 class CScript;
+
+class CMeshRender;
+class CTileMap;
+class CParticleSystem;
 
 class CRenderComponent;
 
@@ -59,12 +61,13 @@ public:
 
     void Destroy();
 
-    GET_COMPONENT(Transform, TRANSFORM)
-        GET_COMPONENT(MeshRender, MESHRENDER)
-        GET_COMPONENT(Camera, CAMERA)
-        GET_COMPONENT(Collider2D, COLLIDER2D)
-        GET_COMPONENT(Animator2D, ANIMATOR2D)
-        GET_COMPONENT(TileMap, TILEMAP)
+	GET_COMPONENT(Transform, TRANSFORM)
+	GET_COMPONENT(MeshRender, MESHRENDER)
+	GET_COMPONENT(Camera, CAMERA)
+	GET_COMPONENT(Collider2D, COLLIDER2D)
+	GET_COMPONENT(Animator2D, ANIMATOR2D)
+	GET_COMPONENT(TileMap, TILEMAP)
+	GET_COMPONENT(ParticleSystem, PARTICLESYSTEM)
 
         CScript* GetScript() { return (CScript*)m_arrCom[(UINT)COMPONENT_TYPE::SCRIPT]; }
 
