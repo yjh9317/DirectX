@@ -5,7 +5,7 @@
 
 // Particle을 업데이트 해주는 셰이더
 
-class CParticleShader :
+class CParticleUpdateShader :
     public CComputeShader
 {
 private:
@@ -19,7 +19,7 @@ public:
     virtual void Clear() override;
 
 public:
-    CParticleShader();
-    ~CParticleShader();
+    CParticleUpdateShader();
+    ~CParticleUpdateShader();
 };
 

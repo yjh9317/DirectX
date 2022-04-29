@@ -32,6 +32,7 @@ public:
     int Create(void* _pVtxSys, UINT _iVtxCount, void* _pIdxSys, UINT _iIdxCount); //버퍼 생성
 
     void render();
+    void render_particle(UINT _iCount);
 
 public:
     CMesh();

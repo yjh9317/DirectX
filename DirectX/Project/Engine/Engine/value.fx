@@ -65,6 +65,13 @@ cbuffer ANIM2D : register(b2) //Animation의 상수 레지스터
     float g_Anim2D_Padding;
 }
 
+cbuffer GLOBAL : register(b3)
+{
+    float2  vResolution;
+    float   fDT;
+    float   fAccTime;
+}
+
 
 // 상수버퍼는 메모리제한이 있다. 그걸 해결하기 위해 구조화버퍼를 이용
 
@@ -74,11 +81,6 @@ cbuffer ANIM2D : register(b2) //Animation의 상수 레지스터
 // 텍스쳐 레지스터 는 텍스쳐를 gpu메모리에 복사가아닌 간접적인 참조방식(포인터처럼 텍스쳐 버퍼에 접근해서 사용)하기에 크기제한이 덜하다(구조화버퍼)
 // 그렇기에 상수버퍼는 gpu에 고정크기로 존재하므로 좀더 빠르고 ,구조화 버퍼는 포인터처럼 한번 건너서 접근하므로 약간 느림
 
-
-//cbuffer TILEMAP : register(b3)
-//{
-//    tTileData arrTileData[2000];
-//}
 
 
 // Material를 통해서 전달받는 텍스쳐 레지스터

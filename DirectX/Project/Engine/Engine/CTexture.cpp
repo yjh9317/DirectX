@@ -47,6 +47,9 @@ int CTexture::Load(const wstring& _strFilePath)
     // System memory에 불러와진 픽셀 데이터를 GPU에 보낸다.
 
     // Device , 이미지, 이미지 개수 , 이미지에 대한 정보, 최종적으로 받을 쉐이더 리소스 뷰
+
+    // 원래라면 리소스는 View가 있어야 생성이 가능하지만 DirectXTex라는 라이브러리 함수에서 리소스와 View를 동시에 생성해주는 함수를 사용
+
     hr = CreateShaderResourceView(DEVICE, m_Image.GetImages() //Texture 2D, ShaderResourceView를 생성하는 함수
         , m_Image.GetImageCount()
         , m_Image.GetMetadata()
@@ -57,7 +60,7 @@ int CTexture::Load(const wstring& _strFilePath)
         return E_FAIL;
 
 
-    m_pSRV->GetResource((ID3D11Resource**)m_pTex2D.GetAddressOf()); //Texture2D를 받아오는 함수
+    m_pSRV->GetResource((ID3D11Resource**)m_pTex2D.GetAddressOf()); // Texture2D에서 ResourceView를 가져오는 함수
 
     m_pTex2D->GetDesc(&m_tDesc);
 

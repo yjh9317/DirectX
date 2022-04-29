@@ -2,6 +2,7 @@
 #include "CRenderMgr.h"
 
 #include "CDevice.h"
+#include "CConstBuffer.h"
 
 #include "CCamera.h"
 
@@ -32,9 +33,14 @@ void CRenderMgr::render()
 	if (m_vecCam.empty())
 		return;
 
+	// Global 상수 업데이트
+	static CConstBuffer* pGlobalCB = CDevice::GetInst()->GetCB(CB_TYPE::GLOBAL);
+	pGlobalCB->SetData(&g_global, sizeof(tGlobal));
+	pGlobalCB->UpdateData();
+	pGlobalCB->UpdateData_CS();
+
 	// Rendering 시작
 	CDevice::GetInst()->ClearTarget();
-
 
 	// 메인 카메라 시점으로 렌더링
 	CCamera* pMainCam = m_vecCam[0];

@@ -84,6 +84,14 @@ void CMesh::render()
 	CONTEXT->DrawIndexed(m_iIdxCount, 0, 0);
 }
 
+void CMesh::render_particle(UINT _iCount)
+{
+	UpdateData();
+	
+	// 한번에 _iCount만큼 render하고 끝나고 나서 돌아옴
+	CONTEXT->DrawIndexedInstanced(m_iIdxCount, _iCount, 0, 0, 0);
+}
+
 void CMesh::UpdateData()
 {
 

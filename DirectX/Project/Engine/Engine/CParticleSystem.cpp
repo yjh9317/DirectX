@@ -1,30 +1,52 @@
 #include "pch.h"
 #include "CParticleSystem.h"
 
+#include "CDevice.h"
+
+#include "CTransform.h"
+
 #include "CResMgr.h"
 
+const int iWidth = 10;
+const int iHeight = 10;
+
 CParticleSystem::CParticleSystem()
-	:CRenderComponent(COMPONENT_TYPE::PARTICLESYSTEM)
-	, m_iMaxCount(5)
+	: CRenderComponent(COMPONENT_TYPE::PARTICLESYSTEM)
+	, m_iMaxCount(iWidth* iHeight)
+	, m_bPosInherit(0)
 {
 	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"ParticleMtrl"));
-		
+	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"ParticleRenderMtrl"));
+
+	m_CS = (CParticleUpdateShader*)CResMgr::GetInst()->FindRes<CComputeShader>(L"ParticleUpdateShader").Get();
 
 
-	m_CS = (CParticleShader*)CResMgr::GetInst()->FindRes<CComputeShader>(L"ParticleShader").Get();
 
-	tParticle arrParticle[5] =
+	tParticle arrParticle[iWidth * iHeight] = {};
+
+	Vec2 vResolution = CDevice::GetInst()->GetRenderResolution();
+	
+
+
+
+	for (int i = 0; i < iHeight; ++i)
 	{
-		tParticle{Vec3(-100.f,0.f,500.f),	Vec3(10.f,10.f,1.f),},
-		tParticle{Vec3(-50.f,0.f,500.f),	Vec3(10.f,10.f,1.f),},
-		tParticle{Vec3(0.f,0.f,500.f),		Vec3(10.f,10.f,1.f),},
-		tParticle{Vec3(50.f,0.f,500.f),		Vec3(10.f,10.f,1.f),},
-		tParticle{Vec3(100.f,0.f,500.f),	Vec3(10.f,10.f,1.f),},
-	};
+		for (int j = 0; j < iWidth; ++j)
+		{
+			arrParticle[iWidth * i + j].vPos =
+				Vec3((vResolution.x / iWidth) * (float)j - vResolution.x / 2.f
+					, (vResolution.y / iHeight) * (float)i - vResolution.y / 2.f
+					, 500.f);
+
+			arrParticle[iWidth * i + j].vScale = Vec3(10.f, 10.f, 1.f);
+		}
+	}
+
+
+
 
 	m_ParticleBuffer = new CStructuredBuffer();
-	m_ParticleBuffer->Create(sizeof(tParticle), m_iMaxCount, SB_TYPE::READ_ONLY, false, arrParticle);
+	m_ParticleBuffer->Create(sizeof(tParticle), m_iMaxCount, SB_TYPE::READ_WRITE, false, arrParticle);
 }
 
 CParticleSystem::CParticleSystem(const CParticleSystem& _origin)
@@ -38,6 +60,7 @@ CParticleSystem::~CParticleSystem()
 }
 
 
+
 void CParticleSystem::finalupdate()
 {
 	// 입자 처리를 반복문으로 한다면 cpu는 직렬처리로 하나하나 처리하므로
@@ -48,12 +71,23 @@ void CParticleSystem::finalupdate()
 
 void CParticleSystem::render()
 {
-	m_ParticleBuffer->UpdateData(PIPELINE_STAGE::VS,16); // Particle의 위치를 매프레임 VS에서 업데이트
+	Transform()->UpdateData();
 
-	for (int i = 0; i < m_iMaxCount; ++i)
+	m_ParticleBuffer->UpdateData(PIPELINE_STAGE::VS, 16);
+
+	//GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_0, &i); // Particle의 인덱스를 전달
+	GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_1, &m_bPosInherit);	// Particle의 상속여부를 전달
+	GetMaterial()->UpdateData();
+	GetMesh()->render_particle(m_iMaxCount); // Instancing으로 Draw Call 비용을 줄임
+
+	/*for (int i = 0; i < m_iMaxCount; ++i)
 	{
 		GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_0, &i);
-		GetSharedMaterial()->UpdateData();
-		GetMesh()->render();
-	}
+		GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_1, &m_bPosInherit);
+		GetMaterial()->UpdateData();
+		GetMesh()->render_particle(m_iMaxCount);
+	}*/
+
+	// 렌더링의 비용을 줄이기 위해 물체를 그리는과정과 마무리 과정이 매프레임마다 발생하는것을 줄여준다.
+	// 전부 그리기전까지 마무리과정 X
 }

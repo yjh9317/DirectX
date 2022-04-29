@@ -33,9 +33,8 @@ private:
     
 public:
     UINT GetBufferSize() { return m_iElementSize * m_iElementCount; }
-    UINT GetBufferCount() { return m_iElementCount; }
-    //UINT GetBufferSize() { return m_iElementSize; }
-
+    UINT GetElementCount() { return m_iElementCount; }
+    UINT GetElementSize() { return m_iElementSize; }
 public:
     int Create(UINT _iElementSize, UINT _iElementCount, SB_TYPE _eType, bool _bCpuAccessRead, void* _pInitialData);//사이즈,개수,타입,Cpu접근,초기데이터
     void SetData(void* _pSrc, UINT _iElementCount); //데이터의 시작주소 , 원소의 개수 , gpu로 보냄

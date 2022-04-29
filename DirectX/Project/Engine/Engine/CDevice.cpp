@@ -25,6 +25,7 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 {
 	m_hWnd = _hWnd;
 	m_vRenderResolution = _vRenderResolution;
+	g_global.vResolution = m_vRenderResolution;
 
 	UINT iFlag = 0;
 #ifdef _DEBUG
@@ -369,6 +370,8 @@ int CDevice::CreateConstBuffer()
 	m_arrCB[(UINT)CB_TYPE::ANIM2D] = new CConstBuffer(CB_TYPE::ANIM2D);
 	m_arrCB[(UINT)CB_TYPE::ANIM2D]->Create(sizeof(tAnim2D));
 	
+	m_arrCB[(UINT)CB_TYPE::GLOBAL] = new CConstBuffer(CB_TYPE::GLOBAL);
+	m_arrCB[(UINT)CB_TYPE::GLOBAL]->Create(sizeof(tGlobal));
 
 	return S_OK;
 }

@@ -148,7 +148,7 @@
     <ClInclude Include="CTestShader.h">
       <Filter>Engine\ShaderCode\ComputeShader\Test</Filter>
     </ClInclude>
-    <ClInclude Include="CParticleShader.h">
+    <ClInclude Include="CParticleUpdateShader.h">
       <Filter>Engine\ShaderCode\ComputeShader\Particle</Filter>
     </ClInclude>
   </ItemGroup>
@@ -282,7 +282,7 @@
     <ClCompile Include="CTestShader.cpp">
       <Filter>Engine\ShaderCode\ComputeShader\Test</Filter>
     </ClCompile>
-    <ClCompile Include="CParticleShader.cpp">
+    <ClCompile Include="CParticleUpdateShader.cpp">
       <Filter>Engine\ShaderCode\ComputeShader\Particle</Filter>
     </ClCompile>
   </ItemGroup>
@@ -344,18 +344,6 @@
     <Filter Include="Engine\05. Component\01. Transform">
       <UniqueIdentifier>{488a8bb6-ba8d-4d86-b598-aac9e9b015fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Scripts">
-      <UniqueIdentifier>{45e4af56-8f35-40e1-8e45-1791d97965d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Scripts\PlayerScript">
-      <UniqueIdentifier>{751fa7cd-dc6a-44bf-8707-4bcc218ac02e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Scripts\MonsterScript">
-      <UniqueIdentifier>{c976f5df-d9e9-4db0-b27d-1d34fdfc59ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Scripts\MissileScript">
-      <UniqueIdentifier>{fa0e7ff2-9b55-472f-b4bf-9cd386e6bf6f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\03. Manager\07. SceneMgr">
       <UniqueIdentifier>{e20420fd-ae7b-40d4-bebd-1d572f1dcc26}</UniqueIdentifier>
     </Filter>
@@ -385,9 +373,6 @@
     </Filter>
     <Filter Include="Engine\05. Component\13. Script">
       <UniqueIdentifier>{ff03e518-d9da-478d-89f0-592827240b1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Scripts\CameraMoveScript">
-      <UniqueIdentifier>{8f4a3cc4-13d9-495c-bd9b-c748f1185139}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\03. Manager\08. EventMgr">
       <UniqueIdentifier>{9eb39801-d890-4267-874b-0f039d783258}</UniqueIdentifier>
@@ -458,6 +443,21 @@
     <Filter Include="Engine\ShaderCode\ComputeShader\Test">
       <UniqueIdentifier>{e0f62f81-a125-4ed3-969e-0f461a34957f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Scripts">
+      <UniqueIdentifier>{45e4af56-8f35-40e1-8e45-1791d97965d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scripts\PlayerScript">
+      <UniqueIdentifier>{751fa7cd-dc6a-44bf-8707-4bcc218ac02e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scripts\MonsterScript">
+      <UniqueIdentifier>{c976f5df-d9e9-4db0-b27d-1d34fdfc59ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scripts\MissileScript">
+      <UniqueIdentifier>{fa0e7ff2-9b55-472f-b4bf-9cd386e6bf6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scripts\CameraMoveScript">
+      <UniqueIdentifier>{8f4a3cc4-13d9-495c-bd9b-c748f1185139}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -484,7 +484,7 @@
     <FxCompile Include="particle.fx">
       <Filter>Engine\ShaderCode\ComputeShader\Particle</Filter>
     </FxCompile>
-    <FxCompile Include="particleshader.fx">
+    <FxCompile Include="particlerender.fx">
       <Filter>Engine\ShaderCode\GraphicsShader</Filter>
     </FxCompile>
   </ItemGroup>

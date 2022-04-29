@@ -100,3 +100,12 @@ struct tAnim2D
 	float   Atlas_Height;
 	float	Anim2D_Padding;
 };
+
+// 전역 데이터이기 때문에 한번만 잡아주면 된다.
+struct tGlobal
+{
+	Vec2  vResolution;	// 렌더타겟의 렌더링 해상도
+	float fDT;			// delta time(프레임 간격간의 시간)
+	float fAccTime;		// 게임을 킨 이후로 증가하는 시간
+
+};

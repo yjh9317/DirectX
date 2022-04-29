@@ -49,15 +49,16 @@ int CStructuredBuffer::Create(UINT _iElementSize, UINT _iElementCount, SB_TYPE _
     
     
     
-    // 초기 데이터(Initial Data)가 있는 경우
-    if (nullptr != _pInitialData) {
+    // 초기 Initial Data 가 있는 경우
+    if (nullptr != _pInitialData)
+    {
         D3D11_SUBRESOURCE_DATA tSub = {};
         tSub.pSysMem = _pInitialData;
-        DEVICE->CreateBuffer(&m_desc,&tSub ,m_SB.GetAddressOf());
+        DEVICE->CreateBuffer(&m_desc, &tSub, m_SB.GetAddressOf());
     }
-    else //초기 데이터가 없는 경우
+    else
     {
-        DEVICE->CreateBuffer(&m_desc,nullptr,m_SB.GetAddressOf());
+        DEVICE->CreateBuffer(&m_desc, nullptr, m_SB.GetAddressOf());
     }
 
     // Shader Resource View 생성
@@ -78,7 +79,6 @@ void CStructuredBuffer::SetData(void* _pSrc, UINT _iElementCount)
 {
     D3D11_MAPPED_SUBRESOURCE tSub = {};
 
-    //버퍼를 gpu로 이전
     CONTEXT->Map(m_SB.Get(), 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &tSub);
     memcpy(tSub.pData, _pSrc, (size_t)m_iElementSize * (size_t)_iElementCount);
     CONTEXT->Unmap(m_SB.Get(), 0);
@@ -86,29 +86,18 @@ void CStructuredBuffer::SetData(void* _pSrc, UINT _iElementCount)
 
 void CStructuredBuffer::UpdateData(PIPELINE_STAGE _iStage, UINT _iRegisterNum)
 {
-    //레지스터, 개수,버퍼를 설명해주는 쉐이더리소스뷰 전달
     if (_iStage & PIPELINE_STAGE::VS)
-    {
-        CONTEXT->VSGetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf()); 
-    }
+        CONTEXT->VSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 
     if (_iStage & PIPELINE_STAGE::HS)
-    {
-        CONTEXT->HSGetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf()); 
-    }
+        CONTEXT->HSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 
     if (_iStage & PIPELINE_STAGE::DS)
-    {
-        CONTEXT->DSGetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf()); 
-    }
+        CONTEXT->DSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 
     if (_iStage & PIPELINE_STAGE::GS)
-    {
-        CONTEXT->GSGetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf()); 
-    }
+        CONTEXT->GSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 
     if (_iStage & PIPELINE_STAGE::PS)
-    {
-        CONTEXT->PSGetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf()); 
-    }
+        CONTEXT->PSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 }

@@ -67,4 +67,7 @@ void CTimeMgr::update()
 	}
 
 	m_fCurTime += m_fDT;
+
+	g_global.fDT = m_fDT;
+	g_global.fAccTime += m_fDT;
 }
