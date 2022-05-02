@@ -1,5 +1,8 @@
 StructuredBuffer(구조화버퍼)
 =============================
+ConstantBuffer(상수 버퍼)는 기본 자료형을 이용하여 사용하는 버퍼라면  
+StructuredBuffer(구조화버퍼)는 사용자 정의 구조체를 이용하여 사용하는 버퍼다.  
+  
 ConstantBuffer(상수 버퍼)는 변수를 만들어서 그 변수를 gpu 레지스터에 복사하여 사용하는 방식이라 메모리 제한이 있다.  
 하지만 StructuredBuffer(구조화버퍼)는 ConstantBuffer와 달리 b레지스터가 아닌 t레지스터 (텍스쳐 레지스터)를 이용하므로  
 레지스터에 메모리쪽을 간접적인 참조방식(포인터처럼)을 이용하여 메모리에 제한이 덜 받는다.  
@@ -35,7 +38,7 @@ StructuredBuffer 헤더
           
           UINT                             m_iElementSize;     // 버퍼의 사이즈
           UINT                             m_iElementCount;    // 버퍼 원소(tTileData) 개수
-      
+       
           SB_TYPE                          m_eType;
           bool                             m_bCpuRead; // System에서 gpu로 보낼때와 gpu에서 System로 읽어드릴때의 버퍼 총 2개가 필요함.
       
