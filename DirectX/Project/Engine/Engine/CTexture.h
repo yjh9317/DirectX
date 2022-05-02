@@ -44,9 +44,8 @@ public:
     
 public:
     // PIPELINE_STAGE
-    void UpdateData(UINT _PipelineStage, int _iRegisterNum);
-
-    void UpdateData_CS(int _iRegisterNum); //Compute Shader에서 레지스터에 바인딩할 함수
+    void UpdateData(UINT _PipelineStage, UINT _iRegisterNum);
+    void UpdateData_CS(UINT _iRegisterNum, bool _bShaderResource); //Compute Shader에서 레지스터에 바인딩할 함수
     static void Clear(int _iRegisterNum);
     static void ClearCS(int _iRegisterNum);
 

@@ -81,14 +81,14 @@ void CMesh::render()
 {
 	UpdateData();
 
-	CONTEXT->DrawIndexed(m_iIdxCount, 0, 0);
+	CONTEXT->DrawIndexed(m_iIdxCount, 0, 0);	//버텍스 버퍼의 데이터를 인덱스 버퍼를 사용하여 렌더링
 }
 
 void CMesh::render_particle(UINT _iCount)
 {
 	UpdateData();
 	
-	// 한번에 _iCount만큼 render하고 끝나고 나서 돌아옴
+	// 한번에 _iCount만큼 render하고 끝나고 나서 돌아옴(한번에 처리하므로 여러번 호출X)
 	CONTEXT->DrawIndexedInstanced(m_iIdxCount, _iCount, 0, 0, 0);
 }
 

@@ -38,10 +38,16 @@ CParticleSystem::CParticleSystem()
 					, (vResolution.y / iHeight) * (float)i - vResolution.y / 2.f
 					, 500.f);
 
+			arrParticle[iWidth * i + j].vPos.x = arrParticle[iWidth * i + j].vPos.x / 10.f;
+			arrParticle[iWidth * i + j].vPos.y = arrParticle[iWidth * i + j].vPos.y / 10.f;
+
 			arrParticle[iWidth * i + j].vScale = Vec3(10.f, 10.f, 1.f);
+			arrParticle[iWidth * i + j].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
+
+			//arrParticle[iWidth * i + j].Alive = j % 2;
+			arrParticle[iWidth * i + j].Alive = 1;
 		}
 	}
-
 
 
 
@@ -65,8 +71,8 @@ void CParticleSystem::finalupdate()
 {
 	// 입자 처리를 반복문으로 한다면 cpu는 직렬처리로 하나하나 처리하므로
 	// gpu로 옮겨서 병렬처리로 바꿔준다.
-	// m_CS->SetParticleBuffer(m_ParticleBuffer);
-	// m_CS->Excute();
+	 m_CS->SetParticleBuffer(m_ParticleBuffer);
+	 m_CS->Excute();
 }
 
 void CParticleSystem::render()

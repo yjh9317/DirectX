@@ -26,6 +26,8 @@ private:
     
     UINT                             m_iElementSize;     // 버퍼의 사이즈
     UINT                             m_iElementCount;    // 버퍼 원소(tTileData) 개수
+    UINT                             m_iRecentBindNumSRV;  // 최근 바인딩 레지스터 번호(t)
+    UINT                             m_iRecentBindNumUAV;  // 최근 바인딩 레지스터 번호(u)
 
     SB_TYPE                          m_eType;
     bool                             m_bCpuRead; // System에서 gpu로 보낼때와 gpu에서 System로 읽어드릴때의 버퍼 총 2개가 필요함.
@@ -40,7 +42,10 @@ public:
     void SetData(void* _pSrc, UINT _iElementCount); //데이터의 시작주소 , 원소의 개수 , gpu로 보냄
 
     // PIPELINE_STAGE
-    void UpdateData(PIPELINE_STAGE _iStage, UINT _iRegisterNum);//레지스터로 바인딩
+    void UpdateData(UINT _iStage, UINT _iRegisterNum);//레지스터로 바인딩
+    void UpdateData_CS(UINT _iRegisterNum, bool _bShaderResource);  //_bShaderResource가 true면 t레지스터, false면 u레지스터
+    void Clear();
+
 public:
     CLONE_DISABLE(CStructuredBuffer);
 

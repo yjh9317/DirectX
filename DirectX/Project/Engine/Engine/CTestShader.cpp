@@ -13,7 +13,7 @@ CTestShader::~CTestShader()
 
 void CTestShader::UpdateData()
 {
-	m_pOutputTex->UpdateData_CS(0);// UAV를 이용해 u레지스터로 바인딩
+	m_pOutputTex->UpdateData_CS(0 , false);// UAV를 이용해 u레지스터로 바인딩
 	
 	// 호출 그룹 개수 계산
 
@@ -25,7 +25,6 @@ void CTestShader::UpdateData()
 	m_iGroupY = (UINT)m_pOutputTex->Height() / m_iGroupPerThreadCountY + !!((UINT)m_pOutputTex->Height() % m_iGroupPerThreadCountY);
 	m_iGroupZ = 1;
 
-	//나머지가 있다면 스레드의 개수가 모자르다
 	
 }
 

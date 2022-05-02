@@ -178,38 +178,35 @@ void CTexture::Create(ComPtr<ID3D11Texture2D> _pTex2D)
 }
 
 // 레지스터 바인딩
-void CTexture::UpdateData(UINT _PipelineStage, int _iRegisterNum)
+void CTexture::UpdateData(UINT _PipelineStage, UINT _iRegisterNum)
 {
     if (_PipelineStage & (UINT)PIPELINE_STAGE::VS)
-    {
         CONTEXT->VSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
-    }
 
     if (_PipelineStage & (UINT)PIPELINE_STAGE::HS)
-    {
         CONTEXT->HSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
-    }
 
     if (_PipelineStage & (UINT)PIPELINE_STAGE::DS)
-    {
         CONTEXT->DSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
-    }
 
     if (_PipelineStage & (UINT)PIPELINE_STAGE::GS)
-    {
         CONTEXT->GSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
-    }
 
     if (_PipelineStage & (UINT)PIPELINE_STAGE::PS)
-    {
         CONTEXT->PSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
-    }
 }
 
-void CTexture::UpdateData_CS(int _iRegisterNum)
+void CTexture::UpdateData_CS(UINT _iRegisterNum, bool _bShaderResource)
 {
-    UINT i = -1;
-    CONTEXT->CSSetUnorderedAccessViews(_iRegisterNum, 1, m_pUAV.GetAddressOf(),&i);// i는 모든 비트를 -1
+    if (_bShaderResource)
+    {
+        CONTEXT->CSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
+    }
+    else
+    {
+        UINT i = -1;
+        CONTEXT->CSSetUnorderedAccessViews(_iRegisterNum, 1, m_pUAV.GetAddressOf(), &i);
+    }
 }
 
 void CTexture::Clear(int _iRegisterNum)

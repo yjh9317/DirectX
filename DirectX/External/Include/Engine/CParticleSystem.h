@@ -10,7 +10,7 @@ class CParticleSystem :
 private:
     Ptr<CParticleUpdateShader>      m_CS;           // 파티클 업데이트 쉐이더
 
-    CStructuredBuffer* m_ParticleBuffer;   // 파티클 구조화 버퍼
+    CStructuredBuffer*              m_ParticleBuffer;   // 파티클 구조화 버퍼
     UINT                            m_iMaxCount;        // 파티클 최대 개수
 
 

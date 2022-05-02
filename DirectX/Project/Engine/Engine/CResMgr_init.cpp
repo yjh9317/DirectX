@@ -20,6 +20,22 @@ void CResMgr::CreateEngineMesh()
 
 	Vtx v;
 
+	// ==========
+	// Point Mesh	
+	// ==========
+	v.vPos = Vec3(0.f, 0.f, 0.f);
+	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	v.vUV = Vec2(0.f, 0.f);
+	vecVtx.push_back(v);
+	vecIdx.push_back(0);
+
+	pMesh = new CMesh;
+	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	AddRes<CMesh>(L"PointMesh", pMesh);
+	vecVtx.clear();
+	vecIdx.clear();
+
+
 	// ========
 	// RectMesh
 	// 0 --- 1
@@ -242,7 +258,7 @@ void CResMgr::CreateEngineComputeShader()
 	// Particle Update Shader
 	pCS = new CParticleUpdateShader;
 	pCS->CreateComputeShader(L"Shader\\particle.fx", "CS_Particle");
-	AddRes<CComputeShader>(L"ParticleShader", pCS);
+	AddRes<CComputeShader>(L"ParticleUpdateShader", pCS);
 }
 
 
