@@ -19,21 +19,25 @@ CMaterial::~CMaterial()
 
 void CMaterial::UpdateData()
 {
-	CConstBuffer* pCB = CDevice::GetInst()->GetCB(CB_TYPE::SCALAR_PARAM);
-	pCB->SetData(&m_Param, sizeof(tScalarParam));
-	pCB->UpdateData();
 
 	for (UINT i = 0; i < (UINT)TEX_PARAM::END; ++i)
 	{
 		if (nullptr != m_arrTex[i])
 		{
 			m_arrTex[i]->UpdateData((int)PIPELINE_STAGE::ALL, i);
+			m_Param.bTex[i] = 1;	// 해당 번호(i) 레지스터가 사용됨,이 값으로 셰이더에서 텍스쳐가 들어왔는지 확인
 		}
 		else
 		{
 			CTexture::Clear(i);
+			m_Param.bTex[i] = 0;
 		}
 	}
+
+	CConstBuffer* pCB = CDevice::GetInst()->GetCB(CB_TYPE::SCALAR_PARAM);
+	pCB->SetData(&m_Param, sizeof(tScalarParam));
+	pCB->UpdateData();
+
 
 
 	if (nullptr != m_pShader)

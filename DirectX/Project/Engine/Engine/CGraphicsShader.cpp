@@ -62,6 +62,29 @@ int CGraphicsShader::CreateVertexShader(const wstring& _strRelativePath, const s
 	return S_OK;
 }
 
+int CGraphicsShader::CreateGeometryShader(const wstring& _strRelativePath, const string& _strFunc)
+{
+	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
+
+	// 버텍스 쉐이더(HLSL) 컴파일
+	HRESULT hr = D3DCompileFromFile(wstring(strContentPath + _strRelativePath).c_str(), nullptr
+		, D3D_COMPILE_STANDARD_FILE_INCLUDE, _strFunc.c_str(), "gs_5_0", g_iFlag, 0
+		, m_GSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf());
+
+	if (FAILED(hr))
+	{
+		MessageBoxA(nullptr, (char*)m_ErrBlob->GetBufferPointer(), "Shader Compile Failed!!", MB_OK);
+		return E_FAIL;
+	}
+
+	// 컴파일 된 코드로 VertexShader 객체 만들기
+	if (FAILED(DEVICE->CreateGeometryShader(m_GSBlob->GetBufferPointer(), m_GSBlob->GetBufferSize()
+		, nullptr, m_GS.GetAddressOf())))
+	{
+		return E_FAIL;
+	}
+}
+
 int CGraphicsShader::CreatePixelShader(const wstring& _strRelativePath, const string& _strFunc)
 {
 	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();

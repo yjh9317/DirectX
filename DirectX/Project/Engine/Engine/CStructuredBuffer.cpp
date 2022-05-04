@@ -158,7 +158,13 @@ void CStructuredBuffer::Clear()
     if (-1 != m_iRecentBindNumSRV)
     {
         ID3D11ShaderResourceView* pSRV = nullptr;
+        CONTEXT->VSSetShaderResources(m_iRecentBindNumSRV, 1, &pSRV);
+        CONTEXT->HSSetShaderResources(m_iRecentBindNumSRV, 1, &pSRV);
+        CONTEXT->DSSetShaderResources(m_iRecentBindNumSRV, 1, &pSRV);
+        CONTEXT->GSSetShaderResources(m_iRecentBindNumSRV, 1, &pSRV);
+        CONTEXT->PSSetShaderResources(m_iRecentBindNumSRV, 1, &pSRV);
         CONTEXT->CSSetShaderResources(m_iRecentBindNumSRV, 1, &pSRV);
+        m_iRecentBindNumSRV = -1;
     }
 
     if (-1 != m_iRecentBindNumUAV)
@@ -166,5 +172,6 @@ void CStructuredBuffer::Clear()
         ID3D11UnorderedAccessView* pUAV = nullptr;
         UINT i = -1;
         CONTEXT->CSSetUnorderedAccessViews(m_iRecentBindNumUAV, 1, &pUAV, &i);
+        m_iRecentBindNumUAV = -1;
     }
 }

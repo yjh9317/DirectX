@@ -15,18 +15,18 @@ CParticleSystem::CParticleSystem()
 	, m_iMaxCount(iWidth* iHeight)
 	, m_bPosInherit(0)
 {
-	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"PointMesh"));
 	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"ParticleRenderMtrl"));
 
-	m_CS = (CParticleUpdateShader*)CResMgr::GetInst()->FindRes<CComputeShader>(L"ParticleUpdateShader").Get();
+	GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CResMgr::GetInst()->Load<CTexture>(L"Particle_01", L"texture\\particle\\smokeparticle.png"));
 
+
+	m_CS = (CParticleUpdateShader*)CResMgr::GetInst()->FindRes<CComputeShader>(L"ParticleUpdateShader").Get();
 
 
 	tParticle arrParticle[iWidth * iHeight] = {};
 
 	Vec2 vResolution = CDevice::GetInst()->GetRenderResolution();
-	
-
 
 
 	for (int i = 0; i < iHeight; ++i)
@@ -41,15 +41,17 @@ CParticleSystem::CParticleSystem()
 			arrParticle[iWidth * i + j].vPos.x = arrParticle[iWidth * i + j].vPos.x / 10.f;
 			arrParticle[iWidth * i + j].vPos.y = arrParticle[iWidth * i + j].vPos.y / 10.f;
 
-			arrParticle[iWidth * i + j].vScale = Vec3(10.f, 10.f, 1.f);
+			arrParticle[iWidth * i + j].vScale = Vec3(50.f, 50.f, 1.f);
 			arrParticle[iWidth * i + j].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
 
-			//arrParticle[iWidth * i + j].Alive = j % 2;
 			arrParticle[iWidth * i + j].Alive = 1;
+
+			/*if( (iHeight * iWidth) / 2 < iWidth * i + j)
+				arrParticle[iWidth * i + j].Alive = 0;
+			else
+				arrParticle[iWidth * i + j].Alive = 1;*/
 		}
 	}
-
-
 
 	m_ParticleBuffer = new CStructuredBuffer();
 	m_ParticleBuffer->Create(sizeof(tParticle), m_iMaxCount, SB_TYPE::READ_WRITE, false, arrParticle);
@@ -79,13 +81,14 @@ void CParticleSystem::render()
 {
 	Transform()->UpdateData();
 
-	m_ParticleBuffer->UpdateData(PIPELINE_STAGE::VS, 16);
+	m_ParticleBuffer->UpdateData(PIPELINE_STAGE::GS | PIPELINE_STAGE::PS, 16);
 
 	//GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_0, &i); // Particle의 인덱스를 전달
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_1, &m_bPosInherit);	// Particle의 상속여부를 전달
 	GetMaterial()->UpdateData();
 	GetMesh()->render_particle(m_iMaxCount); // Instancing으로 Draw Call 비용을 줄임
 
+	m_ParticleBuffer->Clear();
 	/*for (int i = 0; i < m_iMaxCount; ++i)
 	{
 		GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_0, &i);

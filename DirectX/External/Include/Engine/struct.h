@@ -86,6 +86,9 @@ struct tScalarParam
 	Vec2 v2Arr[4];
 	Vec4 v4Arr[4];
 	Matrix matArr[4];
+
+	int bTex[10];
+	int iPadding[2];
 };
 
 struct tAnim2D

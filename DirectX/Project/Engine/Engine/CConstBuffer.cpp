@@ -42,6 +42,7 @@ int CConstBuffer::Create(UINT _iBufferSize)
 
 	if (FAILED(DEVICE->CreateBuffer(&m_Desc, nullptr, m_CB.GetAddressOf())))
 	{
+		assert(nullptr);
 		return E_FAIL;
 	}
 

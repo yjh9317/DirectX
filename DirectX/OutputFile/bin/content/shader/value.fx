@@ -50,6 +50,22 @@ cbuffer SCALAR_PARAM : register(b1) //Material의 상수 레지스터
     matrix g_mat_1;
     matrix g_mat_2;
     matrix g_mat_3;
+    
+    
+    // int g_btex[9] HLSL은 배열을 16byte로 무조건 잡기 때문에 안됨
+    int g_btex_0;
+    int g_btex_1;
+    int g_btex_2;
+    int g_btex_3;
+    int g_btex_4;
+    int g_btex_5;
+    int g_btex_6;
+    int g_btex_7;
+    int g_btex_8;
+    int g_btex_9;
+    
+    int iPadding1;
+    int iPadding2;
 }
 
 cbuffer ANIM2D : register(b2) //Animation의 상수 레지스터
@@ -109,4 +125,5 @@ Texture2D g_Atlas : register(t10);
 SamplerState g_sam_0 : register(s0); // Anisotropic Filter
 SamplerState g_sam_1 : register(s1); // Point Filter
 
+#include "func.fx"
 #endif

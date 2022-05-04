@@ -59,7 +59,7 @@ public:
     int CreateVertexShader(const wstring& _strRelativePath, const string& _strFunc);
     //void CreateHullShader();
     //void CreateDomainShader();
-    //void CreateGeometryShader();
+    int CreateGeometryShader(const wstring& _strRelativePath, const string& _strFunc);
     int CreatePixelShader(const wstring& _strRelativePath, const string& _strFunc);
 
     void SetShaderDomain(SHADER_DOMAIN _eDomain) { m_eDomain = _eDomain; }

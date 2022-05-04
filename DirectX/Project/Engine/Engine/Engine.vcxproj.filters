@@ -487,5 +487,8 @@
     <FxCompile Include="particlerender.fx">
       <Filter>Engine\ShaderCode\GraphicsShader</Filter>
     </FxCompile>
+    <FxCompile Include="func.fx">
+      <Filter>Engine\ShaderCode</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

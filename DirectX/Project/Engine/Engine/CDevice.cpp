@@ -116,6 +116,11 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 	{
 		return E_FAIL;
 	}
+	// 블렌드 스테이트 생성
+	if (FAILED(CreateBlendState()))
+	{
+		return E_FAIL;
+	}
 
 	// 상수버퍼 생성
 	if (FAILED(CreateConstBuffer()))
@@ -338,7 +343,9 @@ int CDevice::CreateBlendState()
 
 	D3D11_BLEND_DESC desc = {};
 
-	desc.AlphaToCoverageEnable = false;		// 커버레이지 옵션 사용 유무
+	desc.AlphaToCoverageEnable = true;		// 커버레이지 옵션 사용 유무
+	//옵션을 키면 알파물체가 서로 겹쳐서 깊이 문제가 생겼을때 내부적으로 어느정도 해결해준다.
+
 	desc.IndependentBlendEnable = false;	// 렌더타겟 블랜드스테이드 독립실행
 
 	desc.RenderTarget[0].BlendEnable = true;			// 블랜딩 스테이트 사용

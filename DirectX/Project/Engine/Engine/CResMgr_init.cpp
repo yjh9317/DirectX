@@ -204,10 +204,12 @@ void CResMgr::CreateEngineShader()
 	// Particle Render Shader;
 	pShader = new CGraphicsShader;
 	pShader->CreateVertexShader(L"Shader\\particlerender.fx", "VS_ParticleRender");
+	pShader->CreateGeometryShader(L"Shader\\particlerender.fx", "GS_ParticleRender");
 	pShader->CreatePixelShader(L"Shader\\particlerender.fx", "PS_ParticleRender");
 
 	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_OPAQUE);
-	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST); // 들어갈 땐 하나의 정점으로 들어가고 GeometryShader에서 여러 개의 정점으로 분할(삼각형으로 이루어진 도형)
+	pShader->SetDSType(DS_TYPE::NO_WRITE);
 	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 
