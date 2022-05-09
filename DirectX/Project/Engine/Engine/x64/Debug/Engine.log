@@ -2,6 +2,99 @@
   
   //
   // FX Version: fx_5_0
+  //
+  // 4 local buffer(s)
+  //
+  cbuffer TRANSFORM : register(b0)
+  {
+      float4x4 g_matWorld;                // Offset:    0, size:   64
+      float4x4 g_matView;                 // Offset:   64, size:   64
+      float4x4 g_matProj;                 // Offset:  128, size:   64
+      float4x4 g_matWV;                   // Offset:  192, size:   64
+      float4x4 g_matWVP;                  // Offset:  256, size:   64
+  }
+  
+  cbuffer SCALAR_PARAM : register(b1)
+  {
+      int     g_int_0;                    // Offset:    0, size:    4
+      int     g_int_1;                    // Offset:    4, size:    4
+      int     g_int_2;                    // Offset:    8, size:    4
+      int     g_int_3;                    // Offset:   12, size:    4
+      float   g_float_0;                  // Offset:   16, size:    4
+      float   g_float_1;                  // Offset:   20, size:    4
+      float   g_float_2;                  // Offset:   24, size:    4
+      float   g_float_3;                  // Offset:   28, size:    4
+      float2  g_vec2_0;                   // Offset:   32, size:    8
+      float2  g_vec2_1;                   // Offset:   40, size:    8
+      float2  g_vec2_2;                   // Offset:   48, size:    8
+      float2  g_vec2_3;                   // Offset:   56, size:    8
+      float4  g_vec4_0;                   // Offset:   64, size:   16
+      float4  g_vec4_1;                   // Offset:   80, size:   16
+      float4  g_vec4_2;                   // Offset:   96, size:   16
+      float4  g_vec4_3;                   // Offset:  112, size:   16
+      float4x4 g_mat_0;                   // Offset:  128, size:   64
+      float4x4 g_mat_1;                   // Offset:  192, size:   64
+      float4x4 g_mat_2;                   // Offset:  256, size:   64
+      float4x4 g_mat_3;                   // Offset:  320, size:   64
+      int     g_btex_0;                   // Offset:  384, size:    4
+      int     g_btex_1;                   // Offset:  388, size:    4
+      int     g_btex_2;                   // Offset:  392, size:    4
+      int     g_btex_3;                   // Offset:  396, size:    4
+      int     g_btex_4;                   // Offset:  400, size:    4
+      int     g_btex_5;                   // Offset:  404, size:    4
+      int     g_btex_6;                   // Offset:  408, size:    4
+      int     g_btex_7;                   // Offset:  412, size:    4
+      int     g_btex_8;                   // Offset:  416, size:    4
+      int     g_btex_9;                   // Offset:  420, size:    4
+      int     iPadding1;                  // Offset:  424, size:    4
+      int     iPadding2;                  // Offset:  428, size:    4
+  }
+  
+  cbuffer ANIM2D : register(b2)
+  {
+      float2  g_vLT;                      // Offset:    0, size:    8
+      float2  g_vSlice;                   // Offset:    8, size:    8
+      float2  g_vBackgroundSize;          // Offset:   16, size:    8
+      float2  g_vOffset;                  // Offset:   24, size:    8
+      int     g_useAnim2D;                // Offset:   32, size:    4
+      float   g_Atlas_Width;              // Offset:   36, size:    4
+      float   g_Atlas_Height;             // Offset:   40, size:    4
+      float   g_Anim2D_Padding;           // Offset:   44, size:    4
+  }
+  
+  cbuffer GLOBAL : register(b3)
+  {
+      float2  vResolution;                // Offset:    0, size:    8
+      float2  vNoiseResolution;           // Offset:    8, size:    8
+      float   fDT;                        // Offset:   16, size:    4
+      float   fAccTime;                   // Offset:   20, size:    4
+      float2  vPadding;                   // Offset:   24, size:    8
+  }
+  
+  //
+  // 16 local object(s)
+  //
+  Texture2D g_tex_0;
+  Texture2D g_tex_1;
+  Texture2D g_tex_2;
+  Texture2D g_tex_3;
+  Texture2D g_tex_4;
+  Texture2D g_tex_5;
+  TextureCube g_texcube_0;
+  TextureCube g_texcube_1;
+  Texture2DArray g_texarr_0;
+  Texture2DArray g_texarr_1;
+  Texture2D g_Atlas;
+  Texture2D g_noise_01;
+  Texture2D g_noise_02;
+  Texture2D g_noise_cloud;
+  SamplerState g_sam_0
+  {
+  };
+  SamplerState g_sam_1
+  {
+  };
+  
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
   //
@@ -69,12 +162,14 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   cbuffer GLOBAL : register(b3)
   {
       float2  vResolution;                // Offset:    0, size:    8
-      float   fDT;                        // Offset:    8, size:    4
-      float   fAccTime;                   // Offset:   12, size:    4
+      float2  vNoiseResolution;           // Offset:    8, size:    8
+      float   fDT;                        // Offset:   16, size:    4
+      float   fAccTime;                   // Offset:   20, size:    4
+      float2  vPadding;                   // Offset:   24, size:    8
   }
   
   //
-  // 14 local object(s)
+  // 17 local object(s)
   //
   Texture2D g_tex_0;
   Texture2D g_tex_1;
@@ -87,6 +182,9 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   Texture2DArray g_texarr_0;
   Texture2DArray g_texarr_1;
   Texture2D g_Atlas;
+  Texture2D g_noise_01;
+  Texture2D g_noise_02;
+  Texture2D g_noise_cloud;
   SamplerState g_sam_0
   {
   };
@@ -162,12 +260,14 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   cbuffer GLOBAL : register(b3)
   {
       float2  vResolution;                // Offset:    0, size:    8
-      float   fDT;                        // Offset:    8, size:    4
-      float   fAccTime;                   // Offset:   12, size:    4
+      float2  vNoiseResolution;           // Offset:    8, size:    8
+      float   fDT;                        // Offset:   16, size:    4
+      float   fAccTime;                   // Offset:   20, size:    4
+      float2  vPadding;                   // Offset:   24, size:    8
   }
   
   //
-  // 14 local object(s)
+  // 17 local object(s)
   //
   Texture2D g_tex_0;
   Texture2D g_tex_1;
@@ -180,6 +280,9 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   Texture2DArray g_texarr_0;
   Texture2DArray g_texarr_1;
   Texture2D g_Atlas;
+  Texture2D g_noise_01;
+  Texture2D g_noise_02;
+  Texture2D g_noise_cloud;
   SamplerState g_sam_0
   {
   };
@@ -255,12 +358,14 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   cbuffer GLOBAL : register(b3)
   {
       float2  vResolution;                // Offset:    0, size:    8
-      float   fDT;                        // Offset:    8, size:    4
-      float   fAccTime;                   // Offset:   12, size:    4
+      float2  vNoiseResolution;           // Offset:    8, size:    8
+      float   fDT;                        // Offset:   16, size:    4
+      float   fAccTime;                   // Offset:   20, size:    4
+      float2  vPadding;                   // Offset:   24, size:    8
   }
   
   //
-  // 13 local object(s)
+  // 16 local object(s)
   //
   Texture2D g_tex_0;
   Texture2D g_tex_1;
@@ -273,6 +378,9 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   Texture2DArray g_texarr_0;
   Texture2DArray g_texarr_1;
   Texture2D g_Atlas;
+  Texture2D g_noise_01;
+  Texture2D g_noise_02;
+  Texture2D g_noise_cloud;
   SamplerState g_sam_0
   {
   };
@@ -347,12 +455,14 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   cbuffer GLOBAL : register(b3)
   {
       float2  vResolution;                // Offset:    0, size:    8
-      float   fDT;                        // Offset:    8, size:    4
-      float   fAccTime;                   // Offset:   12, size:    4
+      float2  vNoiseResolution;           // Offset:    8, size:    8
+      float   fDT;                        // Offset:   16, size:    4
+      float   fAccTime;                   // Offset:   20, size:    4
+      float2  vPadding;                   // Offset:   24, size:    8
   }
   
   //
-  // 13 local object(s)
+  // 16 local object(s)
   //
   Texture2D g_tex_0;
   Texture2D g_tex_1;
@@ -365,6 +475,9 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   Texture2DArray g_texarr_0;
   Texture2DArray g_texarr_1;
   Texture2D g_Atlas;
+  Texture2D g_noise_01;
+  Texture2D g_noise_02;
+  Texture2D g_noise_cloud;
   SamplerState g_sam_0
   {
   };
@@ -439,12 +552,14 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   cbuffer GLOBAL : register(b3)
   {
       float2  vResolution;                // Offset:    0, size:    8
-      float   fDT;                        // Offset:    8, size:    4
-      float   fAccTime;                   // Offset:   12, size:    4
+      float2  vNoiseResolution;           // Offset:    8, size:    8
+      float   fDT;                        // Offset:   16, size:    4
+      float   fAccTime;                   // Offset:   20, size:    4
+      float2  vPadding;                   // Offset:   24, size:    8
   }
   
   //
-  // 14 local object(s)
+  // 17 local object(s)
   //
   Texture2D g_tex_0;
   Texture2D g_tex_1;
@@ -457,6 +572,9 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   Texture2DArray g_texarr_0;
   Texture2DArray g_texarr_1;
   Texture2D g_Atlas;
+  Texture2D g_noise_01;
+  Texture2D g_noise_02;
+  Texture2D g_noise_cloud;
   SamplerState g_sam_0
   {
   };
@@ -532,12 +650,14 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   cbuffer GLOBAL : register(b3)
   {
       float2  vResolution;                // Offset:    0, size:    8
-      float   fDT;                        // Offset:    8, size:    4
-      float   fAccTime;                   // Offset:   12, size:    4
+      float2  vNoiseResolution;           // Offset:    8, size:    8
+      float   fDT;                        // Offset:   16, size:    4
+      float   fAccTime;                   // Offset:   20, size:    4
+      float2  vPadding;                   // Offset:   24, size:    8
   }
   
   //
-  // 14 local object(s)
+  // 17 local object(s)
   //
   Texture2D g_tex_0;
   Texture2D g_tex_1;
@@ -550,6 +670,9 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   Texture2DArray g_texarr_0;
   Texture2DArray g_texarr_1;
   Texture2D g_Atlas;
+  Texture2D g_noise_01;
+  Texture2D g_noise_02;
+  Texture2D g_noise_cloud;
   SamplerState g_sam_0
   {
   };
@@ -625,12 +748,14 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   cbuffer GLOBAL : register(b3)
   {
       float2  vResolution;                // Offset:    0, size:    8
-      float   fDT;                        // Offset:    8, size:    4
-      float   fAccTime;                   // Offset:   12, size:    4
+      float2  vNoiseResolution;           // Offset:    8, size:    8
+      float   fDT;                        // Offset:   16, size:    4
+      float   fAccTime;                   // Offset:   20, size:    4
+      float2  vPadding;                   // Offset:   24, size:    8
   }
   
   //
-  // 13 local object(s)
+  // 16 local object(s)
   //
   Texture2D g_tex_0;
   Texture2D g_tex_1;
@@ -643,6 +768,9 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   Texture2DArray g_texarr_0;
   Texture2DArray g_texarr_1;
   Texture2D g_Atlas;
+  Texture2D g_noise_01;
+  Texture2D g_noise_02;
+  Texture2D g_noise_cloud;
   SamplerState g_sam_0
   {
   };
@@ -650,7 +778,7 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   {
   };
   
-  CDevice.cpp
+  CParticleSystem.cpp
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
   .\Project\Engine\Engine\CAnimation2D.h
   .\Project\Engine\Engine\CAnimator2D.h

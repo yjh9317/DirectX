@@ -107,8 +107,9 @@ struct tAnim2D
 // 전역 데이터이기 때문에 한번만 잡아주면 된다.
 struct tGlobal
 {
-	Vec2  vResolution;	// 렌더타겟의 렌더링 해상도
+	Vec2  vResolution;	// 렌더타겟의 렌더링 해상도 RenderTarget Resolution
+	Vec2  vNoiseResolution;	//NoiseTexture Resolution
 	float fDT;			// delta time(프레임 간격간의 시간)
 	float fAccTime;		// 게임을 킨 이후로 증가하는 시간
-
+	Vec2    vPadding;
 };

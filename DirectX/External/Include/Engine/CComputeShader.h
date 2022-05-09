@@ -7,6 +7,7 @@ class CComputeShader :
     public CShader
 {
 private:
+
     ComPtr<ID3DBlob>                 m_CSBlob;
     ComPtr<ID3D11ComputeShader>      m_CS;
 
@@ -21,7 +22,6 @@ protected:
     UINT                            m_iGroupPerThreadCountX;
     UINT                            m_iGroupPerThreadCountY;
     UINT                            m_iGroupPerThreadCountZ;
-
 
     tScalarParam                    m_Param; // 컴퓨터 쉐이더에서 사용할 상수값
 

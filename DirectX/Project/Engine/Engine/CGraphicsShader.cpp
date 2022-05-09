@@ -83,6 +83,8 @@ int CGraphicsShader::CreateGeometryShader(const wstring& _strRelativePath, const
 	{
 		return E_FAIL;
 	}
+	
+	return S_OK;
 }
 
 int CGraphicsShader::CreatePixelShader(const wstring& _strRelativePath, const string& _strFunc)

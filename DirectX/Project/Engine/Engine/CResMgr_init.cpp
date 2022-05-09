@@ -135,6 +135,20 @@ void CResMgr::CreateEngineMesh()
 
 void CResMgr::CreateEngineTexture()
 {
+	Ptr<CTexture> pNoise01 = Load<CTexture>(L"noise_01", L"texture//noise//noise_01.png");
+	Ptr<CTexture> pNoise02 = Load<CTexture>(L"noise_02", L"texture//noise//noise_02.png");
+	Ptr<CTexture> pNoiseCloud = Load<CTexture>(L"noise_cloud", L"texture//noise//noise_cloud.jpg");
+
+	pNoise01->UpdateData(PIPELINE_STAGE::ALL, 70);
+	pNoise01->UpdateData_CS(70, true);
+
+	pNoise02->UpdateData(PIPELINE_STAGE::ALL, 71);
+	pNoise02->UpdateData_CS(71, true);
+
+	pNoiseCloud->UpdateData(PIPELINE_STAGE::ALL, 72);
+	pNoiseCloud->UpdateData_CS(72, true);
+
+	g_global.vNoiseResolution = Vec2(pNoise01->Width(), pNoise01->Height());
 }
 
 void CResMgr::CreateEngineShader()
@@ -208,7 +222,7 @@ void CResMgr::CreateEngineShader()
 	pShader->CreatePixelShader(L"Shader\\particlerender.fx", "PS_ParticleRender");
 
 	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_OPAQUE);
-	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST); // 들어갈 땐 하나의 정점으로 들어가고 GeometryShader에서 여러 개의 정점으로 분할(삼각형으로 이루어진 도형)
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	pShader->SetDSType(DS_TYPE::NO_WRITE);
 	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
 	pShader->SetRSType(RS_TYPE::CULL_NONE);

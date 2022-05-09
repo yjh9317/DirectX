@@ -83,11 +83,12 @@ cbuffer ANIM2D : register(b2) //Animation의 상수 레지스터
 
 cbuffer GLOBAL : register(b3)
 {
-    float2  vResolution;
-    float   fDT;
-    float   fAccTime;
+    float2 vResolution;
+    float2 vNoiseResolution;
+    float fDT;
+    float fAccTime;
+    float2 vPadding;
 }
-
 
 // 상수버퍼는 메모리제한이 있다. 그걸 해결하기 위해 구조화버퍼를 이용
 
@@ -115,6 +116,11 @@ Texture2DArray g_texarr_1 : register(t9);
 
 // 애니메이션
 Texture2D g_Atlas : register(t10);
+
+// Global Noise Texture 이 값으로 난수 만드는데 사용,
+Texture2D g_noise_01 : register(t70);
+Texture2D g_noise_02 : register(t71);
+Texture2D g_noise_cloud : register(t72);
 
 
 //texture register는 총 128개까지 사용가능 (0~127)

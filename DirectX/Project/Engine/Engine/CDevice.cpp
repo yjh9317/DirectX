@@ -90,16 +90,16 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 	// ViewPort
 	// 윈도우에 출력 될 프론트버퍼의 위치를 설정
 
-	m_tViewPort.TopLeftX = 0;
-	m_tViewPort.TopLeftY = 0;
+	m_tViewPort.TopLeftX = 0;	//뷰포트 영역의 좌상 X좌표
+	m_tViewPort.TopLeftY = 0;	//뷰포트 영역의 좌상 Y좌표
 
-	m_tViewPort.Width = m_vRenderResolution.x;
-	m_tViewPort.Height = m_vRenderResolution.y;
+	m_tViewPort.Width = m_vRenderResolution.x;	// 뷰포트 영역의 넓이
+	m_tViewPort.Height = m_vRenderResolution.y; // 뷰포트 영역의 높이
 
 
 	// 투영 좌표
-	m_tViewPort.MinDepth = 0;
-	m_tViewPort.MaxDepth = 1;
+	m_tViewPort.MinDepth = 0;	//뷰포트 영역의 깊이값의 최소값
+	m_tViewPort.MaxDepth = 1;	//뷰포트 영역의 깊이값의 최대값
 
 
 	m_pDeviceContext->RSSetViewports(1, &m_tViewPort);
@@ -183,8 +183,8 @@ int CDevice::CreateSwapchain()
 	pDXGIFactory->CreateSwapChain(m_pDevice.Get(), &desc, m_pSwapChain.GetAddressOf());
 	//원본 디바이스 .Get()은 최상위 부모타입,스왑체인 구조체 주소값,SwapChain의 주소
 
-	IDXGISwapChain* p = m_pSwapChain.Get();
-	IDXGISwapChain** pp = m_pSwapChain.GetAddressOf();
+	//IDXGISwapChain* p = m_pSwapChain.Get();
+	//IDXGISwapChain** pp = m_pSwapChain.GetAddressOf();
 
 	if (nullptr == m_pSwapChain)
 	{
@@ -409,11 +409,6 @@ void CDevice::CreateSamplerState()
 	CONTEXT->PSSetSamplers(0, 1, m_arrSam[0].GetAddressOf());
 
 
-	CONTEXT->VSSetSamplers(0, 1, m_arrSam[1].GetAddressOf());
-	CONTEXT->HSSetSamplers(0, 1, m_arrSam[1].GetAddressOf());
-	CONTEXT->DSSetSamplers(0, 1, m_arrSam[1].GetAddressOf());
-	CONTEXT->GSSetSamplers(0, 1, m_arrSam[1].GetAddressOf());
-	CONTEXT->PSSetSamplers(0, 1, m_arrSam[1].GetAddressOf());
 }
 
 
