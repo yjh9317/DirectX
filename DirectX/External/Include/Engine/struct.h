@@ -65,6 +65,12 @@ struct tParticle
 
 };
 
+struct tParticleData
+{
+	int	iAliveCount;
+	Vec3 vPadding;
+};
+
 
 // ===================
 // 상수버퍼 대응 구조체

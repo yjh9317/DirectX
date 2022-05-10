@@ -24,5 +24,11 @@ struct tParticle
 
 };
 
+struct tParticleData
+{
+    int     iAliveCount;
+    float3  vPadding;
+};
+
 
 #endif

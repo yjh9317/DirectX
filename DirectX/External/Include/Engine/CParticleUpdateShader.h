@@ -10,9 +10,12 @@ class CParticleUpdateShader :
 {
 private:
     CStructuredBuffer* m_ParticleBuffer;
+    CStructuredBuffer* m_ParticleDataBuffer;
 
 public:
-    void SetParticleBuffer(CStructuredBuffer* _buffer)   {  m_ParticleBuffer = _buffer;  }
+    void SetParticleBuffer(CStructuredBuffer* _buffer) { m_ParticleBuffer = _buffer; }
+    void SetParticleDataBuffer(CStructuredBuffer* _buffer) { m_ParticleDataBuffer = _buffer; }
+    void SetObjectWorldPos(Vec3 _vWorldPos) { m_Param.v4Arr[0] = _vWorldPos; }
 
 public:
     virtual void UpdateData() override;

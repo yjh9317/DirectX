@@ -169,7 +169,7 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   }
   
   //
-  // 17 local object(s)
+  // 18 local object(s)
   //
   Texture2D g_tex_0;
   Texture2D g_tex_1;
@@ -192,6 +192,7 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   {
   };
   RWStructuredBuffer ParticleBuffer;
+  RWStructuredBuffer DataBuffer;
   
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
@@ -778,7 +779,7 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   {
   };
   
-  CParticleSystem.cpp
+  CStructuredBuffer.cpp
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
   .\Project\Engine\Engine\CAnimation2D.h
   .\Project\Engine\Engine\CAnimator2D.h

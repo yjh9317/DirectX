@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "CParticleSystem.h"
 
+#include "CTimeMgr.h"
 #include "CDevice.h"
-
 #include "CTransform.h"
 
 #include "CResMgr.h"
@@ -14,6 +14,9 @@ CParticleSystem::CParticleSystem()
 	: CRenderComponent(COMPONENT_TYPE::PARTICLESYSTEM)
 	, m_iMaxCount(iWidth* iHeight)
 	, m_bPosInherit(0)
+	, m_iAliveCount(1)
+	, m_fAccTime(0.f)
+	, m_fParticleCreateTerm(1.f)
 {
 	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"PointMesh"));
 	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"ParticleRenderMtrl"));
@@ -23,38 +26,13 @@ CParticleSystem::CParticleSystem()
 
 	m_CS = (CParticleUpdateShader*)CResMgr::GetInst()->FindRes<CComputeShader>(L"ParticleUpdateShader").Get();
 
-
-	tParticle arrParticle[iWidth * iHeight] = {};
-
-	Vec2 vResolution = CDevice::GetInst()->GetRenderResolution();
-
-
-	for (int i = 0; i < iHeight; ++i)
-	{
-		for (int j = 0; j < iWidth; ++j)
-		{
-			arrParticle[iWidth * i + j].vPos =
-				Vec3((vResolution.x / iWidth) * (float)j - vResolution.x / 2.f
-					, (vResolution.y / iHeight) * (float)i - vResolution.y / 2.f
-					, 500.f);
-
-			arrParticle[iWidth * i + j].vPos.x = arrParticle[iWidth * i + j].vPos.x / 10.f;
-			arrParticle[iWidth * i + j].vPos.y = arrParticle[iWidth * i + j].vPos.y / 10.f;
-
-			arrParticle[iWidth * i + j].vScale = Vec3(50.f, 50.f, 1.f);
-			arrParticle[iWidth * i + j].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
-
-			arrParticle[iWidth * i + j].Alive = 1;
-
-			/*if( (iHeight * iWidth) / 2 < iWidth * i + j)
-				arrParticle[iWidth * i + j].Alive = 0;
-			else
-				arrParticle[iWidth * i + j].Alive = 1;*/
-		}
-	}
-
 	m_ParticleBuffer = new CStructuredBuffer();
-	m_ParticleBuffer->Create(sizeof(tParticle), m_iMaxCount, SB_TYPE::READ_WRITE, false, arrParticle);
+	m_ParticleBuffer->Create(sizeof(tParticle), m_iMaxCount, SB_TYPE::READ_WRITE, false, nullptr);
+
+	m_DataBuffer = new CStructuredBuffer;
+	m_DataBuffer->Create(sizeof(tParticleData), 1, SB_TYPE::READ_WRITE, true, nullptr);
+	// AliveCount를 상수버퍼로 넘겨주면 안되는 이유는 Count를 받아도 수정해서 Count를 줄여줄수 없기 때문
+	// 상수버퍼로 살아있는 파티클 개수를 가져와도 만약 하나를 활성화 해도 읽기 모드만 지원하기 때문에 구조화 버퍼로 작성.
 }
 
 CParticleSystem::CParticleSystem(const CParticleSystem& _origin)
@@ -65,16 +43,43 @@ CParticleSystem::CParticleSystem(const CParticleSystem& _origin)
 CParticleSystem::~CParticleSystem()
 {
 	SAFE_DELETE(m_ParticleBuffer);
+	SAFE_DELETE(m_DataBuffer);
 }
 
 
 
 void CParticleSystem::finalupdate()
 {
+	m_fAccTime += DT;
+	if (1.f < m_fAccTime)
+	{
+		m_fAccTime = 0.f;
+		m_iAliveCount;
+
+		tParticleData data = {};
+		data.iAliveCount = 1;
+		m_DataBuffer->SetData(&data, 1);
+	}
+
+	// StructuredBuffer ReadWrite Test
+	/*
+	tParticleData data = {};
+	data.iAliveCount = 1;
+	m_DataBuffer->SetData(&data, 1);
+
+	tParticleData data1 = {};
+	m_DataBuffer->GetData(&data1);
+	*/
+
+
+
 	// 입자 처리를 반복문으로 한다면 cpu는 직렬처리로 하나하나 처리하므로
 	// gpu로 옮겨서 병렬처리로 바꿔준다.
-	 m_CS->SetParticleBuffer(m_ParticleBuffer);
-	 m_CS->Excute();
+	m_CS->SetParticleBuffer(m_ParticleBuffer);
+	m_CS->SetParticleDataBuffer(m_DataBuffer);			   //Particle이 사용할 데이터버퍼
+	m_CS->SetObjectWorldPos(Transform()->GetWorldPos());   //파티클의 스폰위치(중심)이 될 WorldPos
+
+	m_CS->Excute();
 }
 
 void CParticleSystem::render()
