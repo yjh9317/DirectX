@@ -15,6 +15,7 @@ CParticleUpdateShader::~CParticleUpdateShader()
 void CParticleUpdateShader::UpdateData()
 {
 	m_ParticleBuffer->UpdateData_CS(0, false);
+	m_ParticleDataBuffer->UpdateData_CS(1, false);
 
 	m_iGroupX = m_ParticleBuffer->GetElementCount() / m_iGroupPerThreadCountX + !!(m_ParticleBuffer->GetElementCount() % m_iGroupPerThreadCountX);
 	m_iGroupY = 1;

@@ -19,8 +19,9 @@ struct tParticle
     float3 vDir; // 방향
     float4 vColor; // 색상
 	
-    int Alive; // 생사
-    float2 Padding;
+    int     Alive; // 생사
+    float   m_fCurTime;
+    float   m_fMaxTime;
 
 };
 

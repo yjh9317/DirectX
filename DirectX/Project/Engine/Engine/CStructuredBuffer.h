@@ -38,8 +38,9 @@ private:
     
     UINT                             m_iElementSize;     // 버퍼의 사이즈
     UINT                             m_iElementCount;    // 버퍼 원소(tTileData) 개수
-    UINT                             m_iRecentBindNumSRV;  // 최근 바인딩 레지스터 번호(t)
-    UINT                             m_iRecentBindNumUAV;  // 최근 바인딩 레지스터 번호(u)
+
+    int                             m_iRecentBindNumSRV;  // 최근 바인딩 레지스터 번호(t)
+    int                             m_iRecentBindNumUAV;  // 최근 바인딩 레지스터 번호(u)
 
     SB_TYPE                          m_eType;
     bool                             m_bCpuAccess; // System에서 gpu로 보낼때와 gpu에서 System로 읽어드릴때의 버퍼 총 2개가 필요함.

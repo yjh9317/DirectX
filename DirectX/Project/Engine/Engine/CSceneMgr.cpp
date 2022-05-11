@@ -65,6 +65,7 @@ void CSceneMgr::init()
 
 	// ComputeShader 실행하기
 	Ptr<CTestShader> pCS = (CTestShader*)CResMgr::GetInst()->FindRes<CComputeShader>(L"TestCS").Get();
+
 	pCS->SetOutputTexture(pTestTex);
 	pCS->SetColor(Vec4(0.f, 1.f, 0.f, 1.f));
 	pCS->Excute();
@@ -99,6 +100,8 @@ void CSceneMgr::init()
 	CGameObject* pParticleObj = new CGameObject;
 	pParticleObj->AddComponent(new CTransform);
 	pParticleObj->AddComponent(new CParticleSystem);
+
+	pParticleObj->Transform()->SetRelativePos(0.f, 0.f, 500.f);
 
 	m_pCurScene->AddObject(pParticleObj, L"Default");
 

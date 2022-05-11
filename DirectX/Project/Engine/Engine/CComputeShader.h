@@ -1,7 +1,10 @@
 #pragma once
 #include "CShader.h"
 
+#include "CDevice.h"
+
 #include "CTexture.h"
+#include "CStructuredBuffer.h"
 
 class CComputeShader :
     public CShader

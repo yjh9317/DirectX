@@ -37,13 +37,15 @@ enum class RES_TYPE	//다른 리소르를 참조하는 리소스타입부터 상단에 적음. 순서대�
 	MESHDATA,
 	MATERIAL,
 
+	// 셰이더
+	GRAPHICS_SHADER,
+	COMPUTE_SHADER,
 
 	// 실제 리소스
 	MESH,
 	TEXTURE,
 	SOUND,
-	GRAPHICS_SHADER,
-	COMPUTE_SHADER,
+
 	END,
 };
 

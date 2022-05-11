@@ -96,6 +96,7 @@
   };
   
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
+C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\particle.fx(104,16-73): warning X3206: implicit truncation of vector type
   
   //
   // FX Version: fx_5_0
@@ -779,7 +780,7 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   {
   };
   
-  CStructuredBuffer.cpp
+  CParticleSystem.cpp
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
   .\Project\Engine\Engine\CAnimation2D.h
   .\Project\Engine\Engine\CAnimator2D.h

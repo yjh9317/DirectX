@@ -20,22 +20,24 @@ struct Vertex
 
 typedef Vertex Vtx;
 
-// ===========
-// TileMap 타일 하나의 정보
-// ===========
 
+
+// =======
+// TileMap
+// =======
 struct tTileData
 {
-	int  iImgIdx;
-	Vec2 vLTUV;
-	int  iPadding;
+	int		iImgIdx;
+	Vec2	vLTUV;
+	int		iPadding;
 
-	// iImgIdx를 -1로 초기화
 	tTileData()
-		:iImgIdx(-1)
-		,iPadding(0)
+		: iImgIdx(-1)
+		, iPadding(0)
 	{}
 };
+
+
 
 
 // ==========
@@ -49,27 +51,31 @@ struct tAnim2DFrame
 	float	fDuration;
 };
 
-// ========
-// Particle
-// ========
 
+
+// ========
+// Particle 
+// ========
 struct tParticle
 {
-	Vec3	vPos;	// 위치
-	Vec3	vScale;	// 크기
-	Vec3	vDir;	// 방향
-	Vec4	vColor;	// 색상
-	
-	int		Alive;	// 생사
-	Vec2	Padding;
+	Vec3	vPos;
+	Vec3	vScale;
+	Vec3	vDir;
+	Vec4	vColor;
 
+	int		Alive;
+	float   m_fCurTime; // 생존 시간
+	float	m_fMaxTime; // 최대 생명 시간
 };
 
 struct tParticleData
 {
-	int	iAliveCount;
-	Vec3 vPadding;
+	int		iAliveCount;
+	Vec3	vPadding;
 };
+
+
+
 
 
 // ===================
@@ -110,12 +116,11 @@ struct tAnim2D
 	float	Anim2D_Padding;
 };
 
-// 전역 데이터이기 때문에 한번만 잡아주면 된다.
 struct tGlobal
 {
-	Vec2  vResolution;	// 렌더타겟의 렌더링 해상도 RenderTarget Resolution
-	Vec2  vNoiseResolution;	//NoiseTexture Resolution
-	float fDT;			// delta time(프레임 간격간의 시간)
-	float fAccTime;		// 게임을 킨 이후로 증가하는 시간
+	Vec2	vResolution; // RenderTarget Resolution
+	Vec2    vNoiseResolution; // NoiseTexture Resolution
+	float	fDT;
+	float	fAccTime;
 	Vec2    vPadding;
 };

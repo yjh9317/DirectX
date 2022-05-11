@@ -55,7 +55,7 @@ int CStructuredBuffer::Create(UINT _iElementSize, UINT _iElementCount, SB_TYPE _
         
     if (SB_TYPE::READ_ONLY == m_eType)
     {
-        m_desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE; // 쉐이더 리소스,텍스쳐 레지스터에 바인딩할 때 중간매개체로 전달
+        m_desc.BindFlags = D3D11_BIND_SHADER_RESOURCE; // 쉐이더 리소스,텍스쳐 레지스터에 바인딩할 때 중간매개체로 전달
     }
     else
     {

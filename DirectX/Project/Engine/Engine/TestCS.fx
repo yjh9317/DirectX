@@ -31,10 +31,10 @@
 
 RWTexture2D<float4> g_RWTex_0 : register(u0);
 
-#define WIDTH g_int_0
-#define HEIGHT g_int_1
 
-#define Color g_vec4_0
+#define WIDTH   g_int_0
+#define HEIGHT  g_int_1
+#define Color   g_vec4_0
 
 
 [numthreads(32, 32, 1)] // 3차원 도식화 , x :32,y :32 ,z :1 
