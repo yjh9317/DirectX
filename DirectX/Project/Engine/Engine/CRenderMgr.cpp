@@ -58,7 +58,7 @@ void CRenderMgr::render()
 	pMainCam->render_masked();
 
 	// Alpha 물체 렌더링
-	pMainCam->render_opaque();
+	pMainCam->render_translucent();
 
 
 	// Sub 카메라 시점으로 렌더링
@@ -79,7 +79,7 @@ void CRenderMgr::render()
 		m_vecCam[i]->render_masked();
 
 		// Alpha 물체 렌더링
-		m_vecCam[i]->render_opaque();
+		m_vecCam[i]->render_translucent();
 	}
 
 

@@ -96,7 +96,7 @@
   };
   
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
-C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\particle.fx(104,16-73): warning X3206: implicit truncation of vector type
+C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\particle.fx(124,16-73): warning X3206: implicit truncation of vector type
   
   //
   // FX Version: fx_5_0
@@ -780,7 +780,55 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   {
   };
   
+  pch.cpp
+  CAnimation2D.cpp
+  CAnimator2D.cpp
+  CCamera.cpp
+  CCameraMoveScript.cpp
+  CCollider2D.cpp
+  CCollisionMgr.cpp
+  CComponent.cpp
+  CComputeShader.cpp
+  CConstBuffer.cpp
+  CCore.cpp
+  CDevice.cpp
+  CEntity.cpp
+  CEventMgr.cpp
+  CGameObject.cpp
+  CGraphicsShader.cpp
+  CKeyMgr.cpp
+  CLayer.cpp
+  CMaterial.cpp
+  CMesh.cpp
+  CMeshRender.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  CMissileScript.cpp
   CParticleSystem.cpp
+  CParticleUpdateShader.cpp
+  CPathMgr.cpp
+  CPlayerScript.cpp
+  CPrefab.cpp
+  CRenderComponent.cpp
+  CRenderMgr.cpp
+  CRes.cpp
+  CResMgr.cpp
+  CResMgr_init.cpp
+  CScene.cpp
+  CSceneMgr.cpp
+  CScript.cpp
+  CShader.cpp
+  CStructuredBuffer.cpp
+  CTestShader.cpp
+  CTexture.cpp
+  CTileMap.cpp
+  CTimeMgr.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  CTransform.cpp
+  Engine.cpp
+  extern.cpp
+  코드를 생성하고 있습니다...
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
   .\Project\Engine\Engine\CAnimation2D.h
   .\Project\Engine\Engine\CAnimator2D.h

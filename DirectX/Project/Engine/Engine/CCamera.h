@@ -19,7 +19,8 @@ class CCamera :
 private:
     vector<CGameObject*>    m_vecForward;   // 불투명 물체
     vector<CGameObject*>    m_vecMasked;    // 투명 , 불투명 물체
-    vector<CGameObject*>    m_vecOpaque;    // 반투명 물체
+    vector<CGameObject*>    m_vecTranslucent;    // 반투명 물체
+    vector<CGameObject*>    m_vecPostProcess;       // 후 처리
 
     Matrix                  m_matView;       // View행렬, 이 행렬을 곱하면 View Space로 넘어온다.
     Matrix                  m_matProj;       // 투영 행렬(View Space로 넘어온 물체를 -1 ~ 1범위로 압축할 때 필요한 행렬)
@@ -65,7 +66,7 @@ public:
     virtual void finalupdate() override;
     void render_forward();
     void render_masked();
-    void render_opaque();
+    void render_translucent();
 
 
     CLONE(CCamera)

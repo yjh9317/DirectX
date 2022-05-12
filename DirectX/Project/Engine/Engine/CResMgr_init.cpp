@@ -177,7 +177,7 @@ void CResMgr::CreateEngineShader()
 	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2DAlpha");
 	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2DAlpha");
 
-	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_OPAQUE);
+	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_TRANSLUCENT);
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
 	pShader->SetDSType(DS_TYPE::NO_WRITE);
@@ -205,7 +205,7 @@ void CResMgr::CreateEngineShader()
 	pShader->CreateVertexShader(L"Shader\\std2d.fx", "VS_Collider2D");
 	pShader->CreatePixelShader(L"Shader\\std2d.fx", "PS_Collider2D");
 
-	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_OPAQUE);
+	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_TRANSLUCENT);
 
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
@@ -221,7 +221,7 @@ void CResMgr::CreateEngineShader()
 	pShader->CreateGeometryShader(L"Shader\\particlerender.fx", "GS_ParticleRender");
 	pShader->CreatePixelShader(L"Shader\\particlerender.fx", "PS_ParticleRender");
 
-	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_OPAQUE);
+	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_TRANSLUCENT);
 	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	pShader->SetDSType(DS_TYPE::NO_WRITE);
 	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);

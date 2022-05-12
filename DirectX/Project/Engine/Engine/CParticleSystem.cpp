@@ -11,7 +11,7 @@ CParticleSystem::CParticleSystem()
 	: CRenderComponent(COMPONENT_TYPE::PARTICLESYSTEM)
 	, m_iMaxCount(1000)
 	, m_bPosInherit(0)
-	, m_iAliveCount(1)
+	, m_iAliveCount(3)
 	, m_fAccTime(0.f)
 	, m_fMinLifeTime(0.5f)
 	, m_fMaxLifeTime(2.f)
@@ -22,7 +22,7 @@ CParticleSystem::CParticleSystem()
 	, m_vStartScale(Vec3(10.f, 10.f, 1.f))
 	, m_vEndScale(Vec3(1.f, 1.f, 1.f))
 	, m_fParticleCreateDistance(50.f)
-	, m_fParticleCreateTerm(0.005f)
+	, m_fParticleCreateTerm(1.f)
 {
 	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"PointMesh"));
 	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"ParticleRenderMtrl"));
@@ -61,10 +61,10 @@ void CParticleSystem::finalupdate()
 	if (m_fParticleCreateTerm < m_fAccTime)
 	{
 		m_fAccTime = 0.f;
-		m_iAliveCount;
+
 
 		tParticleData data = {};
-		data.iAliveCount = 1;
+		data.iAliveCount = m_iAliveCount;	//파티클 개수 설정
 		m_DataBuffer->SetData(&data, 1);
 	}
 

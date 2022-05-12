@@ -118,7 +118,7 @@ void CCamera::SortGameObject()
 {
 	m_vecForward.clear();
 	m_vecMasked.clear();
-	m_vecOpaque.clear();
+	m_vecTranslucent.clear();
 
 	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
 
@@ -154,9 +154,20 @@ void CCamera::SortGameObject()
 			case SHADER_DOMAIN::DOMAIN_MASKED:
 				m_vecMasked.push_back(vecObj[j]);
 				break;
-			case SHADER_DOMAIN::DOMAIN_OPAQUE:
-				m_vecOpaque.push_back(vecObj[j]);
+			case SHADER_DOMAIN::DOMAIN_TRANSLUCENT:
+				m_vecTranslucent.push_back(vecObj[j]);
 				break;
+			case SHADER_DOMAIN::DOMAIN_POSTPROCESS:		//렌더링이 끝나고나서 처리
+				m_vecPostProcess.push_back(vecObj[j]);
+				break;
+				/*
+				후처리
+					파이프라인단계중에서 렌더타겟을 최종 출력 타겟이면서 동시에 리소스로 사용할 순 없다
+					그래서 렌더타겟과 동일한 복사본을 만든다
+					픽셀세이더에서 새로 그리기전까진 복사본과 렌더타겟은 완전히 동일함
+					그래서 그 복사본을 가공하여 렌더타겟에 추가적인 처리
+					ex) 캐릭터가 맞으면 화면이 빨개지는 효과같은걸 후처리로 한다.
+				*/
 			}
 
 		}
@@ -179,11 +190,11 @@ void CCamera::render_masked()
 	}
 }
 
-void CCamera::render_opaque()
+void CCamera::render_translucent()
 {
-	for (size_t i = 0; i < m_vecOpaque.size(); ++i)
+	for (size_t i = 0; i < m_vecTranslucent.size(); ++i)
 	{
-		m_vecOpaque[i]->render();
+		m_vecTranslucent[i]->render();
 	}
 }
 

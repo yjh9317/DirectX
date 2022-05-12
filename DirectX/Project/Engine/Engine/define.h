@@ -99,8 +99,8 @@ enum class SHADER_DOMAIN
 {
 	DOMAIN_FORWARD,	// 불투명
 	DOMAIN_MASKED,	// 불투명, 투명
-	DOMAIN_OPAQUE,	// 반투명
-	DOMAIN_POSTPROCESS, // 후처리
+	DOMAIN_TRANSLUCENT,	// 반투명
+	DOMAIN_POSTPROCESS, // 후 처리 (렌더링 시점이 가장 나중으로 늦춰짐)
 };
 
 
