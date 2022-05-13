@@ -228,6 +228,19 @@ void CResMgr::CreateEngineShader()
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 
 	AddRes<CGraphicsShader>(L"ParticleRenderShader", pShader);
+
+	// PostProcess Shader
+	pShader = new CGraphicsShader;
+
+	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+	pShader->CreateVertexShader(L"Shader\\postprocess.fx", "VS_PostProcess");
+	pShader->CreatePixelShader(L"Shader\\postprocess.fx", "PS_PostProcess");
+
+
+	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+
+	AddRes<CGraphicsShader>(L"PostProcessShader", pShader);
 }
 
 void CResMgr::CreateEngineMaterial()
@@ -257,6 +270,12 @@ void CResMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"ParticleRenderShader"));
 	AddRes<CMaterial>(L"ParticleRenderMtrl", pMtrl);
+
+	// PostProcess Mtrl
+	pMtrl = new CMaterial;
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"PostProcessShader"));
+	pMtrl->SetTexParam(TEX_PARAM::TEX_0, FindRes<CTexture>(L"PostProcessTex"));
+	AddRes<CMaterial>(L"PostProcessMtrl", pMtrl);
 }
 
 #include "CTestShader.h"

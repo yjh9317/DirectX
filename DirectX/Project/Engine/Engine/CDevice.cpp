@@ -80,8 +80,8 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 
 	// RenderTargetView, DepthStencilVeiw 전달
 	// Render 출력 버퍼 및 출력 깊이 버퍼 지정
-	Ptr<CTexture> pRTTex = CResMgr::GetInst()->FindRes<CTexture>(L"RenderTargetTexture");
-	Ptr<CTexture> pDSTex = CResMgr::GetInst()->FindRes<CTexture>(L"DepthStencilTexture");
+	Ptr<CTexture> pRTTex = CResMgr::GetInst()->FindRes<CTexture>(L"RenderTargetTex");
+	Ptr<CTexture> pDSTex = CResMgr::GetInst()->FindRes<CTexture>(L"DepthStencilTex");
 	
 	m_pDeviceContext->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(),pDSTex->GetDSV().Get());
 
@@ -215,13 +215,13 @@ int CDevice::CreateView()
 	// RenderTargetTexture 
 	ComPtr<ID3D11Texture2D> pBuffer = nullptr;
 	m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)pBuffer.GetAddressOf());//스왑체인이 들고있는 버퍼를 가져옴
-	CResMgr::GetInst()->CreateTexture(L"RenderTargetTexture", pBuffer); //ResMgr에서 RTV관리
+	CResMgr::GetInst()->CreateTexture(L"RenderTargetTex", pBuffer,true); //ResMgr에서 RTV관리
 
 
 
 	// Depth Stencil Texture 만들기
-	Ptr<CTexture> pDepthStencilTex = CResMgr::GetInst()->CreateTexture(L"DepthStencilTexture", (UINT)m_vRenderResolution.x, (UINT)m_vRenderResolution.y,
-		DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
+	Ptr<CTexture> pDepthStencilTex = CResMgr::GetInst()->CreateTexture(L"DepthStencilTex", (UINT)m_vRenderResolution.x, (UINT)m_vRenderResolution.y,
+		DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL ,true);
 	
 
 
@@ -408,14 +408,18 @@ void CDevice::CreateSamplerState()
 	CONTEXT->GSSetSamplers(0, 1, m_arrSam[0].GetAddressOf());
 	CONTEXT->PSSetSamplers(0, 1, m_arrSam[0].GetAddressOf());
 
-
+	CONTEXT->VSSetSamplers(1, 1, m_arrSam[1].GetAddressOf());
+	CONTEXT->HSSetSamplers(1, 1, m_arrSam[1].GetAddressOf());
+	CONTEXT->DSSetSamplers(1, 1, m_arrSam[1].GetAddressOf());
+	CONTEXT->GSSetSamplers(1, 1, m_arrSam[1].GetAddressOf());
+	CONTEXT->PSSetSamplers(1, 1, m_arrSam[1].GetAddressOf());
 }
 
 
 void CDevice::ClearTarget()
 {
-	static CTexture* pRTTex = CResMgr::GetInst()->FindRes<CTexture>(L"RenderTargetTexture").Get();
-	static CTexture* pDSTex = CResMgr::GetInst()->FindRes<CTexture>(L"DepthStencilTexture").Get();
+	static CTexture* pRTTex = CResMgr::GetInst()->FindRes<CTexture>(L"RenderTargetTex").Get();
+	static CTexture* pDSTex = CResMgr::GetInst()->FindRes<CTexture>(L"DepthStencilTex").Get();
 
 	m_pDeviceContext->ClearRenderTargetView(pRTTex->GetRTV().Get(), Vec4(0.65f, 0.65f, 0.65f, 1.f));
 	// RGB의 0~255값을 0.f ~ 1.f로 보간해서 변경해서 넣어줌

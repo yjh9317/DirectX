@@ -67,7 +67,7 @@ public:
     void render_forward();
     void render_masked();
     void render_translucent();
-
+    void render_postprocess();
 
     CLONE(CCamera)
 

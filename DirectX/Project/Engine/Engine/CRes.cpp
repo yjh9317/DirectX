@@ -23,3 +23,4 @@ bool CRes::CheckFail(HRESULT _hr)
 
     return false;
 }
+

@@ -73,7 +73,7 @@ void CTexture::Create(UINT _iWidth, UINT _iHeight, DXGI_FORMAT _format, UINT _fl
     
     m_tDesc.Width = _iWidth;
     m_tDesc.Height = _iHeight;
-    m_tDesc.MipLevels = 0;
+    m_tDesc.MipLevels = 1;
     m_tDesc.ArraySize = 1;
 
     m_tDesc.CPUAccessFlags = 0;

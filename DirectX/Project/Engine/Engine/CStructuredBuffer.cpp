@@ -129,10 +129,15 @@ int CStructuredBuffer::Create(UINT _iElementSize, UINT _iElementCount, SB_TYPE _
         m_desc_read.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
         m_desc_read.StructureByteStride = m_iElementSize;
 
-        m_desc_read.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
+         m_desc_read.Usage = D3D11_USAGE::D3D11_USAGE_STAGING;
+        // STAGING은 Only 읽기 모드이기에 BindFlags는 주면 안된다.
+        
         m_desc_read.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_READ;
 
-        m_desc_read.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+        // m_desc_read.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
+        //m_desc_read.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+
+        m_desc_read.BindFlags = 0;
 
         // 초기 Initial Data 가 있는 경우
         if (nullptr != _pInitialData)

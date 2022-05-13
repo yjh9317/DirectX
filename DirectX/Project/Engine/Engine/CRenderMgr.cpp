@@ -5,6 +5,8 @@
 #include "CConstBuffer.h"
 
 #include "CCamera.h"
+#include "CResMgr.h"
+
 
 
 CRenderMgr::CRenderMgr()
@@ -18,10 +20,6 @@ CRenderMgr::~CRenderMgr()
 
 }
 
-void CRenderMgr::init()
-{
-
-}
 
 void CRenderMgr::update()
 {
@@ -60,6 +58,8 @@ void CRenderMgr::render()
 	// Alpha 물체 렌더링
 	pMainCam->render_translucent();
 
+	// PostProcess 물체 렌더링
+	pMainCam->render_postprocess();
 
 	// Sub 카메라 시점으로 렌더링
 	for (int i = 1; i < m_vecCam.size(); ++i)
@@ -129,4 +129,14 @@ void CRenderMgr::SwapCameraIndex(CCamera* _pCam, int _iChangeIdx)
 	}
 
 	assert(nullptr);
+}
+
+void CRenderMgr::CopyTargetToPostProcess()
+{
+	// 후처리 효과를 넣기위해 현재 렌더타겟을 복사해서 생성된 복사본으로 후처리효과를 넣어준다.
+
+	Ptr<CTexture> pRenderTarget = CResMgr::GetInst()->FindRes<CTexture>(L"RenderTargetTex");
+	Ptr<CTexture> pPostProcess = CResMgr::GetInst()->FindRes<CTexture>(L"PostProcessTex");
+
+	CONTEXT->CopyResource(pPostProcess->GetTex2D().Get(), pRenderTarget->GetTex2D().Get());
 }

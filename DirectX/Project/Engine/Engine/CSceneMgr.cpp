@@ -90,14 +90,34 @@ void CSceneMgr::init()
 	pCamObj->AddComponent(new CCamera);
 	pCamObj->AddComponent(new CCameraMoveScript);
 
-	pCamObj->Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
+	pCamObj->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
 	pCamObj->Camera()->SetCameraAsMain();
 	pCamObj->Camera()->CheckLayerMaskAll();
 
 	m_pCurScene->AddObject(pCamObj, L"Default");
 
+
+	// Plane Object
+	CGameObject* pObject = new CGameObject;
+	pObject->SetName(L"Plane");
+
+	pObject->AddComponent(new CTransform);
+	pObject->AddComponent(new CMeshRender);
+
+	pObject->Transform()->SetRelativePos(0.f, 0.f, 500.f);
+	pObject->Transform()->SetRelativeScale(1600.f, 900.f, 1.f);
+
+	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
+	pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CResMgr::GetInst()->Load<CTexture>(L"BackGroundTex", L"texture\\Background.png"));
+
+	m_pCurScene->AddObject(pObject, L"Default");
+
+
 	// Particle Object 
 	CGameObject* pParticleObj = new CGameObject;
+	pParticleObj->SetName(L"ParticleObject");
+
 	pParticleObj->AddComponent(new CTransform);
 	pParticleObj->AddComponent(new CParticleSystem);
 
@@ -107,8 +127,23 @@ void CSceneMgr::init()
 
 
 
+	// PostProcess Object
+	CGameObject* pPostProcess = new CGameObject;
+	pPostProcess->SetName(L"PostProcessObject");
+
+	pPostProcess->AddComponent(new CTransform);
+	pPostProcess->AddComponent(new CMeshRender);
+
+	pPostProcess->Transform()->SetRelativePos(0.f, 0.f, 100.f);
+	pPostProcess->Transform()->SetRelativeScale(1600.f, 900.f, 1.f);
+
+	pPostProcess->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pPostProcess->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"PostProcessMtrl"));
+
+	m_pCurScene->AddObject(pPostProcess, L"Default");
 
 
+	// 충돌 레이어 설정
 	CCollisionMgr::GetInst()->CollisionCheck(L"Player", L"Monster");
 
 	m_pCurScene->start();
