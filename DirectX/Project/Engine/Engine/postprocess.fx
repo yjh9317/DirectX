@@ -31,15 +31,14 @@ VTX_OUT VS_PostProcess(VTX_IN _in)
 {
     VTX_OUT output = (VTX_OUT) 0.f;
     
-    output.vPosition = float4(_in.vPos * 2, 1.f);
+    //output.vPosition = float4(_in.vPos * 2, 1.f); //필터처럼 사용하기 위해서는 화면전체
+    
     // RectMesh는 로컬 스페이스의 좌표가 -0.5 ~ 0.5로 잡아줬었는데
     // 이 값을 2배해서 -1 ~ 1로 만들어줘서 NDC와 동일하게 맞춰줌으로써
     // 후처리 장면을 화면전부에 출력하게 만든다.
     
-    // output.vPosition = mul(float4(_in.vPos, 1.f), g_matWVP);
-    // 만약 output.vPosition을 윗값을 사용하고 카메라를 좌우로 움직인다면
-    // 이중 여백이 생긴다. 그 이유는 여백이 생긴 장면을 다시 후처리 효과에 넣어주고
-    // 여백이 생긴 장면이 다시 렌더타겟에 들어가면서 1. 기존 여백과 2. 여백이 생긴 후처리 장면의 여백이 동시에 생긴다.
+    output.vPosition = mul(float4(_in.vPos, 1.f), g_matWVP);
+
     output.vUV = _in.vUV;
     
     return output;
@@ -49,10 +48,28 @@ float4 PS_PostProcess(VTX_OUT _in) : SV_Target
 {
     float4 vOutColor = (float4) 0.f;
     
+    // VS에서 PS로 들어올 때는 보통 보간해서 가져오지만 
+    // _in.vPosition; // SV_Position 시맨틱을 사용하면 PS로 들어갈 때 픽셀 좌표를 넣어준다.
+    
+    // 화면의 일정부분만을 후처리 효과를 넣어주기 위해서는 일정화면의 UV값을 알아야 한다.
+    // 그 값을 구하기 위해 그 픽셀위치값을 분자로 하고 화면 해상도를 분모로 하면 비율 값을 알 수 있다.
+    float2 vScreenUV = _in.vPosition.xy / vResolution;
+    
+   
+    
     if (IsBind)
     {
-        vOutColor = PostProcessTarget.Sample(g_sam_0, _in.vUV);
-        vOutColor.r *= 2.f;
+        //1번
+        vScreenUV.y += sin(vScreenUV.x * 3.141592f * 20.f + (fAccTime * 4.f)) * 0.01;
+        
+        //2번 Wrap모드를 사용하면 넘어가는부분도 샘플링을 해서 문제가 생김.
+        //_in.vUV.x += fAccTime * 0.1f;
+        //vScreenUV += g_noise_cloud.Sample(g_sam_1,_in.vUV).rg * 0.03f;
+        //vScreenUV = saturate(vScreenUV); // saturate : 0~1 범위 밖으로가면 고정시켜주는거일듯?
+        
+        //postprocess distortion shader검색하면 여러개있음
+        
+        vOutColor = PostProcessTarget.Sample(g_sam_1, vScreenUV);
     }
     else
     {

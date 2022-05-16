@@ -115,15 +115,15 @@ void CSceneMgr::init()
 
 
 	// Particle Object 
-	CGameObject* pParticleObj = new CGameObject;
-	pParticleObj->SetName(L"ParticleObject");
+	//CGameObject* pParticleObj = new CGameObject;
+	//pParticleObj->SetName(L"ParticleObject");
 
-	pParticleObj->AddComponent(new CTransform);
-	pParticleObj->AddComponent(new CParticleSystem);
+	//pParticleObj->AddComponent(new CTransform);
+	//pParticleObj->AddComponent(new CParticleSystem);
 
-	pParticleObj->Transform()->SetRelativePos(0.f, 0.f, 500.f);
+	//pParticleObj->Transform()->SetRelativePos(0.f, 0.f, 500.f);
 
-	m_pCurScene->AddObject(pParticleObj, L"Default");
+	//m_pCurScene->AddObject(pParticleObj, L"Default");
 
 
 
@@ -135,7 +135,7 @@ void CSceneMgr::init()
 	pPostProcess->AddComponent(new CMeshRender);
 
 	pPostProcess->Transform()->SetRelativePos(0.f, 0.f, 100.f);
-	pPostProcess->Transform()->SetRelativeScale(1600.f, 900.f, 1.f);
+	pPostProcess->Transform()->SetRelativeScale(200.f, 200.f, 1.f);
 
 	pPostProcess->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pPostProcess->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"PostProcessMtrl"));
