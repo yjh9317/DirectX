@@ -69,13 +69,14 @@ void CGameObject::update()
 {
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
-		if (nullptr != m_arrCom[i])
+		if (nullptr != m_arrCom[i] && m_arrCom[i]->IsActive())
 			m_arrCom[i]->update();
 	}
 
 	for (size_t i = 0; i < m_vecChild.size(); ++i)
 	{
-		m_vecChild[i]->update();
+		if (m_vecChild[i]->IsActive())
+			m_vecChild[i]->update();
 	}
 }
 
@@ -83,13 +84,14 @@ void CGameObject::lateupdate()
 {
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
-		if (nullptr != m_arrCom[i])
+		if (nullptr != m_arrCom[i] && m_arrCom[i]->IsActive())
 			m_arrCom[i]->lateupdate();
 	}
 
 	for (size_t i = 0; i < m_vecChild.size(); ++i)
 	{
-		m_vecChild[i]->lateupdate();
+		if (m_vecChild[i]->IsActive())
+			m_vecChild[i]->lateupdate();
 	}
 }
 
@@ -121,6 +123,34 @@ void CGameObject::render()
 		Collider2D()->render();
 }
 
+void CGameObject::active()
+{
+	for (UINT i = 1; i < (UINT)COMPONENT_TYPE::END; ++i)
+	{
+		if (nullptr != m_arrCom[i])
+			m_arrCom[i]->active();
+	}
+
+	for (size_t i = 0; i < m_vecChild.size(); ++i)
+	{
+		m_vecChild[i]->active();
+	}
+}
+
+void CGameObject::deactive()
+{
+	for (UINT i = 1; i < (UINT)COMPONENT_TYPE::END; ++i)
+	{
+		if (nullptr != m_arrCom[i])
+			m_arrCom[i]->deactive();
+	}
+
+	for (size_t i = 0; i < m_vecChild.size(); ++i)
+	{
+		m_vecChild[i]->deactive();
+	}
+}
+
 void CGameObject::Deregister()
 {
 	if (-1 == m_iLayerIdx)
@@ -147,6 +177,26 @@ void CGameObject::DisconnectBetweenParent()
 			return;
 		}
 	}
+}
+
+void CGameObject::Activate()
+{
+	tEventInfo info = {};
+
+	info.eType = EVENT_TYPE::ACTIVATE_OBJECT;
+	info.lParam = (DWORD_PTR)this;
+
+	CEventMgr::GetInst()->AddEvent(info);
+}
+
+void CGameObject::Deactivate()
+{
+	tEventInfo info = {};
+
+	info.eType = EVENT_TYPE::DEACTIVATE_OBJECT;
+	info.lParam = (DWORD_PTR)this;
+
+	CEventMgr::GetInst()->AddEvent(info);
 }
 
 void CGameObject::AddChild(CGameObject* _pChild)

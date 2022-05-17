@@ -20,12 +20,12 @@ void CLayer::start()
 		m_vecRoot[i]->start();
 	}
 }
-
 void CLayer::update()
 {
 	for (size_t i = 0; i < m_vecRoot.size(); ++i)
 	{
-		m_vecRoot[i]->update();
+		if (m_vecRoot[i]->IsActive())
+			m_vecRoot[i]->update();
 	}
 }
 
@@ -33,7 +33,8 @@ void CLayer::lateupdate()
 {
 	for (size_t i = 0; i < m_vecRoot.size(); ++i)
 	{
-		m_vecRoot[i]->lateupdate();
+		if (m_vecRoot[i]->IsActive())
+			m_vecRoot[i]->lateupdate();
 	}
 }
 

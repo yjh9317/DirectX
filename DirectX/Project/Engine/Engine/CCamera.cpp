@@ -167,11 +167,13 @@ void CCamera::SortGameObject()
 	}
 
 }
+
 void CCamera::render_forward()
 {
 	for (size_t i = 0; i < m_vecForward.size(); ++i)
 	{
-		m_vecForward[i]->render();
+		if (m_vecForward[i]->IsActive())
+			m_vecForward[i]->render();
 	}
 }
 
@@ -179,7 +181,8 @@ void CCamera::render_masked()
 {
 	for (size_t i = 0; i < m_vecMasked.size(); ++i)
 	{
-		m_vecMasked[i]->render();
+		if (m_vecMasked[i]->IsActive())
+			m_vecMasked[i]->render();
 	}
 }
 
@@ -187,7 +190,8 @@ void CCamera::render_translucent()
 {
 	for (size_t i = 0; i < m_vecTranslucent.size(); ++i)
 	{
-		m_vecTranslucent[i]->render();
+		if (m_vecTranslucent[i]->IsActive())
+			m_vecTranslucent[i]->render();
 	}
 }
 
@@ -197,10 +201,11 @@ void CCamera::render_postprocess()
 	{
 		// PostProcess 물체가 있을때마다 재복사를 해야함, 왜냐하면 후처리하고난 PostProcess를 다시 RenderTarget으로 재출력해야하기 때문에
 		// RenderTarget를 PostProcess 에 복사->복사된 PostProcess 를 후처리 효과 넣음 -> 복사된 PostProcess를 RenderTarget에 다시 재출력
-		
-		CRenderMgr::GetInst()->CopyTargetToPostProcess();
-
-		m_vecPostProcess[i]->render();
+		if (m_vecPostProcess[i]->IsActive())
+		{
+			CRenderMgr::GetInst()->CopyTargetToPostProcess();
+			m_vecPostProcess[i]->render();
+		}
 	}
 }
 

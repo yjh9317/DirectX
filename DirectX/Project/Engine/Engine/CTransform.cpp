@@ -82,6 +82,18 @@ void CTransform::finalupdate()
 
 }
 
+void CTransform::active()
+{
+	CComponent::active();
+	assert(nullptr);
+}
+
+void CTransform::deactive()
+{
+	CComponent::deactive();
+	assert(nullptr);
+}
+
 // 오브젝트의 모든 부모행렬를 계산해서 크기를 받아온다.
 Vec3 CTransform::GetWorldScale()
 {

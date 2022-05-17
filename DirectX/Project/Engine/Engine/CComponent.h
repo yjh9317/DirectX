@@ -13,12 +13,18 @@ private:
     const COMPONENT_TYPE     m_eComType;        //물체의 컴포넌트 타입
     CGameObject* m_pOwner;
 
+    bool                    m_bActive;
+
 public:
     virtual void start() {}
     virtual void update() {}
     virtual void lateupdate() {}
     virtual void finalupdate() = 0; //최종 업데이트이므로 순수가상함수
-    
+
+    void Activate();
+    void Deactivate();
+
+    bool IsActive() { return m_bActive; }
 
 public:
     COMPONENT_TYPE GetType() { return m_eComType; }
@@ -36,6 +42,9 @@ public:
     GET_OTHER_COMPONENT(Camera)
 
         CComponent* Clone() = 0;
+protected:
+    virtual void active() { m_bActive = true; };
+    virtual void deactive() { m_bActive = false; };
 
 
 
@@ -44,5 +53,6 @@ public:
     virtual ~CComponent();
 
     friend class CGameObject;
+    friend class CEventMgr;
 };
 

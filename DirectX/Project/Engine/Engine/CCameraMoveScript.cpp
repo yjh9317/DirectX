@@ -8,7 +8,9 @@
 #include "CCamera.h"
 
 CCameraMoveScript::CCameraMoveScript()
-	: m_fCamSpeed(500.f)
+	: m_Filter(nullptr)
+	, m_fCamSpeed(500.f)
+
 {
 }
 
@@ -77,7 +79,13 @@ void CCameraMoveScript::update()
 		}
 	}
 
-
+	if (nullptr != m_Filter && KEY_TAP(KEY::F))
+	{
+		if (m_Filter->IsActive())
+			m_Filter->Deactivate();
+		else
+			m_Filter->Activate();
+	}
 
 
 

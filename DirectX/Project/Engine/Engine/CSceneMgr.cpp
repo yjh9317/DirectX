@@ -103,27 +103,28 @@ void CSceneMgr::init()
 
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
+	pObject->AddComponent(new CPlayerScript);
 
 	pObject->Transform()->SetRelativePos(0.f, 0.f, 500.f);
 	pObject->Transform()->SetRelativeScale(1600.f, 900.f, 1.f);
 
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
+	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"PaperBurnMtrl"));
 	pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CResMgr::GetInst()->Load<CTexture>(L"BackGroundTex", L"texture\\Background.png"));
 
 	m_pCurScene->AddObject(pObject, L"Default");
 
 
 	// Particle Object 
-	//CGameObject* pParticleObj = new CGameObject;
-	//pParticleObj->SetName(L"ParticleObject");
+	CGameObject* pParticleObj = new CGameObject;
+	pParticleObj->SetName(L"ParticleObject");
 
-	//pParticleObj->AddComponent(new CTransform);
-	//pParticleObj->AddComponent(new CParticleSystem);
+	pParticleObj->AddComponent(new CTransform);
+	pParticleObj->AddComponent(new CParticleSystem);
 
-	//pParticleObj->Transform()->SetRelativePos(0.f, 0.f, 500.f);
+	pParticleObj->Transform()->SetRelativePos(0.f, 0.f, 500.f);
 
-	//m_pCurScene->AddObject(pParticleObj, L"Default");
+	m_pCurScene->AddObject(pParticleObj, L"Default");
 
 
 
@@ -141,6 +142,10 @@ void CSceneMgr::init()
 	pPostProcess->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"PostProcessMtrl"));
 
 	m_pCurScene->AddObject(pPostProcess, L"Default");
+	pPostProcess->Deactivate();
+
+
+	((CCameraMoveScript*)pCamObj->GetScript())->SetFilter(pPostProcess);
 
 
 	// 충돌 레이어 설정

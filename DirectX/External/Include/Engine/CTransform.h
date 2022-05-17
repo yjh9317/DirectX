@@ -54,6 +54,9 @@ public:
 
     virtual void finalupdate() override;
 
+    virtual void active();
+    virtual void deactive();
+
     CLONE(CTransform)
 
 public:

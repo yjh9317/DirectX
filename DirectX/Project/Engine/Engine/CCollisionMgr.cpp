@@ -75,6 +75,13 @@ void CCollisionMgr::CollisionBetweenLayer(const vector<CGameObject*>& _left, con
 			// 두 충돌체중 하나라도 데드 상태인지 
 			bool bDead = pLeftCol->GetOwner()->IsDead() || pRightCol->GetOwner()->IsDead();
 
+			// 두 충돌체 중 하나라도 비활성화 상태인지
+			bool bDeactive = pLeftCol->GetOwner()->IsActive() || pRightCol->GetOwner()->IsActive();
+
+			// 이전 프레임에서는 충돌하지 않고 있었고, 현재 둘중 하나 이상이 비활성화 상태이면 충돌 검사를 하지 않겠다.
+			if (bDeactive && false == iter->second)
+				continue;
+
 			// 충돌 검사
 			// 충돌 중이다.
 			if (IsCollision(pLeftCol, pRightCol))
@@ -83,12 +90,16 @@ void CCollisionMgr::CollisionBetweenLayer(const vector<CGameObject*>& _left, con
 				if (iter->second)
 				{
 					// 충돌 중이다
-					if (bDead)
+					if (bDead || bDeactive)
 					{
 						// 둘중 하나라도 삭제 예정이라면(삭제를 통한 충돌 해제가 발생하는 것으로 본다)
 						pLeftCol->OnCollisionExit(pRightCol);
 						pRightCol->OnCollisionExit(pLeftCol);
-						m_mapColInfo.erase(iter);
+
+						if (bDead)
+							m_mapColInfo.erase(iter);
+						else
+							iter->second = false;
 					}
 					else
 					{

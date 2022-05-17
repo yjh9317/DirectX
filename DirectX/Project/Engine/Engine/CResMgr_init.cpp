@@ -187,6 +187,21 @@ void CResMgr::CreateEngineShader()
 	AddRes<CGraphicsShader>(L"Std2DAlphaBlendShader", pShader);
 
 
+	// PaperBurn Shader
+	pShader = new CGraphicsShader;
+	pShader->CreateVertexShader(L"shader\\paperburn.fx", "VS_PaperBurn");
+	pShader->CreatePixelShader(L"shader\\paperburn.fx", "PS_PaperBurn");
+
+	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_MASKED);
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+
+	pShader->AddScalarParamInfo(L"Burn Strength", SCALAR_PARAM::FLOAT_0);
+	pShader->AddTexParamInfo(L"OutputTex", TEX_PARAM::TEX_0);
+
+	AddRes<CGraphicsShader>(L"PaperBurnShader", pShader);
+
+
 	// TileMap Shader
 	pShader = new CGraphicsShader;
 	pShader->CreateVertexShader(L"shader\\tilemap.fx", "VS_TileMap");
@@ -215,7 +230,7 @@ void CResMgr::CreateEngineShader()
 	AddRes<CGraphicsShader>(L"Collider2DShader", pShader);
 
 
-	// Particle Render Shader;
+	// Particle Render Shader
 	pShader = new CGraphicsShader;
 	pShader->CreateVertexShader(L"Shader\\particlerender.fx", "VS_ParticleRender");
 	pShader->CreateGeometryShader(L"Shader\\particlerender.fx", "GS_ParticleRender");
@@ -257,6 +272,13 @@ void CResMgr::CreateEngineMaterial()
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DAlphaBlendShader"));
 	AddRes<CMaterial>(L"Std2DAlphaBlendMtrl", pMtrl);
 
+	// PaperBurnMtrl	
+	pMtrl = new CMaterial;
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"PaperBurnShader"));
+	AddRes<CMaterial>(L"PaperBurnMtrl", pMtrl);
+
+
+	// TileMapMtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"TileMapShader"));
 	AddRes<CMaterial>(L"TileMapMtrl", pMtrl);

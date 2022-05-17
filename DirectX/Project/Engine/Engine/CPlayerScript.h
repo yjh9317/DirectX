@@ -9,6 +9,8 @@ private:
     Ptr<CPrefab>    m_pMissilePrefab;
     float           m_fSpeed;
 
+    float           m_fBurnStrength;
+    bool            m_bBurn;
 
 public:
     virtual void start();
@@ -16,6 +18,11 @@ public:
     virtual void lateupdate();
 
     virtual void OnCollisionEnter(CGameObject* _OtherObject) override;
+
+
+private:
+    void Burnning();
+
 
 
     CLONE(CPlayerScript)

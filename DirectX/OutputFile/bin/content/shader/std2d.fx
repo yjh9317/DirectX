@@ -66,18 +66,23 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
     else
     {
         // 없으면 Material를 이용
-        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
-        
+        if (g_btex_0)
+        {
+            vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+        }
+        else
+        {
+            vOutColor = float4(1.f, 0.f, 1.f, 1.f);
+        }
+    
+    }
         // uint width = 0, height = 0;
         // g_tex_0.GetDimensions(width, height);
         // GetDimensions : 해당 텍스쳐의 가로세로 정보를 가져오는 함수
         // 하지만 좋은 방법은 아님. 모든 픽셀에 대해서 검사도 해야하기 때문에 비용이 듬.
         
-
-    }
     
-    
-    if (vOutColor.a <= g_float_0)
+    if (vOutColor.a <= 0.f)
     {
         discard;
     }

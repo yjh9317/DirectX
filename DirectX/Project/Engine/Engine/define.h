@@ -211,6 +211,12 @@ enum class EVENT_TYPE
 	SET_CAMERA_INDEX,	// lParam : Camera Component Adress, wParam : Camera Change Index
 
 
+	ACTIVATE_OBJECT,	// lParam : Object Adress
+	DEACTIVATE_OBJECT,  // lParam : Object Adress
+
+	ACTIVATE_COMPONENT,		// lParam : Component Adress
+	DEACTIVATE_COMOPNENT,   // lParam : Component Adress
+
 	STAGE_CHANGE,		// lParam : Next Stage Enum
 	CHANGE_AI_STATE,	// lParam : FSM Adress, wParam : Next State Type
 

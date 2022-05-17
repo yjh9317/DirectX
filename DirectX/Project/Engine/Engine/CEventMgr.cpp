@@ -6,6 +6,7 @@
 #include "CGameObject.h"
 
 #include "CRenderMgr.h"
+#include "CComponent.h"
 
 CEventMgr::CEventMgr()
 {
@@ -49,6 +50,9 @@ void CEventMgr::update()
 			int iLayerIdx = (int)m_vecEvent[i].wParam;
 			CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
 			pCurScene->AddObject(pObj, iLayerIdx);
+
+
+			pObj->start();
 		}
 		break;
 
@@ -102,9 +106,41 @@ void CEventMgr::update()
 
 			CRenderMgr::GetInst()->SwapCameraIndex(cam, iChangeIdx);
 		}
+		break;
+
+		case EVENT_TYPE::ACTIVATE_OBJECT:
+		{
+			CGameObject* pObject = (CGameObject*)m_vecEvent[i].lParam;
+			pObject->m_bActive = true;
+			pObject->active();
+		}
 
 
 		break;
+
+		case EVENT_TYPE::DEACTIVATE_OBJECT:
+		{
+			CGameObject* pObject = (CGameObject*)m_vecEvent[i].lParam;
+			pObject->m_bActive = false;
+			pObject->deactive();
+		}
+		break;
+
+
+		case EVENT_TYPE::ACTIVATE_COMPONENT:
+		{
+			CComponent* pCom = (CComponent*)m_vecEvent[i].lParam;
+			pCom->active();
+		}
+		break;
+
+		case EVENT_TYPE::DEACTIVATE_COMOPNENT:
+		{
+			CComponent* pCom = (CComponent*)m_vecEvent[i].lParam;
+			pCom->deactive();
+		}
+		break;
+
 		}
 
 
