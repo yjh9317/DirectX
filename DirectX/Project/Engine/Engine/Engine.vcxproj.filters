@@ -127,9 +127,6 @@
     <ClInclude Include="CAnimation2D.h">
       <Filter>Engine\05. Component\05. Animator2D\Animation2D</Filter>
     </ClInclude>
-    <ClInclude Include="CScene.h">
-      <Filter>Engine\06. Scene\02. Layer</Filter>
-    </ClInclude>
     <ClInclude Include="CRenderComponent.h">
       <Filter>Engine\05. Component\RenderComponent%2808~12%29</Filter>
     </ClInclude>
@@ -150,6 +147,9 @@
     </ClInclude>
     <ClInclude Include="CParticleUpdateShader.h">
       <Filter>Engine\ShaderCode\ComputeShader\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene.h">
+      <Filter>Engine\06. Scene\01. Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

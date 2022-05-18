@@ -71,9 +71,6 @@ void CCore::progress()
 	// Scene Update
 	CSceneMgr::GetInst()->progress();
 
-	// Collision Check
-	CCollisionMgr::GetInst()->update();
-
 	// Render	
 	CRenderMgr::GetInst()->render();
 

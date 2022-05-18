@@ -117,14 +117,24 @@ void CSceneMgr::init()
 
 	// Particle Object 
 	CGameObject* pParticleObj = new CGameObject;
-	pParticleObj->SetName(L"ParticleObject");
+	pParticleObj->SetName(L"ParticleObject_01");
 
 	pParticleObj->AddComponent(new CTransform);
 	pParticleObj->AddComponent(new CParticleSystem);
 
 	pParticleObj->Transform()->SetRelativePos(0.f, 0.f, 500.f);
 
+	Ptr<CTexture> pParticleTex = CResMgr::GetInst()->Load<CTexture>(L"Particle_01", L"texture\\particle\\AlphaCircle.png");
+	pParticleObj->ParticleSystem()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, pParticleTex);
+
 	m_pCurScene->AddObject(pParticleObj, L"Default");
+
+
+	pParticleObj = pParticleObj->Clone();
+	pParticleObj->SetName(L"ParticleObject_02");
+	pParticleObj->Transform()->SetRelativePos(-500.f, 0.f, 500.f);
+	m_pCurScene->AddObject(pParticleObj, L"Default");
+
 
 
 
@@ -145,7 +155,8 @@ void CSceneMgr::init()
 	pPostProcess->Deactivate();
 
 
-	((CCameraMoveScript*)pCamObj->GetScript())->SetFilter(pPostProcess);
+	((CCameraMoveScript*)pCamObj->GetScript(0))->SetFilter(pPostProcess);
+	CCameraMoveScript* pCamMoveScript = pCamObj->GetScript<CCameraMoveScript>();
 
 
 	// 충돌 레이어 설정
@@ -156,9 +167,21 @@ void CSceneMgr::init()
 
 void CSceneMgr::progress()
 {
-	m_pCurScene->update();
-	m_pCurScene->lateupdate();
+	SCENE_STATE eState = m_pCurScene->GetSceneState();
+
+	if (SCENE_STATE::PLAY == eState)
+	{
+		m_pCurScene->update();
+		m_pCurScene->lateupdate();
+	}
+
 	m_pCurScene->finalupdate();
+
+	// Collision Check
+	if (SCENE_STATE::PLAY == eState)
+	{
+		CCollisionMgr::GetInst()->update();
+	}
 }
 
 

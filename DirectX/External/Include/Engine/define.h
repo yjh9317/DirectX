@@ -29,6 +29,13 @@ typedef Vector2 Vec2;
 typedef Vector3 Vec3;
 typedef Vector4 Vec4;
 
+enum class SCENE_STATE	// Scene 상태
+{
+	PLAY,
+	STOP,
+	PAUSE,
+};
+
 
 enum class RES_TYPE	//다른 리소르를 참조하는 리소스타입부터 상단에 적음. 순서대로 생성되고 삭제되기 때문
 {
@@ -125,10 +132,12 @@ enum class COMPONENT_TYPE
 	LANDSCAPE,		// 지형 렌더링
 	DECAL,			// 데칼 오브젝트
 
-	// Update
-	SCRIPT,			// 로직
+
 
 	END,
+
+	// Update
+	SCRIPT,			// 스크립트는 여러개를 가질 수 있도록 m_arrCom에서 관리하지않고 vector로 따리 관리한다.
 };
 
 enum class DIR_TYPE

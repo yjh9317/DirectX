@@ -118,31 +118,34 @@ void CCollider2D::render()
 // 그러므로 깊이판정 상관없이 무조건 그리기 위해 Depth Stencil에서 무조건 통과시키도록 한다.
 // 이 과정을 Shader에서 적용
 
+
 void CCollider2D::OnCollisionEnter(CCollider2D* _Other)
 {
 	++m_iCollisionCount;
-
 	// 스크립트에서 오브젝트의 상태를 조정하기 위해 스크립트에서 충돌체크
-	CScript* pScript = GetOwner()->GetScript();
-
-	if (nullptr != pScript)
-		pScript->OnCollisionEnter(_Other->GetOwner());
+	const vector<CScript*>& vecScript = GetOwner()->GetScripts();
+	for (size_t i = 0; i < vecScript.size(); ++i)
+	{
+		vecScript[i]->OnCollisionEnter(_Other->GetOwner());
+	}
 }
 
 void CCollider2D::OnCollision(CCollider2D* _Other)
 {
-	CScript* pScript = GetOwner()->GetScript();
-
-	if (nullptr != pScript)
-		pScript->OnCollision(_Other->GetOwner());
+	const vector<CScript*>& vecScript = GetOwner()->GetScripts();
+	for (size_t i = 0; i < vecScript.size(); ++i)
+	{
+		vecScript[i]->OnCollision(_Other->GetOwner());
+	}
 }
 
 void CCollider2D::OnCollisionExit(CCollider2D* _Other)
 {
 	--m_iCollisionCount;
 
-	CScript* pScript = GetOwner()->GetScript();
-
-	if (nullptr != pScript)
-		pScript->OnCollisionExit(_Other->GetOwner());
+	const vector<CScript*>& vecScript = GetOwner()->GetScripts();
+	for (size_t i = 0; i < vecScript.size(); ++i)
+	{
+		vecScript[i]->OnCollisionExit(_Other->GetOwner());
+	}
 }

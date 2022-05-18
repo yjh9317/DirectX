@@ -11,6 +11,7 @@ class CScene :
 {
 private:
     CLayer* m_arrLayer[MAX_LAYER];
+    SCENE_STATE     m_eSceneState;  //현재 Scene의 상태로 게임을 Play 혹은 Stop 할 수 있음.
 
 public:
     void start();
@@ -18,7 +19,6 @@ public:
     void lateupdate();
     void finalupdate();
 
-    void render();
 
 public:
     void SetLayerName(int _iLayerIdx, const wstring& _strName);
@@ -26,6 +26,8 @@ public:
     void AddObject(CGameObject* _pRootObj, int _iLayerIdx);   //Layer에 있는 vector[Idx]에 오브젝트를 추가
     CLayer* GetLayer(int _iIdx) { assert(!(_iIdx < 0 || MAX_LAYER <= _iIdx));  return m_arrLayer[_iIdx]; }
     CLayer* GetLayer(const wstring& _strLayerName);
+
+    SCENE_STATE GetSceneState() { return m_eSceneState; }
 
 private:
     int GetLayerIdxFromName(const wstring& _strName); //레이어의 인덱스를 가져온다

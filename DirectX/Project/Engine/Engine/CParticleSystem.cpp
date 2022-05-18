@@ -27,9 +27,6 @@ CParticleSystem::CParticleSystem()
 	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"PointMesh"));
 	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"ParticleRenderMtrl"));
 
-	Ptr<CTexture> pParticleTex = CResMgr::GetInst()->Load<CTexture>(L"Particle_01", L"texture\\particle\\AlphaCircle.png");
-	GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, pParticleTex);
-
 
 	m_CS = (CParticleUpdateShader*)CResMgr::GetInst()->FindRes<CComputeShader>(L"ParticleUpdateShader").Get();
 
@@ -44,8 +41,33 @@ CParticleSystem::CParticleSystem()
 
 CParticleSystem::CParticleSystem(const CParticleSystem& _origin)
 	: CRenderComponent(_origin)
+	, m_iMaxCount(_origin.m_iMaxCount)
+	, m_bPosInherit(_origin.m_bPosInherit)
+	, m_iAliveCount(_origin.m_iAliveCount)
+	, m_fAccTime(_origin.m_fAccTime)
+	, m_fMinLifeTime(_origin.m_fMinLifeTime)
+	, m_fMaxLifeTime(_origin.m_fMaxLifeTime)
+	, m_fStartSpeed(_origin.m_fStartSpeed)
+	, m_fEndSpeed(_origin.m_fEndSpeed)
+	, m_vStartColor(_origin.m_vStartColor)
+	, m_vEndColor(_origin.m_vEndColor)
+	, m_vStartScale(_origin.m_vStartScale)
+	, m_vEndScale(_origin.m_vEndScale)
+	, m_fParticleCreateDistance(_origin.m_fParticleCreateDistance)
+	, m_fParticleCreateTerm(_origin.m_fParticleCreateTerm)
 {
+	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"PointMesh"));
+	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"ParticleRenderMtrl"));
+
+	m_CS = (CParticleUpdateShader*)CResMgr::GetInst()->FindRes<CComputeShader>(L"ParticleUpdateShader").Get();
+
+	m_ParticleBuffer = new CStructuredBuffer();
+	m_ParticleBuffer->Create(sizeof(tParticle), m_iMaxCount, SB_TYPE::READ_WRITE, false, nullptr);
+
+	m_DataBuffer = new CStructuredBuffer;
+	m_DataBuffer->Create(sizeof(tParticleData), 1, SB_TYPE::READ_WRITE, true, nullptr);
 }
+
 
 CParticleSystem::~CParticleSystem()
 {

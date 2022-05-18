@@ -12,6 +12,8 @@
 #include "CCollider2D.h"
 #include "CRenderComponent.h"
 
+#include "CScript.h"
+
 CGameObject::CGameObject()
 	: m_arrCom{}
 	, m_pParent(nullptr)
@@ -39,6 +41,11 @@ CGameObject::CGameObject(const CGameObject& _origin)
 		}
 	}
 
+	for (size_t i = 0; i < m_vecScript.size(); ++i)
+	{
+		AddComponent(m_vecScript[i]->Clone());
+	}
+
 	for (size_t i = 0; i < _origin.m_vecChild.size(); ++i)
 	{
 		AddChild(_origin.m_vecChild[i]->Clone());
@@ -48,6 +55,7 @@ CGameObject::CGameObject(const CGameObject& _origin)
 CGameObject::~CGameObject()
 {
 	Safe_Del_Arr(m_arrCom);
+	Safe_Del_Vec(m_vecScript);
 	Safe_Del_Vec(m_vecChild);
 }
 
@@ -58,6 +66,12 @@ void CGameObject::start()
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->start();
 	}
+
+	for (size_t i = 0; i < m_vecScript.size(); ++i)
+	{
+		m_vecScript[i]->start();
+	}
+
 
 	for (size_t i = 0; i < m_vecChild.size(); ++i)
 	{
@@ -72,6 +86,14 @@ void CGameObject::update()
 		if (nullptr != m_arrCom[i] && m_arrCom[i]->IsActive())
 			m_arrCom[i]->update();
 	}
+
+	for (size_t i = 0; i < m_vecScript.size(); ++i)
+	{
+		if (m_vecScript[i]->IsActive())
+			m_vecScript[i]->update();
+	}
+
+
 
 	for (size_t i = 0; i < m_vecChild.size(); ++i)
 	{
@@ -88,6 +110,12 @@ void CGameObject::lateupdate()
 			m_arrCom[i]->lateupdate();
 	}
 
+	for (size_t i = 0; i < m_vecScript.size(); ++i)
+	{
+		if (m_vecScript[i]->IsActive())
+			m_vecScript[i]->lateupdate();
+	}
+
 	for (size_t i = 0; i < m_vecChild.size(); ++i)
 	{
 		if (m_vecChild[i]->IsActive())
@@ -95,8 +123,11 @@ void CGameObject::lateupdate()
 	}
 }
 
+
 void CGameObject::finalupdate()
 {
+	// finalupdate에서는 Script를 update하지 않는다.
+	
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
@@ -123,6 +154,24 @@ void CGameObject::render()
 		Collider2D()->render();
 }
 
+CScript* CGameObject::GetScript(UINT _iIdx)
+{
+	return m_vecScript[_iIdx];
+}
+
+CScript* CGameObject::GetScriptByName(const wstring& _strName)
+{
+	for (size_t i = 0; i < m_vecScript.size(); ++i)
+	{
+		if (m_vecScript[i]->GetName() == _strName)
+			return m_vecScript[i];
+	}
+
+	return nullptr;
+}
+
+
+
 void CGameObject::active()
 {
 	for (UINT i = 1; i < (UINT)COMPONENT_TYPE::END; ++i)
@@ -130,6 +179,14 @@ void CGameObject::active()
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->active();
 	}
+
+	for (size_t i = 1; i < m_vecScript.size(); ++i)
+	{
+		m_vecScript[i]->active();
+	}
+
+
+
 
 	for (size_t i = 0; i < m_vecChild.size(); ++i)
 	{
@@ -145,12 +202,16 @@ void CGameObject::deactive()
 			m_arrCom[i]->deactive();
 	}
 
+	for (size_t i = 1; i < m_vecScript.size(); ++i)
+	{
+		m_vecScript[i]->deactive();
+	}
+
 	for (size_t i = 0; i < m_vecChild.size(); ++i)
 	{
 		m_vecChild[i]->deactive();
 	}
 }
-
 void CGameObject::Deregister()
 {
 	if (-1 == m_iLayerIdx)
@@ -226,25 +287,32 @@ void CGameObject::AddComponent(CComponent* _component)
 {
 	COMPONENT_TYPE eType = _component->GetType();
 
-	assert(nullptr == m_arrCom[(UINT)eType]);
-
-	m_arrCom[(UINT)eType] = _component;
-	_component->m_pOwner = this;
-
-	// 렌더링 컴포넌트 타입을 다운캐스팅으로 저장
-	switch (_component->GetType())
+	if (COMPONENT_TYPE::SCRIPT != eType)	// 스크립트가 아니라면 m_arrCom에서 관리
 	{
-	case COMPONENT_TYPE::MESHRENDER:
-	case COMPONENT_TYPE::TILEMAP:
-	case COMPONENT_TYPE::PARTICLESYSTEM:
-	case COMPONENT_TYPE::LANDSCAPE:
-	case COMPONENT_TYPE::DECAL:
-	{
-		// 하나의 오브젝트에 Render 기능을 가진 컴포넌트는 2개이상 들어 올 수 없다.
-		assert(!m_pRenderComponent);
-		m_pRenderComponent = (CRenderComponent*)_component;
+		assert(nullptr == m_arrCom[(UINT)eType]);
+
+		m_arrCom[(UINT)eType] = _component;
+		_component->m_pOwner = this;
+
+		switch (_component->GetType())
+		{
+		case COMPONENT_TYPE::MESHRENDER:
+		case COMPONENT_TYPE::TILEMAP:
+		case COMPONENT_TYPE::PARTICLESYSTEM:
+		case COMPONENT_TYPE::LANDSCAPE:
+		case COMPONENT_TYPE::DECAL:
+		{
+			// 하나의 오브젝트에 Render 기능을 가진 컴포넌트는 2개이상 들어올 수 없다.
+			assert(!m_pRenderComponent);
+			m_pRenderComponent = (CRenderComponent*)_component;
+		}
 		break;
+		}
 	}
+	else	// 스크립트라면 m_vecScript에서 관리
+	{
+		m_vecScript.push_back((CScript*)_component);
+		_component->m_pOwner = this;
 	}
 }
 

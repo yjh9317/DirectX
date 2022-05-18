@@ -9,26 +9,25 @@ class CTransform;
 class CCollider2D;
 class CAnimator2D;
 class CCamera;
-class CScript;
 
 class CMeshRender;
 class CTileMap;
 class CParticleSystem;
-
+class CScript;
 class CRenderComponent;
 
 class CGameObject :
     public CEntity
 {
 private:
-    vector<CGameObject*>    m_vecChild;
-    CComponent*             m_arrCom[(UINT)COMPONENT_TYPE::END];
-    CRenderComponent*       m_pRenderComponent;
+    vector<CGameObject*>    m_vecChild;     //자식오브젝트
+    vector<CScript*>        m_vecScript;    // 스크립트를 관리하는 벡터
 
-    CGameObject* m_pParent;
+    CComponent*         m_arrCom[(UINT)COMPONENT_TYPE::END];
+    CRenderComponent*   m_pRenderComponent; 
 
+    CGameObject*            m_pParent;
     int                     m_iLayerIdx; // 게임 오브젝트 소속 레이어 인덱스
-
     bool                    m_bActive;
     bool                    m_bDead;
 
@@ -75,7 +74,13 @@ public:
 	GET_COMPONENT(TileMap, TILEMAP)
 	GET_COMPONENT(ParticleSystem, PARTICLESYSTEM)
 
-        CScript* GetScript() { return (CScript*)m_arrCom[(UINT)COMPONENT_TYPE::SCRIPT]; }
+
+    const vector<CScript*>& GetScripts() { return m_vecScript; }
+    CScript* GetScript(UINT _iIdx);                     //스크립트의 인덱스로 가져옴
+    CScript* GetScriptByName(const wstring& _strName);  //스크립트의 이름을 따로 설정하고 그 이름으로 찾는다
+
+    template<typename T>
+    T* GetScript(); 
 
 public:
     CLONE(CGameObject)
@@ -90,3 +95,18 @@ public:
     friend class CLayer;
 };
 
+template<typename T>
+inline T* CGameObject::GetScript()
+{
+    for (size_t i = 0; i < m_vecScript.size(); ++i)
+    {
+        // RTTI인 dynamic_cast로 찾을 경우, 만약 내가 찾고자 하는 스크립트 A와 A를 상속받는 스크립트 B가 있을 때
+        // B도 찾고자 하는 스크립트를 상속받았으므로 A가 아닌 B가 찾아와 질 수도 있다.
+        // 이 문제점은 Script에서 const int로 고유값을 받아 구분
+        T* pScript = dynamic_cast<T*>(m_vecScript[i]);
+        if (nullptr != pScript)
+            return pScript;
+    }
+
+    return nullptr;
+}

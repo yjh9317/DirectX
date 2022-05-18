@@ -94,7 +94,7 @@ void CCamera::finalupdate()
 
 	// 직교투영
 	if (PROJ_TYPE::ORTHOGRAPHIC == m_eProjType) {
-		// XMMatrixOrthographicLH는 직영 행렬, 윈도우의 가로,세로,z좌표 처음 ,z좌표 끝
+		// XMMatrixOrthographicLH는 직영 행렬, 윈도우의 가로,세로,z좌표 처음 ,z좌표 끝 , LH는 왼손좌표계 ,RH(OpenGL)은 오른손좌표계를 사용함.
 		float fHeight = m_fWidth / m_fAspectRatio; // 세로
 		m_matProj = XMMatrixOrthographicLH(m_fWidth, fHeight, 0.f, 5000.f);
 	}
