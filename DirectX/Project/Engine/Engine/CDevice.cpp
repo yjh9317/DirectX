@@ -78,13 +78,10 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 	}
 
 
-	// RenderTargetView, DepthStencilVeiw 전달
-	// Render 출력 버퍼 및 출력 깊이 버퍼 지정
-	Ptr<CTexture> pRTTex = CResMgr::GetInst()->FindRes<CTexture>(L"RenderTargetTex");
-	Ptr<CTexture> pDSTex = CResMgr::GetInst()->FindRes<CTexture>(L"DepthStencilTex");
-	
-	m_pDeviceContext->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(),pDSTex->GetDSV().Get());
 
+	// RenderTargetView, DepthStencilView 전달
+	// Render 시 출력 버퍼 및 깊이버퍼 지정
+	SetRenderTarget();
 
 
 	// ViewPort
@@ -133,7 +130,13 @@ int CDevice::init(HWND _hWnd, Vec2 _vRenderResolution)
 	return S_OK;
 }
 
+void CDevice::SetRenderTarget()
+{
+	Ptr<CTexture> pRTTex = CResMgr::GetInst()->FindRes<CTexture>(L"RenderTargetTex");
+	Ptr<CTexture> pDSTex = CResMgr::GetInst()->FindRes<CTexture>(L"DepthStencilTex");
 
+	m_pDeviceContext->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(), pDSTex->GetDSV().Get());
+}
 
 
 int CDevice::CreateSwapchain()

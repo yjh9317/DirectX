@@ -38,6 +38,11 @@ void CRenderMgr::render()
 	pGlobalCB->UpdateData_CS();
 
 	// Rendering 시작
+	// ImGui가 윈도우창 밖으로 나가면 RenderTarget이 새로운 윈도우로 이동하면서 현재 윈도우에 화면이 들어오지 않는다.
+	// 이유는 Device가 초기화하면서 OMsetRenderTarget으로 현재 윈도우에 화면을 출력했었는데 ImGui의 새로운 윈도우쪽의 렌더타겟이 생성되면서 그쪽에다가 render하기 때문
+	
+	// 그래서 render전에 SetRenderTarget으로 Engine Device의 RenderTarget으로 설정해야 Engine device의 RenderTarget에 들어옴
+	CDevice::GetInst()->SetRenderTarget();
 	CDevice::GetInst()->ClearTarget();
 
 	// 메인 카메라 시점으로 렌더링
@@ -81,10 +86,6 @@ void CRenderMgr::render()
 		// Alpha 물체 렌더링
 		m_vecCam[i]->render_translucent();
 	}
-
-
-
-	CDevice::GetInst()->Present();
 }
 
 void CRenderMgr::RegisterCamera(CCamera* _pCam)
