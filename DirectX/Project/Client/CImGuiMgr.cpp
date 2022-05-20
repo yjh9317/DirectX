@@ -1,11 +1,27 @@
 #include "pch.h"
 #include "CImGuiMgr.h"
 
+#include <Engine/CDevice.h>
+#include <Engine/CGameObject.h>
+#include <Engine/CSceneMgr.h>
+
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "ImGui/imgui_impl_dx11.h"
 
-#include <Engine/CDevice.h>
+#include "UI.h"
+
+
+CImGuiMgr::CImGuiMgr()
+{
+
+}
+
+CImGuiMgr::~CImGuiMgr()
+{
+    Safe_Del_Map(m_mapUI);
+}
+
 
 void CImGuiMgr::init(HWND _hwnd)
 {
@@ -40,6 +56,9 @@ void CImGuiMgr::init(HWND _hwnd)
     // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(_hwnd);            // Engine의 윈도우에 init
     ImGui_ImplDX11_Init(DEVICE, CONTEXT);   // Engine의 Device,context에 init
+
+    // 기본 UI 들 생성
+    CreateUI();
 }
 
 void CImGuiMgr::progress()
@@ -49,14 +68,27 @@ void CImGuiMgr::progress()
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
-    // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
+    // UI Update
+    for (auto& pair : m_mapUI)
+    {
+        pair.second->update();
+    }
+
+    // UI Render
+    for (auto& pair : m_mapUI)
+    {
+        pair.second->render();
+    }
+
     bool bOpen = true;
-    ImGui::ShowDemoWindow(&bOpen);    
+    ImGui::ShowDemoWindow(&bOpen);
 }
+
 
 void CImGuiMgr::render()
 {
     // Rendering
+    // UI 클래스에서 update_render한 정보들로 Render
     ImGui::Render();   
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());    //ImGui가 윈도우 창 안에 있을때
 
@@ -79,6 +111,26 @@ void CImGuiMgr::clear()
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
+}
+
+
+#include "TransformUI.h"
+#include "MeshRenderUI.h"
+
+void CImGuiMgr::CreateUI()
+{
+    CGameObject* pTargetObj = CSceneMgr::GetInst()->FindObjectByName(L"Background");
+
+    ComponentUI* pUI = nullptr;
+
+    // ComponentUI 생성    
+    pUI = new TransformUI;
+    pUI->SetTargetObject(pTargetObj);
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    pUI = new MeshRenderUI;
+    pUI->SetTargetObject(pTargetObj);
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 }
 
 

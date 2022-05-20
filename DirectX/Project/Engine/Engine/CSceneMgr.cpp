@@ -225,3 +225,39 @@ void CSceneMgr::ClearLayer()
 		m_pCurScene->GetLayer(i)->Clear();
 	}
 }
+
+CGameObject* CSceneMgr::FindObjectByName(const wstring& _strName)
+{
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		CLayer* pLayer = m_pCurScene->GetLayer(i);
+		const vector<CGameObject*>& vecObj = pLayer->GetObjects();
+
+		for (size_t j = 0; j < vecObj.size(); ++j)
+		{
+			if (_strName == vecObj[j]->GetName())
+			{
+				return vecObj[j];
+			}
+		}
+	}
+
+	return nullptr;
+}
+
+void CSceneMgr::FindObjectsByName(wstring& _strName, vector<CGameObject*>& _vecOut)
+{
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		CLayer* pLayer = m_pCurScene->GetLayer(i);
+		const vector<CGameObject*>& vecObj = pLayer->GetObjects();
+
+		for (size_t j = 0; j < vecObj.size(); ++j)
+		{
+			if (_strName == vecObj[j]->GetName())
+			{
+				_vecOut.push_back(vecObj[j]);
+			}
+		}
+	}
+}
