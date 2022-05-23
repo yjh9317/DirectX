@@ -25,3 +25,15 @@ void ComponentUI::update()
 	CComponent* pComponent = m_pTargetObject->GetComponent(m_eComType);
 	m_bActive = pComponent->IsActive();
 }
+
+void ComponentUI::render_update()
+{
+	ImGui::PushID(0);
+	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.f, 0.8f, 0.8f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.f, 0.8f, 0.8f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.f, 0.8f, 0.8f));
+	ImGui::Button(ToString(m_eComType));	// Component 타입을 전역 배열로 만들어서 인덱스에 따른 문자열을 받아서 사용한다.
+	ImGui::PopStyleColor(3);
+	ImGui::PopID();
+	// 전역배열로 받아 사용하기 때문에 ComponentUI의 자식클래스에서는 부모쪽(ComponentUI)의 render_update를 호출만 해주면 세팅이 된다.
+}

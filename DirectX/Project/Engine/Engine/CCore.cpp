@@ -53,6 +53,8 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 
 void CCore::Frame_Init()
 {
+	CSceneMgr::GetInst()->ClearLayer();	//맨처음에 clear해주고 마지막엔 clear하지 않으므로 다른 프로젝트인 UI에서도 접근가능
+
 	CTimeMgr::GetInst()->update();
 	CKeyMgr::GetInst()->update();
 	CRenderMgr::GetInst()->ClearCamera();
@@ -60,7 +62,7 @@ void CCore::Frame_Init()
 
 void CCore::Frame_Clear()
 {
-	CSceneMgr::GetInst()->ClearLayer();
+
 }
 
 void CCore::progress()

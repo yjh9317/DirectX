@@ -56,6 +56,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return 0;
     }
 
+    CCore::GetInst()->progress();
+
+
     // ImGui 초기화
     CImGuiMgr::GetInst()->init(g_hWnd); // 윈도우 핸들을 보내서 받은 윈도우 화면에 출력
 

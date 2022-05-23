@@ -288,6 +288,7 @@
     <ClCompile Include="CRenderMgr_init.cpp">
       <Filter>Engine\03. Manager\02. RenderMgr</Filter>
     </ClCompile>
+    <ClCompile Include="func.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -304,9 +305,6 @@
     </Filter>
     <Filter Include="Engine\03. Manager">
       <UniqueIdentifier>{7cc4d22b-c86f-42d3-b7a1-778170f5814e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\04. GameObject">
-      <UniqueIdentifier>{3d1d8700-1602-48b9-a2a4-a10159f29c0e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\05. Component">
       <UniqueIdentifier>{8c8cfa51-d3e3-4355-be70-5324dfb87810}</UniqueIdentifier>
@@ -460,6 +458,9 @@
     </Filter>
     <Filter Include="Engine\Scripts\CameraMoveScript">
       <UniqueIdentifier>{8f4a3cc4-13d9-495c-bd9b-c748f1185139}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. GameObject">
+      <UniqueIdentifier>{3d1d8700-1602-48b9-a2a4-a10159f29c0e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

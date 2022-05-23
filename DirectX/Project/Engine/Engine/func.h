@@ -42,3 +42,9 @@ void Safe_Del_Arr(T(&_Arr)[_iSize])
 		SAFE_DELETE(_Arr[i]);
 	}
 }
+
+
+const wchar_t* ToWString(COMPONENT_TYPE _type);
+const char* ToString(COMPONENT_TYPE _type);
+const wchar_t* ToWString(RES_TYPE _type);
+const char* ToString(RES_TYPE _type);

@@ -1,11 +1,13 @@
 #include "pch.h"
 #include "TransformUI.h"
 
+
 #include <Engine/CTransform.h>
 
 TransformUI::TransformUI()
 	: ComponentUI("Transform", COMPONENT_TYPE::TRANSFORM)
 {
+	SetSize(Vec2(0.f, 200.f));
 }
 
 TransformUI::~TransformUI()
@@ -29,11 +31,31 @@ void TransformUI::update()
 
 void TransformUI::render_update()
 {
-	ImGui::PushID(0);
-	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.f, 0.8f, 0.8f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.f, 0.8f, 0.8f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.f, 0.8f, 0.8f));
-	ImGui::Button("TRANSFORM");
-	ImGui::PopStyleColor(3);
-	ImGui::PopID();
+	ComponentUI::render_update();
+
+	CGameObject* pTargetObject = GetTargetObject();
+	CTransform* pTrans = pTargetObject->Transform();
+	Vec3 vPos = pTrans->GetRelativePos();
+	Vec3 vScale = pTrans->GetRelativeScale();
+	Vec3 vRot = pTrans->GetRelativeRotation();
+
+
+	ImGui::PushItemWidth(200); // Float3 위젯 간격 설정
+
+	ImGui::Text("Relative Position");
+	ImGui::SameLine();
+	ImGui::InputFloat3("##Position", vPos);
+	pTrans->SetRelativePos(vPos);
+
+	ImGui::Text("Relative Scale   ");
+	ImGui::SameLine();
+	ImGui::InputFloat3("##Scale", vScale);
+	pTrans->SetRelativeScale(vScale);
+
+	ImGui::Text("Relative Rotation");
+	ImGui::SameLine();
+	ImGui::InputFloat3("##Rotation", vRot);
+	pTrans->SetRelativeRotation(vRot);
+
+
 }

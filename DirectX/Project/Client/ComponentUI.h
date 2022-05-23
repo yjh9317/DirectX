@@ -20,7 +20,7 @@ protected:
 
 public:
     virtual void update() override;
-
+    virtual void render_update() override;
 
 public:
     ComponentUI(const string& _strName, COMPONENT_TYPE _eComType);  // 컴포넌트를 UI로 만들 때 Name(키값)과 타입을 넣어줘야 한다.

@@ -99,7 +99,7 @@ void CSceneMgr::init()
 
 	// Plane Object
 	CGameObject* pObject = new CGameObject;
-	pObject->SetName(L"Plane");
+	pObject->SetName(L"Background");
 
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
