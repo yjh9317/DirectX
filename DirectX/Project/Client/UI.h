@@ -8,7 +8,7 @@ class UI
 private:
 	const string	m_strName;		// UI는 각자 Name을 받아 이름이자 키값으로 사용
 	vector<UI*>		m_vecChildUI;
-	UI* m_pParentUI;
+	UI*				m_pParentUI;
 
 	Vec2			m_vSize;
 	bool			m_bOpen;

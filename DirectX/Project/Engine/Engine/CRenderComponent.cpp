@@ -17,11 +17,7 @@ CRenderComponent::CRenderComponent(const CRenderComponent& _origin)
 	, m_pSharedMtrl(_origin.m_pMtrl)
 	, m_pDynamicMtrl(nullptr)
 {
-	if (nullptr == _origin.m_pDynamicMtrl)
-	{
-		GetDynamicMaterial();
-	}
-	else if (nullptr != m_pSharedMtrl)
+	if (nullptr != _origin.m_pSharedMtrl)
 	{
 		SetSharedMaterial(m_pSharedMtrl);
 	}
@@ -49,10 +45,19 @@ Ptr<CMaterial> CRenderComponent::GetSharedMaterial()
 
 Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
 {
-	// 공유 매터리얼을 클론해서 동적 매터리얼로 사용 (자기만의 전용 매터리얼로 사용)
-	if (nullptr == m_pDynamicMtrl)
+	// A라는 재질의 동적재질을 만들어서 사용하다가 B라는 재질로 바꾸고 동적재질을 만들면
+	// 사용하는 동적재질이 공유재질과 달라지게 된다. 그렇기 때문에 동적재질의 마스터재질과 비교.
+
+	if (m_pDynamicMtrl->GetMasterMtrl() != m_pSharedMtrl)	// 동적 재질의 원본과 공유 재질이 다르다면
 	{
-		m_pDynamicMtrl = m_pSharedMtrl->Clone();
+		CMaterial* pMtrl = m_pDynamicMtrl.Get();
+		m_pDynamicMtrl = nullptr;
+		delete pMtrl;
+	}
+
+	if (nullptr == m_pDynamicMtrl)// 공유 재질을 클론해서 동적 재질로 사용 (자기만의 전용 매터리얼로 사용)
+	{
+		m_pDynamicMtrl = m_pSharedMtrl->GetMtrlInst();
 	}
 
 	m_pMtrl = m_pDynamicMtrl;

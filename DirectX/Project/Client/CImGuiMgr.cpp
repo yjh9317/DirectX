@@ -115,28 +115,14 @@ void CImGuiMgr::clear()
 
 
 #include "InspectorUI.h"
-#include "TransformUI.h"
-#include "MeshRenderUI.h"
 
 void CImGuiMgr::CreateUI()
 {
     CGameObject* pTargetObj = CSceneMgr::GetInst()->FindObjectByName(L"Background");
 
-
-
     // InspectorUI 持失
-    UI* pUI = new InspectorUI;
-
-    // ComponentUI 持失   
-    ComponentUI* pComUI = nullptr;
-
-    pComUI = new TransformUI;
-    pComUI->SetTargetObject(pTargetObj);
-    pUI->AddChild(pComUI);
-
-    pComUI = new MeshRenderUI;
-    pComUI->SetTargetObject(pTargetObj);
-    pUI->AddChild(pComUI);
+    InspectorUI* pUI = new InspectorUI;
+    pUI->SetTargetObject(pTargetObj);
 
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 }

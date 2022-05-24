@@ -36,4 +36,23 @@ void ComponentUI::render_update()
 	ImGui::PopStyleColor(3);
 	ImGui::PopID();
 	// 전역배열로 받아 사용하기 때문에 ComponentUI의 자식클래스에서는 부모쪽(ComponentUI)의 render_update를 호출만 해주면 세팅이 된다.
+
+
+	// Component 활성화 체크
+	CComponent* pComponent = m_pTargetObject->GetComponent(m_eComType);
+
+	if (pComponent->GetType() != COMPONENT_TYPE::TRANSFORM)	//Transform은 항상 Active상태여야 하므로 제외
+	{
+		bool IsActive = pComponent->IsActive();
+		ImGui::SameLine();
+		ImGui::Checkbox("##ComponentActive", &IsActive);
+
+		if (pComponent->IsActive() != IsActive)
+		{
+			if (IsActive)
+				pComponent->Activate();
+			else
+				pComponent->Deactivate();
+		}
+	}
 }

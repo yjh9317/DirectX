@@ -16,6 +16,8 @@ private:
     vector<tScalarParamInfo>    m_vecScalarParamInfo;
     vector<tTexParamInfo>       m_vecTexParamInfo;
 
+    CMaterial*                  m_pMasterMtrl; // 마스터 매터리얼,원본
+
 public:
     void SetShader(Ptr<CGraphicsShader> _pShader);
     Ptr<CGraphicsShader> GetShader() { return m_pShader; }
@@ -27,6 +29,9 @@ public:
     void SetTexParam(const wstring& _strParamName, Ptr<CTexture> _pTex);
 
     void UpdateData();
+
+    CMaterial* GetMtrlInst();
+    CMaterial* GetMasterMtrl() { return m_pMasterMtrl; }
 
 public:
     virtual int Load(const wstring& _strFilePath) override { return S_OK; }

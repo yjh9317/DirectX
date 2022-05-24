@@ -244,6 +244,8 @@ namespace DirectX
             Vector3(Vector3&&) = default;
             Vector3& operator=(Vector3&&) = default;
 
+            void ToRadian();
+            void ToDegree();
 
             Vector2 XY() { return Vector2(x, y); }
             operator XMVECTOR() const { return XMLoadFloat3(this); }

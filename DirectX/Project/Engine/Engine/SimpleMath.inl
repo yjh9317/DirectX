@@ -980,6 +980,24 @@ inline void Vector3::Normalize(Vector3& result) const
     XMStoreFloat3(&result, X);
 }
 
+inline void Vector3::ToDegree()
+{
+    using namespace DirectX;
+
+    x = (x / XM_PI) * 180.f;
+    y = (y / XM_PI) * 180.f;
+    z = (z / XM_PI) * 180.f;
+}
+
+inline void Vector3::ToRadian()
+{
+    using namespace DirectX;
+
+    x = (x / 180.f) * XM_PI;
+    y = (y / 180.f) * XM_PI;
+    z = (z / 180.f) * XM_PI;
+}
+
 inline void Vector3::Clamp(const Vector3& vmin, const Vector3& vmax)
 {
     using namespace DirectX;

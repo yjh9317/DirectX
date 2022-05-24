@@ -148,9 +148,9 @@ inline RECT Rectangle::Union(const RECT& rcta, const RECT& rctb)
  *
  ****************************************************************************/
 
-//------------------------------------------------------------------------------
-// Comparision operators
-//------------------------------------------------------------------------------
+ //------------------------------------------------------------------------------
+ // Comparision operators
+ //------------------------------------------------------------------------------
 
 inline bool Vector2::operator == (const Vector2& V) const
 {
@@ -185,14 +185,14 @@ inline Vector2& Vector2::operator+= (const Vector2& V)
 
 inline Vector2& Vector2::operator+= (float _f)
 {
-	using namespace DirectX;
-	XMFLOAT2 add(_f, _f);
+    using namespace DirectX;
+    XMFLOAT2 add(_f, _f);
 
-	XMVECTOR v1 = XMLoadFloat2(this);		
-	XMVECTOR v2 = XMLoadFloat2(&add);
-	XMVECTOR X = XMVectorAdd(v1, v2);
-	XMStoreFloat2(this, X);
-	return *this;
+    XMVECTOR v1 = XMLoadFloat2(this);
+    XMVECTOR v2 = XMLoadFloat2(&add);
+    XMVECTOR X = XMVectorAdd(v1, v2);
+    XMStoreFloat2(this, X);
+    return *this;
 }
 
 inline Vector2& Vector2::operator-= (const Vector2& V)
@@ -499,7 +499,7 @@ inline void Vector2::SmoothStep(const Vector2& v1, const Vector2& v2, float t, V
 {
     using namespace DirectX;
     t = (t > 1.0f) ? 1.0f : ((t < 0.0f) ? 0.0f : t);  // Clamp value to 0 to 1
-    t = t * t*(3.f - 2.f*t);
+    t = t * t * (3.f - 2.f * t);
     XMVECTOR x1 = XMLoadFloat2(&v1);
     XMVECTOR x2 = XMLoadFloat2(&v2);
     XMVECTOR X = XMVectorLerp(x1, x2, t);
@@ -510,7 +510,7 @@ inline Vector2 Vector2::SmoothStep(const Vector2& v1, const Vector2& v2, float t
 {
     using namespace DirectX;
     t = (t > 1.0f) ? 1.0f : ((t < 0.0f) ? 0.0f : t);  // Clamp value to 0 to 1
-    t = t * t*(3.f - 2.f*t);
+    t = t * t * (3.f - 2.f * t);
     XMVECTOR x1 = XMLoadFloat2(&v1);
     XMVECTOR x2 = XMLoadFloat2(&v2);
     XMVECTOR X = XMVectorLerp(x1, x2, t);
@@ -738,9 +738,9 @@ inline void Vector2::TransformNormal(const Vector2* varray, size_t count, const 
  *
  ****************************************************************************/
 
-//------------------------------------------------------------------------------
-// Comparision operators
-//------------------------------------------------------------------------------
+ //------------------------------------------------------------------------------
+ // Comparision operators
+ //------------------------------------------------------------------------------
 
 inline bool Vector3::operator == (const Vector3& V) const
 {
@@ -957,7 +957,7 @@ inline Vector3& Vector3::Normalize()
     XMVECTOR v1 = XMLoadFloat3(this);
     XMVECTOR X = XMVector3Normalize(v1);
     XMStoreFloat3(this, X);
-	return *this;
+    return *this;
 }
 
 inline void Vector3::Normalize(Vector3& result) const
@@ -966,6 +966,25 @@ inline void Vector3::Normalize(Vector3& result) const
     XMVECTOR v1 = XMLoadFloat3(this);
     XMVECTOR X = XMVector3Normalize(v1);
     XMStoreFloat3(&result, X);
+}
+
+
+inline void Vector3::ToDegree()
+{
+    using namespace DirectX;
+
+    x = (x / XM_PI) * 180.f;
+    y = (y / XM_PI) * 180.f;
+    z = (z / XM_PI) * 180.f;
+}
+
+inline void Vector3::ToRadian()
+{
+    using namespace DirectX;
+
+    x = (x / 180.f) * XM_PI;
+    y = (y / 180.f) * XM_PI;
+    z = (z / 180.f) * XM_PI;
 }
 
 inline void Vector3::Clamp(const Vector3& vmin, const Vector3& vmax)
@@ -1079,7 +1098,7 @@ inline void Vector3::SmoothStep(const Vector3& v1, const Vector3& v2, float t, V
 {
     using namespace DirectX;
     t = (t > 1.0f) ? 1.0f : ((t < 0.0f) ? 0.0f : t);  // Clamp value to 0 to 1
-    t = t * t*(3.f - 2.f*t);
+    t = t * t * (3.f - 2.f * t);
     XMVECTOR x1 = XMLoadFloat3(&v1);
     XMVECTOR x2 = XMLoadFloat3(&v2);
     XMVECTOR X = XMVectorLerp(x1, x2, t);
@@ -1090,7 +1109,7 @@ inline Vector3 Vector3::SmoothStep(const Vector3& v1, const Vector3& v2, float t
 {
     using namespace DirectX;
     t = (t > 1.0f) ? 1.0f : ((t < 0.0f) ? 0.0f : t);  // Clamp value to 0 to 1
-    t = t * t*(3.f - 2.f*t);
+    t = t * t * (3.f - 2.f * t);
     XMVECTOR x1 = XMLoadFloat3(&v1);
     XMVECTOR x2 = XMLoadFloat3(&v2);
     XMVECTOR X = XMVectorLerp(x1, x2, t);
@@ -1318,9 +1337,9 @@ inline void Vector3::TransformNormal(const Vector3* varray, size_t count, const 
  *
  ****************************************************************************/
 
-//------------------------------------------------------------------------------
-// Comparision operators
-//------------------------------------------------------------------------------
+ //------------------------------------------------------------------------------
+ // Comparision operators
+ //------------------------------------------------------------------------------
 
 
 
@@ -1662,7 +1681,7 @@ inline void Vector4::SmoothStep(const Vector4& v1, const Vector4& v2, float t, V
 {
     using namespace DirectX;
     t = (t > 1.0f) ? 1.0f : ((t < 0.0f) ? 0.0f : t);  // Clamp value to 0 to 1
-    t = t * t*(3.f - 2.f*t);
+    t = t * t * (3.f - 2.f * t);
     XMVECTOR x1 = XMLoadFloat4(&v1);
     XMVECTOR x2 = XMLoadFloat4(&v2);
     XMVECTOR X = XMVectorLerp(x1, x2, t);
@@ -1673,7 +1692,7 @@ inline Vector4 Vector4::SmoothStep(const Vector4& v1, const Vector4& v2, float t
 {
     using namespace DirectX;
     t = (t > 1.0f) ? 1.0f : ((t < 0.0f) ? 0.0f : t);  // Clamp value to 0 to 1
-    t = t * t*(3.f - 2.f*t);
+    t = t * t * (3.f - 2.f * t);
     XMVECTOR x1 = XMLoadFloat4(&v1);
     XMVECTOR x2 = XMLoadFloat4(&v2);
     XMVECTOR X = XMVectorLerp(x1, x2, t);
@@ -1903,9 +1922,9 @@ inline void Vector4::Transform(const Vector4* varray, size_t count, const Matrix
  *
  ****************************************************************************/
 
-//------------------------------------------------------------------------------
-// Comparision operators
-//------------------------------------------------------------------------------
+ //------------------------------------------------------------------------------
+ // Comparision operators
+ //------------------------------------------------------------------------------
 
 inline bool Matrix::operator == (const Matrix& M) const
 {
@@ -1921,9 +1940,9 @@ inline bool Matrix::operator == (const Matrix& M) const
     XMVECTOR y4 = XMLoadFloat4(reinterpret_cast<const XMFLOAT4*>(&M._41));
 
     return (XMVector4Equal(x1, y1)
-            && XMVector4Equal(x2, y2)
-            && XMVector4Equal(x3, y3)
-            && XMVector4Equal(x4, y4)) != 0;
+        && XMVector4Equal(x2, y2)
+        && XMVector4Equal(x3, y3)
+        && XMVector4Equal(x4, y4)) != 0;
 }
 
 inline bool Matrix::operator != (const Matrix& M) const
@@ -1940,9 +1959,9 @@ inline bool Matrix::operator != (const Matrix& M) const
     XMVECTOR y4 = XMLoadFloat4(reinterpret_cast<const XMFLOAT4*>(&M._41));
 
     return (XMVector4NotEqual(x1, y1)
-            || XMVector4NotEqual(x2, y2)
-            || XMVector4NotEqual(x3, y3)
-            || XMVector4NotEqual(x4, y4)) != 0;
+        || XMVector4NotEqual(x2, y2)
+        || XMVector4NotEqual(x3, y3)
+        || XMVector4NotEqual(x4, y4)) != 0;
 }
 
 //------------------------------------------------------------------------------
@@ -2406,7 +2425,7 @@ inline Matrix Matrix::CreateBillboard(const Vector3& object, const Vector3& came
 
 _Use_decl_annotations_
 inline Matrix Matrix::CreateConstrainedBillboard(const Vector3& object, const Vector3& cameraPosition, const Vector3& rotateAxis,
-                                                 const Vector3* cameraForward, const Vector3* objectForward)
+    const Vector3* cameraForward, const Vector3* objectForward)
 {
     using namespace DirectX;
 
@@ -2871,9 +2890,9 @@ inline Plane Plane::Transform(const Plane& plane, const Quaternion& rotation)
  *
  ****************************************************************************/
 
-//------------------------------------------------------------------------------
-// Comparision operators
-//------------------------------------------------------------------------------
+ //------------------------------------------------------------------------------
+ // Comparision operators
+ //------------------------------------------------------------------------------
 
 inline bool Quaternion::operator == (const Quaternion& q) const
 {
@@ -3536,9 +3555,9 @@ inline Color Color::Lerp(const Color& c1, const Color& c2, float t)
  *
  ****************************************************************************/
 
-//-----------------------------------------------------------------------------
-// Comparision operators
-//------------------------------------------------------------------------------
+ //-----------------------------------------------------------------------------
+ // Comparision operators
+ //------------------------------------------------------------------------------
 inline bool Ray::operator == (const Ray& r) const
 {
     using namespace DirectX;
@@ -3620,22 +3639,22 @@ inline bool Ray::Intersects(const Plane& plane, _Out_ float& Dist) const
  *
  ****************************************************************************/
 
-//------------------------------------------------------------------------------
-// Comparision operators
-//------------------------------------------------------------------------------
+ //------------------------------------------------------------------------------
+ // Comparision operators
+ //------------------------------------------------------------------------------
 
 inline bool Viewport::operator == (const Viewport& vp) const
 {
     return (x == vp.x && y == vp.y
-            && width == vp.width && height == vp.height
-            && minDepth == vp.minDepth && maxDepth == vp.maxDepth);
+        && width == vp.width && height == vp.height
+        && minDepth == vp.minDepth && maxDepth == vp.maxDepth);
 }
 
 inline bool Viewport::operator != (const Viewport& vp) const
 {
     return (x != vp.x || y != vp.y
-            || width != vp.width || height != vp.height
-            || minDepth != vp.minDepth || maxDepth != vp.maxDepth);
+        || width != vp.width || height != vp.height
+        || minDepth != vp.minDepth || maxDepth != vp.maxDepth);
 }
 
 //------------------------------------------------------------------------------

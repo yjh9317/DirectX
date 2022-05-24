@@ -9,6 +9,7 @@
 CMaterial::CMaterial()
 	: m_pShader(nullptr)
 	, m_arrTex{}
+	, m_pMasterMtrl(nullptr)
 {
 }
 
@@ -45,6 +46,14 @@ void CMaterial::UpdateData()
 		m_pShader->UpdateData();
 	}
 }
+
+CMaterial* CMaterial::GetMtrlInst()
+{
+	CMaterial* pCloneMtrl = Clone();
+	pCloneMtrl->m_pMasterMtrl = this;
+	return pCloneMtrl;
+}
+
 
 void CMaterial::SetShader(Ptr<CGraphicsShader> _pShader)
 {
