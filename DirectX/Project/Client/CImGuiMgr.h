@@ -17,5 +17,7 @@ public:
 
 private:
 	void CreateUI();
+public:
+	UI* FindUI(const string& _strKey);
 };
 

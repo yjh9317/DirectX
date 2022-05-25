@@ -115,6 +115,7 @@ void CImGuiMgr::clear()
 
 
 #include "InspectorUI.h"
+#include "ListUI.h"
 
 void CImGuiMgr::CreateUI()
 {
@@ -125,6 +126,23 @@ void CImGuiMgr::CreateUI()
     pUI->SetTargetObject(pTargetObj);
 
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    // ListUI »ý¼º
+    ListUI* pListUI = new ListUI;
+    pListUI->SetTitle("Mesh List");
+    m_mapUI.insert(make_pair(pListUI->GetName(), pListUI));
+}
+
+UI* CImGuiMgr::FindUI(const string& _strKey)
+{
+    map<string, UI*>::iterator iter = m_mapUI.find(_strKey);
+
+    if (m_mapUI.end() == iter)
+    {
+        return nullptr;
+    }
+
+    return iter->second;
 }
 
 

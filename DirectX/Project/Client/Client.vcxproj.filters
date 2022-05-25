@@ -44,6 +44,9 @@
     <ClCompile Include="MeshRenderUI.cpp">
       <Filter>ImGui\UI\InspectorUI\ComponentUI\07. MeshRenderUI</Filter>
     </ClCompile>
+    <ClCompile Include="ListUI.cpp">
+      <Filter>ImGui\UI\ListUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -103,6 +106,9 @@
     <ClInclude Include="MeshRenderUI.h">
       <Filter>ImGui\UI\InspectorUI\ComponentUI\07. MeshRenderUI</Filter>
     </ClInclude>
+    <ClInclude Include="ListUI.h">
+      <Filter>ImGui\UI\ListUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="39Engine.ico">
@@ -139,6 +145,9 @@
     </Filter>
     <Filter Include="ImGui\UI\InspectorUI\ComponentUI\07. MeshRenderUI">
       <UniqueIdentifier>{2d8b81af-89f6-4637-b09f-9246d35d4a82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\UI\ListUI">
+      <UniqueIdentifier>{0c602229-65f0-441e-91c0-c20cc6d4a56e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
