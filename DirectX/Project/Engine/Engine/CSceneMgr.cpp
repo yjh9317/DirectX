@@ -86,6 +86,7 @@ void CSceneMgr::init()
 
 	// Camera Object Ãß°¡
 	CGameObject* pCamObj = new CGameObject;
+	pCamObj->SetName(L"MainCamera");
 	pCamObj->AddComponent(new CTransform);
 	pCamObj->AddComponent(new CCamera);
 	pCamObj->AddComponent(new CCameraMoveScript);

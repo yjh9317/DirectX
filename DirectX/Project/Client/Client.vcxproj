@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CameraUI.h" />
     <ClInclude Include="CImGuiMgr.h" />
     <ClInclude Include="ComponentUI.h" />
     <ClInclude Include="ImGui\imconfig.h" />
@@ -178,6 +179,7 @@
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CameraUI.cpp" />
     <ClCompile Include="CImGuiMgr.cpp" />
     <ClCompile Include="ComponentUI.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />

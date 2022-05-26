@@ -13,7 +13,8 @@ private:
 
 	Vec2			m_vPos;
 	Vec2			m_vSize;
-	bool			m_bOpen;
+	bool			m_bOpen;	// 창이 열리는지
+	bool			m_bModal;	// 모달 체크
 
 public:
 	const string& GetName() { return m_strName; }
@@ -24,6 +25,9 @@ public:
 
 	void SetTitle(const string& _strTitle) { m_strTitle = _strTitle; }
 	const string& GetTitle() { return m_strTitle; }
+
+	void SetModalUI(bool _bTrue) { m_bModal = _bTrue; }
+	bool IsModal() { return m_bModal; }
 
 	void AddChild(UI* _pChildUI)
 	{

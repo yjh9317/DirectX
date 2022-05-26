@@ -47,6 +47,9 @@
     <ClCompile Include="ListUI.cpp">
       <Filter>ImGui\UI\ListUI</Filter>
     </ClCompile>
+    <ClCompile Include="CameraUI.cpp">
+      <Filter>ImGui\UI\InspectorUI\ComponentUI\02. CameraUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -109,6 +112,9 @@
     <ClInclude Include="ListUI.h">
       <Filter>ImGui\UI\ListUI</Filter>
     </ClInclude>
+    <ClInclude Include="CameraUI.h">
+      <Filter>ImGui\UI\InspectorUI\ComponentUI\02. CameraUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="39Engine.ico">
@@ -148,6 +154,9 @@
     </Filter>
     <Filter Include="ImGui\UI\ListUI">
       <UniqueIdentifier>{0c602229-65f0-441e-91c0-c20cc6d4a56e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\UI\InspectorUI\ComponentUI\02. CameraUI">
+      <UniqueIdentifier>{d5f640af-c25b-49b7-81e2-26298a0f1980}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

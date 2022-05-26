@@ -974,23 +974,8 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   {
   };
   
-  CCamera.cpp
-  CCameraMoveScript.cpp
-  CCollider2D.cpp
-  CCollisionMgr.cpp
-  CCore.cpp
-  CDevice.cpp
-  CGameObject.cpp
-  CMissileScript.cpp
-  CParticleSystem.cpp
-  CPlayerScript.cpp
-  CRenderMgr.cpp
-  CRenderMgr_init.cpp
-  CResMgr.cpp
-  CResMgr_init.cpp
+  CRenderComponent.cpp
   CSceneMgr.cpp
-  CScript.cpp
-  CTileMap.cpp
   코드를 생성하고 있습니다...
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
   .\Project\Engine\Engine\CAnimation2D.h

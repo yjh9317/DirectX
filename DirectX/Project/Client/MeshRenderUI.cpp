@@ -36,11 +36,11 @@ void MeshRenderUI::render_update()
 	Ptr<CMesh> pMesh = pMeshRender->GetMesh();
 	Ptr<CMaterial> pMtrl = pMeshRender->GetMaterial();
 
-	string strMeshName = string(pMesh->GetKey().begin(), pMesh->GetKey().end()); // string 생성자는 2바이트를 1바이트로 바꿔주는 생성자가 있다.
+	string strMeshName = string(pMesh->GetKey().begin(), pMesh->GetKey().end());	// string 생성자는 2바이트를 1바이트로 바꿔주는 생성자가 있다.
 	string strMtrlName = string(pMtrl->GetKey().begin(), pMtrl->GetKey().end());
 
 	ImGui::Text("Mesh");
-	ImGui::SameLine(86.f); 	//SameLine(숫자)를 통해 숫자만큼의 간격을 맞춰줄수있음.
+	ImGui::SameLine(86.f);	//SameLine(숫자)를 통해 숫자만큼의 간격을 맞춰줄수있음.
 	ImGui::InputText("##MeshName", (char*)strMeshName.c_str(), strMeshName.capacity(), ImGuiInputTextFlags_ReadOnly);
 	ImGui::SameLine();
 	if (ImGui::Button("##MeshListBtn", Vec2(15, 15)))
@@ -57,6 +57,7 @@ void MeshRenderUI::render_update()
 		}
 
 		pListUI->Activate();
+		pListUI->SetDBCEvent(this, (DBCLKED)&MeshRenderUI::MeshSelect);
 	}
 
 
@@ -78,7 +79,33 @@ void MeshRenderUI::render_update()
 		}
 
 		pListUI->Activate();
+		pListUI->SetDBCEvent(this, (DBCLKED)&MeshRenderUI::MtrlSelect);
 	}
+}
+
+void MeshRenderUI::MeshSelect(DWORD_PTR _param)	// 더블클릭할때 들어오는 이벤트 함수포인터
+{
+	string strSelectedName = (char*)_param;
+	wstring strMeshKey = wstring(strSelectedName.begin(), strSelectedName.end());
+
+	Ptr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>(strMeshKey);
+	assert(pMesh.Get());
+
+	CMeshRender* pMeshRender = GetTargetObject()->MeshRender();
+	pMeshRender->SetMesh(pMesh);
+}
+
+
+void MeshRenderUI::MtrlSelect(DWORD_PTR _param)
+{
+	string strSelectedName = (char*)_param;	// 문자열(char*)로 받아서 string(1Byte)에 저장
+	wstring strMtrlKey = wstring(strSelectedName.begin(), strSelectedName.end()); // 1Byte 문자열을 2Byte 문자열로 변환
+
+	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(strMtrlKey);	// 리소스 찾기
+	assert(pMtrl.Get());
+
+	CMeshRender* pMeshRender = GetTargetObject()->MeshRender();
+	pMeshRender->SetSharedMaterial(pMtrl);
 }
 
 

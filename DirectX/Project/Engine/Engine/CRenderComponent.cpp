@@ -48,7 +48,7 @@ Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
 	// A라는 재질의 동적재질을 만들어서 사용하다가 B라는 재질로 바꾸고 동적재질을 만들면
 	// 사용하는 동적재질이 공유재질과 달라지게 된다. 그렇기 때문에 동적재질의 마스터재질과 비교.
 
-	if (m_pDynamicMtrl->GetMasterMtrl() != m_pSharedMtrl)	// 동적 재질의 원본과 공유 재질이 다르다면
+	if (nullptr != m_pDynamicMtrl && m_pDynamicMtrl->GetMasterMtrl() != m_pSharedMtrl)	// 동적 재질의 원본과 공유 재질이 다르다면
 	{
 		CMaterial* pMtrl = m_pDynamicMtrl.Get();
 		m_pDynamicMtrl = nullptr;

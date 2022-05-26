@@ -12,6 +12,10 @@ public:
     virtual void render_update() override;
 
 public:
+    void MeshSelect(DWORD_PTR _param);
+    void MtrlSelect(DWORD_PTR _param);
+
+public:
     MeshRenderUI();
     ~MeshRenderUI();
 };

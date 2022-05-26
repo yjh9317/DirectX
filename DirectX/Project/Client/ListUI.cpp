@@ -3,8 +3,11 @@
 
 ListUI::ListUI()
     : UI("##ListUI")
+    , m_Inst(nullptr)
+    , m_DBCEvent(nullptr)
 {
     SetPos(Vec2(800.f, 300.f));
+    SetSize(Vec2(500.f, 600.f));
 }
 
 ListUI::~ListUI()
@@ -29,6 +32,17 @@ void ListUI::render_update()
             if (ImGui::Selectable(m_vecList[i].c_str(), is_selected))
             {
                 item_current_idx = i;
+            }
+
+            // 리스트의 아이템의 더블클릭 확인
+            if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
+            {
+                Deactivate();
+
+                if (nullptr != m_Inst && nullptr != m_DBCEvent)
+                {
+                    (m_Inst->*m_DBCEvent)((DWORD_PTR)m_vecList[i].c_str());
+                }
             }
 
             // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)

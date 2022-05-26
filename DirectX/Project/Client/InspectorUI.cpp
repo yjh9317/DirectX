@@ -5,7 +5,7 @@
 
 #include "TransformUI.h"
 #include "MeshRenderUI.h"
-
+#include "CameraUI.h"
 
 InspectorUI::InspectorUI()
 	: UI("Inspector")
@@ -21,6 +21,10 @@ InspectorUI::InspectorUI()
 	pComUI = new MeshRenderUI;
 	AddChild(pComUI);
 	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER] = pComUI;
+
+	pComUI = new CameraUI;
+	AddChild(pComUI);
+	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA] = pComUI;
 }
 
 InspectorUI::~InspectorUI()

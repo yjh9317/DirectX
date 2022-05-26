@@ -12,6 +12,7 @@
 #include "UI.h"
 
 
+
 CImGuiMgr::CImGuiMgr()
 {
 
@@ -21,7 +22,6 @@ CImGuiMgr::~CImGuiMgr()
 {
     Safe_Del_Map(m_mapUI);
 }
-
 
 void CImGuiMgr::init(HWND _hwnd)
 {
@@ -54,8 +54,9 @@ void CImGuiMgr::init(HWND _hwnd)
     }
 
     // Setup Platform/Renderer backends
-    ImGui_ImplWin32_Init(_hwnd);            // Engine의 윈도우에 init
-    ImGui_ImplDX11_Init(DEVICE, CONTEXT);   // Engine의 Device,context에 init
+    ImGui_ImplWin32_Init(_hwnd);             // Engine의 윈도우에 init
+    ImGui_ImplDX11_Init(DEVICE, CONTEXT);    // Engine의 Device,context에 init
+
 
     // 기본 UI 들 생성
     CreateUI();
@@ -84,12 +85,11 @@ void CImGuiMgr::progress()
     ImGui::ShowDemoWindow(&bOpen);
 }
 
-
 void CImGuiMgr::render()
 {
     // Rendering
     // UI 클래스에서 update_render한 정보들로 Render
-    ImGui::Render();   
+    ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());    //ImGui가 윈도우 창 안에 있을때
 
     // Update and Render additional Platform Windows
@@ -113,13 +113,12 @@ void CImGuiMgr::clear()
     ImGui::DestroyContext();
 }
 
-
 #include "InspectorUI.h"
 #include "ListUI.h"
 
 void CImGuiMgr::CreateUI()
 {
-    CGameObject* pTargetObj = CSceneMgr::GetInst()->FindObjectByName(L"Background");
+    CGameObject* pTargetObj = CSceneMgr::GetInst()->FindObjectByName(L"MainCamera");
 
     // InspectorUI 생성
     InspectorUI* pUI = new InspectorUI;
@@ -129,7 +128,8 @@ void CImGuiMgr::CreateUI()
 
     // ListUI 생성
     ListUI* pListUI = new ListUI;
-    pListUI->SetTitle("Mesh List");
+    pListUI->Deactivate();
+    pListUI->SetModalUI(true);
     m_mapUI.insert(make_pair(pListUI->GetName(), pListUI));
 }
 
