@@ -974,7 +974,9 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   {
   };
   
-  CRenderComponent.cpp
+  CCamera.cpp
+  CCameraMoveScript.cpp
+  CRenderMgr.cpp
   CSceneMgr.cpp
   코드를 생성하고 있습니다...
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib

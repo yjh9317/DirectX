@@ -115,6 +115,7 @@ void CImGuiMgr::clear()
 
 #include "InspectorUI.h"
 #include "ListUI.h"
+#include "ResourceUI.h"
 
 void CImGuiMgr::CreateUI()
 {
@@ -123,8 +124,12 @@ void CImGuiMgr::CreateUI()
     // InspectorUI 持失
     InspectorUI* pUI = new InspectorUI;
     pUI->SetTargetObject(pTargetObj);
-
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    // ResourceUI 持失
+    ResourceUI* pResUI = new ResourceUI;
+    m_mapUI.insert(make_pair(pResUI->GetName(), pResUI));
+
 
     // ListUI 持失
     ListUI* pListUI = new ListUI;
