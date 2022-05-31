@@ -19,6 +19,7 @@ private:
 public:
 	const string& GetName() { return m_strName; }
 	void SetSize(Vec2 _vSize) { m_vSize = _vSize; }
+	Vec2 GetSize() { return m_vSize; }
 
 	void SetPos(Vec2 _vPos) { m_vPos = _vPos; }
 	Vec2 GetPos() { return m_vPos; }
@@ -28,6 +29,9 @@ public:
 
 	void SetModalUI(bool _bTrue) { m_bModal = _bTrue; }
 	bool IsModal() { return m_bModal; }
+
+	UI* GetParentUI() { return m_pParentUI; }
+
 
 	void AddChild(UI* _pChildUI)
 	{
@@ -42,7 +46,7 @@ public:
 
 
 public:
-	virtual void update() = 0;
+	virtual void update();
 	void render();
 	virtual void render_update() = 0;
 

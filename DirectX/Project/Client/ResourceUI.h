@@ -14,6 +14,9 @@ public:
     virtual void render_update() override;
 
 public:
+    void Reset();
+
+public:
     ResourceUI();
     ~ResourceUI();
 };

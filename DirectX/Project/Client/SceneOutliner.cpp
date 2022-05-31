@@ -6,7 +6,7 @@
 SceneOutliner::SceneOutliner()
 	: UI("SceneOutliner")
 {
-	m_TreeUI = new TreeUI;					 // 생성자에서 트리UI 생성
+	m_TreeUI = new TreeUI(true);					 // 생성자에서 트리UI 생성
 	m_TreeUI->SetTitle("SceneOutliner");	 // 트리UI의 타이틀
 	AddChild(m_TreeUI);						 // SceneOutlinerUI의 TreeUI
 }

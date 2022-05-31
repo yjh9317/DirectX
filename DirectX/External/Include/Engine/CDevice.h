@@ -10,7 +10,7 @@ private:
 	HWND							m_hWnd; // Main Window Handle
 	Vec2							m_vRenderResolution; // 렌더링 해상도
 
-	//ID3D11Device*	m_pDevice;
+
 	ComPtr<ID3D11Device>			m_pDevice;			// GPU 메모리 제어
 	ComPtr<ID3D11DeviceContext>		m_pDeviceContext;	// GPU Rendering 제어
 
@@ -30,13 +30,10 @@ private:
 	ComPtr<ID3D11BlendState>		m_arrBS[(UINT)BS_TYPE::END];
 
 
-	CConstBuffer* m_arrCB[(UINT)CB_TYPE::END];
-
-
-
-
+	CConstBuffer*					m_arrCB[(UINT)CB_TYPE::END];
 
 	ComPtr<ID3D11SamplerState>		m_arrSam[2];
+
 
 public:
 	int init(HWND _hWnd, Vec2 _vRenderResolution);

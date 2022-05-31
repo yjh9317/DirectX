@@ -16,6 +16,14 @@ UI::~UI()
 	Safe_Del_Vec(m_vecChildUI);
 }
 
+void UI::update()
+{
+	for (size_t i = 0; i < m_vecChildUI.size(); ++i)
+	{
+		m_vecChildUI[i]->update();
+	}
+}
+
 void UI::render()
 {
 	if (!(m_vPos.x == 0.f && m_vPos.y == 0.f) && m_bOpen)
