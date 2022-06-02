@@ -16,6 +16,9 @@ public:
 public:
     void Reset();
 
+private:
+    void ItemClicked(DWORD_PTR _dwNode);
+
 public:
     ResourceUI();
     ~ResourceUI();

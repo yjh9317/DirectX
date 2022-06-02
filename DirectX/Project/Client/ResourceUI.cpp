@@ -12,6 +12,9 @@ ResourceUI::ResourceUI()
 	m_TreeUI->SetTitle("Resource");
 	AddChild(m_TreeUI);
 
+	// Clicked Delegate µî·Ï
+	m_TreeUI->SetClickedDelegate(this, (CLICKED)&ResourceUI::ItemClicked);
+
 	Reset();
 }
 
@@ -46,5 +49,13 @@ void ResourceUI::Reset()
 			m_TreeUI->AddTreeNode(pResNode, string(pair.first.begin(), pair.first.end()), (DWORD_PTR)pair.second);
 		}
 	}
+}
+
+void ResourceUI::ItemClicked(DWORD_PTR _dwNode)
+{
+	TreeNode* pNode = (TreeNode*)_dwNode;
+
+	string strKey = pNode->GetName();
+	CRes* pResouce = (CRes*)pNode->GetData();
 }
 

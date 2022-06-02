@@ -59,6 +59,12 @@
     <ClCompile Include="SceneOutliner.cpp">
       <Filter>ImGui\UI\03. SceneOutliner</Filter>
     </ClCompile>
+    <ClCompile Include="ResInfoUI.cpp">
+      <Filter>ImGui\UI\01. InspectorUI\ResInfoUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureUI.cpp">
+      <Filter>ImGui\UI\01. InspectorUI\ResInfoUI\TextureUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -132,6 +138,12 @@
     </ClInclude>
     <ClInclude Include="SceneOutliner.h">
       <Filter>ImGui\UI\03. SceneOutliner</Filter>
+    </ClInclude>
+    <ClInclude Include="ResInfoUI.h">
+      <Filter>ImGui\UI\01. InspectorUI\ResInfoUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureUI.h">
+      <Filter>ImGui\UI\01. InspectorUI\ResInfoUI\TextureUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +226,12 @@
     </Filter>
     <Filter Include="ImGui\UI\01. InspectorUI\ComponentUI\08. MeshRenderUI">
       <UniqueIdentifier>{2d8b81af-89f6-4637-b09f-9246d35d4a82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\UI\01. InspectorUI\ResInfoUI">
+      <UniqueIdentifier>{0bc6d11d-c4d6-4ccb-a463-dc11a0c7292d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\UI\01. InspectorUI\ResInfoUI\TextureUI">
+      <UniqueIdentifier>{8c6fe4c3-664a-4458-85d7-1396e2a6ee58}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

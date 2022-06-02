@@ -6,12 +6,14 @@ class TreeUI;
 class TreeNode
 {
 private:
-    TreeNode* m_pParent;
-    vector<TreeNode*>   m_vecChild;
-    bool                m_bLeaf;
+    TreeUI*             m_pTreeUI;      // 이 TreeNode를 관리하는 UI
+    TreeNode*           m_pParent;      // 부모노드
+    vector<TreeNode*>   m_vecChild;     // 자식노드
+    bool                m_bLeaf;        // 단말노드
+    bool                m_bSelected;    // 선택(클릭)되면 표시
 
-    string              m_strName;
-    DWORD_PTR           m_dwData;
+    string              m_strName;      // 이름
+    DWORD_PTR           m_dwData;       // 포인터를 받을 8바이트 정수 
 
 
 public:
@@ -26,6 +28,7 @@ public:
         m_bLeaf = false;
     }
 
+    const string& GetName() { return m_strName; }
     DWORD_PTR GetData() { return m_dwData; }
 
 
@@ -38,7 +41,8 @@ public:
 };
 
 
-
+typedef void(UI::* CLICKED)(DWORD_PTR);                 //클릭 Delegate
+typedef void(UI::* DRAG_DROP)(DWORD_PTR, DWORD_PTR);    //더블클릭 Delegate
 
 
 class TreeUI :
@@ -46,8 +50,22 @@ class TreeUI :
 {
 private:
     TreeNode* m_pRootNode;
-    const bool  m_bUseDummyRoot;
-    bool        m_bShowDummy;
+    TreeNode* m_pSelectedNode;          //이전에 선택된 노드
+
+    const bool  m_bUseDummyRoot;        // 더미노드
+    bool        m_bShowDummy;           // 더미가 보일지 체크
+
+    // Clicked Delegate
+    UI* m_pCInst;
+    CLICKED     m_CFunc;
+
+    // Double Clicked
+    UI* m_pDBCInst;
+    CLICKED     m_DBCFunc;
+
+    // Drag And Drop
+    UI* m_pDADInst;
+    DRAG_DROP   m_DADFunc;
 
 public:
     virtual void update() override;
@@ -57,9 +75,18 @@ public:
     void ShowDummyRoot(bool _bTrue) { m_bShowDummy = _bTrue; }
     TreeNode* AddTreeNode(TreeNode* _pParentNode, const string& _strName, DWORD_PTR _dwData = 0);
 
+    void SetClickedDelegate(UI* _pInst, CLICKED _Func) { m_pCInst = _pInst; m_CFunc = _Func; }      
+    void SetDoubleClickedDelegate(UI* _pInst, CLICKED _Func) { m_pDBCInst = _pInst; m_DBCFunc = _Func; }
+    void SetDragAndDropDelegate(UI* _pInst, DRAG_DROP _Func) { m_pDADInst = _pInst; m_DADFunc = _Func; }
+
+private:
+    void SetSelectedNode(TreeNode* _pNode);
+
 
 public:
     TreeUI(bool _bDummyRoot);
     ~TreeUI();
+
+    friend class TreeNode;
 };
 

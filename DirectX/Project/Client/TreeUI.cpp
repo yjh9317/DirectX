@@ -6,14 +6,16 @@
 // TreeNode
 // ========
 TreeNode::TreeNode()
-	: m_pParent(nullptr)
+	: m_pTreeUI(nullptr)
+	, m_pParent(nullptr)
 	, m_bLeaf(true)
 	, m_dwData(0)
 {
 }
 
 TreeNode::TreeNode(const string& _strName, DWORD_PTR _dwData)
-	: m_pParent(nullptr)
+	: m_pTreeUI(nullptr)
+	, m_pParent(nullptr)
 	, m_bLeaf(true)
 	, m_strName(_strName)
 	, m_dwData(_dwData)
@@ -44,12 +46,19 @@ void TreeNode::render_update()
 	ImGuiTreeNodeFlags eFlag = ImGuiTreeNodeFlags_None;
 
 	if (m_bLeaf)
-		eFlag |= ImGuiTreeNodeFlags_Leaf;
-	if (nullptr == m_pParent || m_pParent->m_strName == "DummyRoot")
+		eFlag |= ImGuiTreeNodeFlags_Leaf;	//단말노드
+	if (nullptr == m_pParent || m_pParent->m_strName == "DummyRoot")	// 부모노드이면서 DummyRoot
 		eFlag |= ImGuiTreeNodeFlags_Framed;
+	if (m_bSelected)	//선택되면
+		eFlag |= ImGuiTreeNodeFlags_Selected;
 
 	if (ImGui::TreeNodeEx(m_strName.c_str(), eFlag))
 	{
+		if (ImGui::IsItemClicked())
+		{
+			m_pTreeUI->SetSelectedNode(this);
+		}
+
 		for (size_t i = 0; i < m_vecChild.size(); ++i)
 		{
 			m_vecChild[i]->render_update();
@@ -61,12 +70,14 @@ void TreeNode::render_update()
 
 
 
+
 // ======
 // TreeUI
 // ======
 TreeUI::TreeUI(bool _bDummyRoot)
 	: UI("##TreeUI")
 	, m_pRootNode(nullptr)
+	, m_pSelectedNode(nullptr)
 	, m_bUseDummyRoot(_bDummyRoot)
 	, m_bShowDummy(false)
 {
@@ -87,7 +98,9 @@ void TreeUI::update()
 		return;
 
 	// 트리UI 가 부착된 부모 UI 의 사이즈를 받아온다.
-	SetSize(GetParentUI()->GetSize());
+	Vec2 vSize = GetParentUI()->GetSize();
+	vSize.y -= 39.f;
+	SetSize(vSize);
 
 	m_pRootNode->update();
 
@@ -122,6 +135,7 @@ void TreeUI::render_update()
 TreeNode* TreeUI::AddTreeNode(TreeNode* _pParentNode, const string& _strName, DWORD_PTR _dwData)
 {
 	TreeNode* pNewNode = new TreeNode(_strName, _dwData);
+	pNewNode->m_pTreeUI = this;
 
 	// 부모를 지정함
 	if (nullptr != _pParentNode)
@@ -143,3 +157,21 @@ TreeNode* TreeUI::AddTreeNode(TreeNode* _pParentNode, const string& _strName, DW
 	return pNewNode;
 }
 
+
+void TreeUI::SetSelectedNode(TreeNode* _pNode)
+{
+	if (nullptr != m_pSelectedNode)
+	{
+		m_pSelectedNode->m_bSelected = false;
+	}
+
+	m_pSelectedNode = _pNode;
+	m_pSelectedNode->m_bSelected = true;
+
+
+	// 델리게이트 호출
+	if (nullptr != m_pCInst && nullptr != m_CFunc)
+	{
+		(m_pCInst->*m_CFunc)((DWORD_PTR)m_pSelectedNode);
+	}
+}
