@@ -4,12 +4,14 @@
 #include "CGameObject.h"
 
 CPrefab::CPrefab()
-    : m_pProtoObj(nullptr)
+    : CRes(RES_TYPE::PREFAB)
+    , m_pProtoObj(nullptr)
 {
 }
 
 CPrefab::CPrefab(CGameObject* _pProtoObj)
-    : m_pProtoObj(_pProtoObj)
+    : CRes(RES_TYPE::PREFAB)
+    , m_pProtoObj(_pProtoObj)
 {
 }
 

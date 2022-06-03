@@ -7,6 +7,7 @@ class CRes :
     public CEntity
 {
 private:
+    const RES_TYPE      m_eResType;
     wstring     m_strKey;
     wstring     m_strRelativePath;
     UINT        m_iRefCount;
@@ -21,7 +22,7 @@ protected:
 public:
     const wstring& GetKey() { return m_strKey; }
     const wstring& GetRelativePath() { return m_strRelativePath; }
-
+    RES_TYPE GetResType() { return m_eResType; }
     bool IsEngineRes() { return m_bEngineRes; }
 
 protected:    
@@ -33,7 +34,7 @@ private:
     void SubRef()   {   --m_iRefCount;  }
 
 public:
-    CRes();
+    CRes(RES_TYPE _eType);
     virtual ~CRes();
 
     friend class CResMgr;

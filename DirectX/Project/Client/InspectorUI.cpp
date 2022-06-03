@@ -7,6 +7,9 @@
 #include "MeshRenderUI.h"
 #include "CameraUI.h"
 
+#include "MaterialUI.h"
+#include "TextureUI.h"
+
 InspectorUI::InspectorUI()
 	: UI("Inspector")
 	, m_arrComUI{}
@@ -25,10 +28,42 @@ InspectorUI::InspectorUI()
 	pComUI = new CameraUI;
 	AddChild(pComUI);
 	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA] = pComUI;
+
+	// ==============
+	// ResInfoUI 생성
+	// ==============
+	ResInfoUI* pResInfoUI = nullptr;
+
+	// MaterialUI
+	pResInfoUI = new MaterialUI;
+	AddChild(pResInfoUI);
+	m_arrResUI[(UINT)RES_TYPE::MATERIAL] = pResInfoUI;
+
+	// TextureUI
+	pResInfoUI = new TextureUI;
+	AddChild(pResInfoUI);
+	m_arrResUI[(UINT)RES_TYPE::TEXTURE] = pResInfoUI;
 }
 
 InspectorUI::~InspectorUI()
 {
+}
+
+void InspectorUI::update()
+{
+	if (KEY_TAP(KEY::I))
+	{
+		if (IsActive())
+			Deactivate();
+		else
+			Activate();
+	}
+}
+
+
+void InspectorUI::render_update()
+{
+
 }
 
 void InspectorUI::SetTargetObject(CGameObject* _pTarget)
@@ -50,20 +85,40 @@ void InspectorUI::SetTargetObject(CGameObject* _pTarget)
 			}
 		}
 	}
-}
 
-void InspectorUI::update()
-{
-	if (KEY_TAP(KEY::I))
+	// ResInfoUI 비활성화
+	for (int i = 0; i < (int)RES_TYPE::END; ++i)
 	{
-		if (IsActive())
-			Deactivate();
-		else
-			Activate();
+		if (nullptr != m_arrResUI[i] && m_arrResUI[i]->IsActive())
+			m_arrResUI[i]->Deactivate();
 	}
 }
 
-void InspectorUI::render_update()
+void InspectorUI::SetTargetResource(CRes* _pTargetRes)
 {
+	// ComponentUI 전부 비활성화
+	for (int i = 0; i < (int)COMPONENT_TYPE::END; ++i)
+	{
+		if (nullptr != m_arrComUI[i] && m_arrComUI[i]->IsActive())
+			m_arrComUI[i]->Deactivate();
+	}
+
+	// 활성화 시킬 RES_TYPE 을 알아냄
+	RES_TYPE type = _pTargetRes->GetResType();
+
+	// 해당 리소스 ResInfoUI 활성화
+	for (int i = 0; i < (int)RES_TYPE::END; ++i)
+	{
+		if (nullptr != m_arrResUI[(int)i])
+		{
+			if (i == (int)type)
+			{
+				m_arrResUI[i]->Activate();
+				m_arrResUI[i]->SetTargetRes(_pTargetRes);
+			}
+			else
+				m_arrResUI[i]->Deactivate();
+		}
+	}
 
 }

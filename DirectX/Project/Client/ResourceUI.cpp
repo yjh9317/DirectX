@@ -3,6 +3,8 @@
 
 #include <Engine/CResMgr.h>
 
+#include "CImGuiMgr.h"
+#include "InspectorUI.h"
 #include "TreeUI.h"
 
 ResourceUI::ResourceUI()
@@ -56,6 +58,14 @@ void ResourceUI::ItemClicked(DWORD_PTR _dwNode)
 	TreeNode* pNode = (TreeNode*)_dwNode;
 
 	string strKey = pNode->GetName();
-	CRes* pResouce = (CRes*)pNode->GetData();
+	CRes* pResource = (CRes*)pNode->GetData();
+
+	// 프레임 노드가 눌렸다면 아무일도 없다.
+	if (nullptr == pResource)
+		return;
+
+	// InspectorUI 를 얻어옴
+	InspectorUI* pInspectorUI = (InspectorUI*)CImGuiMgr::GetInst()->FindUI("Inspector");
+	pInspectorUI->SetTargetResource(pResource);
 }
 

@@ -10,7 +10,7 @@
 #include "ImGui/imgui_impl_dx11.h"
 
 #include "UI.h"
-
+#include "ParamUI.h"
 
 
 CImGuiMgr::CImGuiMgr()
@@ -68,6 +68,9 @@ void CImGuiMgr::progress()
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
+
+    // Param Init
+    ParamUI::KeyCount = 0;
 
     // UI Update
     for (auto& pair : m_mapUI)

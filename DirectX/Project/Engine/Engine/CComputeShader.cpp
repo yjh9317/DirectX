@@ -17,7 +17,8 @@ UINT g_iFlag = 0;
 
 
 CComputeShader::CComputeShader(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ)
-	: m_iGroupX(0)
+	: CShader(RES_TYPE::COMPUTE_SHADER)
+	, m_iGroupX(0)
 	, m_iGroupY(0)
 	, m_iGroupZ(0)
 	, m_iGroupPerThreadCountX(_iGroupPerThreadX)

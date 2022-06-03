@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "CShader.h"
 
-CShader::CShader()
+CShader::CShader(RES_TYPE _eType)
+	: CRes(_eType)
 {
 }
 

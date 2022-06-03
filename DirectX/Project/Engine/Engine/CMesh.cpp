@@ -5,7 +5,8 @@
 
 
 CMesh::CMesh()
-	: m_tVBDesc{}
+	: CRes(RES_TYPE::MESH)
+	, m_tVBDesc{}
 	, m_tIBDesc{}
 	, m_iVtxCount(0)
 	, m_iIdxCount(0)
@@ -13,6 +14,7 @@ CMesh::CMesh()
 	, m_pIdxSys(nullptr)
 {
 }
+
 
 CMesh::~CMesh()
 {

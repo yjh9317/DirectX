@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "CRes.h"
 
-CRes::CRes()
+CRes::CRes(RES_TYPE _eType)
+    : m_eResType(_eType)
 {
 }
 

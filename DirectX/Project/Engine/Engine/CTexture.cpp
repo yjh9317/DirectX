@@ -4,9 +4,10 @@
 #include "CDevice.h"
 
 CTexture::CTexture()
+    : CRes(RES_TYPE::TEXTURE)
 {
-
 }
+
 
 CTexture::~CTexture()
 {

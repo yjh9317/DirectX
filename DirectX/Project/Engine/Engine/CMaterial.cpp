@@ -7,7 +7,8 @@
 
 
 CMaterial::CMaterial()
-	: m_pShader(nullptr)
+	: CRes(RES_TYPE::MATERIAL)
+	, m_pShader(nullptr)
 	, m_arrTex{}
 	, m_pMasterMtrl(nullptr)
 {
@@ -147,3 +148,61 @@ void CMaterial::SetTexParam(const wstring& _strParamName, Ptr<CTexture> _pTex)
 	}
 }
 
+
+void* CMaterial::GetScalarParam(SCALAR_PARAM _eType)
+{
+	switch (_eType)
+	{
+	case SCALAR_PARAM::INT_0:
+	case SCALAR_PARAM::INT_1:
+	case SCALAR_PARAM::INT_2:
+	case SCALAR_PARAM::INT_3:
+		return &m_Param.iArr[(UINT)_eType - (UINT)SCALAR_PARAM::INT_0];
+		break;
+	case SCALAR_PARAM::FLOAT_0:
+	case SCALAR_PARAM::FLOAT_1:
+	case SCALAR_PARAM::FLOAT_2:
+	case SCALAR_PARAM::FLOAT_3:
+		return &m_Param.fArr[(UINT)_eType - (UINT)SCALAR_PARAM::FLOAT_0];
+		break;
+	case SCALAR_PARAM::VEC2_0:
+	case SCALAR_PARAM::VEC2_1:
+	case SCALAR_PARAM::VEC2_2:
+	case SCALAR_PARAM::VEC2_3:
+		return &m_Param.v2Arr[(UINT)_eType - (UINT)SCALAR_PARAM::VEC2_0];
+		break;
+	case SCALAR_PARAM::VEC4_0:
+	case SCALAR_PARAM::VEC4_1:
+	case SCALAR_PARAM::VEC4_2:
+	case SCALAR_PARAM::VEC4_3:
+		return &m_Param.v4Arr[(UINT)_eType - (UINT)SCALAR_PARAM::VEC4_0];
+		break;
+	case SCALAR_PARAM::MAT_0:
+	case SCALAR_PARAM::MAT_1:
+	case SCALAR_PARAM::MAT_2:
+	case SCALAR_PARAM::MAT_3:
+		return &m_Param.matArr[(UINT)_eType - (UINT)SCALAR_PARAM::MAT_0];
+		break;
+	}
+}
+
+Ptr<CTexture> CMaterial::GetTexParam(TEX_PARAM _eType)
+{
+	switch (_eType)
+	{
+	case TEX_PARAM::TEX_0:
+	case TEX_PARAM::TEX_1:
+	case TEX_PARAM::TEX_2:
+	case TEX_PARAM::TEX_3:
+	case TEX_PARAM::TEX_4:
+	case TEX_PARAM::TEX_5:
+	case TEX_PARAM::TEX_CUBE_0:
+	case TEX_PARAM::TEX_CUBE_1:
+	case TEX_PARAM::TEX_ARR_0:
+	case TEX_PARAM::TEX_ARR_1:
+		return m_arrTex[(UINT)_eType];
+		break;
+	}
+
+	return nullptr;
+}

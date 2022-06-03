@@ -13,7 +13,7 @@ public:
     virtual int Load(const wstring& _strFilePath) { return S_OK; };
 
 public:
-    CShader();
+    CShader(RES_TYPE _eType);
     ~CShader();
 };
 

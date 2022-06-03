@@ -171,7 +171,9 @@
     <ClInclude Include="ListUI.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="MaterialUI.h" />
     <ClInclude Include="MeshRenderUI.h" />
+    <ClInclude Include="ParamUI.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ResInfoUI.h" />
     <ClInclude Include="Resource.h" />
@@ -197,7 +199,9 @@
     <ClCompile Include="InspectorUI.cpp" />
     <ClCompile Include="ListUI.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MaterialUI.cpp" />
     <ClCompile Include="MeshRenderUI.cpp" />
+    <ClCompile Include="ParamUI.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

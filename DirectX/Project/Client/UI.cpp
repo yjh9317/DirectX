@@ -93,10 +93,6 @@ void UI::render()
 		{
 			ImGui::BeginChild(m_strName.c_str(), m_vSize);
 
-			// 사이즈 재확인
-			ImVec2 vSize = ImGui::GetWindowSize();
-			m_vSize.x = vSize.x;
-			m_vSize.y = vSize.y;
 
 			render_update();
 

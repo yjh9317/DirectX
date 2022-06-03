@@ -14,7 +14,8 @@ vector<D3D11_INPUT_ELEMENT_DESC> CGraphicsShader::g_vecLayout;		// ÀÎÇ² ·¹ÀÌ¾Æ¿ô
 
 
 CGraphicsShader::CGraphicsShader()
-	: m_eDomain(SHADER_DOMAIN::DOMAIN_FORWARD)
+	: CShader(RES_TYPE::GRAPHICS_SHADER)
+	, m_eDomain(SHADER_DOMAIN::DOMAIN_FORWARD)
 	, m_eRSType(RS_TYPE::CULL_BACK)
 	, m_eDSType(DS_TYPE::LESS)
 	, m_eBSType(BS_TYPE::DEFAULT)
