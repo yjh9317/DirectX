@@ -78,7 +78,7 @@ void CTransform::finalupdate()
 			m_arrWorldDir[i].Normalize(); // 길이가 바뀔수도 있으므로 노말라이즈
 		}
 	}
-
+	//https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=whdgkks12347&logNo=221347100241 참고용
 
 }
 

@@ -3,11 +3,11 @@
 
 
 #include "ParamUI.h"
-#include <Engine/CMaterial.h>
-#include <Engine/CGraphicsShader.h>
+#include <Engine/CResMgr.h>
 
 MaterialUI::MaterialUI()
 	: ResInfoUI("Material", RES_TYPE::MATERIAL)
+	, m_eSelectedTexParam(TEX_PARAM::END)
 {
 }
 
@@ -108,9 +108,27 @@ void MaterialUI::render_update()
 		case TEX_PARAM::TEX_CUBE_1:
 		case TEX_PARAM::TEX_ARR_0:
 		case TEX_PARAM::TEX_ARR_1:
-			CTexture* pTex = ParamUI::Param_Tex(strDesc, pMtrl->GetTexParam(vecTexParamInfo[i].eTexParam).Get());
-			pMtrl->SetTexParam(vecTexParamInfo[i].eTexParam, pTex);
+			if (ParamUI::Param_Tex(strDesc, pMtrl->GetTexParam(vecTexParamInfo[i].eTexParam).Get()
+				, this, (DBCLKED)&MaterialUI::TextureSelected))
+				//Button이 눌리면 현재 Tex번호를 멤버변수에 저장하고 TextureSelected 실행
+			{
+				m_eSelectedTexParam = vecTexParamInfo[i].eTexParam;
+			}
 			break;
 		}
 	}
+}
+
+// Delegate 용
+void MaterialUI::TextureSelected(DWORD_PTR _ptr)
+{
+	string str = (char*)_ptr;
+	wstring strKey = wstring(str.begin(), str.end());
+
+	CTexture* pSelectedTex = CResMgr::GetInst()->FindRes<CTexture>(strKey).Get();
+
+	CMaterial* pMtrl = dynamic_cast<CMaterial*>(GetTargetRes());
+	assert(pMtrl);
+
+	pMtrl->SetTexParam(m_eSelectedTexParam, pSelectedTex);
 }

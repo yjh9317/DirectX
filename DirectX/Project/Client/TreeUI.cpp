@@ -9,6 +9,7 @@ TreeNode::TreeNode()
 	: m_pTreeUI(nullptr)
 	, m_pParent(nullptr)
 	, m_bLeaf(true)
+	, m_bSelected(false)
 	, m_dwData(0)
 {
 }
@@ -17,6 +18,7 @@ TreeNode::TreeNode(const string& _strName, DWORD_PTR _dwData)
 	: m_pTreeUI(nullptr)
 	, m_pParent(nullptr)
 	, m_bLeaf(true)
+	, m_bSelected(false)
 	, m_strName(_strName)
 	, m_dwData(_dwData)
 {
@@ -43,11 +45,11 @@ void TreeNode::update()
 void TreeNode::render_update()
 {
 	// ImGuiTreeNodeFlags_	
-	ImGuiTreeNodeFlags eFlag = ImGuiTreeNodeFlags_None;
+	ImGuiTreeNodeFlags eFlag = ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow;
 
 	if (m_bLeaf)
 		eFlag |= ImGuiTreeNodeFlags_Leaf;	//단말노드
-	if (nullptr == m_pParent || m_pParent->m_strName == "DummyRoot")	// 부모노드이면서 DummyRoot
+	if (m_pTreeUI->m_bUseFrame && (nullptr == m_pParent || m_pParent->m_strName == "DummyRoot"))
 		eFlag |= ImGuiTreeNodeFlags_Framed;
 	if (m_bSelected)	//선택되면
 		eFlag |= ImGuiTreeNodeFlags_Selected;

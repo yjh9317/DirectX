@@ -117,8 +117,9 @@ void CImGuiMgr::clear()
 }
 
 #include "InspectorUI.h"
-#include "ListUI.h"
 #include "ResourceUI.h"
+#include "SceneOutliner.h"
+#include "ListUI.h"
 
 void CImGuiMgr::CreateUI()
 {
@@ -133,6 +134,9 @@ void CImGuiMgr::CreateUI()
     ResourceUI* pResUI = new ResourceUI;
     m_mapUI.insert(make_pair(pResUI->GetName(), pResUI));
 
+    // SceneOutLiner
+    SceneOutliner* pSceneOutliner = new SceneOutliner;
+    m_mapUI.insert(make_pair(pSceneOutliner->GetName(), pSceneOutliner));
 
     // ListUI »ý¼º
     ListUI* pListUI = new ListUI;

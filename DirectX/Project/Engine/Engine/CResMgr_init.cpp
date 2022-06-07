@@ -167,7 +167,9 @@ void CResMgr::CreateEngineShader()
 	pShader->SetBSType(BS_TYPE::DEFAULT);
 
 	pShader->AddScalarParamInfo(L"Mask Limit", SCALAR_PARAM::FLOAT_0);
-	pShader->AddTexParamInfo(L"OutputTex", TEX_PARAM::TEX_0);
+	pShader->AddTexParamInfo(L"OutputTex 0", TEX_PARAM::TEX_0);
+	pShader->AddTexParamInfo(L"OutputTex 1", TEX_PARAM::TEX_1);
+	pShader->AddTexParamInfo(L"OutputTex 2", TEX_PARAM::TEX_2);
 
 	AddRes<CGraphicsShader>(L"Std2DShader", pShader);
 
