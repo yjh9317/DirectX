@@ -82,6 +82,13 @@ TreeUI::TreeUI(bool _bDummyRoot)
 	, m_pSelectedNode(nullptr)
 	, m_bUseDummyRoot(_bDummyRoot)
 	, m_bShowDummy(false)
+	, m_bUseFrame(false)
+	, m_pCInst(nullptr)
+	, m_CFunc(nullptr)
+	, m_pDBCInst(nullptr)
+	, m_DBCFunc(nullptr)
+	, m_pDADInst(nullptr)
+	, m_DADFunc(nullptr)
 {
 	if (m_bUseDummyRoot)
 	{
@@ -132,6 +139,18 @@ void TreeUI::render_update()
 	{
 		m_pRootNode->render_update();
 	}
+
+	// KeyBinding 호출
+	if (ImGui::IsWindowFocused())
+	{
+		for (size_t i = 0; i < m_vecKeyBind.size(); ++i)
+		{
+			if (KEY_TAP(m_vecKeyBind[i].eKey))	// 특정 키가 눌렸다면 KeyBinding Delegate
+			{
+				(m_vecKeyBind[i].pInst->*m_vecKeyBind[i].pFunc)((DWORD_PTR)m_pSelectedNode);
+			}
+		}
+	}
 }
 
 TreeNode* TreeUI::AddTreeNode(TreeNode* _pParentNode, const string& _strName, DWORD_PTR _dwData)
@@ -157,6 +176,23 @@ TreeNode* TreeUI::AddTreeNode(TreeNode* _pParentNode, const string& _strName, DW
 	}
 
 	return pNewNode;
+}
+
+void TreeUI::SetKeyBinding(KEY _eKey, UI* _pInst, KEY_FUNC _Func)
+{
+	m_vecKeyBind.push_back(tTreeKey{ _eKey, _pInst, _Func });
+}
+
+void TreeUI::Clear()
+{
+	SAFE_DELETE(m_pRootNode);
+	m_pRootNode = nullptr;
+	m_pSelectedNode = nullptr;
+
+	if (m_bUseDummyRoot)
+	{
+		AddTreeNode(nullptr, "DummyRoot");
+	}
 }
 
 

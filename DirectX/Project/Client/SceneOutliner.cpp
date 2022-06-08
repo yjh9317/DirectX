@@ -6,6 +6,8 @@
 #include <Engine/CLayer.h>
 #include <Engine/CGameObject.h>
 
+#include <Engine/CEventMgr.h>
+
 #include "TreeUI.h"
 #include "CImGuiMgr.h"
 #include "InspectorUI.h"
@@ -14,10 +16,18 @@ SceneOutliner::SceneOutliner()
 	: UI("SceneOutliner")
 {
 	m_TreeUI = new TreeUI(true);					 // 생성자에서 트리UI 생성
-	m_TreeUI->SetTitle("SceneOutliner");	 // 트리UI의 타이틀
-	AddChild(m_TreeUI);						 // SceneOutlinerUI의 TreeUI
+	m_TreeUI->SetTitle("SceneOutliner");		// 트리UI의 타이틀
+	m_TreeUI->UseFrame(false);
+	m_TreeUI->ShowDummyRoot(false);
+
+
+	AddChild(m_TreeUI);						
 	// Clicked Delegate 등록
 	m_TreeUI->SetClickedDelegate(this, (CLICKED)&SceneOutliner::ObjectClicked);
+
+	// Key Delegate 등록
+	m_TreeUI->SetKeyBinding(KEY::DEL, this, (CLICKED)&SceneOutliner::PressDelete);
+
 
 	Reset();
 }
@@ -30,6 +40,11 @@ SceneOutliner::~SceneOutliner()
 
 void SceneOutliner::update()
 {
+	if (CEventMgr::GetInst()->HasOccurObjEvent())
+	{
+		// UI에서 오브젝트를 추가하거나 삭제할때 트리의 정보를 리셋.
+		Reset();
+	}
 
 	UI::update();
 }
@@ -41,6 +56,8 @@ void SceneOutliner::render_update()
 
 void SceneOutliner::Reset()
 {
+	m_TreeUI->Clear();
+
 	// 현재 Scene 을 가져온다.
 	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
 
@@ -83,4 +100,20 @@ void SceneOutliner::AddGameObjectToTree(CGameObject* _pObject, TreeNode* _pDestN
 	{
 		AddGameObjectToTree(vecChild[i], pNode);
 	}
+}
+
+void SceneOutliner::PressDelete(DWORD_PTR _dw)
+{
+	TreeNode* pNode = (TreeNode*)_dw;
+
+	if (nullptr == pNode)
+		return;
+
+	CGameObject* pTargetObj = (CGameObject*)pNode->GetData();
+	pTargetObj->Destroy();
+
+	// InspectorUI 를 찾아서 Object 를 nullptr 로 세팅한다.
+
+	InspectorUI* pInspectorUI = (InspectorUI*)CImGuiMgr::GetInst()->FindUI("Inspector");
+	pInspectorUI->SetTargetObject(nullptr);
 }

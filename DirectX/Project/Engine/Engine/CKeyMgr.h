@@ -66,6 +66,7 @@ enum class KEY
 	BACK,
 	ESC,
 	TAB,
+	DEL,
 
 	LBTN,
 	RBTN,

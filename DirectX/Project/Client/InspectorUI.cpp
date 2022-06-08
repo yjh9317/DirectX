@@ -12,7 +12,10 @@
 
 InspectorUI::InspectorUI()
 	: UI("Inspector")
+	, m_pTargetObject(nullptr)
+	, m_pTargetRes(nullptr)
 	, m_arrComUI{}
+	, m_arrResUI{}
 {
 	// ComponentUI 생성   
 	ComponentUI* pComUI = nullptr;
@@ -74,7 +77,10 @@ void InspectorUI::SetTargetObject(CGameObject* _pTarget)
 	{
 		if (nullptr != m_arrComUI[i])
 		{
-			if (m_pTargetObject->GetComponent((COMPONENT_TYPE)i))
+			// Object 가 nullptr 인 경우
+			if (nullptr == m_pTargetObject)
+				m_arrComUI[i]->Deactivate();
+			else if (m_pTargetObject->GetComponent((COMPONENT_TYPE)i))
 			{
 				m_arrComUI[i]->Activate();
 				m_arrComUI[i]->SetTargetObject(m_pTargetObject);
