@@ -21,6 +21,7 @@ public:
 
     void AddGameObjectToTree(CGameObject* _pObject, TreeNode* _pDestNode);  // 오브젝트를 트리에 넣는 재귀 함수
     void PressDelete(DWORD_PTR _dw);    // 눌렸을때 삭제하는 Event Delegate
+    void DragAndDropDelegate(DWORD_PTR _dwDrag, DWORD_PTR _dwDrop);
 
 public:
     SceneOutliner();

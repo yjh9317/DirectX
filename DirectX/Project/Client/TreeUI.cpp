@@ -45,20 +45,55 @@ void TreeNode::update()
 void TreeNode::render_update()
 {
 	// ImGuiTreeNodeFlags_	
-	ImGuiTreeNodeFlags eFlag = ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow;
+	ImGuiTreeNodeFlags eFlag = 0;
 
 	if (m_bLeaf)
-		eFlag |= ImGuiTreeNodeFlags_Leaf;	//단말노드
+		eFlag |= ImGuiTreeNodeFlags_Leaf;
 	if (m_pTreeUI->m_bUseFrame && (nullptr == m_pParent || m_pParent->m_strName == "DummyRoot"))
 		eFlag |= ImGuiTreeNodeFlags_Framed;
-	if (m_bSelected)	//선택되면
+	if (m_bSelected)
 		eFlag |= ImGuiTreeNodeFlags_Selected;
 
 	if (ImGui::TreeNodeEx(m_strName.c_str(), eFlag))
 	{
-		if (ImGui::IsItemClicked())
+		if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
 		{
 			m_pTreeUI->SetSelectedNode(this);
+		}
+
+		// 내부 또는 외부로 드래그 드롭을 사용 할 경우
+		if (m_pTreeUI->m_bUseDragDropSelf || m_pTreeUI->m_bUseDragDropOuter)
+		{
+			if (ImGui::BeginDragDropSource())
+			{
+				ImGui::SetDragDropPayload(m_pTreeUI->GetParentUI()->GetName().c_str()
+					, &m_dwData, sizeof(DWORD_PTR));
+
+				ImGui::Text(m_strName.c_str());
+				ImGui::EndDragDropSource();
+			}
+
+			// 내부 드롭을 허용한 경우에만 드롭체크
+			if (m_pTreeUI->m_bUseDragDropSelf)
+			{
+				if (ImGui::BeginDragDropTarget())
+				{
+					DWORD_PTR dwData = 0;
+					const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_pTreeUI->GetParentUI()->GetName().c_str());
+					if (nullptr != payload)
+					{
+						memcpy(&dwData, payload->Data, sizeof(DWORD_PTR));
+
+						// Drag and Drop Delegate 호출
+						if (m_pTreeUI->m_pDADInst && m_pTreeUI->m_DADFunc)
+						{
+							(m_pTreeUI->m_pDADInst->*m_pTreeUI->m_DADFunc)(dwData, m_dwData);
+						}
+					}
+
+					ImGui::EndDragDropTarget();
+				}
+			}
 		}
 
 		for (size_t i = 0; i < m_vecChild.size(); ++i)
@@ -69,6 +104,7 @@ void TreeNode::render_update()
 		ImGui::TreePop();
 	}
 }
+
 
 
 

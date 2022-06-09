@@ -86,6 +86,16 @@ void CImGuiMgr::progress()
 
     bool bOpen = true;
     ImGui::ShowDemoWindow(&bOpen);
+
+
+    // Delegate 호출, Delegate가 있으면 호출하고 삭제
+    for (size_t i = 0; i < m_vecDelegate.size(); ++i)
+    {
+        (m_vecDelegate[i].pInst->*m_vecDelegate[i].pFunc)(m_vecDelegate[i].dwParam);
+    }
+
+    m_vecDelegate.clear();
+
 }
 
 void CImGuiMgr::render()

@@ -78,6 +78,34 @@ bool ParamUI::Param_Tex(const string& _strName, CTexture* _pCurTex, UI* _pInst, 
 	}
 
 	ImGui::Image(texid, ImVec2(150, 150), uv_min, uv_max, tint_col, border_col);
+
+	bool DragDropSuccess = false;	// DragDrop 체크
+	if (ImGui::BeginDragDropTarget())
+	{
+		DWORD_PTR dwData = 0;
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Resource")) // Accept~함수는 마우스클릭을 놓았을 때 Payload를 반환
+		{
+			memcpy(&dwData, payload->Data, sizeof(DWORD_PTR));	//payload에 저장했던 데이터를 dwData에 복사
+			CRes* pRes = (CRes*)dwData;
+			if (RES_TYPE::TEXTURE == pRes->GetResType())	//Texture 리소스만 허용
+			{
+				static string strKey;
+				strKey = string(pRes->GetKey().begin(), pRes->GetKey().end());
+
+				CImGuiMgr::GetInst()->AddDelegate(tUIDelegate{ _pInst , _pFunc , (DWORD_PTR)strKey.c_str() });	//Delegate 추가
+				DragDropSuccess = true;
+			}
+		}
+
+		ImGui::EndDragDropTarget();
+	}
+
+	if (DragDropSuccess)
+	{
+		return true;	// true값이 반환되어야 MaterialUI에서 Tex번호를 저장.
+	}
+
+
 	ImGui::SameLine();
 
 

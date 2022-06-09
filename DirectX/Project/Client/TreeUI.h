@@ -67,6 +67,9 @@ private:
     bool        m_bShowDummy;           // 더미가 보일지 체크
     bool        m_bUseFrame;            // 프레임(두껍게하는거)체크
 
+    bool                m_bUseDragDropSelf; // 내부->내부 Drag Drop 체크
+    bool                m_bUseDragDropOuter; // 외부 -> 내부 Drag Drop 체크
+
     // Clicked Delegate
     UI* m_pCInst;
     CLICKED     m_CFunc;
@@ -91,6 +94,8 @@ public:
 public:
     void ShowDummyRoot(bool _bTrue) { m_bShowDummy = _bTrue; }
     void UseFrame(bool _b) { m_bUseFrame = _b; }
+    void UseDragDropOuter(bool _b) { m_bUseDragDropOuter = _b; }
+    void UseDragDropSelf(bool _b) { m_bUseDragDropSelf = _b; }
     TreeNode* AddTreeNode(TreeNode* _pParentNode, const string& _strName, DWORD_PTR _dwData = 0);
     TreeNode* GetDummyNode() { return m_pRootNode; }
 
