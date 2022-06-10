@@ -217,6 +217,7 @@ enum class EVENT_TYPE
 	CREATE_OBJ,			// lParam : Object Adress, wParam : Layer Index
 	DELETE_OBJ,			// lParam : Object Adress
 	ADD_CHILD,			// lParam : Parent Object, wParam : Child Object
+	DISCONNECT_PARENT,		// lParam : Object Adress
 	SET_CAMERA_INDEX,	// lParam : Camera Component Adress, wParam : Camera Change Index
 
 

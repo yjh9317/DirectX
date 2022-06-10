@@ -71,6 +71,12 @@
     <ClCompile Include="MaterialUI.cpp">
       <Filter>ImGui\UI\01. InspectorUI\ResInfoUI\MaterialUI</Filter>
     </ClCompile>
+    <ClCompile Include="ScriptUI.cpp">
+      <Filter>ImGui\UI\01. InspectorUI\ScriptUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CTestScene.cpp">
+      <Filter>TestScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -156,6 +162,12 @@
     </ClInclude>
     <ClInclude Include="MaterialUI.h">
       <Filter>ImGui\UI\01. InspectorUI\ResInfoUI\MaterialUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptUI.h">
+      <Filter>ImGui\UI\01. InspectorUI\ScriptUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CTestScene.h">
+      <Filter>TestScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +262,12 @@
     </Filter>
     <Filter Include="ImGui\UI\01. InspectorUI\ResInfoUI\MaterialUI">
       <UniqueIdentifier>{2880515d-8c59-4e58-a4a7-497c15ab5266}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestScene">
+      <UniqueIdentifier>{b6b41661-a30f-48f1-902e-a169ca2569c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\UI\01. InspectorUI\ScriptUI">
+      <UniqueIdentifier>{7873b44b-ee79-4b77-a888-c1c224ecbe05}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

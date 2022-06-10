@@ -18,7 +18,7 @@
 
 #include "CImGuiMgr.h"
 #include "ImGui/imgui_impl_win32.h"
-
+#include "CTestScene.h"
 
 
 #define MAX_LOADSTRING 100
@@ -55,7 +55,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     {
         return 0;
     }
-
+    CTestScene::CreateTestScene();
     CCore::GetInst()->progress();
 
 

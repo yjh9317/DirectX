@@ -1,2 +1,4 @@
-﻿  TreeUI.cpp
-  Client.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\OutputFile\bin_debug\Client.exe
+﻿CTestScene.obj : error LNK2019: "public: __cdecl CPlayerScript::CPlayerScript(void)" (??0CPlayerScript@@QEAA@XZ)"public: static void __cdecl CTestScene::CreateTestScene(void)" (?CreateTestScene@CTestScene@@SAXXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+CTestScene.obj : error LNK2019: "public: __cdecl CCameraMoveScript::CCameraMoveScript(void)" (??0CCameraMoveScript@@QEAA@XZ)"public: static void __cdecl CTestScene::CreateTestScene(void)" (?CreateTestScene@CTestScene@@SAXXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+CTestScene.obj : error LNK2019: "public: __cdecl CMissileScript::CMissileScript(void)" (??0CMissileScript@@QEAA@XZ)"public: static void __cdecl CTestScene::CreateTestScene(void)" (?CreateTestScene@CTestScene@@SAXXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+C:\Users\yjwoo\source\repos\DirectX\DirectX\OutputFile\bin_debug\Client.exe : fatal error LNK1120: 3개의 확인할 수 없는 외부 참조입니다.

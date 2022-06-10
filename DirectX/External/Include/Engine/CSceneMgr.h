@@ -17,10 +17,12 @@ private:
 
 public:
 	CScene* GetCurScene() { return m_pCurScene; }
+	void ChangeScene(CScene* _pNextScene);
 
 	void SpawnObject(CGameObject* _pSpawnObject, Vec3 _vWorldPos, wstring _strName, UINT _iLayerIdx);
 	void SpawnObject(CGameObject* _pSpawnObject, UINT _iLayerIdx);
 	void AddChild(CGameObject* _pParentObject, CGameObject* _pChildObject);
+	void DisconnectParent(CGameObject* _pObject);
 	void ClearLayer();
 
 	CGameObject* FindObjectByName(const wstring& _strName);

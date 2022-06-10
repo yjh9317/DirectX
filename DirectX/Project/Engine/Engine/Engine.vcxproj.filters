@@ -73,9 +73,6 @@
     <ClInclude Include="CScript.h">
       <Filter>Engine\05. Component\13. Script</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayerScript.h">
-      <Filter>Engine\Scripts\PlayerScript</Filter>
-    </ClInclude>
     <ClInclude Include="CSceneMgr.h">
       <Filter>Engine\03. Manager\07. SceneMgr</Filter>
     </ClInclude>
@@ -84,9 +81,6 @@
     </ClInclude>
     <ClInclude Include="CCamera.h">
       <Filter>Engine\05. Component\02. Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="CCameraMoveScript.h">
-      <Filter>Engine\Scripts\CameraMoveScript</Filter>
     </ClInclude>
     <ClInclude Include="extern.h">
       <Filter>Engine\01. Header</Filter>
@@ -108,9 +102,6 @@
     </ClInclude>
     <ClInclude Include="CPrefab.h">
       <Filter>Engine\07. Resource\01. Prefab</Filter>
-    </ClInclude>
-    <ClInclude Include="CMissileScript.h">
-      <Filter>Engine\Scripts\MissileScript</Filter>
     </ClInclude>
     <ClInclude Include="CCollider2D.h">
       <Filter>Engine\05. Component\03. Collider2D</Filter>
@@ -213,9 +204,6 @@
     <ClCompile Include="CScript.cpp">
       <Filter>Engine\05. Component\13. Script</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayerScript.cpp">
-      <Filter>Engine\Scripts\PlayerScript</Filter>
-    </ClCompile>
     <ClCompile Include="CSceneMgr.cpp">
       <Filter>Engine\03. Manager\07. SceneMgr</Filter>
     </ClCompile>
@@ -227,9 +215,6 @@
     </ClCompile>
     <ClCompile Include="CCamera.cpp">
       <Filter>Engine\05. Component\02. Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="CCameraMoveScript.cpp">
-      <Filter>Engine\Scripts\CameraMoveScript</Filter>
     </ClCompile>
     <ClCompile Include="extern.cpp">
       <Filter>Engine\01. Header</Filter>
@@ -245,9 +230,6 @@
     </ClCompile>
     <ClCompile Include="CPrefab.cpp">
       <Filter>Engine\07. Resource\01. Prefab</Filter>
-    </ClCompile>
-    <ClCompile Include="CMissileScript.cpp">
-      <Filter>Engine\Scripts\MissileScript</Filter>
     </ClCompile>
     <ClCompile Include="CCollider2D.cpp">
       <Filter>Engine\05. Component\03. Collider2D</Filter>
@@ -443,21 +425,6 @@
     </Filter>
     <Filter Include="Engine\ShaderCode\ComputeShader\Test">
       <UniqueIdentifier>{e0f62f81-a125-4ed3-969e-0f461a34957f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Scripts">
-      <UniqueIdentifier>{45e4af56-8f35-40e1-8e45-1791d97965d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Scripts\PlayerScript">
-      <UniqueIdentifier>{751fa7cd-dc6a-44bf-8707-4bcc218ac02e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Scripts\MonsterScript">
-      <UniqueIdentifier>{c976f5df-d9e9-4db0-b27d-1d34fdfc59ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Scripts\MissileScript">
-      <UniqueIdentifier>{fa0e7ff2-9b55-472f-b4bf-9cd386e6bf6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Scripts\CameraMoveScript">
-      <UniqueIdentifier>{8f4a3cc4-13d9-495c-bd9b-c748f1185139}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\04. GameObject">
       <UniqueIdentifier>{3d1d8700-1602-48b9-a2a4-a10159f29c0e}</UniqueIdentifier>

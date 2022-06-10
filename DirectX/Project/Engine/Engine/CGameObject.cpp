@@ -260,6 +260,22 @@ void CGameObject::Deactivate()
 	CEventMgr::GetInst()->AddEvent(info);
 }
 
+bool CGameObject::IsAncestor(CGameObject* _pObj)
+{
+	CGameObject* pObj = m_pParent;
+
+	while (pObj)
+	{
+		if (pObj == _pObj)
+			return true;
+
+		pObj = pObj->m_pParent;
+	}
+
+	return false;
+}
+
+
 void CGameObject::AddChild(CGameObject* _pChild)
 {
 	int iLayerIdx = _pChild->m_iLayerIdx;

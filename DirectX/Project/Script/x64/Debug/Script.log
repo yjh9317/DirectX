@@ -1,0 +1,9 @@
+﻿  pch.cpp
+C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Script\pch.cpp(3,10): fatal error C1083: 미리 컴파일된 헤더 파일을 열 수 없습니다. 'x64\Debug\Script.pch': No such file or directory
+  CCameraMoveScript.cpp
+C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Script\Scripts\CCameraMoveScript.cpp(1,10): fatal error C1083: 미리 컴파일된 헤더 파일을 열 수 없습니다. 'x64\Debug\Script.pch': No such file or directory
+  CMissileScript.cpp
+C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Script\Scripts\CMissileScript.cpp(1,10): fatal error C1083: 미리 컴파일된 헤더 파일을 열 수 없습니다. 'x64\Debug\Script.pch': No such file or directory
+  CPlayerScript.cpp
+C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Script\Scripts\CPlayerScript.cpp(1,10): fatal error C1083: 미리 컴파일된 헤더 파일을 열 수 없습니다. 'x64\Debug\Script.pch': No such file or directory
+  코드를 생성하고 있습니다...

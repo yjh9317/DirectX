@@ -56,7 +56,7 @@ public:
 
     bool IsDead() { return m_bDead; }
     bool IsActive() { return m_bActive; }
-
+    bool IsAncestor(CGameObject* _pObj);
 
 public:
     void AddChild(CGameObject* _pChild);
@@ -78,6 +78,9 @@ public:
     const vector<CScript*>& GetScripts() { return m_vecScript; }
     CScript* GetScript(UINT _iIdx);                     //스크립트의 인덱스로 가져옴
     CScript* GetScriptByName(const wstring& _strName);  //스크립트의 이름을 따로 설정하고 그 이름으로 찾는다
+
+    int GetLayerIndex() { return m_iLayerIdx; }
+
 
     template<typename T>
     T* GetScript(); 

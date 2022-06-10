@@ -3,6 +3,8 @@
 
 #include <Engine/CKeyMgr.h>
 
+
+#include "ScriptUI.h"
 #include "TransformUI.h"
 #include "MeshRenderUI.h"
 #include "CameraUI.h"
@@ -92,6 +94,22 @@ void InspectorUI::SetTargetObject(CGameObject* _pTarget)
 		}
 	}
 
+	const vector<CScript*>& vecScripts = m_pTargetObject->GetScripts();
+	ScriptUI* pScriptUI = nullptr;
+
+	for (size_t i = 0; i < vecScripts.size(); ++i)
+	{
+		if (m_vecScriptUI.size() <= i)
+			pScriptUI = AddScriptUI();
+		else
+			pScriptUI = m_vecScriptUI[i];
+
+		pScriptUI->SetTargetObject(m_pTargetObject);
+		pScriptUI->SetTargetScript(vecScripts[i]);
+		pScriptUI->Activate();
+	}
+
+
 	// ResInfoUI 비활성화
 	for (int i = 0; i < (int)RES_TYPE::END; ++i)
 	{
@@ -107,6 +125,12 @@ void InspectorUI::SetTargetResource(CRes* _pTargetRes)
 	{
 		if (nullptr != m_arrComUI[i] && m_arrComUI[i]->IsActive())
 			m_arrComUI[i]->Deactivate();
+	}
+
+	// ScriptUI 전부 비활성화
+	for (size_t i = 0; i < m_vecScriptUI.size(); ++i)
+	{
+		m_vecScriptUI[i]->Deactivate();
 	}
 
 	// 활성화 시킬 RES_TYPE 을 알아냄
@@ -127,4 +151,16 @@ void InspectorUI::SetTargetResource(CRes* _pTargetRes)
 		}
 	}
 
+}
+
+
+ScriptUI* InspectorUI::AddScriptUI()
+{
+	ScriptUI* pScriptUI = new ScriptUI;
+	pScriptUI->Deactivate();
+	AddChild(pScriptUI);
+
+	m_vecScriptUI.push_back(pScriptUI);
+
+	return pScriptUI;
 }

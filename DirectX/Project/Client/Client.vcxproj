@@ -159,6 +159,7 @@
     <ClInclude Include="CameraUI.h" />
     <ClInclude Include="CImGuiMgr.h" />
     <ClInclude Include="ComponentUI.h" />
+    <ClInclude Include="CTestScene.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
     <ClInclude Include="ImGui\imgui_impl_dx11.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceUI.h" />
     <ClInclude Include="SceneOutliner.h" />
+    <ClInclude Include="ScriptUI.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureUI.h" />
     <ClInclude Include="TransformUI.h" />
@@ -189,6 +191,7 @@
     <ClCompile Include="CameraUI.cpp" />
     <ClCompile Include="CImGuiMgr.cpp" />
     <ClCompile Include="ComponentUI.cpp" />
+    <ClCompile Include="CTestScene.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_demo.cpp" />
     <ClCompile Include="ImGui\imgui_draw.cpp" />
@@ -211,6 +214,7 @@
     <ClCompile Include="ResInfoUI.cpp" />
     <ClCompile Include="ResourceUI.cpp" />
     <ClCompile Include="SceneOutliner.cpp" />
+    <ClCompile Include="ScriptUI.cpp" />
     <ClCompile Include="TextureUI.cpp" />
     <ClCompile Include="TransformUI.cpp" />
     <ClCompile Include="TreeUI.cpp" />

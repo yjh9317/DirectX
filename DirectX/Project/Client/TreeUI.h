@@ -62,6 +62,8 @@ class TreeUI :
 private:
     TreeNode* m_pRootNode;
     TreeNode* m_pSelectedNode;          //이전에 선택된 노드
+    TreeNode* m_pDragNode;              // 드래그노드
+    TreeNode* m_pDropNode;              // 드랍노드
 
     const bool  m_bUseDummyRoot;        // 더미노드
     bool        m_bShowDummy;           // 더미가 보일지 체크
