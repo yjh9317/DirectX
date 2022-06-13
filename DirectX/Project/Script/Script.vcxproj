@@ -78,13 +78,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)External\Include\;$(ProjectDir)\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)External\Include\;$(ProjectDir)\;$(ProjectDir)\Script\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)External\Library\;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)External\Library\Script\</OutDir>
+    <TargetName>Script_debug</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)External\Include\;$(ProjectDir)\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)External\Include\;$(ProjectDir)\;$(ProjectDir)\Script\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)External\Library\;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)External\Library\Script\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -126,7 +129,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -134,6 +137,12 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>cd $(SolutionDir)
+call ScriptCopy.bat
+cd $(SolutionDir)OutputFile\bin_debug\
+call CodeGen.exe</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -143,7 +152,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -153,20 +162,28 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>cd $(SolutionDir)
+call ScriptCopy.bat
+cd $(SolutionDir)OutputFile\bin_debug\
+call CodeGen.exe</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Scripts\CCameraMoveScript.h" />
-    <ClInclude Include="Scripts\CMissileScript.h" />
-    <ClInclude Include="Scripts\CPlayerScript.h" />
+    <ClInclude Include="Script\CCameraMoveScript.h" />
+    <ClInclude Include="Script\CMissileScript.h" />
+    <ClInclude Include="Script\CPlayerScript.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Script.cpp" />
-    <ClCompile Include="Scripts\CCameraMoveScript.cpp" />
-    <ClCompile Include="Scripts\CMissileScript.cpp" />
-    <ClCompile Include="Scripts\CPlayerScript.cpp" />
+    <ClCompile Include="Script\CCameraMoveScript.cpp" />
+    <ClCompile Include="Script\CMissileScript.cpp" />
+    <ClCompile Include="Script\CPlayerScript.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

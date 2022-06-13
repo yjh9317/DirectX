@@ -157,6 +157,8 @@ int CStructuredBuffer::Create(UINT _iElementSize, UINT _iElementCount, SB_TYPE _
 
 void CStructuredBuffer::SetData(void* _pSrc, UINT _iElementCount)
 {
+    assert(m_bCpuAccess);
+
     D3D11_MAPPED_SUBRESOURCE tSub = {};
 
     // SysMem -> Wirte Buffer
@@ -170,6 +172,7 @@ void CStructuredBuffer::SetData(void* _pSrc, UINT _iElementCount)
 
 void CStructuredBuffer::GetData(void* _pDst)
 {
+    assert(m_bCpuAccess);
     // Main Buffer -> Read Buffer
     CONTEXT->CopyResource(m_SB_Read.Get(), m_SB.Get());
 

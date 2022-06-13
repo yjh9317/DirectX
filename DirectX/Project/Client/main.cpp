@@ -5,20 +5,14 @@
 #include "framework.h"
 #include "main.h"
 
-
 #include <Engine/CCore.h>
-
-#ifdef _DEBUG
-#pragma comment(lib, "Engine/Engine_debug.lib")
-#else
-#pragma comment(lib, "Engine/Engine.lib")
-#endif
-
 #include <Engine/CDevice.h>
 
 #include "CImGuiMgr.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "CTestScene.h"
+
+
 
 
 #define MAX_LOADSTRING 100

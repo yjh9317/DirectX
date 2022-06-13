@@ -15,9 +15,9 @@
 #include <Engine/CParticleSystem.h>
 #include <Engine/CCamera.h>
 
-#include <Engine/CPlayerScript.h>
-#include <Engine/CCameraMoveScript.h>
-#include <Engine/CMissileScript.h>
+#include <Script/CPlayerScript.h>
+#include <Script/CCameraMoveScript.h>
+#include <Script/CMissileScript.h>
 
 
 void CTestScene::CreateTestScene()
