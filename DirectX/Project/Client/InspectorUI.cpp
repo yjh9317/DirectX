@@ -94,20 +94,43 @@ void InspectorUI::SetTargetObject(CGameObject* _pTarget)
 		}
 	}
 
-	const vector<CScript*>& vecScripts = m_pTargetObject->GetScripts();
-	ScriptUI* pScriptUI = nullptr;
-
-	for (size_t i = 0; i < vecScripts.size(); ++i)
+	// 오브젝트가 null 이면
+	if (nullptr == m_pTargetObject)
 	{
-		if (m_vecScriptUI.size() <= i)
-			pScriptUI = AddScriptUI();
-		else
-			pScriptUI = m_vecScriptUI[i];
-
-		pScriptUI->SetTargetObject(m_pTargetObject);
-		pScriptUI->SetTargetScript(vecScripts[i]);
-		pScriptUI->Activate();
+		// 모든 스크립트UI 비활성화
+		for (int i = 0; i < m_vecScriptUI.size(); ++i)
+		{
+			m_vecScriptUI[i]->Deactivate();
+		}
 	}
+	else
+	{
+		const vector<CScript*>& vecScripts = m_pTargetObject->GetScripts();
+		ScriptUI* pScriptUI = nullptr;
+
+		for (size_t i = 0; i < vecScripts.size(); ++i)
+		{
+			if (m_vecScriptUI.size() <= i)
+				pScriptUI = AddScriptUI();
+			else
+				pScriptUI = m_vecScriptUI[i];
+
+			pScriptUI->SetTargetObject(m_pTargetObject);
+			pScriptUI->SetTargetScript(vecScripts[i]);
+			pScriptUI->Activate();
+		}
+
+		// ScriptUI 가 더 많이 있을때
+		if (vecScripts.size() < m_vecScriptUI.size())
+		{
+			// 대응하는 UI 를 제외한 나머지 ScriptUI 들을 비활성화 한다.ㄴ
+			for (int i = vecScripts.size(); i < m_vecScriptUI.size(); ++i)
+			{
+				m_vecScriptUI[i]->Deactivate();
+			}
+		}
+	}
+
 
 
 	// ResInfoUI 비활성화

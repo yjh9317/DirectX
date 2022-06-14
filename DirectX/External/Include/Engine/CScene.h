@@ -28,6 +28,8 @@ public:
     CLayer* GetLayer(const wstring& _strLayerName);
 
     SCENE_STATE GetSceneState() { return m_eSceneState; }
+    void SetSceneState(SCENE_STATE _eState) { m_eSceneState = _eState; }
+
 
 private:
     int GetLayerIdxFromName(const wstring& _strName); //레이어의 인덱스를 가져온다

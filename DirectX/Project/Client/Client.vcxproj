@@ -173,6 +173,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MaterialUI.h" />
+    <ClInclude Include="MenuUI.h" />
     <ClInclude Include="MeshRenderUI.h" />
     <ClInclude Include="ParamUI.h" />
     <ClInclude Include="pch.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="ListUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MaterialUI.cpp" />
+    <ClCompile Include="MenuUI.cpp" />
     <ClCompile Include="MeshRenderUI.cpp" />
     <ClCompile Include="ParamUI.cpp" />
     <ClCompile Include="pch.cpp">

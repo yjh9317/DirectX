@@ -8,13 +8,13 @@
       <Filter>Default</Filter>
     </ClInclude>
     <ClInclude Include="CScriptMgr.h" />
-    <ClInclude Include="Script\CCameraMoveScript.h">
+    <ClInclude Include="CCameraMoveScript.h">
       <Filter>Script</Filter>
     </ClInclude>
-    <ClInclude Include="Script\CMissileScript.h">
+    <ClInclude Include="CMissileScript.h">
       <Filter>Script</Filter>
     </ClInclude>
-    <ClInclude Include="Script\CPlayerScript.h">
+    <ClInclude Include="CPlayerScript.h">
       <Filter>Script</Filter>
     </ClInclude>
   </ItemGroup>
@@ -26,13 +26,13 @@
       <Filter>Default</Filter>
     </ClCompile>
     <ClCompile Include="CScriptMgr.cpp" />
-    <ClCompile Include="Script\CCameraMoveScript.cpp">
+    <ClCompile Include="CCameraMoveScript.cpp">
       <Filter>Script</Filter>
     </ClCompile>
-    <ClCompile Include="Script\CMissileScript.cpp">
+    <ClCompile Include="CMissileScript.cpp">
       <Filter>Script</Filter>
     </ClCompile>
-    <ClCompile Include="Script\CPlayerScript.cpp">
+    <ClCompile Include="CPlayerScript.cpp">
       <Filter>Script</Filter>
     </ClCompile>
   </ItemGroup>

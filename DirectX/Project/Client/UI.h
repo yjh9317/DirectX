@@ -47,7 +47,7 @@ public:
 
 public:
 	virtual void update();
-	void render();
+	virtual void render();
 	virtual void render_update() = 0;
 
 public:

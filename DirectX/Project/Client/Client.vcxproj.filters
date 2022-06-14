@@ -77,6 +77,9 @@
     <ClCompile Include="CTestScene.cpp">
       <Filter>TestScene</Filter>
     </ClCompile>
+    <ClCompile Include="MenuUI.cpp">
+      <Filter>ImGui\UI\04. MenuUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -168,6 +171,9 @@
     </ClInclude>
     <ClInclude Include="CTestScene.h">
       <Filter>TestScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuUI.h">
+      <Filter>ImGui\UI\04. MenuUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -268,6 +274,9 @@
     </Filter>
     <Filter Include="ImGui\UI\01. InspectorUI\ScriptUI">
       <UniqueIdentifier>{7873b44b-ee79-4b77-a888-c1c224ecbe05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\UI\04. MenuUI">
+      <UniqueIdentifier>{36ae37ec-da98-4fa0-b6b1-467ed657c294}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,6 @@
 #pragma once
+
+#include "global.h"
 #include "CComponent.h"
 
 #include "CTransform.h"
@@ -12,14 +14,41 @@
 #include "CLayer.h"
 
 
+enum class SCRIPTPARAM_TYPE
+{
+    INT,
+    FLOAT,
+    VEC2,
+    VEC4,
+
+    TEX,
+    PREFAB,
+};
+
+
+struct tScriptParamInfo
+{
+    string              strParamName;   // 이름
+    SCRIPTPARAM_TYPE    eType;          // 변수 타입
+    void* pParam;                       // 주소
+};  
+
+
 class CScript :
     public CComponent
 {
 private:
-    const int  m_iScriptID;    // 스크립트 구별용도(스크립트 타입)
+    const int                   m_iScriptID;    // 스크립트 구별용도(스크립트 타입)
+    vector<tScriptParamInfo>    m_vecParamInfo; // 에디터 노출 변수
+
 
 public:
     int GetScriptType() { return m_iScriptID; }
+    const vector<tScriptParamInfo>& GetScriptParam() { return m_vecParamInfo; }
+
+protected:
+    void AddScriptParam(string _strParamName, SCRIPTPARAM_TYPE _eType, void* _pData) { m_vecParamInfo.push_back(tScriptParamInfo{ _strParamName , _eType, _pData }); }
+
 
 public:
     virtual void start() {}

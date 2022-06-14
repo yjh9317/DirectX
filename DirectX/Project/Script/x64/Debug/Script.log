@@ -1,13 +1,7 @@
-﻿  .\Project\Script\Script\CCameraMoveScript.h
-  .\Project\Script\Script\CMissileScript.h
-  .\Project\Script\Script\CPlayerScript.h
-  3개 파일이 복사되었습니다.
+﻿  .\Project\Script\CCameraMoveScript.h
+  .\Project\Script\CMissileScript.h
+  .\Project\Script\CPlayerScript.h
   .\Project\Script\CScriptMgr.h
-  1개 파일이 복사되었습니다.
-  CScriptMgr.cpp
-  pch.cpp
-  Script.cpp
-  CCameraMoveScript.cpp
-  CMissileScript.cpp
+  4개 파일이 복사되었습니다.
   CPlayerScript.cpp
   Script.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Script\Script_debug.lib

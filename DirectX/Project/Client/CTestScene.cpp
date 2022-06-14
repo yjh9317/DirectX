@@ -19,7 +19,6 @@
 #include <Script/CCameraMoveScript.h>
 #include <Script/CMissileScript.h>
 
-
 void CTestScene::CreateTestScene()
 {
 	CScene* pCurScene = new CScene;
@@ -131,4 +130,7 @@ void CTestScene::CreateTestScene()
 
 	// 충돌 레이어 설정
 	CCollisionMgr::GetInst()->CollisionCheck(L"Player", L"Monster");
+
+	pCurScene->start();
+	pCurScene->SetSceneState(SCENE_STATE::PLAY);
 }
