@@ -53,6 +53,8 @@ enum class RES_TYPE	//다른 리소르를 참조하는 리소스타입부터 상단에 적음. 순서대�
 	TEXTURE,
 	SOUND,
 
+	SCENEFILE,
+
 	END,
 };
 

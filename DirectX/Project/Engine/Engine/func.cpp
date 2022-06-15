@@ -1,5 +1,39 @@
 #include "pch.h"
 
+void SaveStringToFile(const string& _str, FILE* _pFile)
+{
+    BYTE len = (BYTE)_str.length();
+    fwrite(&len, sizeof(BYTE), 1, _pFile);
+    fwrite(_str.c_str(), sizeof(char), len, _pFile);
+}
+
+void LoadStringFromFile(string& _str, FILE* _pFile)
+{
+    char szBuffer[256] = {};
+    BYTE len = 0;
+    fread(&len, sizeof(BYTE), 1, _pFile);
+    fread(szBuffer, sizeof(char), (size_t)len, _pFile);
+
+    _str = szBuffer;
+}
+
+void SaveWStringToFile(const wstring& _str, FILE* _pFile)
+{
+    BYTE len = (BYTE)_str.length();
+    fwrite(&len, sizeof(BYTE), 1, _pFile);
+    fwrite(_str.c_str(), sizeof(wchar_t), len, _pFile);
+}
+
+void LoadWStringFromFile(wstring& _str, FILE* _pFile)
+{
+    wchar_t szBuffer[256] = {};
+    BYTE len = 0;
+    fread(&len, sizeof(BYTE), 1, _pFile);
+    fread(szBuffer, sizeof(wchar_t), (size_t)len, _pFile);
+
+    _str = szBuffer;
+}
+
 const wchar_t* ToWString(COMPONENT_TYPE _type)
 {
     static const wchar_t* szWString[(UINT)COMPONENT_TYPE::END] =
@@ -54,6 +88,7 @@ const wchar_t* ToWString(RES_TYPE _type)
         L"MESH",
         L"TEXTURE",
         L"SOUND",
+        L"SCENEFILE"
     };
 
     return szWString[(UINT)_type];
@@ -71,6 +106,7 @@ const char* ToString(RES_TYPE _type)
         "MESH",
         "TEXTURE",
         "SOUND",
+        "SCENEFILE"
     };
 
     return szString[(UINT)_type];

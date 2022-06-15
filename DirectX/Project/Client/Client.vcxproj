@@ -159,6 +159,7 @@
     <ClInclude Include="CameraUI.h" />
     <ClInclude Include="CImGuiMgr.h" />
     <ClInclude Include="ComponentUI.h" />
+    <ClInclude Include="CSceneSaveLoad.h" />
     <ClInclude Include="CTestScene.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="CameraUI.cpp" />
     <ClCompile Include="CImGuiMgr.cpp" />
     <ClCompile Include="ComponentUI.cpp" />
+    <ClCompile Include="CSceneSaveLoad.cpp" />
     <ClCompile Include="CTestScene.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_demo.cpp" />

@@ -20,6 +20,9 @@ public:
 
 	virtual CEntity* Clone() = 0;
 
+	virtual void SaveToScene(FILE* _pFile);
+	virtual void LoadFromScene(FILE* _pFile);
+
 public:
 	CEntity();
 	CEntity(const CEntity& _origin);

@@ -22,9 +22,6 @@
     <ClInclude Include="struct.h">
       <Filter>Engine\01. Header</Filter>
     </ClInclude>
-    <ClInclude Include="CEntity.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="CRes.h">
       <Filter>Engine\07. Resource</Filter>
     </ClInclude>
@@ -142,6 +139,12 @@
     <ClInclude Include="CScene.h">
       <Filter>Engine\06. Scene\01. Scene</Filter>
     </ClInclude>
+    <ClInclude Include="CEntity.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="CSceneFile.h">
+      <Filter>Engine\07. Resource\08. SceneFile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -152,9 +155,6 @@
     </ClCompile>
     <ClCompile Include="CCore.cpp">
       <Filter>Engine\02. Core</Filter>
-    </ClCompile>
-    <ClCompile Include="CEntity.cpp">
-      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="CRes.cpp">
       <Filter>Engine\07. Resource</Filter>
@@ -271,6 +271,12 @@
       <Filter>Engine\03. Manager\02. RenderMgr</Filter>
     </ClCompile>
     <ClCompile Include="func.cpp" />
+    <ClCompile Include="CEntity.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="CSceneFile.cpp">
+      <Filter>Engine\07. Resource\08. SceneFile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -428,6 +434,9 @@
     </Filter>
     <Filter Include="Engine\04. GameObject">
       <UniqueIdentifier>{3d1d8700-1602-48b9-a2a4-a10159f29c0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Resource\08. SceneFile">
+      <UniqueIdentifier>{53b1c1de-edf1-4518-878f-b8acf07ae875}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

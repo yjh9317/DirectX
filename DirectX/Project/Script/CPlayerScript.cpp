@@ -5,7 +5,7 @@
 CPlayerScript::CPlayerScript()
 	: CScript((int)SCRIPT_TYPE::PLAYERSCRIPT)
 	, m_pMissilePrefab(nullptr)
-	, m_fSpeed(100.f)
+	, m_fSpeed(10.f)
 	, m_fBurnStrength(0.f)
 	, m_bBurn(false)
 {
@@ -32,7 +32,7 @@ void CPlayerScript::update()
 	if (KEY_PRESSED(KEY::RIGHT))
 		vPos.x += DT * m_fSpeed;
 
-	if (KEY_PRESSED(KEY::UP))
+	if (KEY_PRESSED(KEY::UP))	
 		vPos.y += DT * m_fSpeed;
 
 	if (KEY_PRESSED(KEY::DOWN))
@@ -66,7 +66,7 @@ void CPlayerScript::update()
 			vMissilePos.y += Transform()->GetRelativeScale().y / 2.f;
 
 			CSceneMgr::GetInst()->SpawnObject(pMissileObject, vMissilePos, L"Missile", 0);
-		}
+		}		
 	}
 
 	if (KEY_TAP(KEY::B))

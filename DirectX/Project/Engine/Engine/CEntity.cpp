@@ -19,3 +19,13 @@ CEntity::CEntity(const CEntity& _origin)
 CEntity::~CEntity()
 {
 }
+
+void CEntity::SaveToScene(FILE* _pFile)
+{
+	SaveWStringToFile(m_strName, _pFile);
+}
+
+void CEntity::LoadFromScene(FILE* _pFile)
+{
+	LoadWStringFromFile(m_strName, _pFile);
+}

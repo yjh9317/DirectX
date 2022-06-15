@@ -44,6 +44,15 @@ void Safe_Del_Arr(T(&_Arr)[_iSize])
 }
 
 
+void SaveStringToFile(const string& _str, FILE* _pFile);
+void LoadStringFromFile(string& _str, FILE* _pFile);
+
+void SaveWStringToFile(const wstring& _str, FILE* _pFile);
+void LoadWStringFromFile(wstring& _str, FILE* _pFile);
+
+
+
+
 const wchar_t* ToWString(COMPONENT_TYPE _type);
 const char* ToString(COMPONENT_TYPE _type);
 const wchar_t* ToWString(RES_TYPE _type);

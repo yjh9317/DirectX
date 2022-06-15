@@ -345,3 +345,47 @@ void CGameObject::Destroy()
 	CEventMgr::GetInst()->AddEvent(info);
 }
 
+void CGameObject::SaveToScene(FILE* _pFile)
+{
+	CEntity::SaveToScene(_pFile);
+
+	/*m_bActive;
+	m_bDynamicShadow;
+	m_bFrustumCulling;*/
+	fwrite(&m_bActive, sizeof(BYTE), 3, _pFile);
+
+	// Component 저장
+	for (int i = 0; i < (int)COMPONENT_TYPE::END; ++i)
+	{
+		if (nullptr != m_arrCom[i])
+		{
+			SaveWStringToFile(ToWString((COMPONENT_TYPE)i), _pFile);
+			m_arrCom[i]->SaveToScene(_pFile);
+		}
+	}
+	SaveWStringToFile(L"END", _pFile);	//END를 적어줌으로써 Componenet의 저장이 끝남을 알림
+}
+
+void CGameObject::LoadFromScene(FILE* _pFile)
+{
+	CEntity::LoadFromScene(_pFile);
+	/*m_bActive;
+	m_bDynamicShadow;
+	m_bFrustumCulling;*/
+	fread(&m_bActive, sizeof(BYTE), 3, _pFile);
+
+	// Component 불러오기
+	wstring strComponentName;
+
+	while (true)
+	{
+		LoadWStringFromFile(strComponentName, _pFile);
+		if (strComponentName == L"END")
+			break;
+
+		if (strComponentName == ToWString(COMPONENT_TYPE::TRANSFORM))
+		{
+
+		}
+	}
+}
