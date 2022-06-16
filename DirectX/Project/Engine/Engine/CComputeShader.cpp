@@ -13,7 +13,16 @@ static UINT g_iFlag = D3DCOMPILE_DEBUG;
 static UINT g_iFlag = 0;
 #endif
 //
-
+CComputeShader::CComputeShader()
+	: CShader(RES_TYPE::COMPUTE_SHADER)
+	, m_iGroupX(0)
+	, m_iGroupY(0)
+	, m_iGroupZ(0)
+	, m_iGroupPerThreadCountX(0)
+	, m_iGroupPerThreadCountY(0)
+	, m_iGroupPerThreadCountZ(0)
+{
+}
 
 CComputeShader::CComputeShader(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ)
 	: CShader(RES_TYPE::COMPUTE_SHADER)

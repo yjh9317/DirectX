@@ -241,3 +241,33 @@ void CCamera::CheckLayerMask(const wstring& _strLayerName)
 
 	CheckLayerMask(pLayer->GetLayerIdx());
 }
+
+void CCamera::SaveToScene(FILE* _pFile)
+{
+	CComponent::SaveToScene(_pFile);
+
+	fwrite(&m_eProjType, sizeof(UINT), 1, _pFile);	//타입
+
+	fwrite(&m_fWidth, sizeof(float), 1, _pFile);	//투영 가로길이
+	fwrite(&m_fAspectRatio, sizeof(float), 1, _pFile);	// 종횡비
+	fwrite(&m_fFOV, sizeof(float), 1, _pFile);		// 시야각
+	fwrite(&m_fFar, sizeof(float), 1, _pFile);		// 최대 시야 거리
+
+	fwrite(&m_iLayerMask, sizeof(UINT), 1, _pFile);	//레이어 비트마스크
+	fwrite(&m_iCamIdx, sizeof(int), 1, _pFile);		// 카메라 인덱스
+}
+
+void CCamera::LoadFromScene(FILE* _pFile)
+{
+	CComponent::LoadFromScene(_pFile);
+
+	fread(&m_eProjType, sizeof(UINT), 1, _pFile);
+
+	fread(&m_fWidth, sizeof(float), 1, _pFile);
+	fread(&m_fAspectRatio, sizeof(float), 1, _pFile);
+	fread(&m_fFOV, sizeof(float), 1, _pFile);
+	fread(&m_fFar, sizeof(float), 1, _pFile);
+
+	fread(&m_iLayerMask, sizeof(UINT), 1, _pFile);
+	fread(&m_iCamIdx, sizeof(int), 1, _pFile);
+}

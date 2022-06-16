@@ -135,3 +135,52 @@ void CParticleSystem::render()
 	// 렌더링의 비용을 줄이기 위해 물체를 그리는과정과 마무리 과정이 매프레임마다 발생하는것을 줄여준다.
 	// 전부 그리기전까지 마무리과정 X
 }
+
+void CParticleSystem::SaveToScene(FILE* _pFile)
+{
+	CRenderComponent::SaveToScene(_pFile);
+
+	SaveResPtr<CComputeShader>(m_CS.Get(), _pFile);
+
+	fwrite(&m_iMaxCount, sizeof(UINT), 1, _pFile);		// 최대 개수
+	fwrite(&m_bPosInherit, sizeof(int), 1, _pFile);		// 부모 영향 체크
+	fwrite(&m_iAliveCount, sizeof(int), 1, _pFile);		// 생성 개수
+	fwrite(&m_fMinLifeTime, sizeof(float), 1, _pFile);	// 최소 생명 시간
+	fwrite(&m_fMaxLifeTime, sizeof(float), 1, _pFile);	// 최대 생명 시간
+	fwrite(&m_fStartSpeed, sizeof(float), 1, _pFile);	// 시작 속도
+	fwrite(&m_fEndSpeed, sizeof(float), 1, _pFile);		// 끝 속도
+	fwrite(&m_vStartColor, sizeof(Vec4), 1, _pFile);	// 시작 색깔
+	fwrite(&m_vEndColor, sizeof(Vec4), 1, _pFile);		// 끝 색깔
+	fwrite(&m_vStartScale, sizeof(Vec3), 1, _pFile);	// 시작 크기
+	fwrite(&m_vEndScale, sizeof(Vec3), 1, _pFile);		// 끝 크기
+	fwrite(&m_fParticleCreateDistance, sizeof(float), 1, _pFile);	// 파티클 범위
+	fwrite(&m_fParticleCreateTerm, sizeof(float), 1, _pFile);		// 파티클 생성 시간
+}
+
+void CParticleSystem::LoadFromScene(FILE* _pFile)
+{
+	CRenderComponent::LoadFromScene(_pFile);
+
+	Ptr<CComputeShader> cs;
+	LoadResPtr<CComputeShader>(cs, _pFile);
+	m_CS = (CParticleUpdateShader*)cs.Get();
+
+	UINT iMaxCount = 0;
+	fread(&iMaxCount, sizeof(UINT), 1, _pFile);
+	SetMaxParticleCount(iMaxCount);
+
+	fread(&m_bPosInherit, sizeof(int), 1, _pFile);
+	fread(&m_iAliveCount, sizeof(int), 1, _pFile);
+	fread(&m_fMinLifeTime, sizeof(float), 1, _pFile);
+	fread(&m_fMaxLifeTime, sizeof(float), 1, _pFile);
+	fread(&m_fStartSpeed, sizeof(float), 1, _pFile);
+	fread(&m_fEndSpeed, sizeof(float), 1, _pFile);
+	fread(&m_vStartColor, sizeof(Vec4), 1, _pFile);
+	fread(&m_vEndColor, sizeof(Vec4), 1, _pFile);
+	fread(&m_vStartScale, sizeof(Vec3), 1, _pFile);
+	fread(&m_vEndScale, sizeof(Vec3), 1, _pFile);
+	fread(&m_fParticleCreateDistance, sizeof(float), 1, _pFile);
+	fread(&m_fParticleCreateTerm, sizeof(float), 1, _pFile);
+
+
+}

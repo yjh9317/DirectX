@@ -129,3 +129,24 @@ void CTransform::UpdateData()
 	pBuffer->SetData(&g_transform, sizeof(tTransform));					  	// 특정 레지스터에 보낸다
 	pBuffer->UpdateData();
 }
+
+
+void CTransform::SaveToScene(FILE* _pFile)
+{
+	CComponent::SaveToScene(_pFile);
+
+	fwrite(&m_vRelativePos, sizeof(Vec3), 1, _pFile);	//위치
+	fwrite(&m_vRelativeScale, sizeof(Vec3), 1, _pFile);	//크기
+	fwrite(&m_vRelativeRot, sizeof(Vec3), 1, _pFile);	//회전
+	fwrite(&m_bIgnoreParentScale, sizeof(bool), 1, _pFile);	//부모영향체크변수
+}
+
+void CTransform::LoadFromScene(FILE* _pFile)
+{
+	CComponent::LoadFromScene(_pFile);
+
+	fread(&m_vRelativePos, sizeof(Vec3), 1, _pFile);
+	fread(&m_vRelativeScale, sizeof(Vec3), 1, _pFile);
+	fread(&m_vRelativeRot, sizeof(Vec3), 1, _pFile);
+	fread(&m_bIgnoreParentScale, sizeof(bool), 1, _pFile);
+}

@@ -140,3 +140,35 @@ void CTileMap::ClearTileData()
 
 	m_bBufferUpDated = false;
 }
+
+void CTileMap::SaveToScene(FILE* _pFile)
+{
+	CRenderComponent::SaveToScene(_pFile);
+
+	SaveResPtr(m_pAtlasTex, _pFile);	// 아틀라스
+
+	fwrite(&m_vSlicePixel, sizeof(Vec2), 1, _pFile);	// 슬라이스 픽셀
+	fwrite(&m_vSliceUV, sizeof(Vec2), 1, _pFile);		// 슬라이스 UV
+	fwrite(&m_iRowCount, sizeof(UINT), 1, _pFile);		// 행
+	fwrite(&m_iColCount, sizeof(UINT), 1, _pFile);		// 열
+	fwrite(&m_iTileCountX, sizeof(UINT), 1, _pFile);	// 타일 X개수
+	fwrite(&m_iTileCountY, sizeof(UINT), 1, _pFile);	// 타일 Y개수
+	fwrite(m_vecTileData.data(), sizeof(tTileData), m_vecTileData.size(), _pFile);	// 타일 데이터(변수의크기) *크기 * 타일사이즈
+}
+
+void CTileMap::LoadFromScene(FILE* _pFile)
+{
+	CRenderComponent::LoadFromScene(_pFile);
+
+	LoadResPtr(m_pAtlasTex, _pFile);
+
+	fread(&m_vSlicePixel, sizeof(Vec2), 1, _pFile);
+	fread(&m_vSliceUV, sizeof(Vec2), 1, _pFile);
+	fread(&m_iRowCount, sizeof(UINT), 1, _pFile);
+	fread(&m_iColCount, sizeof(UINT), 1, _pFile);
+	fread(&m_iTileCountX, sizeof(UINT), 1, _pFile);
+	fread(&m_iTileCountY, sizeof(UINT), 1, _pFile);
+
+	m_vecTileData.resize((size_t)(m_iTileCountX * m_iTileCountY));
+	fread(m_vecTileData.data(), sizeof(tTileData), (size_t)(m_iTileCountX * m_iTileCountY), _pFile);
+}

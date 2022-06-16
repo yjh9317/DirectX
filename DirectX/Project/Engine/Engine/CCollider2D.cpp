@@ -149,3 +149,23 @@ void CCollider2D::OnCollisionExit(CCollider2D* _Other)
 		vecScript[i]->OnCollisionExit(_Other->GetOwner());
 	}
 }
+
+void CCollider2D::SaveToScene(FILE* _pFile)
+{
+	CComponent::SaveToScene(_pFile);
+
+	fwrite(&m_eColliderType, sizeof(UINT), 1, _pFile);	// 충돌체 타입
+	fwrite(&m_vOffsetPos, sizeof(Vec2), 1, _pFile);		// 오프셋 위치
+	fwrite(&m_vOffsetScale, sizeof(Vec2), 1, _pFile);	// 오프셋 크기
+}
+
+void CCollider2D::LoadFromScene(FILE* _pFile)
+{
+	CComponent::LoadFromScene(_pFile);
+
+	fread(&m_eColliderType, sizeof(UINT), 1, _pFile);
+	fread(&m_vOffsetPos, sizeof(Vec2), 1, _pFile);
+	fread(&m_vOffsetScale, sizeof(Vec2), 1, _pFile);
+
+	SetCollider2DType(m_eColliderType);					// 타입을 받아오고 설정
+}

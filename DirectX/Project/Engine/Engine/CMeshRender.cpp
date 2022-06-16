@@ -45,3 +45,16 @@ void CMeshRender::render()
 	}
 }
 
+void CMeshRender::SaveToScene(FILE* _pFile)
+{
+	CRenderComponent::SaveToScene(_pFile);
+
+}
+
+void CMeshRender::LoadFromScene(FILE* _pFile)
+{
+	CRenderComponent::LoadFromScene(_pFile);
+
+}
+
+

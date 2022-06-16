@@ -72,6 +72,9 @@ public:
     void render_translucent();
     void render_postprocess();
 
+public:
+    virtual void SaveToScene(FILE* _pFile) override;
+    virtual void LoadFromScene(FILE* _pFile) override;
     CLONE(CCamera)
 
 

@@ -98,3 +98,28 @@ void CAnimation2D::Create(Ptr<CTexture> _Atlas, Vec2 _vBackgroundSizePixel, Vec2
 		m_vecFrm.push_back(frm);
 	}
 }
+
+void CAnimation2D::SaveToScene(FILE* _pFile)
+{
+	CEntity::SaveToScene(_pFile);
+
+	size_t i = m_vecFrm.size();
+	fwrite(&i, sizeof(size_t), 1, _pFile);	// 프레임 개수
+	fwrite(m_vecFrm.data(), sizeof(tAnim2D), i, _pFile);	// 벡터 프레임의 데이터(변수의 크기)* 애니메이션사이즈를 총 i개 저장
+	fwrite(&m_vBackgroundSize, sizeof(Vec2), 1, _pFile);	// 백그라운드 사이즈 저장
+
+	SaveResPtr(m_pAtlasTex, _pFile);						// 리소스인 텍스처 저장
+}
+
+void CAnimation2D::LoadFromScene(FILE* _pFile)
+{
+	CEntity::LoadFromScene(_pFile);
+
+	size_t i = 0;
+	fread(&i, sizeof(size_t), 1, _pFile);
+	m_vecFrm.resize(i);
+	fread(m_vecFrm.data(), sizeof(tAnim2D), i, _pFile);
+	fread(&m_vBackgroundSize, sizeof(Vec2), 1, _pFile);
+
+	LoadResPtr(m_pAtlasTex, _pFile);
+}

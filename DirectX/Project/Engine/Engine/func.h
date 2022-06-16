@@ -57,3 +57,37 @@ const wchar_t* ToWString(COMPONENT_TYPE _type);
 const char* ToString(COMPONENT_TYPE _type);
 const wchar_t* ToWString(RES_TYPE _type);
 const char* ToString(RES_TYPE _type);
+
+
+#include "Ptr.h"
+#include "CResMgr.h"
+
+template<typename RES>	// 리소스 저장 함수
+void SaveResPtr(Ptr<RES> _ptr, FILE* _pFile)
+{
+	bool bNullPtr = nullptr == _ptr ? true : false;
+	fwrite(&bNullPtr, sizeof(bool), 1, _pFile);
+
+	if (!bNullPtr)
+	{
+		SaveWStringToFile(_ptr->GetKey(), _pFile);
+		SaveWStringToFile(_ptr->GetRelativePath(), _pFile);
+	}
+}
+
+template<typename RES>	//리소스 불러오기 함수
+void LoadResPtr(Ptr<RES>& _ptr, FILE* _pFile)
+{
+	bool bNull = false;
+	fread(&bNull, sizeof(bool), 1, _pFile);
+
+	if (!bNull)
+	{
+		wstring strKey, strRelativePath;
+
+		LoadWStringFromFile(strKey, _pFile);
+		LoadWStringFromFile(strRelativePath, _pFile);
+
+		_ptr = CResMgr::GetInst()->Load<RES>(strKey, strRelativePath);
+	}
+}
