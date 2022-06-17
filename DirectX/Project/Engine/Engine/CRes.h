@@ -26,7 +26,8 @@ public:
     bool IsEngineRes() { return m_bEngineRes; }
 
 protected:    
-    virtual int Load(const wstring& _strFilePath) = 0;    
+    virtual int Save(const wstring& _strFilePath) { return S_OK; }
+    virtual int Load(const wstring& _strFilePath) = 0;
     CLONE_DISABLE(CRes)
 
 private:

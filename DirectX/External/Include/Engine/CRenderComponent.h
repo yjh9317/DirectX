@@ -31,6 +31,8 @@ public:
 public:
     virtual void render() = 0;
 
+    virtual void SaveToScene(FILE* _pFile) override;
+    virtual void LoadFromScene(FILE* _pFile) override;
 public:
     CRenderComponent(COMPONENT_TYPE _type);
     CRenderComponent(const CRenderComponent& _origin);

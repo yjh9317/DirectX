@@ -992,33 +992,14 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   CKeyMgr.cpp
   CLayer.cpp
   CMaterial.cpp
+C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CMaterial.cpp(229,13): warning C4101: 'm_pMasterMtrl' :참조되지 않은 지역 변수입니다.
   CMesh.cpp
   CMeshRender.cpp
-  CParticleSystem.cpp
-C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CResMgr.h(95): error C2259: 'CComputeShader': 추상 클래스를 인스턴스화할 수 없습니다.
-C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CComputeShader.h(9): message : 'CComputeShader' 선언을 참조하십시오.
-C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CResMgr.h(95): message : 다음 멤버가 원인입니다.
-C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CResMgr.h(95): message : 'void CComputeShader::UpdateData(void)': abstract입니다.
-C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CComputeShader.h(36): message : 'CComputeShader::UpdateData' 선언을 참조하십시오.
-C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CResMgr.h(95): message : 'void CComputeShader::Clear(void)': abstract입니다.
-C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CComputeShader.h(37): message : 'CComputeShader::Clear' 선언을 참조하십시오.
-C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\func.h(91): message : 컴파일되는 함수 템플릿 인스턴스화 'Ptr<CComputeShader> CResMgr::Load<RES>(const std::wstring &,const std::wstring &,bool)'에 대한 참조를 확인하세요.
-          with
-          [
-              RES=CComputeShader
-          ]
-C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CParticleSystem.cpp(165): message : 컴파일되는 함수 템플릿 인스턴스화 'void LoadResPtr<CComputeShader>(Ptr<CComputeShader> &,FILE *)'에 대한 참조를 확인하세요.
-C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CResMgr.h(95,9): error C2259: 'CComputeShader': 추상 클래스를 인스턴스화할 수 없습니다.
-C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CComputeShader.h(9): message : 'CComputeShader' 선언을 참조하십시오.
-C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CResMgr.h(95,9): message : 다음 멤버가 원인입니다.
-C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CResMgr.h(95,9): message : 'void CComputeShader::UpdateData(void)': abstract입니다.
-C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CComputeShader.h(36): message : 'CComputeShader::UpdateData' 선언을 참조하십시오.
-C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CResMgr.h(95,9): message : 'void CComputeShader::Clear(void)': abstract입니다.
-C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CComputeShader.h(37): message : 'CComputeShader::Clear' 선언을 참조하십시오.
+  CParticleUpdateShader.cpp
   코드를 생성하고 있습니다...
 C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CMaterial.cpp(187): warning C4715: 'CMaterial::GetScalarParam': 모든 제어 경로에서 값을 반환하지는 않습니다.
   컴파일하고 있습니다...
-  CParticleUpdateShader.cpp
+  CParticleSystem.cpp
   CPathMgr.cpp
   CPrefab.cpp
   CRenderComponent.cpp
@@ -1044,3 +1025,65 @@ C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CMaterial.cpp(
   extern.cpp
   func.cpp
   코드를 생성하고 있습니다...
+  Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
+  .\Project\Engine\Engine\CAnimation2D.h
+  .\Project\Engine\Engine\CAnimator2D.h
+  .\Project\Engine\Engine\CCamera.h
+  .\Project\Engine\Engine\CCameraMoveScript.h
+  .\Project\Engine\Engine\CCollider2D.h
+  .\Project\Engine\Engine\CCollisionMgr.h
+  .\Project\Engine\Engine\CComponent.h
+  .\Project\Engine\Engine\CComputeShader.h
+  .\Project\Engine\Engine\CConstBuffer.h
+  .\Project\Engine\Engine\CCore.h
+  .\Project\Engine\Engine\CDevice.h
+  .\Project\Engine\Engine\CEntity.h
+  .\Project\Engine\Engine\CEventMgr.h
+  .\Project\Engine\Engine\CGameObject.h
+  .\Project\Engine\Engine\CGraphicsShader.h
+  .\Project\Engine\Engine\CKeyMgr.h
+  .\Project\Engine\Engine\CLayer.h
+  .\Project\Engine\Engine\CMaterial.h
+  .\Project\Engine\Engine\CMesh.h
+  .\Project\Engine\Engine\CMeshRender.h
+  .\Project\Engine\Engine\CMissileScript.h
+  .\Project\Engine\Engine\CParticleSystem.h
+  .\Project\Engine\Engine\CParticleUpdateShader.h
+  .\Project\Engine\Engine\CPathMgr.h
+  .\Project\Engine\Engine\CPlayerScript.h
+  .\Project\Engine\Engine\CPrefab.h
+  .\Project\Engine\Engine\CRenderComponent.h
+  .\Project\Engine\Engine\CRenderMgr.h
+  .\Project\Engine\Engine\CRes.h
+  .\Project\Engine\Engine\CResMgr.h
+  .\Project\Engine\Engine\CScene.h
+  .\Project\Engine\Engine\CSceneFile.h
+  .\Project\Engine\Engine\CSceneMgr.h
+  .\Project\Engine\Engine\CScript.h
+  .\Project\Engine\Engine\CShader.h
+  .\Project\Engine\Engine\CStructuredBuffer.h
+  .\Project\Engine\Engine\CTestShader.h
+  .\Project\Engine\Engine\CTexture.h
+  .\Project\Engine\Engine\CTileMap.h
+  .\Project\Engine\Engine\CTimeMgr.h
+  .\Project\Engine\Engine\CTransform.h
+  .\Project\Engine\Engine\define.h
+  .\Project\Engine\Engine\extern.h
+  .\Project\Engine\Engine\func.h
+  .\Project\Engine\Engine\global.h
+  .\Project\Engine\Engine\Ptr.h
+  .\Project\Engine\Engine\SimpleMath.h
+  .\Project\Engine\Engine\singleton.h
+  .\Project\Engine\Engine\struct.h
+  49개 파일이 복사되었습니다.
+  .\Project\Engine\Engine\func.fx
+  .\Project\Engine\Engine\paperburn.fx
+  .\Project\Engine\Engine\particle.fx
+  .\Project\Engine\Engine\particlerender.fx
+  .\Project\Engine\Engine\postprocess.fx
+  .\Project\Engine\Engine\std2d.fx
+  .\Project\Engine\Engine\struct.fx
+  .\Project\Engine\Engine\testCS.fx
+  .\Project\Engine\Engine\tilemap.fx
+  .\Project\Engine\Engine\value.fx
+  10개 파일이 복사되었습니다.

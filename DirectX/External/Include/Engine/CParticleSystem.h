@@ -35,9 +35,16 @@ private:
     float                           m_fAccTime;
 
 public:
+    void SetMaxParticleCount(UINT _iMax);   // 파티클 개수가 변하면 구조화버퍼 크기도 변경
+
+public:
     virtual void finalupdate() override;
     virtual void render()   override;
 
+
+public:
+    virtual void SaveToScene(FILE* _pFile) override;
+    virtual void LoadFromScene(FILE* _pFile) override;
     CLONE(CParticleSystem);
 public:
     CParticleSystem();

@@ -37,7 +37,8 @@ public:
     CMaterial* GetMasterMtrl() { return m_pMasterMtrl; }
 
 public:
-    virtual int Load(const wstring& _strFilePath) override { return S_OK; }
+    virtual int Save(const wstring& _strFilePath) override;
+    virtual int Load(const wstring& _strFilePath) override;
 
     CLONE(CMaterial);
 

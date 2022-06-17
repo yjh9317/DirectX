@@ -42,6 +42,7 @@ public:
     int CreateComputeShader(const wstring& _strRelativePath, const string& _strFunc);
 
 public:
+    CComputeShader();
     CComputeShader(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ);
     ~CComputeShader();
 };

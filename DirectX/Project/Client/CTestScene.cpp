@@ -22,6 +22,10 @@
 void CTestScene::CreateTestScene()
 {
 	CScene* pCurScene = new CScene;
+	CSceneMgr::GetInst()->ChangeScene(pCurScene);
+
+	//return;
+
 	pCurScene->SetLayerName(0, L"Tile");
 	pCurScene->SetLayerName(1, L"Default");
 	pCurScene->SetLayerName(2, L"Player");
@@ -77,10 +81,6 @@ void CTestScene::CreateTestScene()
 	pCurScene->AddObject(pObject, L"Default");
 
 
-
-
-
-
 	// Particle Object 
 	CGameObject* pParticleObj = new CGameObject;
 	pParticleObj->SetName(L"ParticleObject_01");
@@ -125,7 +125,7 @@ void CTestScene::CreateTestScene()
 	CCameraMoveScript* pCamMoveScript = pCamObj->GetScript<CCameraMoveScript>();
 
 
-	CSceneMgr::GetInst()->ChangeScene(pCurScene);
+
 
 
 	// 충돌 레이어 설정
