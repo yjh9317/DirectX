@@ -1,6 +1,7 @@
 Singleton Class
 ===============
-이 Singleton Class를 상속받아서 GetInst로 Singleton처럼 사용이 가능하다  
+Singleton이란 객체의 인스턴스가 오직 1개만 생성되는 의미이다.  
+Singleton으로 만들고자 하는 Class안에 Singleton(Type)매크로를 사용하면 만들 수 있다.  
 Singleton을 class로 만든 이유는 프로그램이 끝나고 나서 해제할 때 Mgr Class(매니저 클래스)에서도 해제 순서가 중요하기 때문에  
 atexit함수로 Singleton의 해제순서를 정해준다
 
@@ -56,3 +57,11 @@ Singleton Code
     
     template<typename T>
     T* CSingleton<T>::m_Inst = nullptr; //정적 변수 초기화
+    
+    ===============================================================================================================
+    
+    // 매크로
+    #define SINGLE(TYPE) friend class CSingleton<TYPE>;\
+					 private:\
+						TYPE();\
+						~TYPE();
