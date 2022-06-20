@@ -3,6 +3,9 @@
 
 CRes::CRes(RES_TYPE _eType)
     : m_eResType(_eType)
+    , m_iRefCount(0)
+    , m_bEngineRes(false)
+    , m_bChanged(false)
 {
 }
 

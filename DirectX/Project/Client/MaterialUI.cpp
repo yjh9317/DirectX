@@ -59,7 +59,7 @@ void MaterialUI::render_update()
 	{
 		string strDesc = string(vecScalarInfo[i].strDesc.begin(), vecScalarInfo[i].strDesc.end());
 
-		void* pData = pMtrl->GetScalarParam(vecScalarInfo[i].eScalarParam);
+		const void* pData = pMtrl->GetScalarParam(vecScalarInfo[i].eScalarParam);
 
 		switch (vecScalarInfo[i].eScalarParam)
 		{
@@ -67,26 +67,52 @@ void MaterialUI::render_update()
 		case SCALAR_PARAM::INT_1:
 		case SCALAR_PARAM::INT_2:
 		case SCALAR_PARAM::INT_3:
-			ParamUI::Param_Int(strDesc, (int*)pData);
-			break;
+		{
+			int data = ParamUI::Param_Int(strDesc, (const int*)pData);
+			if (*(const int*)pData != data)	// 이전 값과 다르다면(값이 변경) 다시 세팅
+			{
+				pMtrl->SetScalarParam(vecScalarInfo[i].eScalarParam, &data);
+			}
+		}
+		break;
 		case SCALAR_PARAM::FLOAT_0:
 		case SCALAR_PARAM::FLOAT_1:
 		case SCALAR_PARAM::FLOAT_2:
 		case SCALAR_PARAM::FLOAT_3:
-			ParamUI::Param_Float(strDesc, (float*)pData);
-			break;
+		{
+			float data = ParamUI::Param_Float(strDesc, (const float*)pData);
+			if (*(const float*)pData != data)
+			{
+				pMtrl->SetScalarParam(vecScalarInfo[i].eScalarParam, &data);
+			}
+		}
+		break;
 		case SCALAR_PARAM::VEC2_0:
 		case SCALAR_PARAM::VEC2_1:
 		case SCALAR_PARAM::VEC2_2:
 		case SCALAR_PARAM::VEC2_3:
-			ParamUI::Param_Vec2(strDesc, (Vec2*)pData);
-			break;
+		{
+			Vec2 data = ParamUI::Param_Vec2(strDesc, (const Vec2*)pData);
+			if (*(const Vec2*)pData != data)
+			{
+				pMtrl->SetScalarParam(vecScalarInfo[i].eScalarParam, &data);
+			}
+		}
+
+		break;
 		case SCALAR_PARAM::VEC4_0:
 		case SCALAR_PARAM::VEC4_1:
 		case SCALAR_PARAM::VEC4_2:
 		case SCALAR_PARAM::VEC4_3:
-			ParamUI::Param_Vec4(strDesc, (Vec4*)pData);
-			break;
+		{
+			Vec4 data = ParamUI::Param_Vec4(strDesc, (const Vec4*)pData);
+			if (*(const Vec4*)pData != data)
+			{
+				pMtrl->SetScalarParam(vecScalarInfo[i].eScalarParam, &data);
+			}
+		}
+
+		break;
 		}
 	}
 
@@ -130,5 +156,7 @@ void MaterialUI::TextureSelected(DWORD_PTR _ptr)
 	CMaterial* pMtrl = dynamic_cast<CMaterial*>(GetTargetRes());
 	assert(pMtrl);
 
-	pMtrl->SetTexParam(m_eSelectedTexParam, pSelectedTex);
+	// 변경점이 있을 때만 세팅
+	if (pMtrl->GetTexParam(m_eSelectedTexParam) != pSelectedTex)
+		pMtrl->SetTexParam(m_eSelectedTexParam, pSelectedTex);
 }

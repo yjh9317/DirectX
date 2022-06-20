@@ -5,6 +5,10 @@
 #include "CDevice.h"
 #include "CConstBuffer.h"
 
+#include "CSceneMgr.h"
+#include "CScene.h"
+
+
 
 CMaterial::CMaterial()
 	: CRes(RES_TYPE::MATERIAL)
@@ -21,13 +25,12 @@ CMaterial::~CMaterial()
 
 void CMaterial::UpdateData()
 {
-
 	for (UINT i = 0; i < (UINT)TEX_PARAM::END; ++i)
 	{
 		if (nullptr != m_arrTex[i])
 		{
 			m_arrTex[i]->UpdateData((int)PIPELINE_STAGE::ALL, i);
-			m_Param.bTex[i] = 1;	// 해당 번호(i) 레지스터가 사용됨,이 값으로 셰이더에서 텍스쳐가 들어왔는지 확인
+			m_Param.bTex[i] = 1;
 		}
 		else
 		{
@@ -36,10 +39,10 @@ void CMaterial::UpdateData()
 		}
 	}
 
+
 	CConstBuffer* pCB = CDevice::GetInst()->GetCB(CB_TYPE::SCALAR_PARAM);
 	pCB->SetData(&m_Param, sizeof(tScalarParam));
 	pCB->UpdateData();
-
 
 
 	if (nullptr != m_pShader)
@@ -54,7 +57,6 @@ CMaterial* CMaterial::GetMtrlInst()
 	pCloneMtrl->m_pMasterMtrl = this;
 	return pCloneMtrl;
 }
-
 
 void CMaterial::SetShader(Ptr<CGraphicsShader> _pShader)
 {
@@ -102,6 +104,8 @@ void CMaterial::SetScalarParam(SCALAR_PARAM _eType, void* _pData)
 		m_Param.matArr[(UINT)_eType - (UINT)SCALAR_PARAM::MAT_0] = *((Matrix*)_pData);
 		break;
 	}
+
+	Changed();
 }
 
 void CMaterial::SetScalarParam(const wstring& _strParamName, void* _pData)
@@ -114,42 +118,11 @@ void CMaterial::SetScalarParam(const wstring& _strParamName, void* _pData)
 			break;
 		}
 	}
+
+	Changed();
 }
 
-
-void CMaterial::SetTexParam(TEX_PARAM _eType, Ptr<CTexture> _pTex)
-{
-	switch (_eType)
-	{
-	case TEX_PARAM::TEX_0:
-	case TEX_PARAM::TEX_1:
-	case TEX_PARAM::TEX_2:
-	case TEX_PARAM::TEX_3:
-	case TEX_PARAM::TEX_4:
-	case TEX_PARAM::TEX_5:
-	case TEX_PARAM::TEX_CUBE_0:
-	case TEX_PARAM::TEX_CUBE_1:
-	case TEX_PARAM::TEX_ARR_0:
-	case TEX_PARAM::TEX_ARR_1:
-		m_arrTex[(UINT)_eType] = _pTex;
-		break;
-	}
-}
-
-void CMaterial::SetTexParam(const wstring& _strParamName, Ptr<CTexture> _pTex)
-{
-	for (size_t i = 0; i < m_vecTexParamInfo.size(); ++i)
-	{
-		if (m_vecTexParamInfo[i].strDesc == _strParamName)
-		{
-			SetTexParam(m_vecTexParamInfo[i].eTexParam, _pTex);
-			break;
-		}
-	}
-}
-
-
-void* CMaterial::GetScalarParam(SCALAR_PARAM _eType)
+const void* CMaterial::GetScalarParam(SCALAR_PARAM _eType)
 {
 	switch (_eType)
 	{
@@ -184,6 +157,8 @@ void* CMaterial::GetScalarParam(SCALAR_PARAM _eType)
 		return &m_Param.matArr[(UINT)_eType - (UINT)SCALAR_PARAM::MAT_0];
 		break;
 	}
+
+	return nullptr;
 }
 
 Ptr<CTexture> CMaterial::GetTexParam(TEX_PARAM _eType)
@@ -204,11 +179,59 @@ Ptr<CTexture> CMaterial::GetTexParam(TEX_PARAM _eType)
 		break;
 	}
 
+
 	return nullptr;
+}
+
+
+void CMaterial::SetTexParam(TEX_PARAM _eType, Ptr<CTexture> _pTex)
+{
+	switch (_eType)
+	{
+	case TEX_PARAM::TEX_0:
+	case TEX_PARAM::TEX_1:
+	case TEX_PARAM::TEX_2:
+	case TEX_PARAM::TEX_3:
+	case TEX_PARAM::TEX_4:
+	case TEX_PARAM::TEX_5:
+	case TEX_PARAM::TEX_CUBE_0:
+	case TEX_PARAM::TEX_CUBE_1:
+	case TEX_PARAM::TEX_ARR_0:
+	case TEX_PARAM::TEX_ARR_1:
+		m_arrTex[(UINT)_eType] = _pTex;
+		break;
+	}
+
+	Changed();
+}
+
+void CMaterial::SetTexParam(const wstring& _strParamName, Ptr<CTexture> _pTex)
+{
+	for (size_t i = 0; i < m_vecTexParamInfo.size(); ++i)
+	{
+		if (m_vecTexParamInfo[i].strDesc == _strParamName)
+		{
+			SetTexParam(m_vecTexParamInfo[i].eTexParam, _pTex);
+			break;
+		}
+	}
+
+	Changed();
 }
 
 int CMaterial::Save(const wstring& _strFilePath)
 {
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+	assert(!((m_pMasterMtrl && pCurScene->GetSceneState() != SCENE_STATE::STOP)));	// m_pMasterMtrl이 없어야 하고(원본) STOP상태가 아니라면 assert
+
+	if (m_pMasterMtrl && pCurScene->GetSceneState() != SCENE_STATE::STOP)
+	{
+		return E_FAIL;
+	}
+
+	// 변경체크 해제
+	CRes::Save(_strFilePath);
+
 	FILE* pFile = nullptr;
 
 	_wfopen_s(&pFile, _strFilePath.c_str(), L"wb");
@@ -217,16 +240,14 @@ int CMaterial::Save(const wstring& _strFilePath)
 	if (nullptr == pFile)
 		return E_FAIL;
 
-	fwrite(&m_Param, sizeof(tScalarParam), 1, pFile);	// 상수 저장
+	fwrite(&m_Param, sizeof(tScalarParam), 1, pFile);
 
 	for (UINT i = 0; i < (UINT)TEX_PARAM::END; ++i)
 	{
-		SaveResPtr(m_arrTex[i], pFile);	//텍스처 저장
+		SaveResPtr(m_arrTex[i], pFile);
 	}
 
-	SaveResPtr(m_pShader, pFile);	//세이더 저장
-
-	CMaterial* m_pMasterMtrl;
+	SaveResPtr(m_pShader, pFile);
 
 	fclose(pFile);
 
@@ -235,10 +256,18 @@ int CMaterial::Save(const wstring& _strFilePath)
 
 int CMaterial::Load(const wstring& _strFilePath)
 {
+	CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+	assert(!((m_pMasterMtrl && pCurScene->GetSceneState() != SCENE_STATE::STOP)));
+
+	if (m_pMasterMtrl && pCurScene->GetSceneState() != SCENE_STATE::STOP)
+	{
+		return E_FAIL;
+	}
+
 	FILE* pFile = nullptr;
 
 	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
-	assert(pFile);
+	//assert(pFile);
 
 	if (nullptr == pFile)
 		return E_FAIL;
@@ -254,10 +283,8 @@ int CMaterial::Load(const wstring& _strFilePath)
 	LoadResPtr(pShader, pFile);
 	SetShader(pShader);
 
-
-
-
 	fclose(pFile);
+
 	return S_OK;
 }
 

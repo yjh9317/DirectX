@@ -11,6 +11,7 @@ void CResMgr::init()
 	CreateEngineComputeShader();
 }
 
+
 void CResMgr::CreateEngineMesh()
 {
 	CMesh* pMesh = nullptr;
@@ -171,6 +172,9 @@ void CResMgr::CreateEngineShader()
 	pShader->AddTexParamInfo(L"OutputTex 1", TEX_PARAM::TEX_1);
 	pShader->AddTexParamInfo(L"OutputTex 2", TEX_PARAM::TEX_2);
 
+	pShader->AddScalarParamInfo(L"TestParam", SCALAR_PARAM::INT_0);
+
+
 	AddRes<CGraphicsShader>(L"Std2DShader", pShader);
 
 
@@ -227,7 +231,7 @@ void CResMgr::CreateEngineShader()
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
-	pShader->AddScalarParamInfo(L"IsCollision", SCALAR_PARAM::INT_0);
+	// pShader->AddScalarParamInfo(L"IsCollision", SCALAR_PARAM::INT_0);
 
 	AddRes<CGraphicsShader>(L"Collider2DShader", pShader);
 
@@ -253,7 +257,6 @@ void CResMgr::CreateEngineShader()
 	pShader->CreateVertexShader(L"Shader\\postprocess.fx", "VS_PostProcess");
 	pShader->CreatePixelShader(L"Shader\\postprocess.fx", "PS_PostProcess");
 
-
 	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 
@@ -262,44 +265,60 @@ void CResMgr::CreateEngineShader()
 
 void CResMgr::CreateEngineMaterial()
 {
+	wstring strContent = CPathMgr::GetInst()->GetContentPath();
+	wstring strMtrlFoler = L"material\\";
+
 	CMaterial* pMtrl = nullptr;
 
 	// Std2DMtrl »ý¼º
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DShader"));
 	AddRes<CMaterial>(L"Std2DMtrl", pMtrl);
+	pMtrl->CRes::SetRelativePath(strMtrlFoler + pMtrl->GetKey() + L".mtrl");
+	pMtrl->Load(strContent + pMtrl->GetRelativePath());
 
 	// Std2DAlphaBlend
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DAlphaBlendShader"));
 	AddRes<CMaterial>(L"Std2DAlphaBlendMtrl", pMtrl);
+	pMtrl->CRes::SetRelativePath(strMtrlFoler + pMtrl->GetKey() + L".mtrl");
+	pMtrl->Load(strContent + pMtrl->GetRelativePath());
 
 	// PaperBurnMtrl	
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"PaperBurnShader"));
 	AddRes<CMaterial>(L"PaperBurnMtrl", pMtrl);
-
+	pMtrl->CRes::SetRelativePath(strMtrlFoler + pMtrl->GetKey() + L".mtrl");
+	pMtrl->Load(strContent + pMtrl->GetRelativePath());
 
 	// TileMapMtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"TileMapShader"));
 	AddRes<CMaterial>(L"TileMapMtrl", pMtrl);
+	pMtrl->CRes::SetRelativePath(strMtrlFoler + pMtrl->GetKey() + L".mtrl");
+	pMtrl->Load(strContent + pMtrl->GetRelativePath());
 
 	// Collider2DMtrl 
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Collider2DShader"));
 	AddRes<CMaterial>(L"Collider2DMtrl", pMtrl);
+	pMtrl->CRes::SetRelativePath(strMtrlFoler + pMtrl->GetKey() + L".mtrl");
+	pMtrl->Load(strContent + pMtrl->GetRelativePath());
 
 	// Particle Render Mtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"ParticleRenderShader"));
 	AddRes<CMaterial>(L"ParticleRenderMtrl", pMtrl);
+	pMtrl->CRes::SetRelativePath(strMtrlFoler + pMtrl->GetKey() + L".mtrl");
+	pMtrl->Load(strContent + pMtrl->GetRelativePath());
 
 	// PostProcess Mtrl
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"PostProcessShader"));
 	pMtrl->SetTexParam(TEX_PARAM::TEX_0, FindRes<CTexture>(L"PostProcessTex"));
 	AddRes<CMaterial>(L"PostProcessMtrl", pMtrl);
+	pMtrl->CRes::SetRelativePath(strMtrlFoler + pMtrl->GetKey() + L".mtrl");
+	pMtrl->Load(strContent + pMtrl->GetRelativePath());
 }
 
 #include "CTestShader.h"

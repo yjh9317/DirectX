@@ -9,7 +9,8 @@
 
 int ParamUI::KeyCount = 0;
 
-void ParamUI::Param_Int(const string& _strName, int* _pInOut)
+
+int ParamUI::Param_Int(const string& _strName, const int* _pInOut)
 {
 	// 파라미터 이름	
 	ImGui::Text(_strName.c_str());
@@ -18,10 +19,13 @@ void ParamUI::Param_Int(const string& _strName, int* _pInOut)
 	char szKey[255] = {};
 	sprintf_s(szKey, 255, "##Param%d", KeyCount++);
 
-	ImGui::InputInt(szKey, _pInOut);
+	int data = *_pInOut;
+	ImGui::InputInt(szKey, &data);
+
+	return data;
 }
 
-void ParamUI::Param_Float(const string& _strName, float* _pInOut)
+float ParamUI::Param_Float(const string& _strName, const float* _pInOut)
 {
 	// 파라미터 이름	
 	ImGui::Text(_strName.c_str());
@@ -30,10 +34,13 @@ void ParamUI::Param_Float(const string& _strName, float* _pInOut)
 	char szKey[255] = {};
 	sprintf_s(szKey, 255, "##Param%d", KeyCount++);
 
-	ImGui::InputFloat(szKey, _pInOut);
+	float data = *_pInOut;
+	ImGui::InputFloat(szKey, &data);
+
+	return data;
 }
 
-void ParamUI::Param_Vec2(const string& _strName, Vec2* _pInOut)
+Vec2 ParamUI::Param_Vec2(const string& _strName, const Vec2* _pInOut)
 {
 	// 파라미터 이름	
 	ImGui::Text(_strName.c_str());
@@ -46,11 +53,10 @@ void ParamUI::Param_Vec2(const string& _strName, Vec2* _pInOut)
 
 	ImGui::InputFloat2(szKey, arrFloat2);
 
-	_pInOut->x = arrFloat2[0];
-	_pInOut->y = arrFloat2[1];
+	return Vec2(arrFloat2[0], arrFloat2[1]);
 }
 
-void ParamUI::Param_Vec4(const string& _strName, Vec4* _pInOut)
+Vec4 ParamUI::Param_Vec4(const string& _strName, const Vec4* _pInOut)
 {
 	// 파라미터 이름
 	ImGui::Text(_strName.c_str());
@@ -58,7 +64,12 @@ void ParamUI::Param_Vec4(const string& _strName, Vec4* _pInOut)
 
 	char szKey[255] = {};
 	sprintf_s(szKey, 255, "##Param%d", KeyCount++);
-	ImGui::InputFloat4(szKey, *_pInOut);
+
+	Vec4 data = *_pInOut;
+
+	ImGui::InputFloat4(szKey, data);
+
+	return data;
 }
 
 bool ParamUI::Param_Tex(const string& _strName, CTexture* _pCurTex, UI* _pInst, DBCLKED _pFunc)
