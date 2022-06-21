@@ -9,9 +9,16 @@
 #include <Script/CScriptMgr.h>
 
 #include "CSceneSaveLoad.h"
+#include "CImGuiMgr.h"
+#include "SceneOutliner.h"
 
 MenuUI::MenuUI()
     : UI("Menu")
+    , m_bPackaging(false)
+    , m_bSceneSave(false)
+    , m_bSceneLoad(false)
+    , m_bScenePlayPause(false)
+    , m_bSceneStop(false)
 {
 }
 
@@ -40,6 +47,7 @@ void MenuUI::render_update()
     {
         ImGui::MenuItem("Packaging", NULL, &m_bPackaging);
 
+
         ImGui::EndMenu();
     }
 
@@ -50,13 +58,18 @@ void MenuUI::render_update()
 
         CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
         SCENE_STATE eState = pCurScene->GetSceneState();
+
         if (SCENE_STATE::PLAY == eState)
             m_strPlayPause = "Pause";
         else
             m_strPlayPause = "Play";
 
         ImGui::MenuItem(m_strPlayPause.c_str(), NULL, &m_bScenePlayPause);
-        ImGui::MenuItem("Stop", NULL, &m_bSceneStop);
+
+        if (SCENE_STATE::STOP == eState)
+            ImGui::MenuItem("Stop", NULL, &m_bSceneStop, false);
+        else
+            ImGui::MenuItem("Stop", NULL, &m_bSceneStop, true);
 
         ImGui::EndMenu();
     }
@@ -130,7 +143,7 @@ void MenuUI::Task()
             CSceneSaveLoad::SaveScene(CSceneMgr::GetInst()->GetCurScene(), szName);
         }
 
-        m_bSceneSave = false; // 저장하고 나서도 BeginMenu안에 들어가지 못해 m_bSceneSave가 false로 변경되지 않아 여기서 적어줌.
+        m_bSceneSave = false;
     }
 
     else if (m_bSceneLoad)
@@ -161,6 +174,45 @@ void MenuUI::Task()
             CSceneMgr::GetInst()->ChangeScene(pLoadScene);
         }
 
+        // SceneOutliner 갱신
+        SceneOutliner* pUI = (SceneOutliner*)CImGuiMgr::GetInst()->FindUI("SceneOutliner");
+        pUI->Reset();
+
         m_bSceneLoad = false;
+    }
+
+    if (m_bScenePlayPause)
+    {
+        CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+        SCENE_STATE eState = pCurScene->GetSceneState();
+
+        if (SCENE_STATE::STOP == eState)
+        {
+            pCurScene->SetSceneState(SCENE_STATE::PLAY);
+        }
+        else if (SCENE_STATE::PLAY == eState)
+        {
+            pCurScene->SetSceneState(SCENE_STATE::PAUSE);
+        }
+
+        m_bScenePlayPause = false;
+    }
+
+    if (m_bSceneStop)
+    {
+        CScene* pCurScene = CSceneMgr::GetInst()->GetCurScene();
+        SCENE_STATE eState = pCurScene->GetSceneState();
+
+        if (SCENE_STATE::STOP != eState)
+        {
+            pCurScene->SetSceneState(SCENE_STATE::STOP);
+            CSceneFile* pSceneFile = pCurScene->GetSceneFile().Get();
+
+            wstring strFilePath = CPathMgr::GetInst()->GetContentPath() + pSceneFile->GetRelativePath();
+            CScene* pNewScene = CSceneSaveLoad::LoadScene(strFilePath);
+            CSceneMgr::GetInst()->ChangeScene(pNewScene);
+        }
+
+        m_bSceneStop = false;
     }
 }

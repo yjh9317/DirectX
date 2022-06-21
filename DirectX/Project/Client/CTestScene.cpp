@@ -15,14 +15,21 @@
 #include <Engine/CParticleSystem.h>
 #include <Engine/CCamera.h>
 
+#include <Engine/CSceneFile.h>
+
 #include <Script/CPlayerScript.h>
 #include <Script/CCameraMoveScript.h>
 #include <Script/CMissileScript.h>
 
 void CTestScene::CreateTestScene()
 {
+	CResMgr::GetInst()->Load<CSceneFile>(L"scene\\Test.scene", L"scene\\Test.scene");
+
+
 	CScene* pCurScene = new CScene;
 	CSceneMgr::GetInst()->ChangeScene(pCurScene);
+
+
 
 	return;
 

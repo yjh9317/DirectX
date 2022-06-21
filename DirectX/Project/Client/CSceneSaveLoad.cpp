@@ -7,13 +7,17 @@
 #include <Engine/CGameObject.h>
 
 #include <Script/CScriptMgr.h>
+#include <Engine/CScript.h>
 
 #include <Engine/CParticleSystem.h>
+
+
 
 void CSceneSaveLoad::SaveScene(CScene* _pScene, const wstring& _strSceneFilePath)
 {
     // 리소스 변경상태 저장
     CResMgr::GetInst()->SaveChangedRes();
+
 
     FILE* pFile = nullptr;
     _wfopen_s(&pFile, _strSceneFilePath.c_str(), L"wb");
@@ -38,9 +42,9 @@ void CSceneSaveLoad::SaveScene(CScene* _pScene, const wstring& _strSceneFilePath
         fwrite(&iObjCount, sizeof(size_t), 1, pFile);
 
         // 각 루트오브젝트 저장
-        for (size_t i = 0; i < vecRootObj.size(); ++i)
+        for (size_t j = 0; j < vecRootObj.size(); ++j)
         {
-            SaveGameObject(vecRootObj[i], pFile);
+            SaveGameObject(vecRootObj[j], pFile);
         }
     }
 
@@ -54,8 +58,17 @@ void CSceneSaveLoad::SaveGameObject(CGameObject* _pObj, FILE* _pFile)
     _pObj->SaveToScene(_pFile);
 
     // Script 저장
-    //const vector<CScript*>& vecScript = _pObj->GetScripts();
+    const vector<CScript*>& vecScript = _pObj->GetScripts();
+    size_t iScriptCount = vecScript.size();
 
+    fwrite(&iScriptCount, sizeof(size_t), 1, _pFile);
+
+    for (size_t i = 0; i < iScriptCount; ++i)
+    {
+        wstring strScriptName = CScriptMgr::GetScriptName(vecScript[i]);
+        SaveWStringToFile(strScriptName, _pFile);
+        vecScript[i]->SaveToScene(_pFile);
+    }
 
     // Child Object
     const vector<CGameObject*>& vecChild = _pObj->GetChild();
@@ -66,12 +79,19 @@ void CSceneSaveLoad::SaveGameObject(CGameObject* _pObj, FILE* _pFile)
     {
         SaveGameObject(vecChild[i], _pFile);
     }
-
 }
 
 CScene* CSceneSaveLoad::LoadScene(const wstring& _strSceneFilePath)
 {
+    // 최종 경로에서 상대경로만 추출
+    wstring strKey = CPathMgr::GetInst()->GetRelativePath(_strSceneFilePath);
+    
+    // CResMgr 에서 상대경로를 키값으로, CSceneFile 을 찾아냄
+    CResMgr::GetInst()->Load<CSceneFile>(strKey, strKey);
+
+    // Load 할 Scene 생성 및 파일로부터 로딩
     CScene* pLoadScene = new CScene;
+    pLoadScene->SetResKey(strKey);
 
     FILE* pFile = nullptr;
     _wfopen_s(&pFile, _strSceneFilePath.c_str(), L"rb");
@@ -114,7 +134,18 @@ CGameObject* CSceneSaveLoad::LoadGameObject(FILE* _pFile)
     // 이름, 상태, 컴포넌트 불러오기
     pLoadObj->LoadFromScene(_pFile);
 
-    // Script 불러오기    
+    // Script 불러오기        
+    size_t iScriptCount = 0;
+    fread(&iScriptCount, sizeof(size_t), 1, _pFile);
+
+    for (size_t i = 0; i < iScriptCount; ++i)
+    {
+        wstring strScriptName;
+        LoadWStringFromFile(strScriptName, _pFile);
+        CScript* pLoadScript = CScriptMgr::GetScript(strScriptName);
+        pLoadObj->AddComponent(pLoadScript);
+        pLoadScript->LoadFromScene(_pFile);
+    }
 
 
     size_t iChildCount = 0;

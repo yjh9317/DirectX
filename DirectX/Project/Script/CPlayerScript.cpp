@@ -32,7 +32,7 @@ void CPlayerScript::update()
 	if (KEY_PRESSED(KEY::RIGHT))
 		vPos.x += DT * m_fSpeed;
 
-	if (KEY_PRESSED(KEY::UP))	
+	if (KEY_PRESSED(KEY::UP))
 		vPos.y += DT * m_fSpeed;
 
 	if (KEY_PRESSED(KEY::DOWN))
@@ -66,7 +66,7 @@ void CPlayerScript::update()
 			vMissilePos.y += Transform()->GetRelativeScale().y / 2.f;
 
 			CSceneMgr::GetInst()->SpawnObject(pMissileObject, vMissilePos, L"Missile", 0);
-		}		
+		}
 	}
 
 	if (KEY_TAP(KEY::B))
@@ -98,7 +98,6 @@ void CPlayerScript::Burnning()
 }
 
 
-
 void CPlayerScript::OnCollisionEnter(CGameObject* _OtherObject)
 {
 	if (_OtherObject->GetName() == L"Missile")
@@ -107,3 +106,12 @@ void CPlayerScript::OnCollisionEnter(CGameObject* _OtherObject)
 	}
 }
 
+void CPlayerScript::SaveToScene(FILE* _pFile)
+{
+	fwrite(&m_fSpeed, sizeof(float), 1, _pFile);
+}
+
+void CPlayerScript::LoadFromScene(FILE* _pFile)
+{
+	fread(&m_fSpeed, sizeof(float), 1, _pFile);
+}

@@ -2,6 +2,7 @@
 #include "CEntity.h"
 
 //  Scene은 여러가지 Layer를 가지고 Layer는 해당 Layer에 있는 Object들을 update한다.
+#include "CSceneFile.h"
 
 class CLayer;
 class CGameObject;
@@ -12,6 +13,8 @@ class CScene :
 private:
     CLayer* m_arrLayer[MAX_LAYER];
     SCENE_STATE     m_eSceneState;  //현재 Scene의 상태로 게임을 Play 혹은 Stop 할 수 있음.
+    wstring         m_strResKey;
+  
 
 public:
     void start();
@@ -27,8 +30,11 @@ public:
     CLayer* GetLayer(int _iIdx) { assert(!(_iIdx < 0 || MAX_LAYER <= _iIdx));  return m_arrLayer[_iIdx]; }
     CLayer* GetLayer(const wstring& _strLayerName);
 
+    void SetResKey(const wstring& _strKey) { m_strResKey = _strKey; }
+    Ptr<CSceneFile> GetSceneFile();
+
     SCENE_STATE GetSceneState() { return m_eSceneState; }
-    void SetSceneState(SCENE_STATE _eState) { m_eSceneState = _eState; }
+    void SetSceneState(SCENE_STATE _eState);
 
 
 private:

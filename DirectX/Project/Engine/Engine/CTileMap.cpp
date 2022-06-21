@@ -169,6 +169,6 @@ void CTileMap::LoadFromScene(FILE* _pFile)
 	fread(&m_iTileCountX, sizeof(UINT), 1, _pFile);
 	fread(&m_iTileCountY, sizeof(UINT), 1, _pFile);
 
-	m_vecTileData.resize((size_t)(m_iTileCountX * m_iTileCountY));
+	ClearTileData();
 	fread(m_vecTileData.data(), sizeof(tTileData), (size_t)(m_iTileCountX * m_iTileCountY), _pFile);
 }
