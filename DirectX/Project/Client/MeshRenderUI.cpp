@@ -36,8 +36,12 @@ void MeshRenderUI::render_update()
 	Ptr<CMesh> pMesh = pMeshRender->GetMesh();
 	Ptr<CMaterial> pMtrl = pMeshRender->GetMaterial();
 
-	string strMeshName = string(pMesh->GetKey().begin(), pMesh->GetKey().end());	// string 생성자는 2바이트를 1바이트로 바꿔주는 생성자가 있다.
-	string strMtrlName = string(pMtrl->GetKey().begin(), pMtrl->GetKey().end());
+	string strMeshName, strMtrlName;
+	if (nullptr != pMesh)
+		strMeshName = string(pMesh->GetKey().begin(), pMesh->GetKey().end());	// string 생성자는 2바이트를 1바이트로 바꿔주는 생성자가 있다.
+	if (nullptr != pMtrl)
+		strMtrlName = string(pMtrl->GetKey().begin(), pMtrl->GetKey().end());
+	
 
 	ImGui::Text("Mesh");
 	ImGui::SameLine(86.f);	//SameLine(숫자)를 통해 숫자만큼의 간격을 맞춰줄수있음.
