@@ -1,6 +1,7 @@
 #ifndef _VALUE
 #define _VALUE
 
+#include "struct.fx"
 // value.fx는 모든 쉐이더에서 공용으로 사용하는 파일
 // 쉐이더별로 fx를 따로 사용하면 각 fx파일에서 레지스터 번호가 같아도 다른 방식으로 사용함
 
@@ -87,7 +88,8 @@ cbuffer GLOBAL : register(b3)
     float2 vNoiseResolution;
     float fDT;
     float fAccTime;
-    float2 vPadding;
+    int iLight2DCount;
+    int iLight3DCount;
 }
 
 // 상수버퍼는 메모리제한이 있다. 그걸 해결하기 위해 구조화버퍼를 이용
@@ -116,6 +118,11 @@ Texture2DArray g_texarr_1 : register(t9);
 
 // 애니메이션
 Texture2D g_Atlas : register(t10);
+
+// Light2DBuffer, // Light3DBuffer
+StructuredBuffer<tLightInfo> g_Light2DBuffer : register(t60);
+StructuredBuffer<tLightInfo> g_Light3DBuffer : register(t61);
+
 
 // Global Noise Texture 이 값으로 난수 만드는데 사용,
 Texture2D g_noise_01 : register(t70);

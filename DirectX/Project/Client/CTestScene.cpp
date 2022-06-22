@@ -14,6 +14,7 @@
 #include <Engine/CCollider2D.h>
 #include <Engine/CParticleSystem.h>
 #include <Engine/CCamera.h>
+#include <Engine/CLight2D.h>
 
 #include <Engine/CSceneFile.h>
 
@@ -25,13 +26,11 @@ void CTestScene::CreateTestScene()
 {
 	CResMgr::GetInst()->Load<CSceneFile>(L"scene\\Test.scene", L"scene\\Test.scene");
 
-
 	CScene* pCurScene = new CScene;
 	CSceneMgr::GetInst()->ChangeScene(pCurScene);
 
 
-
-	return;
+	//return;
 
 	pCurScene->SetLayerName(0, L"Tile");
 	pCurScene->SetLayerName(1, L"Default");
@@ -70,7 +69,24 @@ void CTestScene::CreateTestScene()
 	pCurScene->AddObject(pCamObj, L"Default");
 
 
-	// Plane Object
+	// 광원 오브젝트 추가
+	CGameObject* pLight2D = new CGameObject;
+	pLight2D->SetName(L"Light Object");
+
+	pLight2D->AddComponent(new CTransform);
+	pLight2D->AddComponent(new CMeshRender);
+	pLight2D->AddComponent(new CLight2D);
+
+	pLight2D->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.f));
+
+	pLight2D->Light2D()->SetLightType(LIGHT_TYPE::POINT);
+	pLight2D->Light2D()->SetRange(500.f);
+	pLight2D->Light2D()->SetDiffuse(Vec3(1.f, 1.f, 1.f));
+
+	pCurScene->AddObject(pLight2D, L"Default");
+
+
+	// Background Object
 	CGameObject* pObject = new CGameObject;
 	pObject->SetName(L"Background");
 
@@ -82,7 +98,7 @@ void CTestScene::CreateTestScene()
 	pObject->Transform()->SetRelativeScale(1600.f, 900.f, 1.f);
 
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"PaperBurnMtrl"));
+	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
 	pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CResMgr::GetInst()->Load<CTexture>(L"BackGroundTex", L"texture\\Background.png"));
 
 	pCurScene->AddObject(pObject, L"Default");

@@ -13,6 +13,7 @@ struct VTX_IN
 struct VTX_OUT
 {
     float4 vPosition : SV_Position;
+    float3 vWorldPos : POSITION;
     float2 vUV : TEXCOORD;
 };
 
@@ -31,6 +32,7 @@ VTX_OUT VS_Std2D(VTX_IN _in)
     VTX_OUT output = (VTX_OUT) 0.f;
     
     output.vPosition = mul(float4(_in.vPos, 1.f), g_matWVP);
+    output.vWorldPos = mul(float4(_in.vPos, 1.f), g_matWorld).xyz;  // 광원의 위치에 Wolrd 행렬을 곱하고 보간받아서 PS로 넘어감.
     output.vUV = _in.vUV;
     
     return output;
@@ -86,6 +88,35 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
     {
         discard;
     }
+   
+    // 광원 적용    
+    //iLight2DCount;
+    // Dir 0
+    // Point 1
+    // Spot 2
+    //g_Light2DBuffer[0].iLightType;
+    if (0 == g_Light2DBuffer[0].iLightType)
+    {
+        vOutColor *= g_Light2DBuffer[0].color.vDiff;
+    }
+    else if (1 == g_Light2DBuffer[0].iLightType)
+    {
+        // pixel worldpos <--> Light World Pos
+        float fDistance = distance(g_Light2DBuffer[0].vWorldPos.xy, _in.vWorldPos.xy);
+        if (fDistance <= g_Light2DBuffer[0].fRange)
+        {
+            vOutColor *= g_Light2DBuffer[0].color.vDiff;
+        }
+        else
+        {
+            vOutColor *= 0.f;
+        }
+    }
+    else
+    {
+                
+    }
+    
     
     return vOutColor;
 }

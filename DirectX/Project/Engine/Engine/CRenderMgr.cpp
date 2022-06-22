@@ -6,13 +6,16 @@
 
 #include "CCamera.h"
 #include "CResMgr.h"
+#include "CLight2D.h"
 
-
+#include "CStructuredBuffer.h"
 
 CRenderMgr::CRenderMgr()
 	: m_pEditorCam(nullptr)
+	, m_pLight2DBuffer(nullptr)
 {
-
+	m_pLight2DBuffer = new CStructuredBuffer;
+	m_pLight2DBuffer->Create(sizeof(tLightInfo), 2, SB_TYPE::READ_ONLY, true, nullptr);
 }
 
 CRenderMgr::~CRenderMgr()
@@ -34,6 +37,9 @@ void CRenderMgr::render()
 	// 그래서 render전에 SetRenderTarget으로 Engine Device의 RenderTarget으로 설정해야 Engine device의 RenderTarget에 들어옴
 	CDevice::GetInst()->SetRenderTarget();
 	CDevice::GetInst()->ClearTarget();
+
+	// Light 업데이트
+	UpdateLight2D();
 
 	// Global 상수 업데이트
 	static CConstBuffer* pGlobalCB = CDevice::GetInst()->GetCB(CB_TYPE::GLOBAL);
@@ -139,4 +145,29 @@ void CRenderMgr::CopyTargetToPostProcess()
 	Ptr<CTexture> pPostProcess = CResMgr::GetInst()->FindRes<CTexture>(L"PostProcessTex");
 
 	CONTEXT->CopyResource(pPostProcess->GetTex2D().Get(), pRenderTarget->GetTex2D().Get());
+}
+
+
+void CRenderMgr::UpdateLight2D()
+{
+	if (m_pLight2DBuffer->GetElementCount() < m_vecLight2D.size())	//광원의 사이즈가 커지면 사이즈만큼 Create
+	{
+		m_pLight2DBuffer->Create(sizeof(tLightInfo), m_vecLight2D.size(), SB_TYPE::READ_ONLY, true, nullptr);
+	}
+
+	static vector<tLightInfo> vecLight2DInfo;
+	vecLight2DInfo.clear();
+
+	for (size_t i = 0; i < m_vecLight2D.size(); ++i)
+	{
+		vecLight2DInfo.push_back(m_vecLight2D[i]->GetLightInfo());
+	}
+
+	// 데이터를 레지스터에 보냄
+	m_pLight2DBuffer->SetData(vecLight2DInfo.data(), (UINT)vecLight2DInfo.size());
+	m_pLight2DBuffer->UpdateData(PIPELINE_STAGE::PS, 60);							
+
+	g_global.Light2DCount = m_vecLight2D.size();	// 글로벌 상수에 광원의 개수를 저장
+
+	m_vecLight2D.clear();
 }

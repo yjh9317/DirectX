@@ -9,7 +9,8 @@ class CTransform;
 class CCollider2D;
 class CAnimator2D;
 class CCamera;
-
+class CLight2D;
+//class CLight3D;
 class CMeshRender;
 class CTileMap;
 class CParticleSystem;
@@ -76,7 +77,7 @@ public:
 	GET_COMPONENT(Animator2D, ANIMATOR2D)
 	GET_COMPONENT(TileMap, TILEMAP)
 	GET_COMPONENT(ParticleSystem, PARTICLESYSTEM)
-
+    GET_COMPONENT(Light2D, LIGHT2D)
 
     const vector<CScript*>& GetScripts() { return m_vecScript; }
     CScript* GetScript(UINT _iIdx);                     //스크립트의 인덱스로 가져옴

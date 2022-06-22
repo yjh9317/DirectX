@@ -75,6 +75,24 @@ struct tParticleData
 };
 
 
+struct tLightColor
+{
+	Vec4 vDiff;	// Diffuse Light	³­¹Ý»ç±¤
+	Vec4 vSpec; // Specular Light	¹Ý»ç±¤
+	Vec4 vAmb;  // Ambient Light	È¯°æ±¤
+};
+
+struct tLightInfo
+{
+	tLightColor color;
+	Vec3		vLightDir;
+	int			iLightType;
+	Vec3		vWorldPos;
+	float		fAngle;
+	float		fRange;
+	Vec3		vPadding;
+};
+
 
 
 
@@ -122,5 +140,6 @@ struct tGlobal
 	Vec2    vNoiseResolution; // NoiseTexture Resolution
 	float	fDT;
 	float	fAccTime;
-	Vec2    vPadding;
+	int		Light2DCount;
+	int     Light3DCount;
 };

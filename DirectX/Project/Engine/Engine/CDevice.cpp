@@ -424,7 +424,7 @@ void CDevice::ClearTarget()
 	static CTexture* pRTTex = CResMgr::GetInst()->FindRes<CTexture>(L"RenderTargetTex").Get();
 	static CTexture* pDSTex = CResMgr::GetInst()->FindRes<CTexture>(L"DepthStencilTex").Get();
 
-	m_pDeviceContext->ClearRenderTargetView(pRTTex->GetRTV().Get(), Vec4(0.65f, 0.65f, 0.65f, 1.f));
+	m_pDeviceContext->ClearRenderTargetView(pRTTex->GetRTV().Get(), Vec4(0.f, 0.f, 0.f, 1.f));
 	// RGB의 0~255값을 0.f ~ 1.f로 보간해서 변경해서 넣어줌
 
 	m_pDeviceContext->ClearDepthStencilView(pDSTex->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
