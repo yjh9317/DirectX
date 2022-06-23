@@ -60,6 +60,11 @@ void CImGuiMgr::init(HWND _hwnd)
 
     // 기본 UI 들 생성
     CreateUI();
+
+
+    // 알림설정  
+    wstring strPath = CPathMgr::GetInst()->GetContentPath();
+    m_hNotify = FindFirstChangeNotification(strPath.c_str(), FALSE, FILE_NOTIFY_CHANGE_FILE_NAME);
 }
 
 void CImGuiMgr::progress()
@@ -96,7 +101,23 @@ void CImGuiMgr::progress()
 
     m_vecDelegate.clear();
 
+    // Content 변경 감지
+    ObserveContent();
 }
+
+void CImGuiMgr::ObserveContent()
+{
+    DWORD dwWaitStatus = WaitForSingleObject(m_hNotify, 0); // 싱글 쓰레드에서 이벤트(변경점)이 있는지 체크하고 있으면 반환, 0은 대기시간을 의미
+    
+    // 멀티쓰레드로 하면은 WaitForMultipleObjects 함수에서 마지막 인자(대기시간)을 INFINITE을 주고
+    // 메인쓰레드가 아닌 다른 쓰레드에서 이벤트를 받고 메인쓰레드에서 이벤트 알림을 받은 변수값을 체크해서 사용
+
+    if (dwWaitStatus == WAIT_OBJECT_0)  //WAIT_OBJECT_0 -> 디렉토리 안에서 파일이 생성,이름 변경, 삭제 되었을 때
+    {
+        int a = 0;
+    }
+}
+
 
 void CImGuiMgr::render()
 {

@@ -65,4 +65,37 @@ float4 GaussianSample(in Texture2D _noisetex, float2 _vUV)
 }
 
 
+
+float3 CalculateLight2D(float3 _vWorldPos)
+{
+    float3 vLightColor = (float3) 0.f;  // 오브젝트에 받는 빛의 양을 누적한 값을 저장하기 위한 변수
+     
+    //iLight2DCount;
+    // Dir 0
+    // Point 1
+    // Spot 2
+    
+    for (int i = 0; i < iLight2DCount; ++i) // 오브젝트(의 픽셀)는 여러개의 광원에 동시에 영향을 받을 수 있으므로 반복문으로 광원 개수만큼 체크.
+    {
+        if (0 == g_Light2DBuffer[i].iLightType)
+        {
+            vLightColor += g_Light2DBuffer[i].color.vDiff.rgb;
+        }
+        else if (1 == g_Light2DBuffer[i].iLightType)
+        {
+            // pixel worldpos <--> Light World Pos
+            float fDistance = distance(g_Light2DBuffer[i].vWorldPos.xy, _vWorldPos.xy);
+            float fRatio = 1.f - saturate(fDistance / g_Light2DBuffer[i].fRange); // 거리에 따른 비율
+            vLightColor += g_Light2DBuffer[i].color.vDiff.rgb * fRatio;
+        }
+        else if (2 == g_Light2DBuffer[i].iLightType)
+        {
+            
+        }
+    }
+    
+    return vLightColor;
+
+}
+
 #endif

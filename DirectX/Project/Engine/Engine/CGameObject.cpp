@@ -10,17 +10,22 @@
 #include "CTransform.h"
 #include "CMeshRender.h"
 #include "CCollider2D.h"
+#include "CLight2D.h"
 #include "CRenderComponent.h"
 
+
 #include "CScript.h"
+
 
 CGameObject::CGameObject()
 	: m_arrCom{}
 	, m_pParent(nullptr)
 	, m_pRenderComponent(nullptr)
 	, m_iLayerIdx(-1)
-	, m_bActive(true)
 	, m_bDead(false)
+	, m_bActive(true)
+	, m_bDynamicShadow(false)
+	, m_bFrustumCulling(false)
 {
 }
 
@@ -123,11 +128,8 @@ void CGameObject::lateupdate()
 	}
 }
 
-
 void CGameObject::finalupdate()
 {
-	// finalupdate에서는 Script를 update하지 않는다.
-	
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
@@ -147,8 +149,8 @@ void CGameObject::finalupdate()
 
 void CGameObject::render()
 {
-	m_pRenderComponent->render();
-
+	if (m_pRenderComponent->IsActive())
+		m_pRenderComponent->render();
 
 	if (nullptr != Collider2D())
 		Collider2D()->render();
@@ -171,7 +173,6 @@ CScript* CGameObject::GetScriptByName(const wstring& _strName)
 }
 
 
-
 void CGameObject::active()
 {
 	for (UINT i = 1; i < (UINT)COMPONENT_TYPE::END; ++i)
@@ -180,12 +181,10 @@ void CGameObject::active()
 			m_arrCom[i]->active();
 	}
 
-	for (size_t i = 1; i < m_vecScript.size(); ++i)
+	for (size_t i = 0; i < m_vecScript.size(); ++i)
 	{
 		m_vecScript[i]->active();
 	}
-
-
 
 
 	for (size_t i = 0; i < m_vecChild.size(); ++i)
@@ -202,7 +201,7 @@ void CGameObject::deactive()
 			m_arrCom[i]->deactive();
 	}
 
-	for (size_t i = 1; i < m_vecScript.size(); ++i)
+	for (size_t i = 0; i < m_vecScript.size(); ++i)
 	{
 		m_vecScript[i]->deactive();
 	}
@@ -212,6 +211,7 @@ void CGameObject::deactive()
 		m_vecChild[i]->deactive();
 	}
 }
+
 void CGameObject::Deregister()
 {
 	if (-1 == m_iLayerIdx)
@@ -275,7 +275,6 @@ bool CGameObject::IsAncestor(CGameObject* _pObj)
 	return false;
 }
 
-
 void CGameObject::AddChild(CGameObject* _pChild)
 {
 	int iLayerIdx = _pChild->m_iLayerIdx;
@@ -303,7 +302,7 @@ void CGameObject::AddComponent(CComponent* _component)
 {
 	COMPONENT_TYPE eType = _component->GetType();
 
-	if (COMPONENT_TYPE::SCRIPT != eType)	// 스크립트가 아니라면 m_arrCom에서 관리
+	if (COMPONENT_TYPE::SCRIPT != eType)
 	{
 		assert(nullptr == m_arrCom[(UINT)eType]);
 
@@ -325,7 +324,7 @@ void CGameObject::AddComponent(CComponent* _component)
 		break;
 		}
 	}
-	else	// 스크립트라면 m_vecScript에서 관리
+	else
 	{
 		m_vecScript.push_back((CScript*)_component);
 		_component->m_pOwner = this;
@@ -345,6 +344,7 @@ void CGameObject::Destroy()
 	CEventMgr::GetInst()->AddEvent(info);
 }
 
+
 #include "CCamera.h"
 #include "CCollider2D.h"
 //#include "CCollider3D.h"
@@ -356,10 +356,6 @@ void CGameObject::Destroy()
 void CGameObject::SaveToScene(FILE* _pFile)
 {
 	CEntity::SaveToScene(_pFile);
-
-	/*m_bActive;
-	m_bDynamicShadow;
-	m_bFrustumCulling;*/
 	fwrite(&m_bActive, sizeof(BYTE), 3, _pFile);
 
 	// Component 저장
@@ -369,9 +365,10 @@ void CGameObject::SaveToScene(FILE* _pFile)
 		{
 			SaveWStringToFile(ToWString((COMPONENT_TYPE)i), _pFile);
 			m_arrCom[i]->SaveToScene(_pFile);
+
 		}
 	}
-	SaveWStringToFile(L"END", _pFile);	//END를 적어줌으로써 Componenet의 저장이 끝남을 알림
+	SaveWStringToFile(L"END", _pFile);
 }
 
 void CGameObject::LoadFromScene(FILE* _pFile)
@@ -416,6 +413,17 @@ void CGameObject::LoadFromScene(FILE* _pFile)
 		{
 
 		}
+		else if (strComponentName == ToWString(COMPONENT_TYPE::LIGHT2D))
+		{
+			AddComponent(new CLight2D);
+			Light2D()->LoadFromScene(_pFile);
+		}
+		else if (strComponentName == ToWString(COMPONENT_TYPE::LIGHT3D))
+		{
+
+		}
+
+
 		else if (strComponentName == ToWString(COMPONENT_TYPE::BOUNDINGBOX))
 		{
 

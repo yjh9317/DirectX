@@ -61,6 +61,12 @@ void TreeNode::render_update()
 			m_pTreeUI->SetSelectedNode(this);
 		}
 
+		// 노드의 더블클릭체크
+		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+		{
+			m_pTreeUI->SetDBClickedNode(this);
+		}
+
 		// 내부 또는 외부로 드래그 드롭을 사용 할 경우
 		if (m_pTreeUI->m_bUseDragDropSelf || m_pTreeUI->m_bUseDragDropOuter)
 		{
@@ -269,5 +275,15 @@ void TreeUI::SetSelectedNode(TreeNode* _pNode)
 	if (nullptr != m_pCInst && nullptr != m_CFunc)
 	{
 		(m_pCInst->*m_CFunc)((DWORD_PTR)m_pSelectedNode);
+	}
+}
+
+
+void TreeUI::SetDBClickedNode(TreeNode* _pNode)
+{
+	// 델리게이트 호출
+	if (nullptr != m_pDBCInst && nullptr != m_DBCFunc)
+	{
+		(m_pDBCInst->*m_DBCFunc)((DWORD_PTR)m_pSelectedNode);
 	}
 }

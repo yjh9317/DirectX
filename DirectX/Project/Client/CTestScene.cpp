@@ -25,12 +25,12 @@
 void CTestScene::CreateTestScene()
 {
 	CResMgr::GetInst()->Load<CSceneFile>(L"scene\\Test.scene", L"scene\\Test.scene");
+	CResMgr::GetInst()->Load<CSceneFile>(L"scene\\Test_01.scene", L"scene\\Test_01.scene");
 
 	CScene* pCurScene = new CScene;
 	CSceneMgr::GetInst()->ChangeScene(pCurScene);
 
-
-	//return;
+	return;
 
 	pCurScene->SetLayerName(0, L"Tile");
 	pCurScene->SetLayerName(1, L"Default");
@@ -40,7 +40,6 @@ void CTestScene::CreateTestScene()
 	// Texture 한장 로딩해보기
 	CResMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Player.bmp");
 	CResMgr::GetInst()->Load<CTexture>(L"MagicCircle", L"texture\\MagicCircle.png");
-
 
 	// Prefab 제작
 	CGameObject* pMissileObj = new CGameObject;
@@ -71,7 +70,22 @@ void CTestScene::CreateTestScene()
 
 	// 광원 오브젝트 추가
 	CGameObject* pLight2D = new CGameObject;
-	pLight2D->SetName(L"Light Object");
+	pLight2D->SetName(L"DirLight");
+
+	pLight2D->AddComponent(new CTransform);
+	pLight2D->AddComponent(new CMeshRender);
+	pLight2D->AddComponent(new CLight2D);
+
+	pLight2D->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.f));
+
+	pLight2D->Light2D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
+	pLight2D->Light2D()->SetDiffuse(Vec3(0.2f, 0.2f, 0.2f));
+
+	pCurScene->AddObject(pLight2D, L"Default");
+
+
+	pLight2D = new CGameObject;
+	pLight2D->SetName(L"PointLight");
 
 	pLight2D->AddComponent(new CTransform);
 	pLight2D->AddComponent(new CMeshRender);

@@ -32,7 +32,7 @@ public:
 
     const string& GetName() { return m_strName; }
     DWORD_PTR GetData() { return m_dwData; }
-
+    TreeNode* GetParent() { return m_pParent; }
 
 public:
     TreeNode();
@@ -110,7 +110,7 @@ public:
     void Clear();
 private:
     void SetSelectedNode(TreeNode* _pNode);
-
+    void SetDBClickedNode(TreeNode* _pNode);
 
 public:
     TreeUI(bool _bDummyRoot);
