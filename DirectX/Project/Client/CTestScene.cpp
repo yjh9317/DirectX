@@ -24,13 +24,13 @@
 
 void CTestScene::CreateTestScene()
 {
-	CResMgr::GetInst()->Load<CSceneFile>(L"scene\\Test.scene", L"scene\\Test.scene");
-	CResMgr::GetInst()->Load<CSceneFile>(L"scene\\Test_01.scene", L"scene\\Test_01.scene");
+	//CResMgr::GetInst()->Load<CSceneFile>(L"scene\\Test.scene", L"scene\\Test.scene");
+	//CResMgr::GetInst()->Load<CSceneFile>(L"scene\\Test_01.scene", L"scene\\Test_01.scene");
 
 	CScene* pCurScene = new CScene;
 	CSceneMgr::GetInst()->ChangeScene(pCurScene);
 
-	return;
+	//return;
 
 	pCurScene->SetLayerName(0, L"Tile");
 	pCurScene->SetLayerName(1, L"Default");
@@ -38,8 +38,8 @@ void CTestScene::CreateTestScene()
 	pCurScene->SetLayerName(3, L"Monster");
 
 	// Texture 한장 로딩해보기
-	CResMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\Player.bmp");
-	CResMgr::GetInst()->Load<CTexture>(L"MagicCircle", L"texture\\MagicCircle.png");
+	CResMgr::GetInst()->Load<CTexture>(L"texture\\Player.bmp", L"texture\\Player.bmp");
+	CResMgr::GetInst()->Load<CTexture>(L"texture\\MagicCircle.png", L"texture\\MagicCircle.png");
 
 	// Prefab 제작
 	CGameObject* pMissileObj = new CGameObject;
@@ -113,7 +113,7 @@ void CTestScene::CreateTestScene()
 
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
-	pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CResMgr::GetInst()->Load<CTexture>(L"BackGroundTex", L"texture\\Background.png"));
+	pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CResMgr::GetInst()->Load<CTexture>(L"texture\\Background.png", L"texture\\Background.png"));
 
 	pCurScene->AddObject(pObject, L"Default");
 
@@ -127,7 +127,7 @@ void CTestScene::CreateTestScene()
 
 	pParticleObj->Transform()->SetRelativePos(0.f, 0.f, 500.f);
 
-	Ptr<CTexture> pParticleTex = CResMgr::GetInst()->Load<CTexture>(L"Particle_01", L"texture\\particle\\AlphaCircle.png");
+	Ptr<CTexture> pParticleTex = CResMgr::GetInst()->Load<CTexture>(L"texture\\particle\\AlphaCircle.png", L"texture\\particle\\AlphaCircle.png");
 	pParticleObj->ParticleSystem()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, pParticleTex);
 
 	pCurScene->AddObject(pParticleObj, L"Default");

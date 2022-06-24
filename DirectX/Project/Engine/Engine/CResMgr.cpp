@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CResMgr.h"
+#include "CPathMgr.h"
 
 CResMgr::CResMgr()
 {
@@ -23,7 +24,7 @@ void CResMgr::SaveChangedRes()
 		map<wstring, CRes*>::iterator iter = m_Res[i].begin();
 		for (; iter != m_Res[i].end(); ++iter)
 		{
-			if (iter->second->IsChanged())	// 리소스의 참조한 값이 변경된 걸 감지하면 Save
+			if (iter->second->IsChanged())
 			{
 				iter->second->Save(strContent + iter->second->GetRelativePath());
 			}
@@ -31,10 +32,10 @@ void CResMgr::SaveChangedRes()
 	}
 }
 
+
 Ptr<CTexture> CResMgr::CreateTexture(const wstring& _strKey, UINT _iWidth, UINT _iHeight, DXGI_FORMAT _format, UINT _flag, bool _bEngineRes)
 {
 	assert(nullptr == FindRes<CTexture>(_strKey));
-
 
 	CTexture* pTexture = new CTexture;
 
@@ -42,7 +43,7 @@ Ptr<CTexture> CResMgr::CreateTexture(const wstring& _strKey, UINT _iWidth, UINT 
 	pTexture->SetKey(_strKey);
 	pTexture->m_bEngineRes = _bEngineRes;
 
-	AddRes<CTexture>(_strKey, pTexture);
+	AddRes<CTexture>(_strKey, pTexture, _bEngineRes);
 
 	return pTexture;
 }
@@ -58,8 +59,7 @@ Ptr<CTexture> CResMgr::CreateTexture(const wstring& _strKey, ComPtr<ID3D11Textur
 	pTexture->SetKey(_strKey);
 	pTexture->m_bEngineRes = _bEngineRes;
 
-	AddRes<CTexture>(_strKey, pTexture);
+	AddRes<CTexture>(_strKey, pTexture, _bEngineRes);
 
 	return pTexture;
 }
-

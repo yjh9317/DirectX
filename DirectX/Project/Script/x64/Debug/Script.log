@@ -9,6 +9,6 @@
   CPlayerScript.cpp
   CSceneSaveLoad.cpp
   CScriptMgr.cpp
-  pch.cpp
   Script.cpp
+  pch.cpp
   Script.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Script\Script_debug.lib
