@@ -19,6 +19,7 @@ public:
 
 private:
     void Reload();
+    void Renew();
     void FindFileName(const wstring& _strFolderPath);
 
 private:

@@ -64,7 +64,8 @@ void CImGuiMgr::init(HWND _hwnd)
 
     // 알림설정  
     wstring strPath = CPathMgr::GetInst()->GetContentPath();
-    m_hNotify = FindFirstChangeNotification(strPath.c_str(), FALSE, FILE_NOTIFY_CHANGE_FILE_NAME);
+    m_hNotify = FindFirstChangeNotification(strPath.c_str(), TRUE,
+        FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME | FILE_ACTION_ADDED | FILE_ACTION_REMOVED);
 }
 
 void CImGuiMgr::progress()

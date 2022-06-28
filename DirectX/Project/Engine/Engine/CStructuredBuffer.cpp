@@ -22,6 +22,10 @@ int CStructuredBuffer::Create(UINT _iElementSize, UINT _iElementCount, SB_TYPE _
 {
     m_SB = nullptr;  //ComPtr의 변수가 nullptr가 되면 기존에 있던 값을 지우고 재생성함.
     m_SRV = nullptr;
+    m_UAV = nullptr;
+
+    m_SB_Write = nullptr;
+    m_SB_Read = nullptr;
 
 
     m_iElementSize = _iElementSize;

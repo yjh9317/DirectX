@@ -41,18 +41,6 @@ void CTestScene::CreateTestScene()
 	CResMgr::GetInst()->Load<CTexture>(L"texture\\Player.bmp", L"texture\\Player.bmp");
 	CResMgr::GetInst()->Load<CTexture>(L"texture\\MagicCircle.png", L"texture\\MagicCircle.png");
 
-	// Prefab 제작
-	CGameObject* pMissileObj = new CGameObject;
-	pMissileObj->AddComponent(new CTransform);
-	pMissileObj->AddComponent(new CMeshRender);
-	pMissileObj->AddComponent(new CMissileScript);
-
-	pMissileObj->Transform()->SetRelativeScale(Vec3(50.f, 50.f, 1.f));
-	pMissileObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh"));
-	pMissileObj->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl"));
-
-	CResMgr::GetInst()->AddRes<CPrefab>(L"MissilePrefab", new CPrefab(pMissileObj));
-
 
 	// Camera Object 추가
 	CGameObject* pCamObj = new CGameObject;
@@ -112,7 +100,7 @@ void CTestScene::CreateTestScene()
 	pObject->Transform()->SetRelativeScale(1600.f, 900.f, 1.f);
 
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
+	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"material\\Std2DMtrl.mtrl"));
 	pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CResMgr::GetInst()->Load<CTexture>(L"texture\\Background.png", L"texture\\Background.png"));
 
 	pCurScene->AddObject(pObject, L"Default");

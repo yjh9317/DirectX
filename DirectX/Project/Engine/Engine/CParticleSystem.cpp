@@ -25,7 +25,7 @@ CParticleSystem::CParticleSystem()
 	, m_fParticleCreateTerm(1.f)
 {
 	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"PointMesh"));
-	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"ParticleRenderMtrl"));
+	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"material\\ParticleRenderMtrl.mtrl"));
 
 
 	m_CS = (CParticleUpdateShader*)CResMgr::GetInst()->FindRes<CComputeShader>(L"ParticleUpdateShader").Get();
@@ -57,7 +57,7 @@ CParticleSystem::CParticleSystem(const CParticleSystem& _origin)
 	, m_fParticleCreateTerm(_origin.m_fParticleCreateTerm)
 {
 	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"PointMesh"));
-	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"ParticleRenderMtrl"));
+	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"material\\ParticleRenderMtrl.mtrl"));
 
 	m_CS = (CParticleUpdateShader*)CResMgr::GetInst()->FindRes<CComputeShader>(L"ParticleUpdateShader").Get();
 

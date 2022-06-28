@@ -29,5 +29,10 @@
 #pragma comment(lib, "Script/Script.lib")
 #endif
 
+// FileSystem
+#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+#include <experimental/filesystem>
+using namespace std::experimental;
+
 
 #endif //PCH_H

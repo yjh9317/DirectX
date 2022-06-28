@@ -235,6 +235,8 @@ enum class EVENT_TYPE
 	SCENE_CHANGE,		// lParam : Next Stage Enum
 	CHANGE_AI_STATE,	// lParam : FSM Adress, wParam : Next State Type
 
+	DELETE_RES,				// lParam : ResAdress
+
 	END,
 };
 
