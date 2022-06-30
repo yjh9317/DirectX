@@ -8,6 +8,7 @@
 #include <Engine/CCore.h>
 #include <Engine/CDevice.h>
 
+#include "CToolObjMgr.h"
 #include "CImGuiMgr.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "CTestScene.h"
@@ -52,6 +53,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     CTestScene::CreateTestScene();
     CCore::GetInst()->progress();
 
+    // Editor Object
+    CToolObjMgr::GetInst()->init();
 
     // ImGui 초기화
     CImGuiMgr::GetInst()->init(g_hWnd); // 윈도우 핸들을 보내서 받은 윈도우 화면에 출력
@@ -91,6 +94,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             // 4. 이 과정이 반복되는데 백버퍼에 그린 ImGui를 RenderMgr에서 ClearTarget으로 지우므로 화면에 나오지 않는다.
             
             // Present는 프론트 버퍼와 백 버퍼를 바꾸고 전환된 프론트 버퍼를 윈도우에 띄움.
+
+
+            // ToolObject 
+            CToolObjMgr::GetInst()->progress();
 
             // ImGui Update, render
             CImGuiMgr::GetInst()->progress();

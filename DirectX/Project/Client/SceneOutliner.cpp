@@ -77,6 +77,10 @@ void SceneOutliner::Reset()
 			AddGameObjectToTree(vecRoots[i], m_TreeUI->GetDummyNode());
 		}
 	}
+
+	// InspectorUI ¸¦ ¾ò¾î¿È
+	InspectorUI* pInspectorUI = (InspectorUI*)CImGuiMgr::GetInst()->FindUI("Inspector");
+	pInspectorUI->SetTargetObject(nullptr);
 }
 
 void SceneOutliner::ObjectClicked(DWORD_PTR _dw)

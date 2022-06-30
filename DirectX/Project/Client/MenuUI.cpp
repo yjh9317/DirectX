@@ -213,6 +213,9 @@ void MenuUI::Task()
             CSceneMgr::GetInst()->ChangeScene(pNewScene);
         }
 
+        // SceneOutliner °»½Å
+        ((SceneOutliner*)CImGuiMgr::GetInst()->FindUI("SceneOutliner"))->Reset();
+
         m_bSceneStop = false;
     }
 }

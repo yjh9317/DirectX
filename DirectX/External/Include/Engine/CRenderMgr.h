@@ -24,10 +24,13 @@ public:
 	void update();
 	void render();
 
-
+private:
+	void render_play();
+	void render_editor();
 
 public:
 	void RegisterCamera(CCamera* _pCam);
+	void RegisterEditorCamera(CCamera* _pCam) { m_pEditorCam = _pCam; }
 	void ClearCamera() { m_vecCam.clear(); }
 	void SwapCameraIndex(CCamera* _pCam, int _iChangeIdx); // _pCam과 Idx에 해당하는 카메라 Swap
 	void CopyTargetToPostProcess();

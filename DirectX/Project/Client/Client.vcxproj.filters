@@ -80,6 +80,18 @@
     <ClCompile Include="MenuUI.cpp">
       <Filter>ImGui\UI\04. MenuUI</Filter>
     </ClCompile>
+    <ClCompile Include="CToolObjMgr.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CEditorCamScript.cpp">
+      <Filter>EditorScript\EditorScript</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameObjectEX.cpp">
+      <Filter>EditorScript</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraEX.cpp">
+      <Filter>EditorScript</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -174,6 +186,18 @@
     </ClInclude>
     <ClInclude Include="MenuUI.h">
       <Filter>ImGui\UI\04. MenuUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CToolObjMgr.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CEditorCamScript.h">
+      <Filter>EditorScript\EditorScript</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameObjectEX.h">
+      <Filter>EditorScript</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraEX.h">
+      <Filter>EditorScript</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +301,12 @@
     </Filter>
     <Filter Include="ImGui\UI\04. MenuUI">
       <UniqueIdentifier>{36ae37ec-da98-4fa0-b6b1-467ed657c294}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorScript">
+      <UniqueIdentifier>{4472fcc7-eb18-4161-af58-903a1f8001f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorScript\EditorScript">
+      <UniqueIdentifier>{376211de-d0ce-426e-87f2-e5f13ca2a81c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

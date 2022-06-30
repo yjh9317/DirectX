@@ -22,6 +22,8 @@
 #include <Script/CCameraMoveScript.h>
 #include <Script/CMissileScript.h>
 
+#include <Script\CSceneSaveLoad.h>
+
 void CTestScene::CreateTestScene()
 {
 	//CResMgr::GetInst()->Load<CSceneFile>(L"scene\\Test.scene", L"scene\\Test.scene");
@@ -155,6 +157,10 @@ void CTestScene::CreateTestScene()
 
 	// 충돌 레이어 설정
 	CCollisionMgr::GetInst()->CollisionCheck(L"Player", L"Monster");
+
+	pCurScene->SetResKey(L"scene\\TestScene.scene");
+	wstring strSceneFilePath = CPathMgr::GetInst()->GetContentPath();
+	CSceneSaveLoad::SaveScene(pCurScene, strSceneFilePath + L"scene\\TestScene.scene");
 
 	pCurScene->start();
 	pCurScene->SetSceneState(SCENE_STATE::PLAY);
