@@ -2,6 +2,7 @@
 #include "ResourceUI.h"
 
 #include <Engine/CResMgr.h>
+#include <Engine\CPrefab.h>
 #include <Engine/CEventMgr.h>
 
 #include "CImGuiMgr.h"
@@ -11,6 +12,10 @@
 #include <Engine/CSceneMgr.h>
 #include <Engine/CScene.h>
 #include <Script/CSceneSaveLoad.h>
+
+#include <experimental/filesystem>
+
+
 
 ResourceUI::ResourceUI()
 	: UI("Resource")
@@ -29,6 +34,8 @@ ResourceUI::ResourceUI()
 	m_TreeUI->SetDoubleClickedDelegate(this, (CLICKED)&ResourceUI::ItemDBClicked);
 
 	Reset();
+
+
 }
 
 ResourceUI::~ResourceUI()
@@ -178,7 +185,6 @@ void ResourceUI::Reload()
 			}
 		}
 	}
-
 }
 
 void ResourceUI::Renew()
@@ -205,13 +211,11 @@ void ResourceUI::FindFileName(const wstring& _strFolderPath)
 {
 	wstring strContent = _strFolderPath + L"*.*";
 
-	WIN32_FIND_DATA FindFileData = {}; //검색된 파일속성에 대한 정보를 담는 구조체
+	WIN32_FIND_DATA FindFileData = {};
 
 	HANDLE hFind = nullptr;
 
-	hFind = FindFirstFile(strContent.c_str(), &FindFileData);	// FindFirstFileFindFirstFile : 파일 검색을 시작한다. 
-																// 파일 검색 문자열이 잘못되었거나 다른 이유로 함수 실행이 실패했을 경우 INVALID_HANDLE_VALUE로 Define된 상수값을 반환한다.
-																// 성공했을 경우 파일 검색 핸들을 반환하고 두 번째로 전달되는 구조체에 첫 번째로 발견되는 파일의 정보를 넣어준다.
+	hFind = FindFirstFile(strContent.c_str(), &FindFileData);
 
 	if (hFind == INVALID_HANDLE_VALUE)
 		return;
@@ -220,7 +224,7 @@ void ResourceUI::FindFileName(const wstring& _strFolderPath)
 	{
 		if (FindFileData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)
 		{
-			if (0 == wcscmp(FindFileData.cFileName, L".."))	// 파일안에 보이지 않는 ..파일 제외
+			if (0 == wcscmp(FindFileData.cFileName, L".."))
 				continue;
 
 			FindFileName(_strFolderPath + FindFileData.cFileName + L"\\");
@@ -240,7 +244,7 @@ void ResourceUI::FindFileName(const wstring& _strFolderPath)
 RES_TYPE ResourceUI::GetResTypeFromExt(const wstring& _strExt)
 {
 	wchar_t szExt[50] = {};
-	_wsplitpath_s(_strExt.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExt, 50); //_wsplitpath_s : 경로 이름을 구성 요소로 분해하는 함수, 이 함수를 이용해 파일의 확장자명을 가져온다.
+	_wsplitpath_s(_strExt.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExt, 50);
 
 	wstring strExt = szExt;
 

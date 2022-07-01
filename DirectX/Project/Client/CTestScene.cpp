@@ -32,7 +32,7 @@ void CTestScene::CreateTestScene()
 	CScene* pCurScene = new CScene;
 	CSceneMgr::GetInst()->ChangeScene(pCurScene);
 
-	//return;
+	return;
 
 	pCurScene->SetLayerName(0, L"Tile");
 	pCurScene->SetLayerName(1, L"Default");
@@ -106,6 +106,12 @@ void CTestScene::CreateTestScene()
 	pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, CResMgr::GetInst()->Load<CTexture>(L"texture\\Background.png", L"texture\\Background.png"));
 
 	pCurScene->AddObject(pObject, L"Default");
+
+	// Prefab ¸¸µé±â
+	CPrefab* pPrefab = new CPrefab;
+	pPrefab->SetProto(pObject->Clone());
+	CResMgr::GetInst()->AddRes<CPrefab>(L"prefab\\Background.pref", pPrefab);
+
 
 
 	// Particle Object 

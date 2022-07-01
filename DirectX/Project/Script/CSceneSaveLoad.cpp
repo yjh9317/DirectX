@@ -5,10 +5,10 @@
 #include <Engine/CScene.h>
 #include <Engine/CLayer.h>
 #include <Engine/CGameObject.h>
+#include <Engine/CPrefab.h>
 
 #include <Engine/CScript.h>
 #include "CScriptMgr.h"
-
 
 
 
@@ -17,7 +17,7 @@ void CSceneSaveLoad::SaveScene(CScene* _pScene, const wstring& _strSceneFilePath
     // 리소스 변경상태 저장
     CResMgr::GetInst()->SaveChangedRes();
 
-
+    // Scene 저장
     FILE* pFile = nullptr;
     _wfopen_s(&pFile, _strSceneFilePath.c_str(), L"wb");
 
@@ -84,7 +84,7 @@ CScene* CSceneSaveLoad::LoadScene(const wstring& _strSceneFilePath)
 {
     // 최종 경로에서 상대경로만 추출
     wstring strKey = CPathMgr::GetInst()->GetRelativePath(_strSceneFilePath);
-    
+
     // CResMgr 에서 상대경로를 키값으로, CSceneFile 을 찾아냄
     CResMgr::GetInst()->Load<CSceneFile>(strKey, strKey);
 
@@ -157,4 +157,35 @@ CGameObject* CSceneSaveLoad::LoadGameObject(FILE* _pFile)
     }
 
     return pLoadObj;
+}
+
+
+
+// ======
+// Prefab
+// ======
+void CSceneSaveLoad::SavePrefab(CPrefab* _Prefab, const wstring& _strFilePath)
+{
+    FILE* pFile = nullptr;
+    _wfopen_s(&pFile, _strFilePath.c_str(), L"wb");
+
+    SaveGameObject(_Prefab->GetProto(), pFile);
+
+    fclose(pFile);
+}
+
+int CSceneSaveLoad::LoadPrefab(CPrefab* _Prefab, const wstring& _strFilePath)
+{
+    FILE* pFile = nullptr;
+    _wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
+
+    if (nullptr == pFile)
+        return E_FAIL;
+
+    CGameObject* pProto = LoadGameObject(pFile);
+    _Prefab->SetProto(pProto);
+
+    fclose(pFile);
+
+    return S_OK;
 }

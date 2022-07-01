@@ -908,6 +908,58 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   {
   };
   
+  pch.cpp
+  CAnimation2D.cpp
+  CAnimator2D.cpp
+  CCamera.cpp
+  CCollider2D.cpp
+  CCollisionMgr.cpp
+  CComponent.cpp
+  CComputeShader.cpp
+  CConstBuffer.cpp
+  CCore.cpp
+  CDevice.cpp
+  CEntity.cpp
+  CEventMgr.cpp
+  CGameObject.cpp
+  CGraphicsShader.cpp
+  CKeyMgr.cpp
+  CLayer.cpp
+  CLight2D.cpp
+  CMaterial.cpp
+  CMesh.cpp
+  CMeshRender.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  CParticleSystem.cpp
+  CParticleUpdateShader.cpp
+  CPathMgr.cpp
+  CPrefab.cpp
+  CRenderComponent.cpp
+  CRenderMgr.cpp
+C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CRenderMgr.cpp(197,102): warning C4267: '인수': 'size_t'에서 'UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\yjwoo\source\repos\DirectX\DirectX\Project\Engine\Engine\CRenderMgr.cpp(212,45): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  CRenderMgr_init.cpp
+  CRes.cpp
+  CResMgr.cpp
+  CResMgr_init.cpp
+  CScene.cpp
+  CSceneFile.cpp
+  CSceneMgr.cpp
+  CScript.cpp
+  CShader.cpp
+  CStructuredBuffer.cpp
+  CTestShader.cpp
+  CTexture.cpp
+  CTileMap.cpp
+  CTimeMgr.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  CTransform.cpp
+  Engine.cpp
+  extern.cpp
+  func.cpp
+  코드를 생성하고 있습니다...
   Engine.vcxproj -> C:\Users\yjwoo\source\repos\DirectX\DirectX\External\Library\Engine\Engine_debug.lib
   .\Project\Engine\Engine\CAnimation2D.h
   .\Project\Engine\Engine\CAnimator2D.h

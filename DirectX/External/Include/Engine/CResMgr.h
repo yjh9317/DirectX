@@ -57,10 +57,8 @@ public:
 
 	Ptr<CTexture> CreateTexture(const wstring& _strKey, ComPtr<ID3D11Texture2D> _pTex2D, bool _bEngineRes = false);
 
-	void DeleteRes(const wstring& _strKey);
-
 private:
-	
+	void DeleteRes(const wstring& _strKey);
 
 
 	friend class CEventMgr;
@@ -141,7 +139,17 @@ void CResMgr::AddRes(const wstring& _strKey, type* _pRes, bool _bEngineRes)
 	assert(nullptr == pRes);
 
 	_pRes->SetKey(_strKey);
+	_pRes->SetRelativePath(_strKey);
 	_pRes->m_bEngineRes = _bEngineRes;
 
 	m_Res[(UINT)eType].insert(make_pair(_strKey, _pRes));
+
+	if (_bEngineRes)
+		return;
+
+	wstring strContent = CPathMgr::GetInst()->GetContentPath();
+	if (FAILED(_pRes->Load(strContent + _pRes->GetRelativePath())))
+	{
+		_pRes->Save(strContent + _pRes->GetKey());
+	}
 }

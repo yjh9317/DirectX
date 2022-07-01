@@ -9,14 +9,20 @@ class CPrefab :     // 다른 리소스를 참조하는 클래스
 private:
     CGameObject* m_pProtoObj;
 
+public:
+    typedef void (*SaveFunc) (CPrefab*, const wstring&);
+    typedef int (*LoadFunc) (CPrefab*, const wstring&);
+    static SaveFunc        m_pSaveFunc;
+    static LoadFunc        m_pLoadFunc;
 
 public:
-    CGameObject* Instantiate(); // 원본 리소스를 객체화 하는 함수
+    CGameObject* Instantiate();     // 원본 리소스를 객체화 하는 함수
+    CGameObject* GetProto() { return m_pProtoObj; }
+    void SetProto(CGameObject* _pProto) { m_pProtoObj = _pProto; }
 
-    virtual int Load(const wstring& _strFilePath)
-    {
-        return S_OK;
-    }
+public:
+    virtual int Save(const wstring& _strFilePath);
+    virtual int Load(const wstring& _strFilePath);
 
 public:
     CPrefab();

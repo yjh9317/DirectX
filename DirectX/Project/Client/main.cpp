@@ -8,6 +8,9 @@
 #include <Engine/CCore.h>
 #include <Engine/CDevice.h>
 
+#include <Engine\CPrefab.h>
+#include <Script\CSceneSaveLoad.h>
+
 #include "CToolObjMgr.h"
 #include "CImGuiMgr.h"
 #include "ImGui/imgui_impl_win32.h"
@@ -50,6 +53,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     {
         return 0;
     }
+    // Prefab Save Load 콜백 등록
+    CPrefab::m_pSaveFunc = (CPrefab::SaveFunc)&CSceneSaveLoad::SavePrefab;
+    CPrefab::m_pLoadFunc = (CPrefab::LoadFunc)&CSceneSaveLoad::LoadPrefab;
+
+
     CTestScene::CreateTestScene();
     CCore::GetInst()->progress();
 
