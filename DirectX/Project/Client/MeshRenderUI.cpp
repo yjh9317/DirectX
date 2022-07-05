@@ -45,6 +45,20 @@ void MeshRenderUI::render_update()
 
 	ImGui::Text("Mesh");
 	ImGui::SameLine(86.f);	//SameLine(숫자)를 통해 숫자만큼의 간격을 맞춰줄수있음.
+
+
+	ImGui::InputText("##MeshName", (char*)strMeshName.c_str(), strMeshName.capacity(), ImGuiInputTextFlags_ReadOnly);
+	if (ImGui::BeginDragDropTarget())
+	{
+		DWORD_PTR dwData = 0;
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Resource"))
+		{
+			memcpy(&dwData, payload->Data, sizeof(DWORD_PTR));
+		}
+
+		ImGui::EndDragDropTarget();
+	}
+
 	ImGui::InputText("##MeshName", (char*)strMeshName.c_str(), strMeshName.capacity(), ImGuiInputTextFlags_ReadOnly);
 	ImGui::SameLine();
 	if (ImGui::Button("##MeshListBtn", Vec2(15, 15)))

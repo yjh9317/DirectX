@@ -287,3 +287,16 @@ void TreeUI::SetDBClickedNode(TreeNode* _pNode)
 		(m_pDBCInst->*m_DBCFunc)((DWORD_PTR)m_pSelectedNode);
 	}
 }
+
+void TreeUI::DropCheck()
+{
+	if (ImGui::BeginDragDropTarget())
+	{
+		DWORD_PTR dwData = 0;
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Resource"))
+		{
+			memcpy(&dwData, payload->Data, sizeof(DWORD_PTR));
+		}
+		ImGui::EndDragDropTarget();
+	}
+}

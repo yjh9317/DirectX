@@ -100,6 +100,7 @@ enum class BS_TYPE
 {
 	DEFAULT,		// SrcRGB * (1) + DestRGB * (0)
 	ALPHA_BLEND,	// SrcRGB * (SrcAlpha) + DestRGB * (1 - SrcAlpha)
+	// ONE_BLEND, // SrcRGB * (1) + DestRGB * (1)
 	END,
 };
 

@@ -44,6 +44,7 @@ public:
 
 	bool IsActive() { return m_bOpen; }
 
+	virtual void DropCheck() {};
 
 public:
 	virtual void update();

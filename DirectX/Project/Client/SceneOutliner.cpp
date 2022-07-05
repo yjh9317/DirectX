@@ -157,3 +157,17 @@ void SceneOutliner::DragAndDropDelegate(DWORD_PTR _dwDrag, DWORD_PTR _dwDrop)
 		CSceneMgr::GetInst()->DisconnectParent(pChildObject);
 	}
 }
+
+void SceneOutliner::ResDrop(DWORD_PTR _resPtr)
+{
+	if (ImGui::BeginDragDropTarget())
+	{
+		DWORD_PTR dwData = 0;
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Resource"))
+		{
+			memcpy(&dwData, payload->Data, sizeof(DWORD_PTR));
+		}
+
+		ImGui::EndDragDropTarget();
+	}
+}

@@ -93,6 +93,8 @@ public:
     virtual void update() override;
     virtual void render_update() override;
 
+    virtual void DropCheck() override;
+
 public:
     void ShowDummyRoot(bool _bTrue) { m_bShowDummy = _bTrue; }
     void UseFrame(bool _b) { m_bUseFrame = _b; }
